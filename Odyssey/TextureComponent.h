@@ -44,7 +44,7 @@ namespace ody
 		virtual void Render() const override
 		{
 			const auto pTransformComponent{m_Owner->GetComponent<TransformComponent>()};
-			glm::vec3 renderPosition{ pTransformComponent->GetPosition() };
+			glm::vec3 renderPosition{ pTransformComponent->GetWorldPosition() };
 
 			dae::Renderer::GetInstance().RenderTexture(*m_pTexture, renderPosition.x, renderPosition.y);
 		}

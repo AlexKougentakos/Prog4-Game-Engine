@@ -4,6 +4,8 @@
 #include <string>
 #include "Component.h"
 
+#define NO_PARENT nullptr
+
 namespace ody
 {
 	class Component;
@@ -60,7 +62,7 @@ namespace dae
 		std::vector<std::shared_ptr<ody::Component>> m_Components{};
 		std::vector <std::weak_ptr<GameObject>> m_pChildren{};
 
-		std::shared_ptr<GameObject> m_pParent{};
+		std::shared_ptr<GameObject> m_pParent{ NO_PARENT };
 
 		bool RemoveChild(unsigned int index);
 		bool RemoveChild(std::shared_ptr<dae::GameObject> child);

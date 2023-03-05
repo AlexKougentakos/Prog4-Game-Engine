@@ -8,21 +8,8 @@ namespace ody
 	{
 	public:
 		TransformComponent() = default;
-		TransformComponent(float x, float y, float z) :
-			Component()
-		{
-			m_Position.x = x;
-			m_Position.y = y;
-			m_Position.z = z;
-		}
-
-		TransformComponent(float x, float y) :
-			Component()
-		{
-			m_Position.x = x;
-			m_Position.y = y;
-			m_Position.z = 0;
-		}
+		TransformComponent(float x, float y, float z);
+		TransformComponent(float x, float y);
 
 		~TransformComponent() = default;
 		TransformComponent(const TransformComponent& other) = delete;
@@ -30,27 +17,19 @@ namespace ody
 		TransformComponent& operator=(const TransformComponent& other) = delete;
 		TransformComponent& operator=(TransformComponent&& other) = delete;
 
-		const glm::vec3& GetPosition() const { return m_Position; }
-		void SetPosition(float x, float y, float z)
-		{
-			m_Position.x = x;
-			m_Position.y = y;
-			m_Position.z = z;
-		}
+		glm::vec3 GetWorldPosition();
+		void SetPosition(float x, float y, float z = 0.f);
 
-#pragma warning(disable : 4100)
-		virtual void Update(float deltaTime) override
-		{
-
-		}
-#pragma warning(default : 4100)
-		virtual void Render() const override
-		{
-
-		}
+		virtual void Update(float deltaTime) override;
+		virtual void Render() const override;
 
 	private:
-		glm::vec3 m_Position{};
+		void EnableDirtyFlag() { m_DirtyFlag = true; }
+		void UpdateWorldPosition();
 
+		glm::vec3 m_WorldPosition{};
+		glm::vec3 m_LocalPosition{};
+
+		bool m_DirtyFlag{ true };
 	};
 }

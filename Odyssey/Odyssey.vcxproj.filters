@@ -34,6 +34,12 @@
     <ClCompile Include="Component.cpp">
       <Filter>Odyssey Engine\Components</Filter>
     </ClCompile>
+    <ClCompile Include="TransformComponent.cpp">
+      <Filter>Odyssey Engine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="RotatorComponent.cpp">
+      <Filter>Odyssey Engine\Components\Scripts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Font.h">
@@ -78,8 +84,11 @@
     <ClInclude Include="TextComponent.h">
       <Filter>Odyssey Engine\Components</Filter>
     </ClInclude>
+    <ClInclude Include="RotatorComponent.h">
+      <Filter>Odyssey Engine\Components\Scripts</Filter>
+    </ClInclude>
     <ClInclude Include="FPSCounter.h">
-      <Filter>Odyssey Engine\Components</Filter>
+      <Filter>Odyssey Engine\Components\Scripts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +97,9 @@
     </Filter>
     <Filter Include="Odyssey Engine\Components">
       <UniqueIdentifier>{70a517d9-766d-4f64-a502-54d8a87005fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Odyssey Engine\Components\Scripts">
+      <UniqueIdentifier>{bff693ea-cf59-4003-8722-9ad049506f70}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

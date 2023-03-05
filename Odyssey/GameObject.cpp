@@ -40,7 +40,7 @@ std::shared_ptr<dae::GameObject> dae::GameObject::GetChildAt(unsigned int index)
 
 void dae::GameObject::SetParent(std::shared_ptr<dae::GameObject> pParent)
 {
-	if (!pParent) return;
+	if (pParent == NO_PARENT) return;
 
 	std::shared_ptr<dae::GameObject> sharedThis = shared_from_this();
 

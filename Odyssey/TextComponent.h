@@ -82,7 +82,7 @@ namespace ody
 			if (m_TextTexture != nullptr)
 			{
 				const auto pTransformComponent{ m_Owner->GetComponent<TransformComponent>() };
-				glm::vec3 renderPosition{ pTransformComponent->GetPosition() };
+				glm::vec3 renderPosition{ pTransformComponent->GetWorldPosition() };
 
 				dae::Renderer::GetInstance().RenderTexture(*m_TextTexture, renderPosition.x, renderPosition.y);
 			}
