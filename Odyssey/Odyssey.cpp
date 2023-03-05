@@ -1,10 +1,13 @@
 #include <stdexcept>
 #define WIN32_LEAN_AND_MEAN 
 #include <windows.h>
+#include <chrono>
+#include <iostream>
+#include <thread>
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
-#include "Minigin.h"
+#include "Odyssey.h"
 #include "InputManager.h"
 #include "SceneManager.h"
 #include "Renderer.h"
@@ -50,7 +53,7 @@ dae::Minigin::Minigin(const std::string &dataPath)
 	}
 
 	g_window = SDL_CreateWindow(
-		"Programming 4 assignment",
+		"Odyssey Engine",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		640,
@@ -75,6 +78,41 @@ dae::Minigin::~Minigin()
 	SDL_Quit();
 }
 
+//void dae::Minigin::Run(const std::function<void()>& load)
+//{
+//	load();
+//
+//	auto& renderer = Renderer::GetInstance();
+//	auto& sceneManager = SceneManager::GetInstance();
+//	auto& input = InputManager::GetInstance();
+//
+//	constexpr float fixedTimeStep{ 0.02f };
+//	auto lastTime = std::chrono::high_resolution_clock::now();
+//	float lag = 0.f;
+//	bool doContinue = true;
+//	while (doContinue)
+//	{
+//		const auto currentTime = std::chrono::high_resolution_clock::now();
+//		const float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
+//
+//		lastTime = currentTime;
+//		lag += deltaTime;
+//
+//		doContinue = input.ProcessInput();
+//		while (lag >= fixedTimeStep)
+//		{
+//			sceneManager.Update(deltaTime);
+//			lag -= fixedTimeStep;
+//		}
+//
+//		static float elapsed{};
+//		elapsed += deltaTime;
+//
+//		//std::cout << elapsed << std::endl;
+//		renderer.Render();
+//	}
+//}
+
 void dae::Minigin::Run(const std::function<void()>& load)
 {
 	load();
@@ -83,12 +121,23 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
 
-	// todo: this update loop could use some work.
 	bool doContinue = true;
+	std::chrono::steady_clock::time_point currentTime;
+	std::chrono::steady_clock::time_point lastTime{ std::chrono::high_resolution_clock::now() };
+	const constexpr int FPSLimit{ 60 };
+	constexpr int maxWaitingTimeMs{ static_cast<int>(1000 / FPSLimit) };
 	while (doContinue)
 	{
+		currentTime = std::chrono::high_resolution_clock::now();
+		const float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
+
 		doContinue = input.ProcessInput();
-		sceneManager.Update();
+		sceneManager.Update(deltaTime);
 		renderer.Render();
+
+		lastTime = currentTime;
+
+		const auto sleepTime{ currentTime + std::chrono::milliseconds(maxWaitingTimeMs) - std::chrono::high_resolution_clock::now() };
+		std::this_thread::sleep_for(sleepTime);
 	}
 }
