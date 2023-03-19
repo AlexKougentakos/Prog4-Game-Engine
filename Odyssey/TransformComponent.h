@@ -24,7 +24,7 @@ namespace ody
 		virtual void Render() const override;
 
 	private:
-		void EnableDirtyFlag() { m_DirtyFlag = true; }
+		void EnableDirtyFlag();
 		void UpdateWorldPosition();
 
 		glm::vec3 m_WorldPosition{};

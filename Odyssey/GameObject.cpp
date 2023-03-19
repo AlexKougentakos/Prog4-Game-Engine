@@ -15,6 +15,11 @@ void dae::GameObject::Update(float deltaTime)
 	{
 		component->Update(deltaTime);
 	}
+
+	for (const auto& child : m_pChildren)
+	{
+		child->Update(deltaTime);
+	}
 }
 
 void dae::GameObject::Render() const
@@ -35,20 +40,22 @@ size_t dae::GameObject::GetChildCount() const
 }
 std::shared_ptr<dae::GameObject> dae::GameObject::GetChildAt(unsigned int index) 
 {
-	return m_pChildren[index].lock();
+	//todo fix this function
+	index += 1;
+	return{};
 }
 
-void dae::GameObject::SetParent(std::shared_ptr<dae::GameObject> pParent)
+void dae::GameObject::SetParent(std::shared_ptr<dae::GameObject> pNewParent)
 {
-	if (pParent == NO_PARENT) return;
+	if (pNewParent == nullptr) return;
 
-	std::shared_ptr<dae::GameObject> sharedThis = shared_from_this();
+	const std::shared_ptr<dae::GameObject> sharedThis = shared_from_this();
 
 	if (m_pParent)
-		m_pParent->RemoveChild(sharedThis); //if it doesn't work try making this a weak_ptr.
+		m_pParent->RemoveChild(sharedThis);
 
-	m_pParent = pParent;
-	pParent->AddChild(sharedThis);
+	m_pParent = pNewParent;
+	pNewParent->AddChild(sharedThis);
 }
 
 bool dae::GameObject::RemoveChild(unsigned int index)
@@ -65,14 +72,11 @@ bool dae::GameObject::RemoveChild(std::shared_ptr<dae::GameObject> child)
 {
 	for (auto it = m_pChildren.begin(); it != m_pChildren.end(); ++it)
 	{
-		if (auto sharedChild = it->lock())
+		if (child.get() == *it)
 		{
-			if (sharedChild == child)
-			{
-				int indexOfChild = static_cast<int>(std::distance(m_pChildren.begin(), it));
-				RemoveChild(indexOfChild);
-				return true;
-			}
+			const int indexOfChild = static_cast<int>(std::distance(m_pChildren.begin(), it));
+			RemoveChild(indexOfChild);
+			return true;
 		}
 	}
 	return false;
@@ -80,5 +84,10 @@ bool dae::GameObject::RemoveChild(std::shared_ptr<dae::GameObject> child)
 
 void dae::GameObject::AddChild(const std::shared_ptr<dae::GameObject> gameObject)
 {
-	m_pChildren.emplace_back(gameObject);
+	m_pChildren.emplace_back(gameObject.get());
+}
+
+const std::vector<dae::GameObject*>& dae::GameObject::GetChildren() const
+{
+	return m_pChildren;
 }

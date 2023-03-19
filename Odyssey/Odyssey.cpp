@@ -78,41 +78,6 @@ dae::Minigin::~Minigin()
 	SDL_Quit();
 }
 
-//void dae::Minigin::Run(const std::function<void()>& load)
-//{
-//	load();
-//
-//	auto& renderer = Renderer::GetInstance();
-//	auto& sceneManager = SceneManager::GetInstance();
-//	auto& input = InputManager::GetInstance();
-//
-//	constexpr float fixedTimeStep{ 0.02f };
-//	auto lastTime = std::chrono::high_resolution_clock::now();
-//	float lag = 0.f;
-//	bool doContinue = true;
-//	while (doContinue)
-//	{
-//		const auto currentTime = std::chrono::high_resolution_clock::now();
-//		const float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
-//
-//		lastTime = currentTime;
-//		lag += deltaTime;
-//
-//		doContinue = input.ProcessInput();
-//		while (lag >= fixedTimeStep)
-//		{
-//			sceneManager.Update(deltaTime);
-//			lag -= fixedTimeStep;
-//		}
-//
-//		static float elapsed{};
-//		elapsed += deltaTime;
-//
-//		//std::cout << elapsed << std::endl;
-//		renderer.Render();
-//	}
-//}
-
 void dae::Minigin::Run(const std::function<void()>& load)
 {
 	load();
