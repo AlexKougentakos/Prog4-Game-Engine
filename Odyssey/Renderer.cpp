@@ -1,10 +1,18 @@
 #include <stdexcept>
 #include "Renderer.h"
+
+#include <algorithm>
+
+//Todo: Remove this later
+#include "TrashTheCache.h"
 #include "SceneManager.h"
 #include "Texture2D.h"
 #include "imgui.h"
-#include "../3rdParty/imgui-1.89.4/backends/imgui_impl_sdl2.h"
+#include "backends/imgui_impl_sdl2.h"
 #include "../3rdParty/imgui-1.89.4/backends/imgui_impl_opengl2.h"
+#include "../ImPlot/implot.h"
+
+
 
 int GetOpenGLDriverIndex()
 {
@@ -34,6 +42,9 @@ void dae::Renderer::Init(SDL_Window* window)
 	ImGui_ImplSDL2_InitForOpenGL(window, SDL_GL_GetCurrentContext());
 	ImGui_ImplOpenGL2_Init();
 
+	ImPlot::CreateContext();
+
+
 }
 
 void dae::Renderer::Render() const
@@ -47,17 +58,109 @@ void dae::Renderer::Render() const
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplSDL2_NewFrame(m_window);
 	ImGui::NewFrame();
-	ImGui::ShowDemoWindow();
+	//ImGui::ShowDemoWindow();
+
+	static bool didTrash{ false }, didCalculate{false};
+	ImGui::Begin("Exercise 1");
+	if (ImGui::Button("Trash the cache", ImVec2{ 140, 20 })) didTrash = true;
+
+	if (didTrash)
+	{
+		static float xValues[11], yValues[11];
+
+		if (!didCalculate)
+		{
+		int stepCount{ 1 };
+			std::vector<float> measurements{};
+			IntegersTiming(measurements);
+			for (int i = 0; i < 11; ++i)
+			{
+				xValues[i] = float(stepCount);
+				yValues[i] = measurements[i];
+				stepCount *= 2;
+			}
+			didCalculate = true;
+		}
+
+		if (ImPlot::BeginPlot("Timings"))
+		{
+			ImPlot::SetupAxes("Step Count", "ms");
+			ImPlot::PlotBars("test", yValues, 11);
+
+			ImPlot::SetNextMarkerStyle(ImPlotMarker_Diamond);
+			ImPlot::EndPlot();
+		}
+	}
+	ImGui::End();
+
+	static bool didTrash2{ false }, didTrash3{ false }, didCalculate2{ false }, didCalcualte3{ false };
+	static float xValues2[11], yValues2[11];
+	static float xValues3[11], yValues3[11];
+	std::vector<float> measurementsGameObj{};
+	std::vector<float> measurementsGameObjAlt{};
+
+	ImGui::Begin("Exercise 2");
+
+	if (ImGui::Button("GameObject", { 140, 20 })) didTrash2 = true;
+	if (didTrash2)
+	{
+		if (!didCalculate2)
+		{
+			GameObjectTiming(false, measurementsGameObj);
+			for (int currentNum{}; currentNum < 11; currentNum++)
+			{
+				xValues2[currentNum] = measurementsGameObj[currentNum];
+				yValues2[currentNum] = measurementsGameObj[currentNum];
+			}
+			didCalculate2 = true;
+		}
+
+		if (ImPlot::BeginPlot("Timings GameObject"))
+		{
+			ImPlot::SetupAxes("Step Count", "ms");
+			ImPlot::PlotBars("GameObject", yValues2, 11);
+			ImPlot::SetNextMarkerStyle(ImPlotMarker_Circle);
+			ImPlot::EndPlot();
+		}
+	}
+
+	if (ImGui::Button("GameObjectAlt", { 140, 20 })) didTrash3 = true;
+	if (didTrash3)
+	{
+		if (!didCalcualte3)
+		{
+			GameObjectTiming(true, measurementsGameObjAlt);
+			for (int currentNum{}; currentNum < 11; currentNum++)
+			{
+
+				xValues3[currentNum] = measurementsGameObjAlt[currentNum];
+				yValues3[currentNum] = measurementsGameObjAlt[currentNum];
+			}
+			didCalcualte3 = true;
+		}
+
+		if (ImPlot::BeginPlot("Timings GameObjectAlt"))
+		{
+			ImPlot::SetupAxes("Step Count", "ms");
+			ImPlot::PlotBars("GameObject", yValues2, 11);
+			ImPlot::PlotBars("GameObjAlt", yValues3, 11, 0.4);
+			ImPlot::SetNextMarkerStyle(ImPlotMarker_Circle);
+			ImPlot::EndPlot();
+		}
+	}
+
+	ImGui::End();
+
 	ImGui::Render();
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
-
-	
 	
 	SDL_RenderPresent(m_renderer);
 }
 
 void dae::Renderer::Destroy()
 {
+	ImPlot::DestroyContext();
+
 	ImGui_ImplOpenGL2_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();

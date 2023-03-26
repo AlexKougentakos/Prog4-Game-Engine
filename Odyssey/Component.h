@@ -25,7 +25,7 @@ namespace ody
 		virtual void Render() const = 0;
 
 	protected:
-		dae::GameObject* m_Owner{}; //QUESTION: How to make this shared_ptr and use it in the template function
+		dae::GameObject* m_Owner{};
 	};
 }
 

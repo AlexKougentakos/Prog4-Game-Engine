@@ -28,11 +28,12 @@ namespace dae
 		void Render() const;
 
 		size_t GetChildCount() const;
-		std::shared_ptr<GameObject> GetChildAt(unsigned int index);
-		const std::vector<dae::GameObject*>& GetChildren() const;
+		GameObject* GetChildAt(unsigned int index);
+		std::vector<dae::GameObject*>& GetChildren();
 
-		std::shared_ptr<GameObject> GetParent() const;
-		void SetParent(std::shared_ptr<GameObject> newParent);
+
+		GameObject* GetParent() const;
+		void SetParent(GameObject* newParent);
 
 		template <typename T, typename... Targs>
 		T& AddComponent(Targs&&... args)
@@ -81,13 +82,12 @@ namespace dae
 
 	private:
 		std::vector<std::shared_ptr<ody::Component>> m_Components{};
-		//std::vector <std::weak_ptr<GameObject>> m_pChildren{};
 		std::vector<GameObject*> m_pChildren{};
 
-		std::shared_ptr<GameObject> m_pParent{ NO_PARENT };
+		GameObject* m_pParent{ NO_PARENT };
 
 		bool RemoveChild(unsigned int index);
-		bool RemoveChild(std::shared_ptr<dae::GameObject> child);
-		void AddChild(const std::shared_ptr<dae::GameObject> gameObject);
+		bool RemoveChild(GameObject* child);
+		void AddChild(GameObject* gameObject);
 	};
 }

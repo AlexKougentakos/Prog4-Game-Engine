@@ -2,9 +2,15 @@
 #include "InputManager.h"
 #include "imgui.h"
 #include "backends/imgui_impl_sdl2.h"
+#include <Windows.h>
+#include <Xinput.h>
 
 bool dae::InputManager::ProcessInput()
 {
+
+	
+
+
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) {
 		if (e.type == SDL_QUIT) {

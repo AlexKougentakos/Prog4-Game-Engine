@@ -1,5 +1,8 @@
 #include <string>
 #include "GameObject.h"
+
+#include <cassert>
+
 #include "ResourceManager.h"
 #include "Renderer.h"
 #include "Component.h"
@@ -15,11 +18,6 @@ void dae::GameObject::Update(float deltaTime)
 	{
 		component->Update(deltaTime);
 	}
-
-	for (const auto& child : m_pChildren)
-	{
-		child->Update(deltaTime);
-	}
 }
 
 void dae::GameObject::Render() const
@@ -30,32 +28,34 @@ void dae::GameObject::Render() const
 	}
 }
 
-std::shared_ptr<dae::GameObject> dae::GameObject::GetParent() const 
-{ 
-	return m_pParent;
-}
 size_t dae::GameObject::GetChildCount() const 
 {
 	return m_pChildren.size(); 
 }
-std::shared_ptr<dae::GameObject> dae::GameObject::GetChildAt(unsigned int index) 
+dae::GameObject* dae::GameObject::GetChildAt(unsigned int index)
 {
-	//todo fix this function
-	index += 1;
-	return{};
+	assert(index > m_pChildren.size() && "Out of bounds");
+
+	//If the index is larger than the array, meaning we are out of bounds we return nullptr;
+	if (index > m_pChildren.size()) return nullptr;
+
+	return m_pChildren[index];
 }
 
-void dae::GameObject::SetParent(std::shared_ptr<dae::GameObject> pNewParent)
+dae::GameObject* dae::GameObject::GetParent() const
+{
+	return m_pParent;
+}
+
+void dae::GameObject::SetParent(GameObject* pNewParent)
 {
 	if (pNewParent == nullptr) return;
 
-	const std::shared_ptr<dae::GameObject> sharedThis = shared_from_this();
-
 	if (m_pParent)
-		m_pParent->RemoveChild(sharedThis);
+		m_pParent->RemoveChild(this);
 
 	m_pParent = pNewParent;
-	pNewParent->AddChild(sharedThis);
+	pNewParent->AddChild(this);
 }
 
 bool dae::GameObject::RemoveChild(unsigned int index)
@@ -68,11 +68,11 @@ bool dae::GameObject::RemoveChild(unsigned int index)
 	return true;
 }
 
-bool dae::GameObject::RemoveChild(std::shared_ptr<dae::GameObject> child)
+bool dae::GameObject::RemoveChild(GameObject* child)
 {
 	for (auto it = m_pChildren.begin(); it != m_pChildren.end(); ++it)
 	{
-		if (child.get() == *it)
+		if (child == *it)
 		{
 			const int indexOfChild = static_cast<int>(std::distance(m_pChildren.begin(), it));
 			RemoveChild(indexOfChild);
@@ -82,12 +82,12 @@ bool dae::GameObject::RemoveChild(std::shared_ptr<dae::GameObject> child)
 	return false;
 }
 
-void dae::GameObject::AddChild(const std::shared_ptr<dae::GameObject> gameObject)
+void dae::GameObject::AddChild(GameObject* gameObject)
 {
-	m_pChildren.emplace_back(gameObject.get());
+	m_pChildren.emplace_back(gameObject);
 }
 
-const std::vector<dae::GameObject*>& dae::GameObject::GetChildren() const
+std::vector<dae::GameObject*>& dae::GameObject::GetChildren()
 {
 	return m_pChildren;
 }

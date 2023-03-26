@@ -7,9 +7,6 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Odyssey Engine</Filter>
     </ClCompile>
-    <ClCompile Include="InputManager.cpp">
-      <Filter>Odyssey Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Odyssey Engine</Filter>
     </ClCompile>
@@ -58,18 +55,33 @@
     <ClCompile Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_opengl2.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_sdl2.cpp">
+    <ClCompile Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_sdl.cpp">
       <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\ImPlot\implot.cpp">
+      <Filter>ImGui\Addons\ImPlot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\ImPlot\implot_demo.cpp">
+      <Filter>ImGui\Addons\ImPlot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\ImPlot\implot_items.cpp">
+      <Filter>ImGui\Addons\ImPlot</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Odyssey Engine\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Keyboard.cpp">
+      <Filter>Odyssey Engine\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Command.cpp">
+      <Filter>Odyssey Engine\Input\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_Manager.cpp">
+      <Filter>Odyssey Engine\EngineGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Font.h">
-      <Filter>Odyssey Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Odyssey Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="InputManager.h">
       <Filter>Odyssey Engine</Filter>
     </ClInclude>
     <ClInclude Include="Odyssey.h">
@@ -132,8 +144,32 @@
     <ClInclude Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_opengl2.h">
       <Filter>ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_sdl2.h">
+    <ClInclude Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_sdl.h">
       <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\ImPlot\implot.h">
+      <Filter>ImGui\Addons\ImPlot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\ImPlot\implot_internal.h">
+      <Filter>ImGui\Addons\ImPlot</Filter>
+    </ClInclude>
+    <ClInclude Include="TrashTheCache.h">
+      <Filter>Odyssey Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Odyssey Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Odyssey Engine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Keyboard.h">
+      <Filter>Odyssey Engine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Odyssey Engine\Input\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_Manager.h">
+      <Filter>Odyssey Engine\EngineGUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -148,6 +184,21 @@
     </Filter>
     <Filter Include="ImGui">
       <UniqueIdentifier>{b0abf7d4-346f-4795-94f7-c1a6f4cd4666}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui\Addons">
+      <UniqueIdentifier>{40687ed1-ec7c-47a1-a68f-f9d20e17abb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui\Addons\ImPlot">
+      <UniqueIdentifier>{6210576f-9d76-4d9a-aadc-4bee93173ac6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Odyssey Engine\Input">
+      <UniqueIdentifier>{42da8c60-3eee-4c7e-9457-ef2efdfaaab4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Odyssey Engine\Input\Commands">
+      <UniqueIdentifier>{5eb3d3ef-c9b6-4bfa-89c0-83df958fc17c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Odyssey Engine\EngineGUI">
+      <UniqueIdentifier>{a3e9eda5-4c27-450b-9bc8-599e6606d45d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

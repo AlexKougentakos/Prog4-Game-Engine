@@ -50,31 +50,26 @@ void ody::TransformComponent::Render() const
 
 void ody::TransformComponent::UpdateWorldPosition()
 {
-	const auto pOwnerParent{ m_Owner->GetParent() };
-
-	if (pOwnerParent == NO_PARENT)
+	const auto gameObjectParent = m_Owner->GetParent();
+	if (!gameObjectParent)
 		m_WorldPosition = m_LocalPosition;
 	else
 	{
-		const auto parentPosition = pOwnerParent->GetComponent<TransformComponent>()->GetWorldPosition();
+		const auto parentPosition = gameObjectParent->GetComponent<TransformComponent>()->GetWorldPosition();
 		m_WorldPosition = parentPosition + m_LocalPosition;
 	}
 
-	EnableDirtyFlag();
-
+	m_DirtyFlag = true;
 }
 
 void ody::TransformComponent::EnableDirtyFlag()
 {
+	if (!m_Owner) return;
+
+	const auto children = m_Owner->GetChildren();
+	for (const auto child : children)
+	{
+		child->GetComponent<TransformComponent>()->EnableDirtyFlag();
+	}
 	m_DirtyFlag = true;
-
-	if (m_Owner == nullptr) return;
-
-	////todo: fix this part so that it enables it. Make ownership not shared
-	//for (const auto& child : m_Owner->GetChildren())
-	//{
-	//	const auto pSharedChild{ child.lock() };
-	//	const auto pTransformChild = pSharedChild->GetComponent<TransformComponent>();
-	//	pTransformChild->EnableDirtyFlag();
-	//}
 }
