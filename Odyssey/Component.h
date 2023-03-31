@@ -21,7 +21,7 @@ namespace ody
 		Component& operator=(Component&& other) = delete;
 
 		void SetOwner(dae::GameObject* owner);
-		virtual void Update(float deltaTime) = 0;
+		virtual void Update() = 0;
 		virtual void Render() const = 0;
 
 	protected:

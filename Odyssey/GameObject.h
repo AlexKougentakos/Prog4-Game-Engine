@@ -3,13 +3,10 @@
 #include <vector>
 #include <string>
 #include "Component.h"
+#include "TransformComponent.h"
 
 #define NO_PARENT nullptr
 
-namespace ody
-{
-	class Component;
-}
 namespace dae
 {
 	class Texture2D;
@@ -24,13 +21,16 @@ namespace dae
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
 
-		void Update(float deltaTime);
+		void Initialize();
+
+		void Update();
 		void Render() const;
 
 		size_t GetChildCount() const;
 		GameObject* GetChildAt(unsigned int index);
 		std::vector<dae::GameObject*>& GetChildren();
 
+		ody::TransformComponent* GetTransform() const { return m_pTransform; }
 
 		GameObject* GetParent() const;
 		void SetParent(GameObject* newParent);
@@ -89,5 +89,8 @@ namespace dae
 		bool RemoveChild(unsigned int index);
 		bool RemoveChild(GameObject* child);
 		void AddChild(GameObject* gameObject);
+
+		//Default Components
+		ody::TransformComponent* m_pTransform{};
 	};
 }

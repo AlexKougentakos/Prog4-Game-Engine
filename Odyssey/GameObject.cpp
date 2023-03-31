@@ -12,12 +12,17 @@ dae::GameObject::~GameObject()
 			
 }
 
-void dae::GameObject::Update(float deltaTime)
+void dae::GameObject::Update()
 {
 	for (const auto& component : m_Components)
 	{
-		component->Update(deltaTime);
+		component->Update();
 	}
+}
+
+void dae::GameObject::Initialize()
+{
+	m_pTransform = &AddComponent<ody::TransformComponent>();
 }
 
 void dae::GameObject::Render() const

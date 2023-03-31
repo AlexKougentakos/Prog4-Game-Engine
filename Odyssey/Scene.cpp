@@ -7,6 +7,17 @@ unsigned int Scene::m_IdCounter = 0;
 
 Scene::Scene(const std::string& name) : m_Name(name) {}
 
+GameObject* Scene::CreateGameObject()
+{
+	auto gameObject = new GameObject();
+	gameObject->Initialize();
+
+	m_Objects.emplace_back(std::move(gameObject));
+
+	return gameObject;
+}
+
+
 void Scene::AddGameObject(GameObject* object)
 {
 	// Check if the object already exists in the array
@@ -65,11 +76,11 @@ void Scene::RemoveAll()
 	m_Objects.clear();
 }
 
-void Scene::Update(float deltaTime)
+void Scene::Update()
 {
 	for (auto& object : m_Objects)
 	{
-		object->Update(deltaTime);
+		object->Update();
 	}
 }
 

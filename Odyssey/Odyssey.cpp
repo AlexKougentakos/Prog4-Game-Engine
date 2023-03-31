@@ -12,6 +12,7 @@
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
+#include "Time.h"
 
 SDL_Window* g_window{};
 
@@ -84,20 +85,21 @@ void dae::Minigin::Run(const std::function<void()>& load)
 
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();
-	auto& input = InputManager::GetInstance();
+	auto& input = ody::InputManager::GetInstance();
+	auto& time = ody::Time::GetInstance();
 
 	bool doContinue = true;
-	std::chrono::steady_clock::time_point currentTime;
 	std::chrono::steady_clock::time_point lastTime{ std::chrono::high_resolution_clock::now() };
 	const constexpr int FPSLimit{ 60 };
 	constexpr int maxWaitingTimeMs{ static_cast<int>(1000 / FPSLimit) };
 	while (doContinue)
 	{
-		currentTime = std::chrono::high_resolution_clock::now();
+		auto currentTime = std::chrono::high_resolution_clock::now();
 		const float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
 
+		time.SetDeltaTime(deltaTime);
 		doContinue = input.ProcessInput();
-		sceneManager.Update(deltaTime);
+		sceneManager.Update();
 		renderer.Render();
 
 		lastTime = currentTime;

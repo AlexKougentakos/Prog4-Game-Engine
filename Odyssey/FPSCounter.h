@@ -3,6 +3,7 @@
 
 #include "TextComponent.h"
 #include "Component.h"
+#include "Time.h"
 
 #include <iostream>
 
@@ -20,17 +21,20 @@ namespace ody
 		FPSCounter& operator=(const FPSCounter& other) = delete;
 		FPSCounter& operator=(FPSCounter&& other) = delete;
 
-		virtual void Update(float deltaTime)
+		virtual void Update()
 		{
+			auto& time = ody::Time::GetInstance();
+
 			auto textComponent{ m_Owner->GetComponent<TextComponent>() };
 			
-			m_ElapsedSec += deltaTime;
+			m_ElapsedSec += time.GetDeltaTime();
 
 			if (m_ElapsedSec >= m_UpdateInverval)
 			{
 				m_ElapsedSec -= m_UpdateInverval;
+
 				
-				int FPS{ static_cast<int>(1 / deltaTime) };
+				int FPS{ static_cast<int>(1 / time.GetDeltaTime()) };
 				textComponent->SetText(std::to_string(FPS));
 			}
 

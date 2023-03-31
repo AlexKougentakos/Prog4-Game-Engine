@@ -30,6 +30,35 @@ void ody::TransformComponent::SetPosition(float x, float y, float z)
 	EnableDirtyFlag();
 }
 
+void ody::TransformComponent::SetPosition(const glm::vec3& newPos)
+{
+	m_LocalPosition.x = newPos.x;
+	m_LocalPosition.y = newPos.y;
+	m_LocalPosition.z = newPos.z;
+
+	EnableDirtyFlag();
+}
+
+void ody::TransformComponent::Translate(float x, float y, float z)
+{
+	const auto currentPos = GetWorldPosition();
+
+	const auto newPos = glm::vec3
+	{
+		currentPos.x + x,
+		currentPos.y + y,
+		currentPos.z + z
+	};
+
+	SetPosition(newPos);
+}
+
+void ody::TransformComponent::Translate(const glm::vec3& newPos)
+{
+	Translate(newPos.x, newPos.y, newPos.z);
+}
+
+
 glm::vec3 ody::TransformComponent::GetWorldPosition()
 {
 	if (m_DirtyFlag)
@@ -38,7 +67,7 @@ glm::vec3 ody::TransformComponent::GetWorldPosition()
 	return m_WorldPosition;
 }
 
-void ody::TransformComponent::Update([[maybe_unused]] float deltaTime)
+void ody::TransformComponent::Update()
 {
 	
 }

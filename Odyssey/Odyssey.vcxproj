@@ -167,7 +167,6 @@
       <AdditionalIncludeDirectories>C:\Users\alexa\Desktop\Programming 4\Odyssey\3rdParty\imgui-1.89.4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <EnablePREfast>true</EnablePREfast>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -197,7 +196,6 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GUI_Manager.h" />
     <ClInclude Include="InputManager.h" />
-    <ClInclude Include="Keyboard.h" />
     <ClInclude Include="Odyssey.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
@@ -208,8 +206,10 @@
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="TextureComponent.h" />
+    <ClInclude Include="Time.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="TrashTheCache.h" />
+    <ClInclude Include="Controller.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_opengl2.cpp" />
@@ -228,7 +228,6 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GUI_Manager.cpp" />
     <ClCompile Include="InputManager.cpp" />
-    <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Odyssey.cpp" />
     <ClCompile Include="Renderer.cpp" />
@@ -237,7 +236,9 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Texture2D.cpp" />
+    <ClCompile Include="Time.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
+    <ClCompile Include="Controller.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

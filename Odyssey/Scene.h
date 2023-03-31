@@ -8,11 +8,13 @@ namespace dae
 	{
 		friend Scene& SceneManager::CreateScene(const std::string& name);
 	public:
+		GameObject* CreateGameObject();
+
 		void AddGameObject(GameObject* object);
 		void RemoveGameObject(GameObject* object, bool keepChildren = true);
 		void RemoveAll();
 
-		void Update(float deltaTime);
+		void Update();
 		void Render() const;
 
 		~Scene() = default;

@@ -56,7 +56,7 @@ namespace ody
 			m_NeedsUpdate = true;
 		}
 
-		virtual void Update([[maybe_unused]] float deltaTime) override
+		virtual void Update() override
 		{
 			if (m_NeedsUpdate)
 			{

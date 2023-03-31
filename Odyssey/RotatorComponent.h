@@ -22,7 +22,7 @@ namespace ody
 		RotatorComponent& operator=(const RotatorComponent& other) = delete;
 		RotatorComponent& operator=(RotatorComponent&& other) = delete;
 
-		virtual void Update(float deltaTime) override;
+		virtual void Update() override;
 		virtual void Render() const override;
 
 	private:

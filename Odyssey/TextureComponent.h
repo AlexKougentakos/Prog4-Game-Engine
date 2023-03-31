@@ -37,7 +37,7 @@ namespace ody
 			m_pTexture = dae::ResourceManager::GetInstance().LoadTexture(filename);
 		}
 
-		virtual void Update([[maybe_unused]] float deltaTime) override
+		virtual void Update() override
 		{
 
 		}

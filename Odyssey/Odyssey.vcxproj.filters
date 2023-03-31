@@ -13,16 +13,7 @@
     <ClCompile Include="Odyssey.cpp">
       <Filter>Odyssey Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>Odyssey Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceManager.cpp">
-      <Filter>Odyssey Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Scene.cpp">
-      <Filter>Odyssey Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
       <Filter>Odyssey Engine</Filter>
     </ClCompile>
     <ClCompile Include="Texture2D.cpp">
@@ -36,6 +27,24 @@
     </ClCompile>
     <ClCompile Include="RotatorComponent.cpp">
       <Filter>Odyssey Engine\Components\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Odyssey Engine\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Command.cpp">
+      <Filter>Odyssey Engine\Input\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_Manager.cpp">
+      <Filter>Odyssey Engine\EngineGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\ImPlot\implot.cpp">
+      <Filter>ImGui\Addons\ImPlot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\ImPlot\implot_demo.cpp">
+      <Filter>ImGui\Addons\ImPlot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\ImPlot\implot_items.cpp">
+      <Filter>ImGui\Addons\ImPlot</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui-1.89.4\imgui.cpp">
       <Filter>ImGui</Filter>
@@ -58,26 +67,20 @@
     <ClCompile Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_sdl.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="..\3rdParty\ImPlot\implot.cpp">
-      <Filter>ImGui\Addons\ImPlot</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\ImPlot\implot_demo.cpp">
-      <Filter>ImGui\Addons\ImPlot</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\ImPlot\implot_items.cpp">
-      <Filter>ImGui\Addons\ImPlot</Filter>
-    </ClCompile>
-    <ClCompile Include="InputManager.cpp">
+    <ClCompile Include="Controller.cpp">
       <Filter>Odyssey Engine\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Keyboard.cpp">
-      <Filter>Odyssey Engine\Input</Filter>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Odyssey Engine\Signletons</Filter>
     </ClCompile>
-    <ClCompile Include="Command.cpp">
-      <Filter>Odyssey Engine\Input\Commands</Filter>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Odyssey Engine\Signletons</Filter>
     </ClCompile>
-    <ClCompile Include="GUI_Manager.cpp">
-      <Filter>Odyssey Engine\EngineGUI</Filter>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Odyssey Engine\Signletons</Filter>
+    </ClCompile>
+    <ClCompile Include="Time.cpp">
+      <Filter>Odyssey Engine\Signletons</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -87,19 +90,7 @@
     <ClInclude Include="Odyssey.h">
       <Filter>Odyssey Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>Odyssey Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceManager.h">
-      <Filter>Odyssey Engine</Filter>
-    </ClInclude>
     <ClInclude Include="Scene.h">
-      <Filter>Odyssey Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>Odyssey Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Singleton.h">
       <Filter>Odyssey Engine</Filter>
     </ClInclude>
     <ClInclude Include="Texture2D.h">
@@ -122,6 +113,27 @@
     </ClInclude>
     <ClInclude Include="FPSCounter.h">
       <Filter>Odyssey Engine\Components\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="TrashTheCache.h">
+      <Filter>Odyssey Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Odyssey Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Odyssey Engine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Odyssey Engine\Input\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_Manager.h">
+      <Filter>Odyssey Engine\EngineGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\ImPlot\implot.h">
+      <Filter>ImGui\Addons\ImPlot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\ImPlot\implot_internal.h">
+      <Filter>ImGui\Addons\ImPlot</Filter>
     </ClInclude>
     <ClInclude Include="..\3rdParty\imgui-1.89.4\imconfig.h">
       <Filter>ImGui</Filter>
@@ -147,29 +159,23 @@
     <ClInclude Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_sdl.h">
       <Filter>ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="..\3rdParty\ImPlot\implot.h">
-      <Filter>ImGui\Addons\ImPlot</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\ImPlot\implot_internal.h">
-      <Filter>ImGui\Addons\ImPlot</Filter>
-    </ClInclude>
-    <ClInclude Include="TrashTheCache.h">
-      <Filter>Odyssey Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Odyssey Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="InputManager.h">
+    <ClInclude Include="Controller.h">
       <Filter>Odyssey Engine\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Keyboard.h">
-      <Filter>Odyssey Engine\Input</Filter>
+    <ClInclude Include="Renderer.h">
+      <Filter>Odyssey Engine\Signletons</Filter>
     </ClInclude>
-    <ClInclude Include="Command.h">
-      <Filter>Odyssey Engine\Input\Commands</Filter>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Odyssey Engine\Signletons</Filter>
     </ClInclude>
-    <ClInclude Include="GUI_Manager.h">
-      <Filter>Odyssey Engine\EngineGUI</Filter>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Odyssey Engine\Signletons</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Odyssey Engine\Signletons</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>Odyssey Engine\Signletons</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -199,6 +205,9 @@
     </Filter>
     <Filter Include="Odyssey Engine\EngineGUI">
       <UniqueIdentifier>{a3e9eda5-4c27-450b-9bc8-599e6606d45d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Odyssey Engine\Signletons">
+      <UniqueIdentifier>{8489e6ed-49bd-4b73-9999-552d9807f7ae}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
