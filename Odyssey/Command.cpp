@@ -1,6 +1,7 @@
 #include "Command.h"
 #include "GameObject.h"
 #include "TransformComponent.h"
+#include "GameTime.h"
 
 void ody::MoveCommand::Execute()
 {
@@ -8,7 +9,7 @@ void ody::MoveCommand::Execute()
 
 	const auto currentPos = transform->GetWorldPosition();
 
-	const auto newPosition = currentPos + glm::vec3{ m_MoveSpeed * m_MoveDirection * m_ElapsedTime, 0 };
-
+	const auto newPosition = currentPos + glm::vec3{ m_MoveSpeed * m_MoveDirection * ody::Time::GetInstance().GetDeltaTime(), 0 };
+	
 	transform->SetPosition(newPosition);
 }

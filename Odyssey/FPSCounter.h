@@ -3,7 +3,7 @@
 
 #include "TextComponent.h"
 #include "Component.h"
-#include "Time.h"
+#include "GameTime.h"
 
 #include <iostream>
 

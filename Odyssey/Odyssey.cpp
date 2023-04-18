@@ -12,7 +12,7 @@
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
-#include "Time.h"
+#include "GameTime.h"
 
 SDL_Window* g_window{};
 
@@ -90,7 +90,7 @@ void dae::Minigin::Run(const std::function<void()>& load)
 
 	bool doContinue = true;
 	std::chrono::steady_clock::time_point lastTime{ std::chrono::high_resolution_clock::now() };
-	const constexpr int FPSLimit{ 60 };
+	constexpr int FPSLimit{ 60 };
 	constexpr int maxWaitingTimeMs{ static_cast<int>(1000 / FPSLimit) };
 	while (doContinue)
 	{

@@ -1,8 +1,9 @@
-#include <imgui_plot.h>
-#include <imgui.h>
 #ifndef IMGUI_DEFINE_MATH_OPERATORS
 #define IMGUI_DEFINE_MATH_OPERATORS
+#include <imgui.h>
 #endif
+#include "imgui_plot.h"
+
 #include <imgui_internal.h>
 
 namespace ImGui {

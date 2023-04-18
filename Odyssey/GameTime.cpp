@@ -1,6 +1,4 @@
-﻿#include "Time.h"
-
-#include <iostream>
+﻿#include "GameTime.h"
 
 void ody::Time::Init()
 {

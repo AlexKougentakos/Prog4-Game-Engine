@@ -4,7 +4,7 @@
 
 namespace dae
 {
-	class Minigin
+	class Minigin final
 	{
 	public:
 		explicit Minigin(const std::string& dataPath);

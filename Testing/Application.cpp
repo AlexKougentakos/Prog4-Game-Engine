@@ -1,7 +1,4 @@
-﻿#include <SDL.h>
-
 #if _DEBUG
-// ReSharper disable once CppUnusedIncludeDirective
 #if __has_include(<vld.h>)
 #include <vld.h>
 #endif
@@ -59,13 +56,14 @@ void load()
 	scene.AddGameObject(pacman);
 	scene.AddGameObject(ghost);
 
-	//auto& input{ ody::InputManager::GetInstance() };
+	auto& input{ ody::InputManager::GetInstance() };
 
-	//const std::vector<unsigned int> character1Input{ 'd', 'a', 'w', 's' };
-	//input.BindDigitalCommand('w', ody::InputManager::InputType::ONBUTTON
-	//	, std::make_unique<ody::MoveCommand>(pacman, 100.f,
-	//		glm::vec2{ 0, -1 }, 1.f));
+	const std::vector<unsigned int> character1Input{ 'd', 'a', 'w', 's' };
+	input.BindKeyboardCommand('w', ody::InputManager::InputType::ONBUTTON
+		, std::make_unique<ody::MoveCommand>(pacman, 100.f,
+			glm::vec2{ 0, -1 }));
 }
+
 
 int main(int, char* []) {
 	dae::Minigin engine("../Data/");

@@ -1,7 +1,7 @@
 #include "GameObject.h"
 #include "RotatorComponent.h"
 #include "TransformComponent.h"
-#include "Time.h"
+#include "GameTime.h"
 
 void ody::RotatorComponent::Update()
 {

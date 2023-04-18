@@ -21,16 +21,20 @@ namespace ody
 	class MoveCommand final : public Command
 	{
 	public:
-		MoveCommand(dae::GameObject* pActor, float moveSpeed, const glm::vec2& moveDir, float elapsedTime) : m_pActor{ pActor }, m_MoveSpeed{moveSpeed}
-			, m_MoveDirection{ moveDir }, m_ElapsedTime{elapsedTime} {}
+		MoveCommand(dae::GameObject* pActor, float moveSpeed, const glm::vec2& moveDir) : m_pActor{ pActor }, m_MoveSpeed{moveSpeed}
+			, m_MoveDirection{ moveDir } {}
 		virtual ~MoveCommand() override = default;
+		MoveCommand(const MoveCommand& other) = delete;
+		MoveCommand(MoveCommand&& other) = delete;
+		MoveCommand& operator=(const MoveCommand& other) = delete;
+		MoveCommand& operator=(MoveCommand&& other) = delete;
 		
 		virtual void Execute() override;
 	private:
 		dae::GameObject* m_pActor{};
 		const float m_MoveSpeed{};
 		glm::vec2 m_MoveDirection{};
-		const float m_ElapsedTime{ };
+
 	
 	};
 }

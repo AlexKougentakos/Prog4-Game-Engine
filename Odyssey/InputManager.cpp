@@ -16,10 +16,8 @@ bool ody::InputManager::ProcessInput()
 	
 	for (const auto& analogCommand : m_pBoundAnalogCommands)
 	{
-		// For each button ody is binded to this command
 		for (const auto& inputAnalog : analogCommand.second)
 		{
-			// Execute the command if one of its input requirements is met
 			const float axisValue{ GetAxis(inputAnalog) };
 			if (abs(axisValue) > 0.0f)
 			{
@@ -29,13 +27,10 @@ bool ody::InputManager::ProcessInput()
 		}
 	}
 
-	// For each command ody should be triggered by digital buttons
 	for (const auto& buttonCommand : m_pBoundDigitalCommands)
 	{
-		// For each button ody is binded to this command
 		for (const auto& inputKey : buttonCommand.second)
 		{
-			// Execute the command if one of its input requirements is met
 			if (IsKeyBound(inputKey))
 			{
 				buttonCommand.first->Execute();
@@ -120,7 +115,7 @@ bool ody::InputManager::IsKeyBound(const ody::InputManager::InputDigital& inputK
 }
 
 //If there is more than one controller this function should be used to access a specific controller
-void ody::InputManager::BindDigitalCommand(unsigned int controller, GamepadButton button, InputType inputType, std::unique_ptr<ody::Command> pCommand)
+void ody::InputManager::BindControllerButtonCommand(unsigned int controller, GamepadButton button, InputType inputType, std::unique_ptr<ody::Command> pCommand)
 {
 	// If no controller is found then we create a new one
 	AddControllersIfNeeded(controller);
@@ -128,21 +123,12 @@ void ody::InputManager::BindDigitalCommand(unsigned int controller, GamepadButto
 	m_pBoundDigitalCommands.emplace_back(std::make_pair(std::move(pCommand), std::vector<InputDigital>{ InputDigital{ false, controller, static_cast<unsigned int>(button), inputType } }));
 }
 
-void ody::InputManager::BindDigitalCommand(unsigned int keyboardKey, InputType inputType, std::unique_ptr<ody::Command> pCommand)
+void ody::InputManager::BindKeyboardCommand(unsigned int keyboardKey, InputType inputType, std::unique_ptr<ody::Command> pCommand)
 {
 	m_pBoundDigitalCommands.emplace_back(std::make_pair(std::move(pCommand), std::vector<InputDigital>{ InputDigital{ true, 0, keyboardKey, inputType } }));
 }
 
-//If there is more than one controller this function should be used to access a specific controller
-void ody::InputManager::BindAxisCommand(unsigned int controller, GamepadAxis button, bool isHorizontalAxis, std::unique_ptr<ody::Command> pCommand)
-{
-	// If no controller is found then we create a new one
-	AddControllersIfNeeded(controller);
-
-	m_pBoundAnalogCommands.emplace_back(std::make_pair(std::move(pCommand), std::vector<InputAnalog>{ InputAnalog{ controller, static_cast<unsigned int>(button), isHorizontalAxis } }));
-}
-
-void ody::InputManager::BindAxisCommand(unsigned int controller, GamepadAxis button, std::unique_ptr<ody::Command> pCommand)
+void ody::InputManager::BindControllerAxisCommand(unsigned int controller, GamepadAxis button, std::unique_ptr<ody::Command> pCommand)
 {
 	// If no controller is found then we create a new one
 	AddControllersIfNeeded(controller);
@@ -310,7 +296,7 @@ glm::vec2 ody::InputManager::GetTwoDirectionalAxis(const std::vector<InputAnalog
 	const auto& verticalInput{ inputVector[1] };
 
 	// Calculate the input vector for this button
-	glm::vec2 input
+	const glm::vec2 input
 	{
 		m_pControllers[horizontalInput.controllerIdx]->GetAxis(horizontalInput.button, horizontalInput.x),
 		m_pControllers[verticalInput.controllerIdx]->GetAxis(verticalInput.button, verticalInput.x)
