@@ -19,9 +19,6 @@ void load()
 {
 	auto& scene = dae::SceneManager::GetInstance().CreateScene("Demo");
 
-	//auto go = new dae::GameObject{};
-
-
 	auto gameObject = scene.CreateGameObject();
 	gameObject->GetTransform()->SetPosition(0.0f, 0.0f);
 	gameObject->AddComponent<ody::TextureComponent>("background.tga");
@@ -58,10 +55,12 @@ void load()
 
 	auto& input{ ody::InputManager::GetInstance() };
 
-	const std::vector<unsigned int> character1Input{ 'd', 'a', 'w', 's' };
 	input.BindKeyboardCommand('w', ody::InputManager::InputType::ONBUTTON
 		, std::make_unique<ody::MoveCommand>(pacman, 100.f,
 			glm::vec2{ 0, -1 }));
+
+	//input.BindControllerAxisCommand(0, ody::InputManager::GamepadAxis::LEFT_THUMB, 
+	//	std::unique_ptr<ody::MoveCommand>(ghost, 50.f, input.GetTwoDirectionalAxis()))
 }
 
 

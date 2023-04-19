@@ -114,6 +114,33 @@ bool ody::InputManager::IsKeyBound(const ody::InputManager::InputDigital& inputK
 	return false;
 }
 
+//glm::vec2 ody::InputManager::GetThumbstickPosition(bool leftThumbstick, int playerIndex)
+//{
+//	glm::vec2 pos;
+//	if (leftThumbstick)
+//	{
+//		pos = glm::vec2(m_CurrGamepadState[int(playerIndex)].Gamepad.sThumbLX, m_CurrGamepadState[int(playerIndex)].Gamepad.sThumbLY);
+//
+//		if (pos.x > -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE && pos.x < XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)pos.x = 0;
+//		if (pos.y > -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE && pos.y < XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)pos.y = 0;
+//	}
+//	else
+//	{
+//		pos = XMFLOAT2(m_CurrGamepadState[int(playerIndex)].Gamepad.sThumbRX, m_CurrGamepadState[int(playerIndex)].Gamepad.sThumbRY);
+//
+//		if (pos.x > -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE && pos.x < XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE)pos.x = 0;
+//		if (pos.y > -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE && pos.y < XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE)pos.y = 0;
+//	}
+//
+//	if (pos.x < 0)pos.x /= 32768;
+//	else pos.x /= 32767;
+//
+//	if (pos.y < 0)pos.y /= 32768;
+//	else pos.y /= 32767;
+//
+//	return pos;
+//}
+
 //If there is more than one controller this function should be used to access a specific controller
 void ody::InputManager::BindControllerButtonCommand(unsigned int controller, GamepadButton button, InputType inputType, std::unique_ptr<ody::Command> pCommand)
 {

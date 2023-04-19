@@ -10,7 +10,13 @@ namespace dae
 	public:
 		GameObject* CreateGameObject();
 
-		void AddGameObject(GameObject* object);
+		template<typename T>
+		std::enable_if_t<std::is_base_of_v<GameObject, T>, T*>
+			AddGameObject(T* pObject)
+		{
+			AddGameObject_Safe(pObject);
+			return pObject;
+		}
 		void RemoveGameObject(GameObject* object, bool keepChildren = true);
 		void RemoveAll();
 
@@ -25,6 +31,7 @@ namespace dae
 
 	private:
 		explicit Scene(const std::string& name);
+		void AddGameObject_Safe(GameObject* object);
 
 		std::string m_Name;
 		std::vector<std::unique_ptr<GameObject>> m_Objects{};

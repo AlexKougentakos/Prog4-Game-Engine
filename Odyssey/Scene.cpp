@@ -18,7 +18,7 @@ GameObject* Scene::CreateGameObject()
 }
 
 
-void Scene::AddGameObject(GameObject* object)
+void Scene::AddGameObject_Safe(GameObject* object)
 {
 	// Check if the object already exists in the array
 	const auto it = std::find_if(m_Objects.begin(), m_Objects.end(), [object](const std::unique_ptr<GameObject>& ptr) {
