@@ -1,25 +1,27 @@
 #include "SceneManager.h"
-#include "Scene.h"
+#include "GameScene.h"
+#include "GameObject.h"
 
-void dae::SceneManager::Update()
+namespace ody
 {
-	for(auto& scene : m_scenes)
+void SceneManager::Update()
+{
+	for (auto& scene : m_pScenes)
 	{
 		scene->Update();
 	}
 }
 
-void dae::SceneManager::Render()
+void SceneManager::Render()
 {
-	for (const auto& scene : m_scenes)
+	for (const auto& scene : m_pScenes)
 	{
 		scene->Render();
 	}
 }
 
-dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
+void SceneManager::AddScene(GameScene* pGameScene)
 {
-	const auto& scene = std::shared_ptr<Scene>(new Scene(name));
-	m_scenes.push_back(scene);
-	return *scene;
+	m_pScenes.emplace_back(pGameScene);
+}
 }

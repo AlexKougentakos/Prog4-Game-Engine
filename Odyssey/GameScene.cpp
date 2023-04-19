@@ -1,49 +1,42 @@
-#include "Scene.h"
+#include "GameScene.h"
+#include "GameTime.h"
 #include "GameObject.h"
-
-using namespace dae;
-
-unsigned int Scene::m_IdCounter = 0;
-
-Scene::Scene(const std::string& name) : m_Name(name) {}
-
-GameObject* Scene::CreateGameObject()
+namespace ody
 {
-	auto gameObject = new GameObject();
-	gameObject->Initialize();
+GameScene::GameScene(std::wstring sceneName)
+	:m_SceneName(std::move(sceneName))
+{
 
-	m_Objects.emplace_back(std::move(gameObject));
-
-	return gameObject;
 }
 
-
-void Scene::AddGameObject_Safe(GameObject* object)
+void GameScene::AddChild_Safe(GameObject* object)
 {
 	// Check if the object already exists in the array
-	const auto it = std::find_if(m_Objects.begin(), m_Objects.end(), [object](const std::unique_ptr<GameObject>& ptr) {
+	const auto it = std::find_if(m_pChildren.begin(), m_pChildren.end(), [object](const std::unique_ptr<GameObject>& ptr) 
+		{
 		return ptr.get() == object;
 		});
 
 	// If the object doesn't exist in the array, add it
-	if (it == m_Objects.end()) {
-		m_Objects.emplace_back(std::unique_ptr<GameObject>(object));
+	if (it == m_pChildren.end()) {
+		m_pChildren.emplace_back(std::unique_ptr<GameObject>(object));
 	}
 }
 
+
 //This function will place the children of the object, if any, to the parent above
-void Scene::RemoveGameObject(GameObject* object, bool keepChildren)
+void GameScene::RemoveChild(GameObject* object, bool keepChildren)
 {
 	// If we need to remove the children call the same function on the children
 	if (!keepChildren)
 	{
-		for (auto it = m_Objects.begin(); it != m_Objects.end(); )
+		for (auto it = m_pChildren.begin(); it != m_pChildren.end(); )
 		{
 			auto& p = *it;
 			if (p->GetParent() == object)
 			{
-				RemoveGameObject(p.get(), false);
-				it = m_Objects.begin(); // start over, as the vector has been modified
+				RemoveChild(p.get(), false);
+				it = m_pChildren.begin(); // start over, as the vector has been modified
 			}
 			else
 			{
@@ -52,7 +45,7 @@ void Scene::RemoveGameObject(GameObject* object, bool keepChildren)
 		}
 	}
 
-	
+
 	if (const auto parent = object->GetParent())
 	{
 		// Transfer children to parent (if any)
@@ -66,28 +59,18 @@ void Scene::RemoveGameObject(GameObject* object, bool keepChildren)
 	}
 
 	// Remove object from the scene
-	auto& objects = m_Objects;
+	auto& objects = m_pChildren;
 	objects.erase(std::remove_if(objects.begin(), objects.end(),
 		[object](const auto& p) { return p.get() == object; }), objects.end());
 }
 
-void Scene::RemoveAll()
+GameObject* GameScene::CreateGameObject()
 {
-	m_Objects.clear();
-}
+	auto gameObject = new GameObject();
+	gameObject->Initialize();
 
-void Scene::Update()
-{
-	for (auto& object : m_Objects)
-	{
-		object->Update();
-	}
-}
+	m_pChildren.emplace_back(std::move(gameObject));
 
-void Scene::Render() const
-{
-	for (const auto& object : m_Objects)
-	{
-		object->Render();
-	}
+	return gameObject;
+}
 }

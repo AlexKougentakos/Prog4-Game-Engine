@@ -2,7 +2,7 @@
 #include <glm/vec2.hpp>
 
 struct SDL_Texture;
-namespace dae
+namespace ody
 {
 	/**
 	 * Simple RAII wrapper for an SDL_Texture

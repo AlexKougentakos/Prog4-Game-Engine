@@ -5,7 +5,7 @@
 
 namespace ody
 {
-	class Time final : public dae::Singleton<Time>
+	class Time final : public ody::Singleton<Time>
 	{
 	public:
 		void Init();

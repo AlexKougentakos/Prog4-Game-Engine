@@ -4,7 +4,7 @@
 #include "Component.h"
 #include "glm/glm.hpp"
 
-namespace dae
+namespace ody
 {
 	class GameObject;
 }

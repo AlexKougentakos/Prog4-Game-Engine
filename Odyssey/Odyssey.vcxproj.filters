@@ -10,9 +10,6 @@
     <ClCompile Include="Odyssey.cpp">
       <Filter>Odyssey Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Odyssey Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Texture2D.cpp">
       <Filter>Odyssey Engine</Filter>
     </ClCompile>
@@ -82,16 +79,13 @@
     <ClCompile Include="GUI_Manager.cpp">
       <Filter>Odyssey Engine\EngineGUI</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="GameScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Font.h">
       <Filter>Odyssey Engine</Filter>
     </ClInclude>
     <ClInclude Include="Odyssey.h">
-      <Filter>Odyssey Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
       <Filter>Odyssey Engine</Filter>
     </ClInclude>
     <ClInclude Include="Texture2D.h">
@@ -190,6 +184,8 @@
     <ClInclude Include="GUI_Manager.h">
       <Filter>Odyssey Engine\EngineGUI</Filter>
     </ClInclude>
+    <ClInclude Include="Structs.h" />
+    <ClInclude Include="GameScene.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Odyssey Engine">

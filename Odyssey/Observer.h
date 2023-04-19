@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-namespace dae
+namespace ody
 {
 	class GameObject;
 }
@@ -18,6 +18,6 @@ namespace ody
 		Observer& operator=(const Observer& other) = delete;
 		Observer& operator=(Observer&& other) = delete;
 
-		virtual void Notify(const dae::GameObject& gameObject, GameEvent event) = 0;
+		virtual void Notify(const ody::GameObject& gameObject, GameEvent event) = 0;
 	};
 }

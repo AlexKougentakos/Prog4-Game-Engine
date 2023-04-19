@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-namespace dae
+namespace ody
 {
 	class GameObject;
 }
@@ -20,12 +20,12 @@ namespace ody
 		Component& operator=(const Component& other) = delete;
 		Component& operator=(Component&& other) = delete;
 
-		void SetOwner(dae::GameObject* owner);
+		void SetOwner(ody::GameObject* owner);
 		virtual void Update() = 0;
 		virtual void Render() const = 0;
 
 	protected:
-		dae::GameObject* m_Owner{};
+		ody::GameObject* m_Owner{};
 	};
 }
 

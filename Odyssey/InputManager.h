@@ -9,14 +9,14 @@
 #include <set>
 
 
-namespace dae
+namespace ody
 {
 	class GameObject;
 }
 
 namespace ody
 {
-	class InputManager final : public dae::Singleton<InputManager>
+	class InputManager final : public ody::Singleton<InputManager>
 	{
 	public:
 		enum class InputType

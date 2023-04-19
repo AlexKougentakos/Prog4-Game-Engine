@@ -7,12 +7,12 @@
 #include "Renderer.h"
 #include "Component.h"
 
-dae::GameObject::~GameObject()
+ody::GameObject::~GameObject()
 {
 			
 }
 
-void dae::GameObject::Update()
+void ody::GameObject::Update()
 {
 	for (const auto& component : m_Components)
 	{
@@ -20,12 +20,12 @@ void dae::GameObject::Update()
 	}
 }
 
-void dae::GameObject::Initialize()
+void ody::GameObject::Initialize()
 {
 	m_pTransform = &AddComponent<ody::TransformComponent>();
 }
 
-void dae::GameObject::Render() const
+void ody::GameObject::Render() const
 {
 	for (const auto& component : m_Components)
 	{
@@ -33,11 +33,11 @@ void dae::GameObject::Render() const
 	}
 }
 
-size_t dae::GameObject::GetChildCount() const 
+size_t ody::GameObject::GetChildCount() const 
 {
 	return m_pChildren.size(); 
 }
-dae::GameObject* dae::GameObject::GetChildAt(unsigned int index)
+ody::GameObject* ody::GameObject::GetChildAt(unsigned int index)
 {
 	assert(index > m_pChildren.size() && "Out of bounds");
 
@@ -47,12 +47,12 @@ dae::GameObject* dae::GameObject::GetChildAt(unsigned int index)
 	return m_pChildren[index];
 }
 
-dae::GameObject* dae::GameObject::GetParent() const
+ody::GameObject* ody::GameObject::GetParent() const
 {
 	return m_pParent;
 }
 
-void dae::GameObject::SetParent(GameObject* pNewParent)
+void ody::GameObject::SetParent(GameObject* pNewParent)
 {
 	if (pNewParent == nullptr) return;
 
@@ -63,7 +63,7 @@ void dae::GameObject::SetParent(GameObject* pNewParent)
 	pNewParent->AddChild(this);
 }
 
-bool dae::GameObject::RemoveChild(unsigned int index)
+bool ody::GameObject::RemoveChild(unsigned int index)
 {
 	auto temp{ m_pChildren[index] };
 	m_pChildren[index] = m_pChildren.back();
@@ -73,7 +73,7 @@ bool dae::GameObject::RemoveChild(unsigned int index)
 	return true;
 }
 
-bool dae::GameObject::RemoveChild(GameObject* child)
+bool ody::GameObject::RemoveChild(GameObject* child)
 {
 	for (auto it = m_pChildren.begin(); it != m_pChildren.end(); ++it)
 	{
@@ -87,12 +87,12 @@ bool dae::GameObject::RemoveChild(GameObject* child)
 	return false;
 }
 
-void dae::GameObject::AddChild(GameObject* gameObject)
+void ody::GameObject::AddChild(GameObject* gameObject)
 {
 	m_pChildren.emplace_back(gameObject);
 }
 
-std::vector<dae::GameObject*>& dae::GameObject::GetChildren()
+std::vector<ody::GameObject*>& ody::GameObject::GetChildren()
 {
 	return m_pChildren;
 }

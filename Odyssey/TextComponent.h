@@ -21,11 +21,11 @@ namespace ody
 		TextComponent(const std::string& text, const std::string& fontPath, unsigned int size) :
 			Component()
 		{
-			m_Font = dae::ResourceManager::GetInstance().LoadFont(fontPath, size);
+			m_Font = ody::ResourceManager::GetInstance().LoadFont(fontPath, size);
 			m_Text = text;
 		}
 
-		TextComponent(const std::string& text, std::shared_ptr<dae::Font> font) :
+		TextComponent(const std::string& text, std::shared_ptr<ody::Font> font) :
 			Component()
 		{
 			m_Font = font;
@@ -66,13 +66,13 @@ namespace ody
 				{
 					throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
 				}
-				auto texture = SDL_CreateTextureFromSurface(dae::Renderer::GetInstance().GetSDLRenderer(), surf);
+				auto texture = SDL_CreateTextureFromSurface(ody::Renderer::GetInstance().GetSDLRenderer(), surf);
 				if (texture == nullptr)
 				{
 					throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
 				}
 				SDL_FreeSurface(surf);
-				m_TextTexture = std::make_shared<dae::Texture2D>(texture);
+				m_TextTexture = std::make_shared<ody::Texture2D>(texture);
 				m_NeedsUpdate = false;
 			}
 		}
@@ -84,7 +84,7 @@ namespace ody
 				const auto pTransformComponent{ m_Owner->GetComponent<TransformComponent>() };
 				glm::vec3 renderPosition{ pTransformComponent->GetWorldPosition() };
 
-				dae::Renderer::GetInstance().RenderTexture(*m_TextTexture, renderPosition.x, renderPosition.y);
+				ody::Renderer::GetInstance().RenderTexture(*m_TextTexture, renderPosition.x, renderPosition.y);
 			}
 		}
 
@@ -92,8 +92,8 @@ namespace ody
 		glm::vec2 m_Position{};
 		std::string m_Text{};
 
-		std::shared_ptr<dae::Font> m_Font;
-		std::shared_ptr<dae::Texture2D> m_TextTexture;
+		std::shared_ptr<ody::Font> m_Font;
+		std::shared_ptr<ody::Texture2D> m_TextTexture;
 
 		bool m_NeedsUpdate{true};
 

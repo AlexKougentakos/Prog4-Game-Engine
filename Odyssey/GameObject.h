@@ -7,7 +7,7 @@
 
 #define NO_PARENT nullptr
 
-namespace dae
+namespace ody
 {
 	class Texture2D;
 
@@ -28,7 +28,7 @@ namespace dae
 
 		size_t GetChildCount() const;
 		GameObject* GetChildAt(unsigned int index);
-		std::vector<dae::GameObject*>& GetChildren();
+		std::vector<ody::GameObject*>& GetChildren();
 
 		ody::TransformComponent* GetTransform() const { return m_pTransform; }
 

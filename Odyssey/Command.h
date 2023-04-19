@@ -1,6 +1,6 @@
 #pragma once
 #include "glm/glm.hpp"
-namespace dae
+namespace ody
 {
 	class GameObject;
 }
@@ -21,7 +21,7 @@ namespace ody
 	class MoveCommand final : public Command
 	{
 	public:
-		MoveCommand(dae::GameObject* pActor, float moveSpeed, const glm::vec2& moveDir) : m_pActor{ pActor }, m_MoveSpeed{moveSpeed}
+		MoveCommand(ody::GameObject* pActor, float moveSpeed, const glm::vec2& moveDir) : m_pActor{ pActor }, m_MoveSpeed{moveSpeed}
 			, m_MoveDirection{ moveDir } {}
 		virtual ~MoveCommand() override = default;
 		MoveCommand(const MoveCommand& other) = delete;
@@ -31,7 +31,7 @@ namespace ody
 		
 		virtual void Execute() override;
 	private:
-		dae::GameObject* m_pActor{};
+		ody::GameObject* m_pActor{};
 		const float m_MoveSpeed{};
 		glm::vec2 m_MoveDirection{};
 
