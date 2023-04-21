@@ -26,7 +26,7 @@ namespace ody
 		std::vector<std::shared_ptr<GameScene>> m_pScenes;
 
 		std::shared_ptr<GameScene> m_pActiveScene{nullptr}, m_pNewScene{nullptr};
-		unsigned int m_ActiveSceneIndex{0};
+		int m_ActiveSceneIndex{0};
 
 		void SceneChange();
 	};
