@@ -25,3 +25,8 @@ void TestScene::Update()
 		object->Update();
 	}
 }
+
+void TestScene::OnGUI()
+{
+	
+}

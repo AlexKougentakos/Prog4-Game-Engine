@@ -165,9 +165,13 @@
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Scenes\TestScene.cpp" />
+    <ClCompile Include="src\Scenes\TestScene2.cpp" />
+    <ClCompile Include="src\Scenes\TestSCene3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Scenes\TestScene.h" />
+    <ClInclude Include="src\Scenes\TestScene2.h" />
+    <ClInclude Include="src\Scenes\TestSCene3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,6 +1,7 @@
 #include "GameScene.h"
 #include "GameTime.h"
 #include "GameObject.h"
+
 namespace ody
 {
 GameScene::GameScene(std::wstring sceneName)

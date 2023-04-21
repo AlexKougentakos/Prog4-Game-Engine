@@ -15,5 +15,6 @@ protected:
 	void Initialize() override;
 	void Render() override;
 	void Update() override;
+	void OnGUI() override;
 };
 

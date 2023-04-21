@@ -5,6 +5,8 @@
 #include "Command.h"
 #include "Controller.h"
 
+#include "SceneManager.h"
+
 bool ody::InputManager::ProcessInput()
 {
 	if (!ReadSDLInput()) return false;
@@ -53,6 +55,26 @@ bool ody::InputManager::ReadSDLInput()
 	{
 		if (e.type == SDL_QUIT) return false;
 
+#ifdef _DEBUG //These are only used for debbuging
+		switch (e.key.type)
+		{
+		case SDL_KEYDOWN:
+		{
+			if (e.key.keysym.sym == SDLK_j)
+				SceneManager::GetInstance().PreviousScene();
+			else if (e.key.keysym.sym == SDLK_k)
+				SceneManager::GetInstance().NextScene();
+			break;
+		}
+		case SDL_KEYUP:
+		{
+			break;
+		}
+		}
+
+
+#endif
+
 		switch (e.key.type)
 		{
 		case SDL_KEYUP:
@@ -76,7 +98,6 @@ bool ody::InputManager::ReadSDLInput()
 			break;
 		}
 		}
-
 		//process event for IMGUI
 		ImGui_ImplSDL2_ProcessEvent(&e);
 	}

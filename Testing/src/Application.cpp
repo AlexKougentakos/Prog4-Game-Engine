@@ -13,7 +13,10 @@
 #include "FPSCounter.h"
 #include "Command.h"
 #include "InputManager.h"
+
 #include "../src/Scenes/TestScene.h"
+#include "../src/Scenes/TestScene2.h"
+#include "../src/Scenes/TestScene3.h"
 
 void load()
 {
@@ -22,6 +25,14 @@ void load()
 	auto scene = new TestScene();
 
 	sceneManager.AddScene(scene);
+
+	auto scene2 = new TestScene2();
+
+	sceneManager.AddScene(scene2);
+
+	auto scene3 = new TestScene3();
+
+	sceneManager.AddScene(scene3);
 }
 
 
