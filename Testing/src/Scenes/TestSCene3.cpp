@@ -1,6 +1,7 @@
 #include "TestSCene3.h"
 #include "GameObject.h"
 #include "TextureComponent.h"
+#include "imgui.h"
 
 void TestScene3::Initialize()
 {
@@ -28,5 +29,5 @@ void TestScene3::Update()
 
 void TestScene3::OnGUI()
 {
-
+	ImGui::ShowAboutWindow();
 }

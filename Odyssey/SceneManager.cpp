@@ -57,8 +57,12 @@ namespace ody
 	{
 		m_pScenes.emplace_back(pGameScene);
 
+		//Initialize the first created scene as the main one
 		if (m_pActiveScene == nullptr)
+		{
 			m_pActiveScene = m_pScenes[0];
+			m_pActiveScene->OnSceneActivated();
+		}
 	}
 
 

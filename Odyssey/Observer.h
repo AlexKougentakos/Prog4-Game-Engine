@@ -2,22 +2,19 @@
 
 namespace ody
 {
-	class GameObject;
-}
-
-namespace ody
-{
 	enum class GameEvent;
+	class GameObject;
 
-	class Observer
+	class IObserver
 	{
 	public:
-		virtual ~Observer() = default;
-		Observer(const Observer& other) = delete;
-		Observer(Observer&& other) = delete;
-		Observer& operator=(const Observer& other) = delete;
-		Observer& operator=(Observer&& other) = delete;
+		IObserver() = default;
+		virtual ~IObserver() = default;
+		IObserver(const IObserver& other) = delete;
+		IObserver(IObserver&& other) = delete;
+		IObserver& operator=(const IObserver& other) = delete;
+		IObserver& operator=(IObserver&& other) = delete;
 
-		virtual void Notify(const ody::GameObject& gameObject, GameEvent event) = 0;
+		virtual void OnNotify(GameEvent event) = 0;
 	};
 }

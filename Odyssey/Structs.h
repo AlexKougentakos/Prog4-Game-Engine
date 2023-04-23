@@ -1,7 +1,7 @@
 #pragma once
 namespace ody
 {
-	#pragma region SCENE_STRUCTS
+#pragma region SCENE_STRUCTS
 	class InputManager;
 	class GameTime;
 
@@ -13,4 +13,13 @@ namespace ody
 
 #pragma endregion
 
+
+#pragma region SCENE_STRUCTS
+	
+	enum class GameEvent
+	{
+		TEST_EVENT
+	};
+
+#pragma endregion
 }

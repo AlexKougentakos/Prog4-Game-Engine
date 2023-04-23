@@ -18,6 +18,8 @@
 #include "../src/Scenes/TestScene2.h"
 #include "../src/Scenes/TestScene3.h"
 
+
+
 void load()
 {
 	auto& sceneManager = ody::SceneManager::GetInstance();
@@ -30,9 +32,9 @@ void load()
 
 	sceneManager.AddScene(scene2);
 
-	auto scene3 = new TestScene3();
+	//auto scene3 = new TestScene3();
 
-	sceneManager.AddScene(scene3);
+	//sceneManager.AddScene(scene3);
 }
 
 

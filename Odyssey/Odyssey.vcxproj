@@ -227,7 +227,6 @@
     <ClInclude Include="FPSCounter.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameScene.h" />
-    <ClInclude Include="GUI_Manager.h" />
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Observer.h" />
@@ -264,7 +263,6 @@
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameScene.cpp" />
-    <ClCompile Include="GUI_Manager.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Odyssey.cpp" />

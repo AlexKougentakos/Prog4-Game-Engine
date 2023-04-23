@@ -4,9 +4,6 @@
     <ClCompile Include="Font.cpp">
       <Filter>Odyssey Engine</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>Odyssey Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Odyssey.cpp">
       <Filter>Odyssey Engine</Filter>
     </ClCompile>
@@ -76,10 +73,12 @@
     <ClCompile Include="..\3rdParty\ImPlot\implot_items.cpp">
       <Filter>Odyssey Engine\ImGui\Addons\ImPlot</Filter>
     </ClCompile>
-    <ClCompile Include="GUI_Manager.cpp">
-      <Filter>Odyssey Engine\EngineGUI</Filter>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Odyssey Engine\Scenegraph</Filter>
     </ClCompile>
-    <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="GameScene.cpp">
+      <Filter>Odyssey Engine\Scenegraph</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Font.h">
@@ -110,9 +109,6 @@
       <Filter>Odyssey Engine\Components\Scripts</Filter>
     </ClInclude>
     <ClInclude Include="TrashTheCache.h">
-      <Filter>Odyssey Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
       <Filter>Odyssey Engine</Filter>
     </ClInclude>
     <ClInclude Include="InputManager.h">
@@ -181,11 +177,15 @@
     <ClInclude Include="..\3rdParty\ImPlot\implot_internal.h">
       <Filter>Odyssey Engine\ImGui\Addons\ImPlot</Filter>
     </ClInclude>
-    <ClInclude Include="GUI_Manager.h">
-      <Filter>Odyssey Engine\EngineGUI</Filter>
+    <ClInclude Include="Structs.h">
+      <Filter>Odyssey Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Structs.h" />
-    <ClInclude Include="GameScene.h" />
+    <ClInclude Include="GameObject.h">
+      <Filter>Odyssey Engine\Scenegraph</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>Odyssey Engine\Scenegraph</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Odyssey Engine">
@@ -215,8 +215,8 @@
     <Filter Include="Odyssey Engine\ImGui\Addons\ImPlot">
       <UniqueIdentifier>{67b8b97b-5398-4082-a0a9-6aae39e44e93}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Odyssey Engine\EngineGUI">
-      <UniqueIdentifier>{f96f5bb0-6716-4ef6-a199-67ce64128ae5}</UniqueIdentifier>
+    <Filter Include="Odyssey Engine\Scenegraph">
+      <UniqueIdentifier>{a1228d37-2fa2-45bf-91f2-b7adbd7dd786}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

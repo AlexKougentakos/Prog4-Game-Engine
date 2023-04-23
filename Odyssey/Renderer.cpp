@@ -5,7 +5,6 @@
 
 //Todo: Remove this later
 #include "TrashTheCache.h"
-#include "GUI_Manager.h"
 #include "SceneManager.h"
 #include "Texture2D.h"
 #include "imgui.h"
@@ -44,8 +43,6 @@ void ody::Renderer::Init(SDL_Window* window)
 	ImGui_ImplOpenGL2_Init();
 
 	ImPlot::CreateContext();
-
-
 }
 
 void ody::Renderer::Render() const

@@ -1,6 +1,8 @@
 #pragma once
 #include "GameScene.h"
 
+#include <iostream>
+
 class TestScene : public ody::GameScene
 {
 public:
@@ -16,5 +18,14 @@ protected:
 	void Render() override;
 	void Update() override;
 	void OnGUI() override;
+
+	virtual void OnSceneActivated() override
+	{
+		std::cout << "Scene Activated" << std::endl;
+	}
+	virtual void OnSceneDeactivated() override
+	{
+		std::cout << "Scene Deactivated" << std::endl;
+	}
 };
 
