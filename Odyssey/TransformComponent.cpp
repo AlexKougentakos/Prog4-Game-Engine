@@ -79,7 +79,7 @@ void ody::TransformComponent::Render() const
 
 void ody::TransformComponent::UpdateWorldPosition()
 {
-	const auto gameObjectParent = m_Owner->GetParent();
+	const auto gameObjectParent = GetOwner()->GetParent();
 	if (!gameObjectParent)
 		m_WorldPosition = m_LocalPosition;
 	else
@@ -93,9 +93,9 @@ void ody::TransformComponent::UpdateWorldPosition()
 
 void ody::TransformComponent::EnableDirtyFlag()
 {
-	if (!m_Owner) return;
+	if (!GetOwner()) return;
 
-	const auto children = m_Owner->GetChildren();
+	const auto children = GetOwner()->GetChildren();
 	for (const auto child : children)
 	{
 		child->GetComponent<TransformComponent>()->EnableDirtyFlag();

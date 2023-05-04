@@ -17,6 +17,8 @@ namespace ody
 
 	void SceneManager::OnGUI()
 	{
+		ImGui::ShowDemoWindow();
+
 		m_pActiveScene->OnGUI();
 	}
 
@@ -33,9 +35,12 @@ namespace ody
 	void SceneManager::PreviousScene()
 	{
 		int numScenes = int(m_pScenes.size());
-		int nextSceneIndex = (--m_ActiveSceneIndex + numScenes) % numScenes;
-
-		m_pNewScene = m_pScenes[nextSceneIndex];
+		m_ActiveSceneIndex--;
+		if (m_ActiveSceneIndex < 0)
+		{
+			m_ActiveSceneIndex = numScenes - 1;
+		}
+		m_pNewScene = m_pScenes[m_ActiveSceneIndex];
 
 		SceneChange();
 	}

@@ -5,7 +5,7 @@
 
 void ody::RotatorComponent::Update()
 {
-	const auto pTransform{ m_Owner->GetComponent<TransformComponent>()};
+	const auto pTransform{ GetOwner()->GetComponent<TransformComponent>()};
 
 	if (!pTransform) return;
 

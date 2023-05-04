@@ -24,7 +24,6 @@ void GameScene::AddChild_Safe(GameObject* object)
 	}
 }
 
-
 //This function will place the children of the object, if any, to the parent above
 void GameScene::RemoveChild(GameObject* object, bool keepChildren)
 {

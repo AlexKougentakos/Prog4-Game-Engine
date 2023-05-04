@@ -21,11 +21,13 @@ namespace ody
 		Component& operator=(Component&& other) = delete;
 
 		void SetOwner(ody::GameObject* owner);
+		GameObject* GetOwner() const;
 		virtual void Update() = 0;
 		virtual void Render() const = 0;
 
-	protected:
-		ody::GameObject* m_Owner{};
+
+	private:
+		GameObject* m_pOwner{};
 	};
 }
 

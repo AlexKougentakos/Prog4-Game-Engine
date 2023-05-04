@@ -24,22 +24,34 @@ void load()
 {
 	auto& sceneManager = ody::SceneManager::GetInstance();
 
-	auto scene = new TestScene();
+	//auto scene = new TestScene();
 
-	sceneManager.AddScene(scene);
+	//sceneManager.AddScene(scene);
 
-	auto scene2 = new TestScene2();
+	//auto scene2 = new TestScene2();
 
-	sceneManager.AddScene(scene2);
+	//sceneManager.AddScene(scene2);
 
-	//auto scene3 = new TestScene3();
+	auto scene3 = new TestScene3();
 
-	//sceneManager.AddScene(scene3);
+	sceneManager.AddScene(scene3);
 }
 
+#include <Windows.h>
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
 
-int main(int, char* []) {
-	ody::Minigin engine("../Data/");
+//Todo fix this data path issue.
+int main(int, char* []) 
+{
+	std::string relativeDataPath{};
+
+	if (IsDebuggerPresent())
+		relativeDataPath = "../Data/";
+	else relativeDataPath = "../../../Data/";
+
+	ody::Minigin engine(relativeDataPath);
 	engine.Run(load);
 	return 0;
 }

@@ -7,7 +7,8 @@ void TestScene3::Initialize()
 {
 	auto gameObject = CreateGameObject();
 	gameObject->GetTransform()->SetPosition(0.0f, 0.0f);
-	gameObject->AddComponent<ody::TextureComponent>("photo1.tga");
+	//gameObject->AddComponent<ody::TextureComponent>("photo1.tga"); //works
+	gameObject->AddComponent<ody::TextureComponent>("test.png"); //doesn't work
 }
 
 
@@ -29,5 +30,5 @@ void TestScene3::Update()
 
 void TestScene3::OnGUI()
 {
-	ImGui::ShowAboutWindow();
+	ImGui::ShowDemoWindow();
 }

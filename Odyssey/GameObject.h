@@ -13,8 +13,10 @@ namespace ody
 
 	class GameObject final : public std::enable_shared_from_this<GameObject>
 	{
+	private:
+		GameObject() = default; //Only the scene can create game objects since it has to own them
+		friend class GameScene;
 	public:
-		GameObject() = default;
 		~GameObject();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;

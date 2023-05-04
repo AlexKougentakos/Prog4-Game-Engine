@@ -25,7 +25,7 @@ namespace ody
 		{
 			auto& time = ody::Time::GetInstance();
 
-			auto textComponent{ m_Owner->GetComponent<TextComponent>() };
+			auto textComponent{ GetOwner()->GetComponent<TextComponent>() };
 			
 			m_ElapsedSec += time.GetDeltaTime();
 
