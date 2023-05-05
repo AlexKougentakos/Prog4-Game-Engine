@@ -55,6 +55,7 @@ void ody::Renderer::Render() const
 
 	sceneMangaer.Render();
 
+#ifdef _DEBUG
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplSDL2_NewFrame(m_window);
 	ImGui::NewFrame();
@@ -63,6 +64,7 @@ void ody::Renderer::Render() const
 
 	ImGui::Render();
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
+#endif
 	
 	SDL_RenderPresent(m_renderer);
 }
