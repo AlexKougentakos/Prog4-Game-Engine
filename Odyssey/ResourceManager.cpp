@@ -22,9 +22,17 @@ std::shared_ptr<ody::Texture2D> ody::ResourceManager::LoadTexture(const std::str
 
     // Load the image
     SDL_Surface* surface = IMG_Load(fullPath.c_str());
+
     if (surface == nullptr)
     {
         throw std::runtime_error(std::string("Failed to load image: ") + IMG_GetError());
+    }
+
+    //Check if we need to add an alpha channel
+    if (surface->format->BitsPerPixel == 32)
+    {
+        auto texture = IMG_LoadTexture(Renderer::GetInstance().GetSDLRenderer(), fullPath.c_str());
+        return std::make_shared<Texture2D>(texture);
     }
 
     // Create a new surface with an alpha channel

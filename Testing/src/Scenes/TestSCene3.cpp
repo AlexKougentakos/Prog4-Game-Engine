@@ -9,7 +9,7 @@ void TestScene3::Initialize()
 {
 	auto gameObject = CreateGameObject();
 	gameObject->GetTransform()->SetPosition(0.0f, 0.0f);
-	gameObject->AddComponent<ody::TextureComponent>("test.png");
+	gameObject->AddComponent<ody::TextureComponent>("pacman.tga");
 
 	ody::InputManager::GetInstance().AddKeyboardCommand('w', ody::InputManager::InputType::Pressed, std::make_unique<ody::MoveCommand>(gameObject, 100.f, glm::vec2{ 0.f, -1.f}));
 	ody::InputManager::GetInstance().AddKeyboardCommand('a', ody::InputManager::InputType::Pressed, std::make_unique<ody::MoveCommand>(gameObject, 100.f, glm::vec2{-1.f, 0.f}));

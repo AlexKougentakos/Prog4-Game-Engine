@@ -1,10 +1,6 @@
 #include <stdexcept>
 #include "Renderer.h"
 
-#include <algorithm>
-
-//Todo: Remove this later
-#include "TrashTheCache.h"
 #include "SceneManager.h"
 #include "Texture2D.h"
 #include "imgui.h"

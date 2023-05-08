@@ -235,7 +235,6 @@
     <ClInclude Include="InputManager2.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="Odyssey.h" />
-    <ClInclude Include="PointExercise.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="RotatorComponent.h" />
@@ -248,7 +247,6 @@
     <ClInclude Include="TextureComponent.h" />
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="TransformComponent.h" />
-    <ClInclude Include="TrashTheCache.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="XboxController.h" />
   </ItemGroup>

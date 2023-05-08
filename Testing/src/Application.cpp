@@ -41,7 +41,6 @@ void load()
 #define WIN32_LEAN_AND_MEAN
 #endif
 
-//Todo fix this data path issue.
 int main(int, char* []) 
 {
 	std::string relativeDataPath{};

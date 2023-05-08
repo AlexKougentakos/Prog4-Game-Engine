@@ -77,7 +77,8 @@ XBox360Controller* InputManager::GetController(unsigned int controllerIdx)
 
 void InputManager::AddControllerCommand(XBox360Controller::ControllerButton button, unsigned int controllerID, InputType type, std::unique_ptr<Command> pCommand)
 {
-	//does controller exist yet?
+	//TODO: Add a check for the max number of controllers of XInput
+
 	bool doesControllerExist{ false };
 	for (const auto& controller : m_ControllerPtrs)
 	{
@@ -89,19 +90,14 @@ void InputManager::AddControllerCommand(XBox360Controller::ControllerButton butt
 	}
 
 	if (doesControllerExist == false)
-	{
-		//make new controller
 		m_ControllerPtrs.push_back(std::make_unique<XBox360Controller>(controllerID));
-	}
 
-	//make the action and add it to the map
 	InputDataController inputData{ controllerID, button, type };
 	m_ControllerActionMap[inputData] = std::move(pCommand);
 }
 
 void InputManager::AddKeyboardCommand(unsigned int keyboardKey, InputType type, std::unique_ptr<Command> pCommand)
 {
-	//make the action and add it to the map
 	InputDataKeyboard inputData{ keyboardKey, type };
 	m_KeyboardActionMap[inputData] = std::move(pCommand);
 }

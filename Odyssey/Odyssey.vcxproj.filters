@@ -1,15 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Font.cpp">
-      <Filter>Odyssey Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Odyssey.cpp">
-      <Filter>Odyssey Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture2D.cpp">
-      <Filter>Odyssey Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Component.cpp">
       <Filter>Odyssey Engine\Components</Filter>
     </ClCompile>
@@ -19,23 +10,17 @@
     <ClCompile Include="RotatorComponent.cpp">
       <Filter>Odyssey Engine\Components\Scripts</Filter>
     </ClCompile>
-    <ClCompile Include="Command.cpp">
-      <Filter>Odyssey Engine\Input\Commands</Filter>
-    </ClCompile>
     <ClCompile Include="Controller.cpp">
       <Filter>Odyssey Engine\Input</Filter>
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
-      <Filter>Odyssey Engine\Signletons</Filter>
+      <Filter>Odyssey Engine\Managers</Filter>
     </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
-      <Filter>Odyssey Engine\Signletons</Filter>
+      <Filter>Odyssey Engine\Managers</Filter>
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
-      <Filter>Odyssey Engine\Signletons</Filter>
-    </ClCompile>
-    <ClCompile Include="GameTime.cpp">
-      <Filter>Odyssey Engine\Signletons</Filter>
+      <Filter>Odyssey Engine\Managers</Filter>
     </ClCompile>
     <ClCompile Include="HealthComponent.cpp">
       <Filter>Odyssey Engine\Components</Filter>
@@ -76,23 +61,29 @@
     <ClCompile Include="GameScene.cpp">
       <Filter>Odyssey Engine\Scenegraph</Filter>
     </ClCompile>
-    <ClCompile Include="InputManager2.cpp">
-      <Filter>Odyssey Engine\Input</Filter>
-    </ClCompile>
     <ClCompile Include="XboxController.cpp">
       <Filter>Odyssey Engine\Input</Filter>
     </ClCompile>
+    <ClCompile Include="InputManager2.cpp">
+      <Filter>Odyssey Engine\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Command.cpp">
+      <Filter>Odyssey Engine\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTime.cpp">
+      <Filter>Odyssey Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Odyssey Engine\Wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture2D.cpp">
+      <Filter>Odyssey Engine\Wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="Odyssey.cpp">
+      <Filter>Odyssey Engine\Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Font.h">
-      <Filter>Odyssey Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Odyssey.h">
-      <Filter>Odyssey Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture2D.h">
-      <Filter>Odyssey Engine</Filter>
-    </ClInclude>
     <ClInclude Include="Component.h">
       <Filter>Odyssey Engine\Components</Filter>
     </ClInclude>
@@ -111,41 +102,20 @@
     <ClInclude Include="FPSCounter.h">
       <Filter>Odyssey Engine\Components\Scripts</Filter>
     </ClInclude>
-    <ClInclude Include="TrashTheCache.h">
-      <Filter>Odyssey Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Command.h">
-      <Filter>Odyssey Engine\Input\Commands</Filter>
-    </ClInclude>
     <ClInclude Include="Controller.h">
       <Filter>Odyssey Engine\Input</Filter>
     </ClInclude>
     <ClInclude Include="Renderer.h">
-      <Filter>Odyssey Engine\Signletons</Filter>
+      <Filter>Odyssey Engine\Managers</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManager.h">
-      <Filter>Odyssey Engine\Signletons</Filter>
+      <Filter>Odyssey Engine\Managers</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
-      <Filter>Odyssey Engine\Signletons</Filter>
-    </ClInclude>
-    <ClInclude Include="Singleton.h">
-      <Filter>Odyssey Engine\Signletons</Filter>
-    </ClInclude>
-    <ClInclude Include="GameTime.h">
-      <Filter>Odyssey Engine\Signletons</Filter>
-    </ClInclude>
-    <ClInclude Include="Observer.h">
-      <Filter>Odyssey Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="PointExercise.h">
-      <Filter>Odyssey Engine</Filter>
+      <Filter>Odyssey Engine\Managers</Filter>
     </ClInclude>
     <ClInclude Include="HealthComponent.h">
       <Filter>Odyssey Engine\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Subject.h">
-      <Filter>Odyssey Engine</Filter>
     </ClInclude>
     <ClInclude Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_opengl2.h">
       <Filter>Odyssey Engine\ImGui</Filter>
@@ -177,20 +147,44 @@
     <ClInclude Include="..\3rdParty\ImPlot\implot_internal.h">
       <Filter>Odyssey Engine\ImGui\Addons\ImPlot</Filter>
     </ClInclude>
-    <ClInclude Include="Structs.h">
-      <Filter>Odyssey Engine</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Odyssey Engine\Scenegraph</Filter>
     </ClInclude>
     <ClInclude Include="GameScene.h">
       <Filter>Odyssey Engine\Scenegraph</Filter>
     </ClInclude>
-    <ClInclude Include="InputManager2.h">
-      <Filter>Odyssey Engine\Input</Filter>
-    </ClInclude>
     <ClInclude Include="XboxController.h">
       <Filter>Odyssey Engine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager2.h">
+      <Filter>Odyssey Engine\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Odyssey Engine\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Odyssey Engine\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTime.h">
+      <Filter>Odyssey Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Odyssey Engine\Wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture2D.h">
+      <Filter>Odyssey Engine\Wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Odyssey Engine\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="Subject.h">
+      <Filter>Odyssey Engine\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="Odyssey.h">
+      <Filter>Odyssey Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Structs.h">
+      <Filter>Odyssey Engine\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -209,9 +203,6 @@
     <Filter Include="Odyssey Engine\Input\Commands">
       <UniqueIdentifier>{5eb3d3ef-c9b6-4bfa-89c0-83df958fc17c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Odyssey Engine\Signletons">
-      <UniqueIdentifier>{8489e6ed-49bd-4b73-9999-552d9807f7ae}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Odyssey Engine\ImGui">
       <UniqueIdentifier>{46a94b6e-8844-4872-bbe6-b377004f5d51}</UniqueIdentifier>
     </Filter>
@@ -221,8 +212,20 @@
     <Filter Include="Odyssey Engine\ImGui\Addons\ImPlot">
       <UniqueIdentifier>{67b8b97b-5398-4082-a0a9-6aae39e44e93}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Odyssey Engine\Managers">
+      <UniqueIdentifier>{8489e6ed-49bd-4b73-9999-552d9807f7ae}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Odyssey Engine\Scenegraph">
       <UniqueIdentifier>{a1228d37-2fa2-45bf-91f2-b7adbd7dd786}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Odyssey Engine\Patterns">
+      <UniqueIdentifier>{0f3a4e1c-0793-41e0-9a39-09dc3277abdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Odyssey Engine\Base">
+      <UniqueIdentifier>{38ec4fec-194e-4ab6-9383-cd0b89e69dd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Odyssey Engine\Wrappers">
+      <UniqueIdentifier>{723bcdd0-986b-4411-b516-e9ab7c7cda06}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

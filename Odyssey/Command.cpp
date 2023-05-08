@@ -3,6 +3,7 @@
 #include "TransformComponent.h"
 #include "GameTime.h"
 
+//Todo: Move the move command to a seperate file
 void ody::MoveCommand::Execute()
 {
 	const auto transform = m_pActor->GetComponent<TransformComponent>();
