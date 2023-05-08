@@ -8,7 +8,7 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include "Odyssey.h"
-#include "InputManager.h"
+#include "InputManager2.h"
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"

@@ -1,5 +1,8 @@
 #pragma once
 #include "GameScene.h"
+#include <GameObject.h>
+#include "Command.h"
+#include "InputManager2.h"
 
 class TestScene3 : public ody::GameScene
 {
@@ -16,5 +19,10 @@ protected:
 	void Render() override;
 	void Update() override;
 	void OnGUI() override;
+
+private:
+
+	ody::MoveCommand* m_pMoveCommand{};
+	ody::InputManager& m_InputManager = ody::InputManager::GetInstance();
 };
 

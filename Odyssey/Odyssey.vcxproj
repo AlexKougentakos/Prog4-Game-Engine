@@ -232,7 +232,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="HealthComponent.h" />
-    <ClInclude Include="InputManager.h" />
+    <ClInclude Include="InputManager2.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="Odyssey.h" />
     <ClInclude Include="PointExercise.h" />
@@ -250,6 +250,7 @@
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="TrashTheCache.h" />
     <ClInclude Include="Controller.h" />
+    <ClInclude Include="XboxController.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_opengl2.cpp" />
@@ -268,7 +269,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
-    <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="InputManager2.cpp" />
     <ClCompile Include="Odyssey.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
@@ -278,6 +279,7 @@
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
     <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="XboxController.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

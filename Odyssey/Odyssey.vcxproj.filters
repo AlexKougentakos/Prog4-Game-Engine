@@ -19,9 +19,6 @@
     <ClCompile Include="RotatorComponent.cpp">
       <Filter>Odyssey Engine\Components\Scripts</Filter>
     </ClCompile>
-    <ClCompile Include="InputManager.cpp">
-      <Filter>Odyssey Engine\Input</Filter>
-    </ClCompile>
     <ClCompile Include="Command.cpp">
       <Filter>Odyssey Engine\Input\Commands</Filter>
     </ClCompile>
@@ -79,6 +76,12 @@
     <ClCompile Include="GameScene.cpp">
       <Filter>Odyssey Engine\Scenegraph</Filter>
     </ClCompile>
+    <ClCompile Include="InputManager2.cpp">
+      <Filter>Odyssey Engine\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="XboxController.cpp">
+      <Filter>Odyssey Engine\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Font.h">
@@ -110,9 +113,6 @@
     </ClInclude>
     <ClInclude Include="TrashTheCache.h">
       <Filter>Odyssey Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="InputManager.h">
-      <Filter>Odyssey Engine\Input</Filter>
     </ClInclude>
     <ClInclude Include="Command.h">
       <Filter>Odyssey Engine\Input\Commands</Filter>
@@ -185,6 +185,12 @@
     </ClInclude>
     <ClInclude Include="GameScene.h">
       <Filter>Odyssey Engine\Scenegraph</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager2.h">
+      <Filter>Odyssey Engine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="XboxController.h">
+      <Filter>Odyssey Engine\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

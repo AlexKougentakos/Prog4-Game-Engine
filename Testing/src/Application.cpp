@@ -12,7 +12,6 @@
 #include "TextComponent.h"
 #include "FPSCounter.h"
 #include "Command.h"
-#include "InputManager.h"
 
 #include "../src/Scenes/TestScene.h"
 #include "../src/Scenes/TestScene2.h"
