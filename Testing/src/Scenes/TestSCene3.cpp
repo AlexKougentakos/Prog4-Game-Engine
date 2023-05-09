@@ -3,6 +3,8 @@
 #include "TextureComponent.h"
 #include "imgui.h"
 #include "InputManager2.h"
+#include "ServiceLocator.h"
+#include "AudioSystem.h"
 
 
 void TestScene3::Initialize()
@@ -18,6 +20,14 @@ void TestScene3::Initialize()
 
 	m_InputManager.AddControllerCommand(ody::XBox360Controller::ControllerButton::DPadUp, 0, ody::InputManager::InputType::OnDown, std::make_unique<ody::MoveCommand>
 		(gameObject, 100.f, glm::vec2{0, -1.f}));
+
+	ody::AudioSystem* audioSystem = new ody::AudioSystem();
+
+	ody::ServiceLocator::Provide(audioSystem);
+
+	ody::ServiceLocator::GetSoundSystem().PlaySound(1);
+
+	delete audioSystem;
 }
 
 
