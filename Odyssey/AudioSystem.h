@@ -1,4 +1,6 @@
 #pragma once
+#include <map>
+
 #include "IAudio.h"
 
 namespace ody
@@ -10,20 +12,8 @@ namespace ody
 		AudioSystemImpl* pImpl{};
 
 	public:
-		enum class SoundEffect
-		{
-			PLAYER_DIE,
-			PLAYER_WALK,
-			PLAYER_SHOOT,
-			ENEMY_DIE
-		};
 
-		struct Sound
-		{
-
-		};
-
-		virtual void PlaySound(unsigned int soundID) override;
+		virtual void PlaySound(SoundEffect soundEffect) override;
 		virtual void PauseSound() override;
 		virtual void StopSound() override;
 		virtual void StopAllSounds() override;
@@ -31,5 +21,4 @@ namespace ody
 		explicit AudioSystem();
 		~AudioSystem();
 	};
-
 }

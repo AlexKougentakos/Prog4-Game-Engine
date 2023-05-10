@@ -1,13 +1,19 @@
 #include <SDL.h>
 #include "InputManager2.h"
 
+#ifdef _DEBUG
+#include "SceneManager.h"
+#include "ServiceLocator.h"
+#endif
+
 using namespace ody;
 
 bool InputManager::ProcessInput()
 {
 	//Keyboard part
 	SDL_Event e;
-	while (SDL_PollEvent(&e)) {
+	while (SDL_PollEvent(&e)) 
+	{
 		if (e.type == SDL_QUIT) {
 			return false;
 		}
@@ -23,7 +29,29 @@ bool InputManager::ProcessInput()
 					mapPair.second->Execute();
 			}
 		}
+
+#ifdef _DEBUG //These are only used for debbuging
+	switch (e.key.type)
+	{
+		case SDL_KEYDOWN:
+		{
+			if (e.key.keysym.sym == SDLK_j)
+				SceneManager::GetInstance().PreviousScene();
+			else if (e.key.keysym.sym == SDLK_k)
+				SceneManager::GetInstance().NextScene();
+			else if (e.key.keysym.sym == SDLK_o)
+				ody::ServiceLocator::GetSoundSystem().PlaySound(SoundEffect::TEST);
+			break;
+		}
+		case SDL_KEYUP:
+		{
+			break;
+		}
 	}
+
+
+#endif
+	}//While loop end
 
 	//Keyboard Pressed continuously
 	const Uint8* state = SDL_GetKeyboardState(nullptr);

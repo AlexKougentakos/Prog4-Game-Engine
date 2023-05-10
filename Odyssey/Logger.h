@@ -3,7 +3,10 @@
 #include <string>
 #include <filesystem>
 
-#define LOG_LEVEL(level) ody::Logger::LogLevel::level
+#define LOG_INFO(message) ody::Logger::Log<ody::Logger::LogLevel::Info>(message, __FILE__, __LINE__)
+#define LOG_WARNING(message) ody::Logger::Log<ody::Logger::LogLevel::Warning>(message, __FILE__, __LINE__)
+#define LOG_ERROR(message) ody::Logger::Log<ody::Logger::LogLevel::Error>(message, __FILE__, __LINE__)
+#define LOG_SOUND(message) ody::Logger::Log<ody::Logger::LogLevel::Sound>(message, __FILE__, __LINE__)
 
 namespace ody
 {
@@ -19,8 +22,9 @@ namespace ody
         };
 
         template <LogLevel level>
-        static void Log(const std::string& message) 
+        static void Log(const std::string& message, const char* file, int line)
         {
+#ifdef _DEBUG //Logging is debug only
             std::string level_str;
             switch (level) 
             {
@@ -37,7 +41,8 @@ namespace ody
                 level_str = "Sound";
                 break;
             }
-            std::cerr << "\033[1;" << GetColorCode(level) << "m" << "[" << level_str << "] " << "File: " << GetCurrentFile() << " | Line: " << GetCurrentLine() << " | Message: " << message << "\033[0m" << std::endl;
+            std::cerr << "\033[1;" << GetColorCode(level) << "m" << "[" << level_str << "] " << "File: " << std::filesystem::path(file).filename().string() << " | Line: " << line << " | Message: " << message << "\033[0m" << std::endl;
+#endif
         }
 
     private:
@@ -51,20 +56,9 @@ namespace ody
             case LogLevel::Error:
                 return 31; // red
             case LogLevel::Sound:
-                return 36;
+                return 36; //light blue
             }
             return 0;
-        }
-
-        static std::string GetCurrentFile() 
-        {
-            auto path = std::filesystem::path(__FILE__);
-            return path.filename().string();
-        }
-
-        static int GetCurrentLine() 
-        {
-            return __LINE__;
         }
     };
 }

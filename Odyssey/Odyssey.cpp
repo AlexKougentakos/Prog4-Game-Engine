@@ -14,6 +14,8 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include "GameTime.h"
+#include "AudioSystem.h"
+#include "ServiceLocator.h"
 
 SDL_Window* g_window{};
 
@@ -48,8 +50,7 @@ void PrintSDLVersion()
 	printf("We compiled against SDL_mixer version %u.%u.%u ...\n",
 		version.major, version.minor, version.patch);
 
-	//Todo: fix this issue here
-	//version = *Mix_Linked_Version();
+	version = *Mix_Linked_Version();
 	printf("We are linking against SDL_mixer version %u.%u.%u.\n",
 		version.major, version.minor, version.patch);
 }
@@ -97,6 +98,10 @@ void ody::Minigin::Run(const std::function<void()>& load)
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = ody::InputManager::GetInstance();
 	auto& time = ody::Time::GetInstance();
+
+	auto audioSystem = std::make_unique<AudioSystem>();
+
+	ody::ServiceLocator::Provide(audioSystem.get());
 
 	bool doContinue = true;
 	std::chrono::steady_clock::time_point lastTime{ std::chrono::high_resolution_clock::now() };

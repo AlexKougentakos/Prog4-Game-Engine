@@ -85,6 +85,9 @@
     <ClCompile Include="AudioSystem.cpp">
       <Filter>Odyssey Engine\Audio</Filter>
     </ClCompile>
+    <ClCompile Include="ServiceLocator.cpp">
+      <Filter>Odyssey Engine\Patterns</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h">
@@ -199,6 +202,9 @@
       <Filter>Odyssey Engine\Audio</Filter>
     </ClInclude>
     <ClInclude Include="IAudio.h">
+      <Filter>Odyssey Engine\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundAndMusicFiles.h">
       <Filter>Odyssey Engine\Audio</Filter>
     </ClInclude>
   </ItemGroup>
