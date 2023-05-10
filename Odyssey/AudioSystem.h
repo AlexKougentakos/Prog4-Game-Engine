@@ -10,12 +10,17 @@ namespace ody
 		AudioSystemImpl* pImpl{};
 
 	public:
-		enum class Sounds
+		enum class SoundEffect
 		{
 			PLAYER_DIE,
 			PLAYER_WALK,
 			PLAYER_SHOOT,
 			ENEMY_DIE
+		};
+
+		struct Sound
+		{
+
 		};
 
 		virtual void PlaySound(unsigned int soundID) override;

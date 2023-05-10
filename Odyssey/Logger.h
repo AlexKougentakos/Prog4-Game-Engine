@@ -3,22 +3,27 @@
 #include <string>
 #include <filesystem>
 
+#define LOG_LEVEL(level) ody::Logger::LogLevel::level
+
 namespace ody
 {
     class Logger 
     {
     public:
-        enum class LogLevel {
+        enum class LogLevel 
+        {
             Info,
             Warning,
-            Error
+            Error,
+            Sound
         };
 
         template <LogLevel level>
         static void Log(const std::string& message) 
         {
             std::string level_str;
-            switch (level) {
+            switch (level) 
+            {
             case LogLevel::Info:
                 level_str = "Info";
                 break;
@@ -27,6 +32,9 @@ namespace ody
                 break;
             case LogLevel::Error:
                 level_str = "Error";
+                break;
+            case LogLevel::Sound:
+                level_str = "Sound";
                 break;
             }
             std::cerr << "\033[1;" << GetColorCode(level) << "m" << "[" << level_str << "] " << "File: " << GetCurrentFile() << " | Line: " << GetCurrentLine() << " | Message: " << message << "\033[0m" << std::endl;
@@ -42,6 +50,8 @@ namespace ody
                 return 33; // yellow
             case LogLevel::Error:
                 return 31; // red
+            case LogLevel::Sound:
+                return 36;
             }
             return 0;
         }

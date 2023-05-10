@@ -41,6 +41,13 @@ namespace ody
 
 	void AudioSystem::PlaySound(unsigned int soundID)
 	{
+		Mix_Chunk* effect1{};
+		Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096);
+
+		effect1 = Mix_LoadWAV("../Data/test.wav");
+
+		//Todo: make this say what sound was played
+		Logger::Log<LOG_LEVEL(Sound)>("Sound Played");
 		pImpl->PlaySound(soundID);
 	}
 
