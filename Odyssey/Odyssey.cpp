@@ -55,7 +55,8 @@ void PrintSDLVersion()
 		version.major, version.minor, version.patch);
 }
 
-ody::Minigin::Minigin(const std::string &dataPath, std::map<unsigned int, std::string> SfxLocationMap)
+ody::Odyssey::Odyssey(const std::string &dataPath, 
+	std::map<unsigned int, std::pair<std::string, bool>> SfxLocationMap)
 {
 	PrintSDLVersion();
 	
@@ -87,7 +88,7 @@ ody::Minigin::Minigin(const std::string &dataPath, std::map<unsigned int, std::s
 
 }
 
-ody::Minigin::~Minigin()
+ody::Odyssey::~Odyssey()
 {
 	Renderer::GetInstance().Destroy();
 	SDL_DestroyWindow(g_window);
@@ -95,7 +96,7 @@ ody::Minigin::~Minigin()
 	SDL_Quit();
 }
 
-void ody::Minigin::Run(const std::function<void()>& load)
+void ody::Odyssey::Run(const std::function<void()>& load)
 {
 	load();
 

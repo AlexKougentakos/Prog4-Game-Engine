@@ -72,14 +72,14 @@ std::shared_ptr<ody::Music> ody::ResourceManager::LoadMusic(const std::string& f
     return std::make_shared<Music>(m_DataPath + file);
 }
 
-std::shared_ptr<ody::Sound> ody::ResourceManager::LoadSoundEffect(const std::string& file)
+std::shared_ptr<ody::Sound> ody::ResourceManager::LoadSoundEffect(const std::string& file, const bool keepLoaded)
 {
     // Check if the sound effect is already loaded
     const auto it = m_LoadedAudios.find(file);
     if (it != m_LoadedAudios.end())
         return std::dynamic_pointer_cast<Sound>(it->second);
 
-    auto sound = std::make_shared<Sound>(m_DataPath + file);
+    auto sound = std::make_shared<Sound>(m_DataPath + file, keepLoaded);
 
     if (sound->KeepLoaded())
         m_LoadedAudios.insert(std::make_pair(file, sound));

@@ -8,18 +8,21 @@ namespace ody
 {
 	class AudioSystem;
 
-	class Minigin final
+	class Odyssey final
 	{
 	public:
-		explicit Minigin(const std::string& dataPath, std::map<unsigned int, std::string> SfxLocationMap);
-		~Minigin();
+		explicit Odyssey(const std::string& dataPath, 
+			std::map<unsigned int, std::pair<std::string, bool>> SfxLocationMap);
+		~Odyssey();
 		void Run(const std::function<void()>& load);
 
-		Minigin(const Minigin& other) = delete;
-		Minigin(Minigin&& other) = delete;
-		Minigin& operator=(const Minigin& other) = delete;
-		Minigin& operator=(Minigin&& other) = delete;
+		Odyssey(const Odyssey& other) = delete;
+		Odyssey(Odyssey&& other) = delete;
+		Odyssey& operator=(const Odyssey& other) = delete;
+		Odyssey& operator=(Odyssey&& other) = delete;
 	private:
+
+		//Services for ServiceProvider
 		std::unique_ptr<AudioSystem> m_pAudioSystem;
 	};
 }

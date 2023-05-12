@@ -12,7 +12,7 @@ namespace ody
 		class AudioSystemImpl;
 		AudioSystemImpl* pImpl{};
 
-		std::map<unsigned int, std::string> effectLocationMap{};
+		std::map<unsigned int, std::pair<std::string, bool>> effectLocationMap{};
 
 	public:
 		virtual void PlaySound(unsigned int effectID) override;
@@ -20,7 +20,7 @@ namespace ody
 		virtual void StopSound() override;
 		virtual void StopAllSounds() override;
 
-		explicit AudioSystem(const std::map<unsigned int, std::string>& effectLocationMap);
+		explicit AudioSystem(const std::map<unsigned int, std::pair<std::string, bool>>& effectLocationMap);
 		virtual ~AudioSystem() override;
 	};
 }

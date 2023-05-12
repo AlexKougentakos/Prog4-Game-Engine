@@ -20,7 +20,7 @@ namespace ody
 		[[nodiscard]] std::shared_ptr<Texture2D> LoadTexture(const std::string& file) const;
 		[[nodiscard]] std::shared_ptr<Font> LoadFont(const std::string& file, unsigned int size) const;
 		[[nodiscard]] std::shared_ptr<Music> LoadMusic(const std::string& file) const;
-		[[nodiscard]] std::shared_ptr<Sound> LoadSoundEffect(const std::string& file);
+		[[nodiscard]] std::shared_ptr<Sound> LoadSoundEffect(const std::string& file, const bool keepLoaded);
 
 	private:
 		friend class Singleton<ResourceManager>;

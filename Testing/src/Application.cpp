@@ -50,12 +50,12 @@ int main(int, char* [])
 	else relativeDataPath = "../../../Data/";
 
 	//Here we define the sound effects that we want to use in our game
-	const std::map<unsigned int, std::string> SfxLocationMap
+	const std::map<unsigned int, std::pair<std::string, bool>> SfxLocationMap
 	{
-		{1, "test.wav"}
+		{1, {"test.wav", true}}
 	};
 
-	ody::Minigin engine(relativeDataPath, SfxLocationMap);
+	ody::Odyssey engine(relativeDataPath, SfxLocationMap);
 	engine.Run(load);
 	return 0;
 }

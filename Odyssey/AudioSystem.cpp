@@ -21,9 +21,10 @@ namespace ody
 				return;
 			}
 			
-			const std::string fileName = std::string(m_SoundEffectLocationMap[effectID]);
+			const std::string fileName = std::string((m_SoundEffectLocationMap[effectID]).first);
+			const bool keepLoaded = (m_SoundEffectLocationMap[effectID]).second;
 
-			const auto effect1 = ResourceManager::GetInstance().LoadSoundEffect(fileName);
+			const auto effect1 = ResourceManager::GetInstance().LoadSoundEffect(fileName, keepLoaded);
 
 			Mix_PlayChannel(-1, effect1->GetSoundEffect(), 0);
 
@@ -45,15 +46,16 @@ namespace ody
 			std::cout << "all sounds stopped";
 		}
 
-		void SetSoundEffectLocationMap(const std::map<unsigned int, std::string>& soundEffectLocationMap)
+		void SetSoundEffectLocationMap(const 
+			std::map<unsigned int, std::pair<std::string, bool>>& soundEffectLocationMap)
 		{
 			m_SoundEffectLocationMap = soundEffectLocationMap;
 		}
 	private:
-		std::map<unsigned int, std::string> m_SoundEffectLocationMap;
+		std::map<unsigned int, std::pair<std::string, bool>> m_SoundEffectLocationMap;
 	};
 
-	AudioSystem::AudioSystem(const std::map<unsigned int, std::string>& effectLocationMap)
+	AudioSystem::AudioSystem(const std::map<unsigned int, std::pair<std::string, bool>>& effectLocationMap)
 	{
 		pImpl = new AudioSystemImpl();
 		pImpl->SetSoundEffectLocationMap(effectLocationMap);
