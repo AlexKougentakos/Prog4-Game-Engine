@@ -88,6 +88,9 @@
     <ClCompile Include="ServiceLocator.cpp">
       <Filter>Odyssey Engine\Patterns</Filter>
     </ClCompile>
+    <ClCompile Include="Audio.cpp">
+      <Filter>Odyssey Engine\Wrappers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h">
@@ -207,6 +210,9 @@
     <ClInclude Include="SoundAndMusicFiles.h">
       <Filter>Odyssey Engine\Audio</Filter>
     </ClInclude>
+    <ClInclude Include="Audio.h">
+      <Filter>Odyssey Engine\Wrappers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Odyssey Engine">
@@ -220,9 +226,6 @@
     </Filter>
     <Filter Include="Odyssey Engine\Input">
       <UniqueIdentifier>{42da8c60-3eee-4c7e-9457-ef2efdfaaab4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Odyssey Engine\Input\Commands">
-      <UniqueIdentifier>{5eb3d3ef-c9b6-4bfa-89c0-83df958fc17c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Odyssey Engine\ImGui">
       <UniqueIdentifier>{46a94b6e-8844-4872-bbe6-b377004f5d51}</UniqueIdentifier>

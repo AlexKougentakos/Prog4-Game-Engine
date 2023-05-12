@@ -1,4 +1,5 @@
 #include "ServiceLocator.h"
+#include "IAudio.h"
 
 namespace ody
 {
@@ -8,8 +9,6 @@ namespace ody
 
     void ServiceLocator::Provide(IAudio* audio)
     {
-        if (audio == nullptr) return;
-
         m_pAudioSystemInstance = audio;
     }
 

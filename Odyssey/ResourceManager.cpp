@@ -2,13 +2,15 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include "ResourceManager.h"
+
+#include "Audio.h"
 #include "Renderer.h"
 #include "Texture2D.h"
 #include "Font.h"
 
 void ody::ResourceManager::Init(const std::string& dataPath)
 {
-	m_dataPath = dataPath;
+	m_DataPath = dataPath;
 
 	if (TTF_Init() != 0)
 	{
@@ -18,7 +20,7 @@ void ody::ResourceManager::Init(const std::string& dataPath)
 
 std::shared_ptr<ody::Texture2D> ody::ResourceManager::LoadTexture(const std::string& file) const
 {
-    const auto fullPath = m_dataPath + file;
+    const auto fullPath = m_DataPath + file;
 
     // Load the image
     SDL_Surface* surface = IMG_Load(fullPath.c_str());
@@ -28,6 +30,7 @@ std::shared_ptr<ody::Texture2D> ody::ResourceManager::LoadTexture(const std::str
         throw std::runtime_error(std::string("Failed to load image: ") + IMG_GetError());
     }
 
+    //todo: upgrade to OpenGL3 and remove this part.
     //Check if we need to add an alpha channel
     if (surface->format->BitsPerPixel == 32)
     {
@@ -61,5 +64,25 @@ std::shared_ptr<ody::Texture2D> ody::ResourceManager::LoadTexture(const std::str
 
 std::shared_ptr<ody::Font> ody::ResourceManager::LoadFont(const std::string& file, unsigned int size) const
 {
-	return std::make_shared<Font>(m_dataPath + file, size);
+	return std::make_shared<Font>(m_DataPath + file, size);
+}
+
+std::shared_ptr<ody::Music> ody::ResourceManager::LoadMusic(const std::string& file) const
+{
+    return std::make_shared<Music>(m_DataPath + file);
+}
+
+std::shared_ptr<ody::Sound> ody::ResourceManager::LoadSoundEffect(const std::string& file)
+{
+    // Check if the sound effect is already loaded
+    const auto it = m_LoadedAudios.find(file);
+    if (it != m_LoadedAudios.end())
+        return std::dynamic_pointer_cast<Sound>(it->second);
+
+    auto sound = std::make_shared<Sound>(m_DataPath + file);
+
+    if (sound->KeepLoaded())
+        m_LoadedAudios.insert(std::make_pair(file, sound));
+    
+    return sound;
 }

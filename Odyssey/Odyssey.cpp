@@ -55,7 +55,7 @@ void PrintSDLVersion()
 		version.major, version.minor, version.patch);
 }
 
-ody::Minigin::Minigin(const std::string &dataPath)
+ody::Minigin::Minigin(const std::string &dataPath, std::map<unsigned int, std::string> SfxLocationMap)
 {
 	PrintSDLVersion();
 	
@@ -80,6 +80,11 @@ ody::Minigin::Minigin(const std::string &dataPath)
 	Renderer::GetInstance().Init(g_window);
 
 	ResourceManager::GetInstance().Init(dataPath);
+
+	m_pAudioSystem = std::make_unique<ody::AudioSystem>(SfxLocationMap);
+
+	ody::ServiceLocator::Provide(m_pAudioSystem.get());
+
 }
 
 ody::Minigin::~Minigin()
@@ -94,14 +99,10 @@ void ody::Minigin::Run(const std::function<void()>& load)
 {
 	load();
 
-	auto& renderer = Renderer::GetInstance();
+	const auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = ody::InputManager::GetInstance();
 	auto& time = ody::Time::GetInstance();
-
-	auto audioSystem = std::make_unique<AudioSystem>();
-
-	ody::ServiceLocator::Provide(audioSystem.get());
 
 	bool doContinue = true;
 	std::chrono::steady_clock::time_point lastTime{ std::chrono::high_resolution_clock::now() };

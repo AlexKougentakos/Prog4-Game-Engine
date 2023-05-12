@@ -2,30 +2,30 @@
 #include <iostream>
 #include <SDL_mixer.h>
 
+#include "Audio.h"
+#include "ResourceManager.h"
+
 namespace ody
 {
 	class AudioSystem::AudioSystemImpl final
 	{
 	public:
-		//Todo: implement this class
-		void PlaySound(SoundEffect soundEffect)
+		void PlaySound(unsigned int effectID)
 		{
-			Mix_Chunk* effect1{};
 			Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096);
-
+			
 			//If the sound effect doesn't exist in the map we return to avoid errors
-			if (!m_SoundEffectLocationMap.count(soundEffect))
+			if (!m_SoundEffectLocationMap.contains(effectID))
 			{
 				LOG_ERROR("You tried to play a non assigned sound.");
 				return;
 			}
+			
+			const std::string fileName = std::string(m_SoundEffectLocationMap[effectID]);
 
-			std::string fileName = std::string(m_SoundEffectLocationMap[soundEffect]);
+			const auto effect1 = ResourceManager::GetInstance().LoadSoundEffect(fileName);
 
-			//todo: pass this job to the reousrce manager
-			effect1 = Mix_LoadWAV(("../Data/" + fileName).c_str());
-
-			Mix_PlayChannel(-1, effect1, 0);
+			Mix_PlayChannel(-1, effect1->GetSoundEffect(), 0);
 
 			LOG_SOUND("Played Sound: " + fileName);
 		}
@@ -44,16 +44,19 @@ namespace ody
 		{
 			std::cout << "all sounds stopped";
 		}
-	private:
-		std::map<SoundEffect, std::string> m_SoundEffectLocationMap
+
+		void SetSoundEffectLocationMap(const std::map<unsigned int, std::string>& soundEffectLocationMap)
 		{
-			{SoundEffect::TEST, "test.wav"}
-		};
+			m_SoundEffectLocationMap = soundEffectLocationMap;
+		}
+	private:
+		std::map<unsigned int, std::string> m_SoundEffectLocationMap;
 	};
 
-	AudioSystem::AudioSystem()
+	AudioSystem::AudioSystem(const std::map<unsigned int, std::string>& effectLocationMap)
 	{
 		pImpl = new AudioSystemImpl();
+		pImpl->SetSoundEffectLocationMap(effectLocationMap);
 	}
 
 	AudioSystem::~AudioSystem()
@@ -61,9 +64,10 @@ namespace ody
 		delete pImpl;
 	}
 
-	void AudioSystem::PlaySound(SoundEffect soundEffect)
+
+	void AudioSystem::PlaySound(unsigned int effectID)
 	{
-		pImpl->PlaySound(soundEffect);
+		pImpl->PlaySound(effectID);
 	}
 
 	void AudioSystem::PauseSound()

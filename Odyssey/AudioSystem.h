@@ -2,6 +2,7 @@
 #include <map>
 
 #include "IAudio.h"
+#include <memory>
 
 namespace ody
 {
@@ -11,14 +12,15 @@ namespace ody
 		class AudioSystemImpl;
 		AudioSystemImpl* pImpl{};
 
-	public:
+		std::map<unsigned int, std::string> effectLocationMap{};
 
-		virtual void PlaySound(SoundEffect soundEffect) override;
+	public:
+		virtual void PlaySound(unsigned int effectID) override;
 		virtual void PauseSound() override;
 		virtual void StopSound() override;
 		virtual void StopAllSounds() override;
 
-		explicit AudioSystem();
-		~AudioSystem();
+		explicit AudioSystem(const std::map<unsigned int, std::string>& effectLocationMap);
+		virtual ~AudioSystem() override;
 	};
 }
