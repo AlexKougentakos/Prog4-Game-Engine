@@ -91,6 +91,9 @@
     <ClCompile Include="Audio.cpp">
       <Filter>Odyssey Engine\Wrappers</Filter>
     </ClCompile>
+    <ClCompile Include="PerformanceTimer.cpp">
+      <Filter>Odyssey Engine\Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h">
@@ -212,6 +215,9 @@
     </ClInclude>
     <ClInclude Include="Audio.h">
       <Filter>Odyssey Engine\Wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="PerformanceTimer.h">
+      <Filter>Odyssey Engine\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

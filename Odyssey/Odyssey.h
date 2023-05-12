@@ -23,6 +23,7 @@ namespace ody
 	private:
 
 		//Services for ServiceProvider
+		std::map<unsigned int, std::pair<std::string, bool>> m_SfxLocationMap;
 		std::unique_ptr<AudioSystem> m_pAudioSystem;
 	};
 }

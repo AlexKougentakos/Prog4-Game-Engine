@@ -9,6 +9,7 @@
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
 #include "Odyssey.h"
+
 #include "InputManager2.h"
 #include "SceneManager.h"
 #include "Renderer.h"
@@ -16,6 +17,7 @@
 #include "GameTime.h"
 #include "AudioSystem.h"
 #include "ServiceLocator.h"
+#include "PerformanceTimer.h"
 
 SDL_Window* g_window{};
 
@@ -58,6 +60,8 @@ void PrintSDLVersion()
 ody::Odyssey::Odyssey(const std::string &dataPath, 
 	std::map<unsigned int, std::pair<std::string, bool>> SfxLocationMap)
 {
+
+	m_SfxLocationMap = SfxLocationMap;
 	PrintSDLVersion();
 	
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) 
@@ -80,7 +84,9 @@ ody::Odyssey::Odyssey(const std::string &dataPath,
 
 	Renderer::GetInstance().Init(g_window);
 
-	ResourceManager::GetInstance().Init(dataPath);
+	auto& resourceManager = ResourceManager::GetInstance();
+
+	resourceManager.Init(dataPath);
 
 	m_pAudioSystem = std::make_unique<ody::AudioSystem>(SfxLocationMap);
 
@@ -99,6 +105,13 @@ ody::Odyssey::~Odyssey()
 void ody::Odyssey::Run(const std::function<void()>& load)
 {
 	load();
+
+	std::vector<std::string> paths{};
+
+	for (const auto& audioFile : m_SfxLocationMap)
+		paths.emplace_back(audioFile.second.first);
+
+	ResourceManager::GetInstance().PreLoad(paths);
 
 	const auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();

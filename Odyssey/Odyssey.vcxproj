@@ -260,6 +260,7 @@
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="TextureComponent.h" />
     <ClInclude Include="GameTime.h" />
+    <ClInclude Include="PerformanceTimer.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="XboxController.h" />
@@ -292,6 +293,7 @@
     <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="GameTime.cpp" />
+    <ClCompile Include="PerformanceTimer.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="XboxController.cpp" />

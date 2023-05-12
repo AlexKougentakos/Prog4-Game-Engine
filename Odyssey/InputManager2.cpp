@@ -42,7 +42,7 @@ bool InputManager::ProcessInput()
 			else if (e.key.keysym.sym == SDLK_k)
 				SceneManager::GetInstance().NextScene();
 			else if (e.key.keysym.sym == SDLK_o)
-				ody::ServiceLocator::GetSoundSystem().PlaySound(1);
+				ody::ServiceLocator::GetSoundSystem().PlaySound(3);
 			break;
 		}
 		case SDL_KEYUP:

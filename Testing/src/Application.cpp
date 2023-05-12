@@ -52,7 +52,16 @@ int main(int, char* [])
 	//Here we define the sound effects that we want to use in our game
 	const std::map<unsigned int, std::pair<std::string, bool>> SfxLocationMap
 	{
-		{1, {"test.wav", true}}
+		{1, {"test.wav", true}},
+		{2, {"test2.wav", true}},
+		{4, {"test3.wav", true}},
+		{5, {"test4.wav", true}},
+		{6, {"test5.wav", true}},
+		{7, {"test6.wav", true}},
+		{8, {"test7.wav", true}},
+		{9, {"test8.wav", true}},
+		{3, {"test9.wav", true}},
+		{10, {"test10.wav", true}}
 	};
 
 	ody::Odyssey engine(relativeDataPath, SfxLocationMap);

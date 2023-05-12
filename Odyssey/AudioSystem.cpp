@@ -21,12 +21,11 @@ namespace ody
 				return;
 			}
 			
-			const std::string fileName = std::string((m_SoundEffectLocationMap[effectID]).first);
-			const bool keepLoaded = (m_SoundEffectLocationMap[effectID]).second;
+			const std::string fileName = std::string(m_SoundEffectLocationMap[effectID].first);
 
-			const auto effect1 = ResourceManager::GetInstance().LoadSoundEffect(fileName, keepLoaded);
+			const auto effect = ResourceManager::GetInstance().LoadSoundEffect(fileName);
 
-			Mix_PlayChannel(-1, effect1->GetSoundEffect(), 0);
+			Mix_PlayChannel(-1, effect->GetSoundEffect(), 0);
 
 			LOG_SOUND("Played Sound: " + fileName);
 		}

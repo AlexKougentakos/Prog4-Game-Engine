@@ -11,22 +11,29 @@ Mix_Chunk* ody::Sound::GetSoundEffect() const
 	return m_pMixChunk;
 }
 
-ody::Sound::Sound(const std::string& fullPath, bool keepLoaded)
+ody::Sound::Sound(const std::string& fullPath)
 {
-	m_KeepLoaded = keepLoaded;
 	m_pMixChunk = Mix_LoadWAV(fullPath.c_str());
 
 	if (m_pMixChunk == nullptr)
 		throw std::runtime_error(std::string("Failed to load sound: ") + Mix_GetError());
+
+	m_Size = m_pMixChunk->alen;
+}
+
+void ody::Sound::Release() const
+{
+	Mix_FreeChunk(m_pMixChunk);
 }
 
 ody::Sound::~Sound()
 {
-	if (!m_KeepLoaded)
-	{
-		std::cout << "Freeing sound effect" << std::endl;
-		Mix_FreeChunk(m_pMixChunk);
-	}
+	//Todo: Re-do this
+	//if (!PreLoad())
+	//{
+	//	std::cout << "Freeing sound effect" << std::endl;
+	//	Mix_FreeChunk(m_pMixChunk);
+	//}
 }
 
 Mix_Music* ody::Music::GetMusic() const

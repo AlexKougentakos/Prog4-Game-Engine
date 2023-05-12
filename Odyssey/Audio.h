@@ -13,7 +13,7 @@ namespace ody
 	{
 	public:
 		Mix_Chunk* GetSoundEffect() const;
-		explicit Sound(const std::string& fullPath, bool keepLoaded = false);
+		explicit Sound(const std::string& fullPath);
 		~Sound();
 
 		Sound(const Sound&) = delete;
@@ -21,10 +21,12 @@ namespace ody
 		Sound& operator= (const Sound&) = delete;
 		Sound& operator= (const Sound&&) = delete;
 
-		bool KeepLoaded() const { return m_KeepLoaded; }
+		void Release() const;
+
+		unsigned int GetSize() const { return m_Size; }
 	private:
 		Mix_Chunk* m_pMixChunk;
-		bool m_KeepLoaded;
+		unsigned int m_Size{0};
 	};
 
 	class Music final
