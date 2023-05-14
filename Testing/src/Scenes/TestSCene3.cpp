@@ -5,6 +5,7 @@
 #include "InputManager2.h"
 #include "ServiceLocator.h"
 #include "AudioSystem.h"
+#include "TextComponent.h"
 
 
 void TestScene3::Initialize()
@@ -21,7 +22,10 @@ void TestScene3::Initialize()
 	m_InputManager.AddControllerCommand(ody::XBox360Controller::ControllerButton::DPadUp, 0, ody::InputManager::InputType::OnDown, std::make_unique<ody::MoveCommand>
 		(gameObject, 100.f, glm::vec2{0, -1.f}));
 
-	ody::ServiceLocator::GetSoundSystem().PlaySound(1);
+	auto text = CreateGameObject();
+	text->GetTransform()->SetPosition(70.f, 70.f);
+	auto font = ody::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	text->AddComponent<ody::TextComponent>("Buttons 1-8 play different sounds", font);
 }
 
 

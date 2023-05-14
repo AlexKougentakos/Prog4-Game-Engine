@@ -14,7 +14,6 @@ namespace ody
 	public:
 		Mix_Chunk* GetSoundEffect() const;
 		explicit Sound(const std::string& fullPath);
-		~Sound();
 
 		Sound(const Sound&) = delete;
 		Sound(Sound&&) = delete;

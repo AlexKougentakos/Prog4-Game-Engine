@@ -41,8 +41,39 @@ bool InputManager::ProcessInput()
 				SceneManager::GetInstance().PreviousScene();
 			else if (e.key.keysym.sym == SDLK_k)
 				SceneManager::GetInstance().NextScene();
-			else if (e.key.keysym.sym == SDLK_o)
+			else if (e.key.keysym.sym == SDLK_1)
+			{
+				ody::ServiceLocator::GetSoundSystem().PlaySound(1);
+			}
+			else if (e.key.keysym.sym == SDLK_2)
+			{
+				ody::ServiceLocator::GetSoundSystem().PlaySound(2);
+			}
+			else if (e.key.keysym.sym == SDLK_3)
+			{
 				ody::ServiceLocator::GetSoundSystem().PlaySound(3);
+			}
+			else if (e.key.keysym.sym == SDLK_4)
+			{
+				ody::ServiceLocator::GetSoundSystem().PlaySound(4);
+			}
+			else if (e.key.keysym.sym == SDLK_5)
+			{
+				ody::ServiceLocator::GetSoundSystem().PlaySound(5);
+			}
+			else if (e.key.keysym.sym == SDLK_6)
+			{
+				ody::ServiceLocator::GetSoundSystem().PlaySound(6);
+			}
+			else if (e.key.keysym.sym == SDLK_7)
+			{
+				ody::ServiceLocator::GetSoundSystem().PlaySound(7);
+			}
+			else if (e.key.keysym.sym == SDLK_8)
+			{
+				ody::ServiceLocator::GetSoundSystem().PlaySound(8);
+			}
+
 			break;
 		}
 		case SDL_KEYUP:
@@ -107,8 +138,6 @@ XBox360Controller* InputManager::GetController(unsigned int controllerIdx)
 
 void InputManager::AddControllerCommand(XBox360Controller::ControllerButton button, unsigned int controllerID, InputType type, std::unique_ptr<Command> pCommand)
 {
-	//TODO: Add a check for the max number of controllers of XInput
-
 	bool doesControllerExist{ false };
 	for (const auto& controller : m_ControllerPtrs)
 	{

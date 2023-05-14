@@ -50,8 +50,9 @@ namespace ody
 		std::map<std::string, std::shared_ptr<Sound>> m_CachedAudios{};
 		std::map<std::string, std::shared_ptr<Sound>> m_PreLoadedAudios{};
 
-		unsigned int m_MaxLoadedAudioSize{10}; //In Megabytes
-		unsigned int m_AudioClearSize{ 3 }; //The amount of audio to clear when the max size is reached (In Megabytes)
+		//These will be available to the user of the engine, right now it's proof of concept
+		unsigned int m_MaxCachedAudioSize{10}; //In Megabytes
+		unsigned int m_AudioClearSize{ 3 }; //The amount of audio files to clear when the max size is reached (In Megabytes)
 
 		unsigned int GetLoadedAudiosSize() const;
 	};

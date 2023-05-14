@@ -109,15 +109,20 @@ std::shared_ptr<ody::Sound> ody::ResourceManager::LoadSoundEffect(const std::str
 	m_CachedAudios.insert(std::make_pair(file, sound));
 
     //Todo: Test this deletion part
-    //if (GetLoadedAudiosSize() >= m_MaxLoadedAudioSize)
-    //{
-	//    //Clear audios from the map, until the size is less than the max size - the clear size
-    //    for (auto mapIt = m_LoadedAudios.end(); mapIt != m_LoadedAudios.begin(); --mapIt)
-    //    {
-    //        mapIt->second->SetKeepLoaded(false);
-    //        mapIt->second.reset();
-    //    }
-    //}
+    if (BYTES_TO_MEGABYTES(GetLoadedAudiosSize()) >= m_MaxCachedAudioSize)
+    {
+        while (BYTES_TO_MEGABYTES(GetLoadedAudiosSize()) > m_MaxCachedAudioSize - m_AudioClearSize)
+        {
+            //Clear audios from the map, until the size is less than the max size - the clear size
+            for (auto mapIt = m_CachedAudios.begin(); mapIt != m_CachedAudios.end(); ++mapIt)
+            {
+                mapIt->second->Release();
+                mapIt->second.reset();
+                m_CachedAudios.erase(mapIt);
+            }
+        }
+	   
+    }
 
     return sound;
 }

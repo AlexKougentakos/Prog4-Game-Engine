@@ -26,16 +26,6 @@ void ody::Sound::Release() const
 	Mix_FreeChunk(m_pMixChunk);
 }
 
-ody::Sound::~Sound()
-{
-	//Todo: Re-do this
-	//if (!PreLoad())
-	//{
-	//	std::cout << "Freeing sound effect" << std::endl;
-	//	Mix_FreeChunk(m_pMixChunk);
-	//}
-}
-
 Mix_Music* ody::Music::GetMusic() const
 {
 	return m_pMusic;
