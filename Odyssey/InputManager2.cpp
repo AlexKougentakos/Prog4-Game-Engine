@@ -97,8 +97,6 @@ bool InputManager::ProcessInput()
 		}
 	}
 
-
-
 	//Controller part
 	for (auto& controller : m_ControllerPtrs)
 	{
@@ -108,6 +106,7 @@ bool InputManager::ProcessInput()
 		{
 			if (mapPair.first.controllerID == controller->GetIdx())
 			{
+				
 				if (mapPair.first.type == InputType::OnDown && controller->IsDown(mapPair.first.button))
 					mapPair.second->Execute();
 
@@ -116,7 +115,14 @@ bool InputManager::ProcessInput()
 
 				else if (mapPair.first.type == InputType::OnRelease && controller->IsUp(mapPair.first.button))
 					mapPair.second->Execute();
+
+				if (mapPair.first.type == InputType::OnThumbMove && controller->IsThumbMoved(mapPair.first.button))
+					mapPair.second->Execute();
+				if (mapPair.first.type == InputType::OnThumbMove && controller->IsThumbMoved(mapPair.first.button))
+					mapPair.second->Execute();
+				
 			}
+
 		}
 	}
 
@@ -136,7 +142,7 @@ XBox360Controller* InputManager::GetController(unsigned int controllerIdx)
 }
 
 
-void InputManager::AddControllerCommand(XBox360Controller::ControllerButton button, unsigned int controllerID, InputType type, std::unique_ptr<Command> pCommand)
+void InputManager::AddControllerIfNeeded(unsigned int controllerID)
 {
 	bool doesControllerExist{ false };
 	for (const auto& controller : m_ControllerPtrs)
@@ -149,7 +155,13 @@ void InputManager::AddControllerCommand(XBox360Controller::ControllerButton butt
 	}
 
 	if (doesControllerExist == false)
-		m_ControllerPtrs.push_back(std::make_unique<XBox360Controller>(controllerID));
+		m_ControllerPtrs.emplace_back(std::make_unique<XBox360Controller>(controllerID));
+}
+
+
+void InputManager::AddControllerCommand(XBox360Controller::ControllerButton button, unsigned int controllerID, InputType type, std::unique_ptr<Command> pCommand)
+{
+	AddControllerIfNeeded(controllerID);
 
 	InputDataController inputData{ controllerID, button, type };
 	m_ControllerActionMap[inputData] = std::move(pCommand);
@@ -159,4 +171,9 @@ void InputManager::AddKeyboardCommand(unsigned int keyboardKey, InputType type, 
 {
 	InputDataKeyboard inputData{ keyboardKey, type };
 	m_KeyboardActionMap[inputData] = std::move(pCommand);
+}
+
+glm::vec2 InputManager::GetThumbstickDirection(unsigned controllerIdx, bool leftThumb) const
+{
+	return m_ControllerPtrs[controllerIdx]->GetThumbStickPos(leftThumb);
 }

@@ -5,6 +5,10 @@
 
 #include "XboxController.h"
 
+#include <iostream>
+#include <memory>
+#include <glm/detail/func_geometric.inl>
+
 using namespace ody;
 
 class XBox360Controller::XBox360ControllerImpl final
@@ -16,6 +20,8 @@ class XBox360Controller::XBox360ControllerImpl final
 	WORD buttonsReleasedThisFrame;
 
 	int _controllerIndex;
+	std::unique_ptr<glm::vec2> m_pLastThumbstickPosLeft{};
+	std::unique_ptr<glm::vec2> m_pLastThumbstickPosRight{};
 
 public:
 	XBox360ControllerImpl(int controllerIndex)
@@ -23,6 +29,9 @@ public:
 	{
 		ZeroMemory(&previousState, sizeof(XINPUT_STATE));
 		ZeroMemory(&currentState, sizeof(XINPUT_STATE));
+
+		m_pLastThumbstickPosLeft = std::make_unique<glm::vec2>();
+		m_pLastThumbstickPosRight = std::make_unique<glm::vec2>();
 	}
 
 	void Update()
@@ -31,19 +40,54 @@ public:
 		ZeroMemory(&currentState, sizeof(XINPUT_STATE));
 		XInputGetState(_controllerIndex, &currentState);
 
-		auto buttonChanges = currentState.Gamepad.wButtons ^ previousState.Gamepad.wButtons;
+		const auto buttonChanges = currentState.Gamepad.wButtons ^ previousState.Gamepad.wButtons;
 		buttonsPressedThisFrame = buttonChanges & currentState.Gamepad.wButtons;
 		buttonsReleasedThisFrame = buttonChanges & (~currentState.Gamepad.wButtons);
+
+		*m_pLastThumbstickPosLeft = GetLeftThumbStickPos();
+		*m_pLastThumbstickPosRight = GetRightThumbStickPos();
 	}
 
 	bool IsDownThisFrame(unsigned int button) const { return buttonsPressedThisFrame & button; }
 	bool IsUpThisFrame(unsigned int button) const { return buttonsReleasedThisFrame & button; }
 	bool IsPressed(unsigned int button) const { return currentState.Gamepad.wButtons & button; }
+	bool IsThumbMoved(unsigned int button) const
+	{
+		if (button & static_cast<int>(ControllerButton::LeftThumbStick))
+			return glm::length(GetLeftThumbStickPos()) > 0.2f;
 
-	glm::vec2 GetLeftThumbStickPos() const { return glm::vec2{ currentState.Gamepad.sThumbLX, currentState.Gamepad.sThumbLY }; }
+		if (button & static_cast<int>(ControllerButton::RightThumbStick))
+			return glm::length(GetRightThumbStickPos()) > 0.2f;
+
+		return false;
+	}
+
+	glm::vec2* const GetLeftThumbStickPosRef() const
+	{
+		return m_pLastThumbstickPosLeft.get();
+	}
+
+	glm::vec2* const GetRightThumbStickPosRef() const
+	{
+		return m_pLastThumbstickPosRight.get();
+	}
+
+	glm::vec2 GetLeftThumbStickPos() const
+	{
+		return glm::vec2{ currentState.Gamepad.sThumbLX / m_ThumbRange, -currentState.Gamepad.sThumbLY / m_ThumbRange };
+	}
+
+	glm::vec2 GetRightThumbStickPos() const
+	{
+		return glm::vec2{ currentState.Gamepad.sThumbRX / m_ThumbRange, -currentState.Gamepad.sThumbRY / m_ThumbRange };
+	}
+
 };
 
-
+std::pair<glm::vec2*, glm::vec2*> XBox360Controller::GetThumbStickPositions() const
+{
+	return std::make_pair(pImpl->GetLeftThumbStickPosRef(), pImpl->GetRightThumbStickPosRef());
+}
 
 XBox360Controller::XBox360Controller(unsigned int controllerIndex)
 	: m_ControllerIndex{ controllerIndex }
@@ -76,7 +120,15 @@ bool XBox360Controller::IsPressed(ControllerButton button) const
 	return pImpl->IsPressed(static_cast<unsigned int>(button));
 }
 
-glm::vec2 XBox360Controller::GetLeftThumbStickPos() const
+bool XBox360Controller::IsThumbMoved(ControllerButton button) const
 {
-	return pImpl->GetLeftThumbStickPos();
+	return pImpl->IsThumbMoved(static_cast<unsigned int>(button));
+}
+
+glm::vec2 XBox360Controller::GetThumbStickPos(bool leftThumb) const
+{
+	if (leftThumb)
+		return pImpl->GetLeftThumbStickPos();
+	
+	return pImpl->GetRightThumbStickPos();
 }

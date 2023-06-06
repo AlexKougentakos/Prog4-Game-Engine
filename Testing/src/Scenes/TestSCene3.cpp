@@ -19,8 +19,10 @@ void TestScene3::Initialize()
 	ody::InputManager::GetInstance().AddKeyboardCommand('s', ody::InputManager::InputType::Pressed, std::make_unique<ody::MoveCommand>(gameObject, 100.f, glm::vec2{ 0.f, 1.f}));
 	ody::InputManager::GetInstance().AddKeyboardCommand('d', ody::InputManager::InputType::Pressed, std::make_unique<ody::MoveCommand>(gameObject, 100.f, glm::vec2{ 1.f, 0.f }));
 
-	m_InputManager.AddControllerCommand(ody::XBox360Controller::ControllerButton::DPadUp, 0, ody::InputManager::InputType::OnDown, std::make_unique<ody::MoveCommand>
-		(gameObject, 100.f, glm::vec2{0, -1.f}));
+
+
+	m_InputManager.AddControllerCommand(ody::XBox360Controller::ControllerButton::LeftThumbStick, 0, ody::InputManager::InputType::OnThumbMove, std::make_unique<ody::MoveCommand>
+		(gameObject, 100.f, *ody::InputManager::GetInstance().GetThumbstickPositionsRef(0).first));
 
 	auto text = CreateGameObject();
 	text->GetTransform()->SetPosition(70.f, 70.f);

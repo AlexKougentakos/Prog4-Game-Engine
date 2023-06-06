@@ -33,6 +33,6 @@ namespace ody
 	private:
 		ody::GameObject* m_pActor{};
 		const float m_MoveSpeed{};
-		glm::vec2 m_MoveDirection{};
+		const glm::vec2& m_MoveDirection{};
 	};
 }

@@ -65,9 +65,9 @@ void ody::GameObject::SetParent(GameObject* pNewParent)
 
 bool ody::GameObject::RemoveChild(unsigned int index)
 {
-	auto temp{ m_pChildren[index] };
+	const auto tempHolder{ m_pChildren[index] };
 	m_pChildren[index] = m_pChildren.back();
-	m_pChildren.back() = temp;
+	m_pChildren.back() = tempHolder;
 	m_pChildren.pop_back();
 
 	return true;

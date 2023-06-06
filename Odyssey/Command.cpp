@@ -1,7 +1,11 @@
 #include "Command.h"
+
+#include <iostream>
+
 #include "GameObject.h"
 #include "TransformComponent.h"
 #include "GameTime.h"
+#include "InputManager2.h"
 
 //Todo: Move the move command to a seperate file
 void ody::MoveCommand::Execute()
