@@ -20,9 +20,11 @@ namespace ody
 		glm::vec3 GetWorldPosition();
 		void SetPosition(float x, float y, float z = 0.f);
 		void SetPosition(const glm::vec3& newPos);
-
-		void Translate(float x, float y, float z = 0.f);
+		void Translate(float x, float y);
 		void Translate(const glm::vec3& newPos);
+
+		void Move(float x, float y, float z = 0.f);
+		void Move(const glm::vec3& newPos);
 
 		virtual void Update() override;
 		virtual void Render() const override;

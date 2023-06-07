@@ -94,6 +94,18 @@
     <ClCompile Include="PerformanceTimer.cpp">
       <Filter>Odyssey Engine\Base</Filter>
     </ClCompile>
+    <ClCompile Include="ColliderComponent.cpp">
+      <Filter>Odyssey Engine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugRenderer.cpp">
+      <Filter>Odyssey Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBodyComponent.cpp">
+      <Filter>Odyssey Engine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils.cpp">
+      <Filter>Odyssey Engine\Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h">
@@ -218,6 +230,21 @@
     </ClInclude>
     <ClInclude Include="PerformanceTimer.h">
       <Filter>Odyssey Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ColliderComponent.h">
+      <Filter>Odyssey Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugRenderer.h">
+      <Filter>Odyssey Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidBodyComponent.h">
+      <Filter>Odyssey Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Odyssey Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="IPrefab.h">
+      <Filter>Odyssey Engine\Scenegraph</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

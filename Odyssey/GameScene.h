@@ -4,8 +4,11 @@
 #include <memory>
 
 #include "Structs.h"
+class b2World;
+
 namespace ody
 {
+	class IPrefab;
 	class GameObject;
 
 	class GameScene
@@ -29,14 +32,18 @@ namespace ody
 		void RemoveChild(GameObject* pObject, bool deleteObject = false);
 
 		GameObject* CreateGameObject();
+		GameObject* CreateGameObjectFromPrefab(const IPrefab& prefab);
 
 		SceneSettings& GetSceneSettings() { return m_SceneSettings; }
 
+		void RootUpdate();
+		void RootRender();
+
 	protected:
 		virtual void Initialize() = 0;
-		virtual void PostInitialize() {};
-		virtual void Update() {};
-		virtual void Render() {};
+		virtual void PostInitialize() {}
+		virtual void Update() {}
+		virtual void Render() {}
 
 		virtual void OnGUI() {}
 		virtual void OnSceneActivated() {}
@@ -48,6 +55,11 @@ namespace ody
 
 		std::wstring m_SceneName{};
 		SceneSettings m_SceneSettings{};
+
+		void OnRootSceneActivated();
+		void OnRootSceneDeactivated();
+
+		b2World* m_pWorld{ nullptr };
 	};
 }
 

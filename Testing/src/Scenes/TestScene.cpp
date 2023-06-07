@@ -9,18 +9,16 @@
 
 void TestScene::Initialize()
 {
-	auto gameObject = CreateGameObject();
+	const auto gameObject = CreateGameObject();
 	gameObject->GetTransform()->SetPosition(0.0f, 0.0f);
 	gameObject->AddComponent<ody::TextureComponent>("background.tga");
 
-	auto subject = std::make_shared<ody::Subject>();
+	const auto subject = std::make_shared<ody::Subject>();
 
 	AchievementTest test{ subject };
 
 	subject->EventTriggered(ody::GameEvent::TEST_EVENT);
-
 }
-
 
 void TestScene::Render()
 {

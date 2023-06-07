@@ -10,6 +10,8 @@ namespace ody
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
+		virtual ~SceneManager() override;
+
 		void Update();
 		void Render();
 

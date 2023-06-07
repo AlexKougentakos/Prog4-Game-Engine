@@ -17,7 +17,7 @@
 #include "GameTime.h"
 #include "AudioSystem.h"
 #include "ServiceLocator.h"
-#include "PerformanceTimer.h"
+#include "DebugRenderer.h"
 
 SDL_Window* g_window{};
 
@@ -117,6 +117,8 @@ void ody::Odyssey::Run(const std::function<void()>& load)
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = ody::InputManager::GetInstance();
 	auto& time = ody::Time::GetInstance();
+	auto& debugRenderer = ody::DebugRenderer::GetInstance();
+	debugRenderer.SetRenderer(renderer.GetSDLRenderer());
 
 	bool doContinue = true;
 	std::chrono::steady_clock::time_point lastTime{ std::chrono::high_resolution_clock::now() };

@@ -21,11 +21,16 @@ namespace ody
 			m_pTexture = ody::ResourceManager::GetInstance().LoadTexture(filename);
 		}
 
-		~TextureComponent() = default;
+		~TextureComponent() override = default;
 		TextureComponent(const TextureComponent& other) = delete;
 		TextureComponent(TextureComponent&& other) = delete;
 		TextureComponent& operator=(const TextureComponent& other) = delete;
 		TextureComponent& operator=(TextureComponent&& other) = delete;
+
+		glm::vec2 GetTextureSize() const
+		{
+			return m_pTexture->GetSize();
+		}
 
 		void SetTexture(std::shared_ptr<ody::Texture2D> pTexture)
 		{

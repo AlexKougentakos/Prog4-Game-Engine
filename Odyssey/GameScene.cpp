@@ -2,12 +2,20 @@
 #include "GameTime.h"
 #include "GameObject.h"
 
+#include <Box2D/Box2D.h>
+
+#include "ColliderComponent.h"
+#include "DebugRenderer.h"
+#include "IPrefab.h"
+#include "RigidBodyComponent.h"
+#include "Utils.h"
+
 namespace ody
 {
 GameScene::GameScene(std::wstring sceneName)
 	:m_SceneName(std::move(sceneName))
 {
-
+	
 }
 
 void GameScene::AddChild_Safe(GameObject* object)
@@ -73,4 +81,106 @@ GameObject* GameScene::CreateGameObject()
 
 	return gameObject;
 }
+
+GameObject* GameScene::CreateGameObjectFromPrefab(const IPrefab& prefab)
+{
+	auto gameObject = new GameObject();
+	gameObject->Initialize();
+	//todo: test prefabs
+	prefab.Configure(gameObject);
+
+	m_pChildren.emplace_back(std::move(gameObject));
+
+	return gameObject;
+}
+
+
+void GameScene::OnRootSceneActivated()
+{
+	m_pWorld = new b2World(b2Vec2(0.f, 9.81f));
+	m_pWorld->SetDebugDraw(&DebugRenderer::GetInstance());
+	DebugRenderer::GetInstance().SetWorld(m_pWorld);
+
+	for (const auto& object : m_pChildren)
+	{
+		if (!object->GetComponent<RigidBodyComponent>()) continue;
+
+		const auto transform = object->GetTransform();
+		const auto rigidBody = object->GetComponent<RigidBodyComponent>();
+
+		b2BodyDef bodyDef{};
+		Utils::RigidbodySettingsToB2DBodyDef(rigidBody->GetSettings(), bodyDef);
+		bodyDef.position.Set(transform->GetWorldPosition().x, transform->GetWorldPosition().y);
+		//todo: add rotation
+
+		b2Body* pBody = m_pWorld->CreateBody(&bodyDef);
+		rigidBody->SetRuntimeBody(pBody);
+
+		//Colliders 
+		if (!object->GetComponent<ColliderComponent>()) continue;
+
+		const auto collider = object->GetComponent<ColliderComponent>();
+
+		b2PolygonShape boxShape{};
+		boxShape.SetAsBox(collider->GetDimensions().x, collider->GetDimensions().y);
+
+		b2FixtureDef fixtureDef{};
+		fixtureDef.shape = &boxShape;
+		Utils::ColliderSettingsToB2DFixtureDef(collider->GetSettings(), fixtureDef);
+
+		b2Fixture* pFixture = pBody->CreateFixture(&fixtureDef);
+
+		collider->SetRuntimeFixture(pFixture);
+	}
+
+
+
+	OnSceneActivated();
+}
+
+void GameScene::RootRender()
+{
+
+}
+
+
+void GameScene::OnRootSceneDeactivated()
+{
+	OnSceneDeactivated();
+
+	delete m_pWorld;
+	m_pWorld = nullptr;
+}
+
+
+void GameScene::RootUpdate()
+{
+	//Physics
+	constexpr int32_t velocityIterations = 6;
+	constexpr int32_t positionIterations = 2;
+
+	constexpr float calculationHz = 60.f;
+	constexpr float32 ts = 1.f / calculationHz;
+	m_pWorld->Step(ts, velocityIterations, positionIterations);
+	m_pWorld->DrawDebugData();
+
+	for (const auto& object : m_pChildren)
+	{
+		if (!object->GetComponent<RigidBodyComponent>()) continue;
+
+		const auto transform = object->GetTransform();
+		const auto rigidBody = object->GetComponent<RigidBodyComponent>();
+
+		const b2Body* body = static_cast<b2Body*>(rigidBody->GetRuntimeBody());
+
+		const auto& position = body->GetPosition();
+
+		transform->Translate(position.x, position.y);
+		//todo: rotate too
+	}
+
+	Update();
+}
+
+
 }

@@ -24,7 +24,6 @@ namespace ody
         template <LogLevel level>
         static void Log(const std::string& message, const char* file, int line)
         {
-#ifdef _DEBUG //Logging is debug only
             std::string level_str;
             switch (level) 
             {
@@ -42,7 +41,6 @@ namespace ody
                 break;
             }
             std::cerr << "\033[1;" << GetColorCode(level) << "m" << "[" << level_str << "] " << "File: " << std::filesystem::path(file).filename().string() << " | Line: " << line << " | Message: " << message << "\033[0m" << std::endl;
-#endif
         }
 
     private:

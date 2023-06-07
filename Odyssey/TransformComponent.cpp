@@ -39,7 +39,17 @@ void ody::TransformComponent::SetPosition(const glm::vec3& newPos)
 	EnableDirtyFlag();
 }
 
-void ody::TransformComponent::Translate(float x, float y, float z)
+void ody::TransformComponent::Translate(float x, float y)
+{
+	SetPosition(x, y);
+}
+
+void ody::TransformComponent::Translate(const glm::vec3& newPos)
+{
+	SetPosition(newPos);
+}
+
+void ody::TransformComponent::Move(float x, float y, float z)
 {
 	const auto currentPos = GetWorldPosition();
 
@@ -53,9 +63,9 @@ void ody::TransformComponent::Translate(float x, float y, float z)
 	SetPosition(newPos);
 }
 
-void ody::TransformComponent::Translate(const glm::vec3& newPos)
+void ody::TransformComponent::Move(const glm::vec3& newPos)
 {
-	Translate(newPos.x, newPos.y, newPos.z);
+	Move(newPos.x, newPos.y, newPos.z);
 }
 
 

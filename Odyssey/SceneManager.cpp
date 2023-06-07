@@ -5,9 +5,15 @@
 
 namespace ody
 {
+	SceneManager::~SceneManager()
+	{
+		m_pActiveScene->OnRootSceneDeactivated();
+	}
+
+
 	void SceneManager::Update()
 	{
-		m_pActiveScene->Update();
+		m_pActiveScene->RootUpdate();
 	}
 
 	void SceneManager::Render()
@@ -24,17 +30,23 @@ namespace ody
 
 	void SceneManager::NextScene()
 	{
-		int numScenes = int(m_pScenes.size());
-		int nextSceneIndex = (++m_ActiveSceneIndex) % numScenes; 
+		const int numScenes = int(m_pScenes.size());
+		if (numScenes == 0) // Check for an empty scenes vector
+			return;
+		m_ActiveSceneIndex = (m_ActiveSceneIndex + 1) % numScenes;
 
-		m_pNewScene = m_pScenes[nextSceneIndex];
+		m_pNewScene = m_pScenes[m_ActiveSceneIndex];
 
 		SceneChange();
 	}
 
+
 	void SceneManager::PreviousScene()
 	{
-		int numScenes = int(m_pScenes.size());
+		const int numScenes = int(m_pScenes.size());
+		if (numScenes == 0) // Check for an empty scenes vector
+			return;
+
 		m_ActiveSceneIndex--;
 		if (m_ActiveSceneIndex < 0)
 		{
@@ -44,16 +56,15 @@ namespace ody
 
 		SceneChange();
 	}
-
 	void SceneManager::SceneChange()
 	{
 		if (m_pNewScene == nullptr || m_pActiveScene == nullptr) return;
 
-		m_pActiveScene->OnSceneDeactivated();
+		m_pActiveScene->OnRootSceneDeactivated();
 
 		m_pActiveScene = m_pNewScene;
 
-		m_pActiveScene->OnSceneActivated();
+		m_pActiveScene->OnRootSceneActivated();
 
 		m_pNewScene = nullptr;
 	}
@@ -66,7 +77,7 @@ namespace ody
 		if (m_pActiveScene == nullptr)
 		{
 			m_pActiveScene = m_pScenes[0];
-			m_pActiveScene->OnSceneActivated();
+			m_pActiveScene->OnRootSceneActivated();
 		}
 	}
 
