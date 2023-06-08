@@ -27,9 +27,9 @@ void load()
 
 	//sceneManager.AddScene(scene);
 
-	auto scene2 = new TestScene2();
+	//auto scene2 = new TestScene2();
 
-	sceneManager.AddScene(scene2);
+	//sceneManager.AddScene(scene2);
 
 	auto scene3 = new TestScene3();
 

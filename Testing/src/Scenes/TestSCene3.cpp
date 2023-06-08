@@ -8,7 +8,8 @@
 #include "ColliderComponent.h"
 #include "RigidBodyComponent.h"
 #include "TextComponent.h"
-
+#include "../Commands/Commands.h"
+#include "../Prefabs/TilePrefab.h"
 
 void TestScene3::Initialize()
 {
@@ -17,7 +18,9 @@ void TestScene3::Initialize()
 	auto& test = gameObject->AddComponent<ody::TextureComponent>("pacman.tga");
 
 	ody::RigidBodySettings settings;
+	settings.gravityScale = 0;
 	settings.bodyType = ody::BodyType::Dynamic;
+	settings.fixedRotation = true;
 	gameObject->AddComponent<ody::RigidBodyComponent>(settings);
 
 	ody::ColliderSettings settingsCol{};
@@ -29,24 +32,30 @@ void TestScene3::Initialize()
 	ody::InputManager::GetInstance().AddKeyboardCommand('s', ody::InputManager::InputType::Pressed, std::make_unique<ody::MoveCommand>(gameObject, 100.f, glm::vec2{ 0.f, 1.f}));
 	ody::InputManager::GetInstance().AddKeyboardCommand('d', ody::InputManager::InputType::Pressed, std::make_unique<ody::MoveCommand>(gameObject, 100.f, glm::vec2{ 1.f, 0.f }));
 
-	const auto platform = CreateGameObject();
-	platform->GetTransform()->SetPosition(0, 300);
+	ody::InputManager::GetInstance().AddKeyboardCommand('w', ody::InputManager::InputType::OnRelease, std::make_unique<StopMoveCommand>(gameObject));
+	ody::InputManager::GetInstance().AddKeyboardCommand('a', ody::InputManager::InputType::OnRelease, std::make_unique<StopMoveCommand>(gameObject));
+	ody::InputManager::GetInstance().AddKeyboardCommand('s', ody::InputManager::InputType::OnRelease, std::make_unique<StopMoveCommand>(gameObject));
+	ody::InputManager::GetInstance().AddKeyboardCommand('d', ody::InputManager::InputType::OnRelease, std::make_unique<StopMoveCommand>(gameObject));
 
-	settings.bodyType = ody::BodyType::Static;
+	for	(int i{}; i < 10; ++i)
+	{
+		const auto platform = CreateGameObject();
+		platform->GetTransform()->SetPosition(i * 32, 300);
 
-	platform->AddComponent<ody::RigidBodyComponent>(settings);
-	platform->AddComponent<ody::ColliderComponent>(glm::vec2{ 100,20 }, settingsCol);
-	
+		const TilePrefab tilePrefab;
+		tilePrefab.Configure(platform);
+	}
 
 	m_InputManager.AddControllerCommand(ody::XBox360Controller::ControllerButton::LeftThumbStick, 0, ody::InputManager::InputType::OnThumbMove, std::make_unique<ody::MoveCommand>
-		(gameObject, 100.f, *ody::InputManager::GetInstance().GetThumbstickPositionsRef(0).first));
+		(gameObject, 100.f, ody::InputManager::GetInstance().GetThumbstickPositionsRef(0).first));
 
-	auto text = CreateGameObject();
+	m_InputManager.AddControllerCommand(ody::XBox360Controller::ControllerButton::LeftThumbStick, 0, ody::InputManager::InputType::OnThumbIdleOnce, std::make_unique<StopMoveCommand>(gameObject));
+
+	const auto text = CreateGameObject();
 	text->GetTransform()->SetPosition(70.f, 70.f);
 	auto font = ody::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	text->AddComponent<ody::TextComponent>("Buttons 1-8 play different sounds", font);
 }
-
 
 void TestScene3::Render()
 {

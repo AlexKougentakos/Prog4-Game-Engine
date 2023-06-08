@@ -24,7 +24,9 @@ namespace ody
 			Pressed,
 			OnRelease,
 
-			OnThumbMove
+			OnThumbMove,
+			OnThumbIdleOnce, //will only execute once when thumbstick is idle
+			OnThumbIdleContinuous //will execute every frame when thumbstick is idle
 		};
 
 		void AddControllerCommand(XBox360Controller::ControllerButton button, unsigned int controllerID, InputType type, std::unique_ptr<Command> pCommand);
@@ -80,6 +82,8 @@ namespace ody
 		std::vector<std::unique_ptr<XBox360Controller>> m_ControllerPtrs{};
 
 		std::map<InputDataKeyboard, std::unique_ptr<Command>> m_KeyboardActionMap{};
+
+		bool m_ExecutedIdleThumbstick{ false };
 
 		void AddControllerIfNeeded(unsigned int controllerID);
 	};

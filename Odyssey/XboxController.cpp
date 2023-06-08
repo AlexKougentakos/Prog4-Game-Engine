@@ -62,6 +62,17 @@ public:
 		return false;
 	}
 
+	bool IsThumbIdle(unsigned int button) const
+	{
+		if (button & static_cast<int>(ControllerButton::LeftThumbStick))
+			return glm::length(GetLeftThumbStickPos()) <= 0.2f;
+
+		if (button & static_cast<int>(ControllerButton::RightThumbStick))
+			return glm::length(GetRightThumbStickPos()) <= 0.2f;
+
+		return false;
+	}
+
 	glm::vec2* const GetLeftThumbStickPosRef() const
 	{
 		return m_pLastThumbstickPosLeft.get();
@@ -74,11 +85,23 @@ public:
 
 	glm::vec2 GetLeftThumbStickPos() const
 	{
+		if (currentState.Gamepad.sThumbLX < XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE &&
+			currentState.Gamepad.sThumbLX > -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE &&
+			currentState.Gamepad.sThumbLY < XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE &&
+			currentState.Gamepad.sThumbLY > -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)
+			return glm::vec2(0, 0);
+
 		return glm::vec2{ currentState.Gamepad.sThumbLX / m_ThumbRange, -currentState.Gamepad.sThumbLY / m_ThumbRange };
 	}
 
 	glm::vec2 GetRightThumbStickPos() const
 	{
+		if (currentState.Gamepad.sThumbRX < XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE &&
+						currentState.Gamepad.sThumbRX > -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE &&
+						currentState.Gamepad.sThumbRY < XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE &&
+						currentState.Gamepad.sThumbRY > -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE)
+			return glm::vec2(0, 0);
+
 		return glm::vec2{ currentState.Gamepad.sThumbRX / m_ThumbRange, -currentState.Gamepad.sThumbRY / m_ThumbRange };
 	}
 
@@ -123,6 +146,11 @@ bool XBox360Controller::IsPressed(ControllerButton button) const
 bool XBox360Controller::IsThumbMoved(ControllerButton button) const
 {
 	return pImpl->IsThumbMoved(static_cast<unsigned int>(button));
+}
+
+bool XBox360Controller::IsThumbIdle(ControllerButton button) const
+{
+	return pImpl->IsThumbIdle(static_cast<unsigned int>(button));
 }
 
 glm::vec2 XBox360Controller::GetThumbStickPos(bool leftThumb) const

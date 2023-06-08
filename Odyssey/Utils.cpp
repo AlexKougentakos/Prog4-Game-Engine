@@ -13,6 +13,7 @@ namespace ody
 		bodyOut.awake = bodySettingsIn.awake;
 		bodyOut.bullet = bodySettingsIn.bullet;
 		bodyOut.fixedRotation = bodySettingsIn.fixedRotation;
+		bodyOut.gravityScale = bodySettingsIn.gravityScale;
 	}
 
 	b2BodyType Utils::RigidbodyTypeToB2Type(BodyType typeIn)

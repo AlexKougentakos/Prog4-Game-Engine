@@ -39,6 +39,7 @@ public:
 
 private:
 	glm::vec2 m_Dimensions{};
+	glm::vec2 m_Offset{};
 
 	ColliderSettings m_Settings{};
 

@@ -21,8 +21,11 @@ namespace ody
 	class MoveCommand final : public Command
 	{
 	public:
-		MoveCommand(ody::GameObject* pActor, float moveSpeed, const glm::vec2& moveDir) : m_pActor{ pActor }, m_MoveSpeed{moveSpeed}
+		MoveCommand(ody::GameObject* pActor, float moveSpeed, const glm::vec2* moveDir) : m_pActor{ pActor }, m_MoveSpeed{moveSpeed}
+			, m_MoveDirectionRef{ moveDir }, m_UseRef(true) {}
+		MoveCommand(ody::GameObject* pActor, float moveSpeed, const glm::vec2& moveDir) : m_pActor{ pActor }, m_MoveSpeed{ moveSpeed }
 			, m_MoveDirection{ moveDir } {}
+
 		virtual ~MoveCommand() override = default;
 		MoveCommand(const MoveCommand& other) = delete;
 		MoveCommand(MoveCommand&& other) = delete;
@@ -33,6 +36,9 @@ namespace ody
 	private:
 		ody::GameObject* m_pActor{};
 		const float m_MoveSpeed{};
-		const glm::vec2& m_MoveDirection{};
+		const glm::vec2* m_MoveDirectionRef{};
+		const glm::vec2 m_MoveDirection{};
+
+		bool m_UseRef{ false };
 	};
 }

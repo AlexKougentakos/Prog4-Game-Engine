@@ -40,6 +40,7 @@ namespace ody
 		bool IsUp(ControllerButton button) const;
 		bool IsPressed(ControllerButton button) const;
 		bool IsThumbMoved(ControllerButton button) const;
+		bool IsThumbIdle(ControllerButton button) const;
 
 		std::pair<glm::vec2*, glm::vec2*>GetThumbStickPositions() const;
 

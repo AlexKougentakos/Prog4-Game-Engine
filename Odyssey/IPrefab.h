@@ -8,6 +8,7 @@ class GameObject;
 class IPrefab
 {
 public:
+	IPrefab() = default;
     virtual ~IPrefab() = default;
 	IPrefab(const IPrefab& other) = delete;
 	IPrefab(IPrefab&& other) = delete;

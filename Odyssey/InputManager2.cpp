@@ -12,6 +12,7 @@ using namespace ody;
 
 bool InputManager::ProcessInput()
 {
+	
 	//Keyboard part
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) 
@@ -88,7 +89,7 @@ bool InputManager::ProcessInput()
 
 	//Keyboard Pressed continuously
 	const Uint8* state = SDL_GetKeyboardState(nullptr);
-	for (auto& mapPair : m_KeyboardActionMap)
+	for (const auto& mapPair : m_KeyboardActionMap)
 	{
 		if (mapPair.first.type == InputType::Pressed)
 		{
@@ -116,13 +117,21 @@ bool InputManager::ProcessInput()
 				else if (mapPair.first.type == InputType::OnRelease && controller->IsUp(mapPair.first.button))
 					mapPair.second->Execute();
 
+				//Thumbstick Part
 				if (mapPair.first.type == InputType::OnThumbMove && controller->IsThumbMoved(mapPair.first.button))
+				{
+					m_ExecutedIdleThumbstick = false;
 					mapPair.second->Execute();
-				if (mapPair.first.type == InputType::OnThumbMove && controller->IsThumbMoved(mapPair.first.button))
+				}
+				if (mapPair.first.type == InputType::OnThumbIdleContinuous && controller->IsThumbIdle(mapPair.first.button))
 					mapPair.second->Execute();
-				
+				if (mapPair.first.type == InputType::OnThumbIdleOnce && controller->IsThumbIdle(mapPair.first.button)
+					&& !m_ExecutedIdleThumbstick)
+				{
+					m_ExecutedIdleThumbstick = true;
+					mapPair.second->Execute();
+				}
 			}
-
 		}
 	}
 
@@ -163,13 +172,13 @@ void InputManager::AddControllerCommand(XBox360Controller::ControllerButton butt
 {
 	AddControllerIfNeeded(controllerID);
 
-	InputDataController inputData{ controllerID, button, type };
+	const InputDataController inputData{ controllerID, button, type };
 	m_ControllerActionMap[inputData] = std::move(pCommand);
 }
 
 void InputManager::AddKeyboardCommand(unsigned int keyboardKey, InputType type, std::unique_ptr<Command> pCommand)
 {
-	InputDataKeyboard inputData{ keyboardKey, type };
+	const InputDataKeyboard inputData{ keyboardKey, type };
 	m_KeyboardActionMap[inputData] = std::move(pCommand);
 }
 

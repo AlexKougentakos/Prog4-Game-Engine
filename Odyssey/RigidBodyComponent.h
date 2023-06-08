@@ -3,6 +3,8 @@
 
 #include "Component.h"
 
+class b2Body;
+
 namespace ody
 {
 	enum class BodyType
@@ -18,6 +20,8 @@ namespace ody
 		bool awake{ true };
 		bool bullet{ false };
 		bool enabled{ true };
+
+		float gravityScale{ 1.0f };
 
 		BodyType bodyType{ BodyType::Static };
 	};
@@ -38,11 +42,11 @@ namespace ody
 
 		RigidBodySettings GetSettings() const { return m_Settings; }
 
-		void* GetRuntimeBody() const { return m_pRuntimeBody; }
-		void SetRuntimeBody(void* pBody) { m_pRuntimeBody = pBody; }
+		b2Body* GetRuntimeBody() const { return m_pRuntimeBody; }
+		void SetRuntimeBody(b2Body* pBody) { m_pRuntimeBody = pBody; }
 
 	private:
-		void* m_pRuntimeBody{};
+		b2Body* m_pRuntimeBody{};
 
 		RigidBodySettings m_Settings{};
 	};

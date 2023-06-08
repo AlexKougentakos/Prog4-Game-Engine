@@ -1,20 +1,19 @@
 #include "Command.h"
 
 #include <iostream>
+#include <Box2D/Dynamics/b2Body.h>
 
 #include "GameObject.h"
 #include "TransformComponent.h"
-#include "GameTime.h"
-#include "InputManager2.h"
+#include "RigidBodyComponent.h"
 
 //Todo: Move the move command to a seperate file
 void ody::MoveCommand::Execute()
 {
-	const auto transform = m_pActor->GetComponent<TransformComponent>();
+	const auto b2dBody = m_pActor->GetComponent<ody::RigidBodyComponent>()->GetRuntimeBody();
 
-	const auto currentPos = transform->GetWorldPosition();
-
-	const auto newPosition = currentPos + glm::vec3{ m_MoveSpeed * m_MoveDirection * ody::Time::GetInstance().GetDeltaTime(), 0 };
-	
-	transform->SetPosition(newPosition);
+	if (m_UseRef)
+		b2dBody->SetLinearVelocity({ m_MoveDirectionRef->x * m_MoveSpeed, m_MoveDirectionRef->y * m_MoveSpeed });
+	else
+		b2dBody->SetLinearVelocity({ m_MoveDirection.x * m_MoveSpeed, m_MoveDirection.y * m_MoveSpeed });
 }

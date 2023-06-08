@@ -115,6 +115,7 @@ void GameScene::OnRootSceneActivated()
 
 		b2Body* pBody = m_pWorld->CreateBody(&bodyDef);
 		rigidBody->SetRuntimeBody(pBody);
+		pBody->SetFixedRotation(bodyDef.fixedRotation);
 
 		//Colliders 
 		if (!object->GetComponent<ColliderComponent>()) continue;
@@ -122,7 +123,9 @@ void GameScene::OnRootSceneActivated()
 		const auto collider = object->GetComponent<ColliderComponent>();
 
 		b2PolygonShape boxShape{};
-		boxShape.SetAsBox(collider->GetDimensions().x, collider->GetDimensions().y);
+		b2Vec2 center{ collider->GetDimensions().x, collider->GetDimensions().y };
+
+		boxShape.SetAsBox(collider->GetDimensions().x, collider->GetDimensions().y, center, 0.f );
 
 		b2FixtureDef fixtureDef{};
 		fixtureDef.shape = &boxShape;
@@ -171,7 +174,7 @@ void GameScene::RootUpdate()
 		const auto transform = object->GetTransform();
 		const auto rigidBody = object->GetComponent<RigidBodyComponent>();
 
-		const b2Body* body = static_cast<b2Body*>(rigidBody->GetRuntimeBody());
+		const b2Body* body = rigidBody->GetRuntimeBody();
 
 		const auto& position = body->GetPosition();
 
