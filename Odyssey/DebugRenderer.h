@@ -1,8 +1,8 @@
 ﻿#pragma once
 #pragma warning(push, 0)
 #include <SDL_render.h>
-#include <Box2D/Common/b2Draw.h>
-#include <Box2D/Dynamics/b2World.h>
+#include <Box2D/b2_draw.h>
+#include <Box2D/b2_world.h>
 
 #include "Singleton.h"
 
@@ -34,7 +34,7 @@ public:
         DrawPolygon(vertices, vertexCount, color);
     }
 
-    void DrawCircle(const b2Vec2& center, float32 radius, const b2Color& color) override
+    void DrawCircle(const b2Vec2& center, float radius, const b2Color& color) override
     {
         SDL_Color sdlColor = ConvertColor(color);
         SDL_SetRenderDrawColor(m_Renderer, sdlColor.r, sdlColor.g, sdlColor.b, sdlColor.a);
@@ -44,7 +44,7 @@ public:
         }
     }
 
-    void DrawSolidCircle(const b2Vec2& center, float32 radius, const b2Vec2& axis, const b2Color& color) override
+    void DrawSolidCircle(const b2Vec2& center, float radius, const b2Vec2& axis, const b2Color& color) override
     {
         // Filled circles can be complex to implement with SDL, consider using SDL2_gfx or similar.
         DrawCircle(center, radius, color);
@@ -59,10 +59,10 @@ public:
 
     void DrawTransform(const b2Transform& xf) override
     {
-        float32 scale = 0.4f;  // Length scale for the transform axes
+        float scale = 0.4f;  // Length scale for the transform axes
 
         b2Vec2 p1 = xf.p, p2;
-        const float32 k_axisScale = 0.4f;
+        const float k_axisScale = 0.4f;
 
         // Draw X-axis (red)
         p2 = p1 + k_axisScale * xf.q.GetXAxis();
@@ -73,6 +73,8 @@ public:
         DrawSegment(p1, p2, b2Color(0, 1, 0));
     }
 
+    void DrawPoint(const b2Vec2& p, float size, const b2Color& color) override {}
+
     void SetWorld(b2World* world)
     {
         m_pWorld = world;
@@ -80,7 +82,7 @@ public:
 
     void Render()
     {
-        m_pWorld->DrawDebugData();
+        m_pWorld->DebugDraw();
     }
 
 private:

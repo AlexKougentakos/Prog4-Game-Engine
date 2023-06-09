@@ -1,5 +1,5 @@
 ﻿	#pragma once
-#include "Box2D/Dynamics/b2Body.h"
+#include "Box2D/b2_body.h"
 
 #pragma region Forward Declarations External
 //Rigidbody stuff

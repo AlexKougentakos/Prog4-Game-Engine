@@ -20,6 +20,7 @@ namespace ody
 		bool awake{ true };
 		bool bullet{ false };
 		bool enabled{ true };
+		float mass{};
 
 		float gravityScale{ 1.0f };
 
@@ -39,6 +40,8 @@ namespace ody
 
 		void Update() override {}
 		void Render() const override {}
+
+		void AddForce(const glm::vec2& force) const;
 
 		RigidBodySettings GetSettings() const { return m_Settings; }
 

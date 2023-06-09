@@ -84,6 +84,7 @@ namespace ody
 		std::map<InputDataKeyboard, std::unique_ptr<Command>> m_KeyboardActionMap{};
 
 		bool m_ExecutedIdleThumbstick{ false };
+		bool m_ExecutedOnDown{ false };
 
 		void AddControllerIfNeeded(unsigned int controllerID);
 	};

@@ -25,11 +25,17 @@ bool InputManager::ProcessInput()
 		{
 			if (unsigned int(e.key.keysym.sym) == mapPair.first.key)
 			{
-				if (mapPair.first.type == InputType::OnDown && e.type == SDL_KEYDOWN)
+				if (mapPair.first.type == InputType::OnDown && e.type == SDL_KEYDOWN && !m_ExecutedOnDown)
+				{
+					m_ExecutedOnDown = true;
 					mapPair.second->Execute();
+				}
 
 				else if (mapPair.first.type == InputType::OnRelease && e.type == SDL_KEYUP)
+				{
+					m_ExecutedOnDown = false;
 					mapPair.second->Execute();
+				}
 			}
 		}
 

@@ -9,6 +9,8 @@
 #include "IPrefab.h"
 #include "RigidBodyComponent.h"
 #include "Utils.h"
+#include <imgui.h>
+#include <iostream>
 
 namespace ody
 {
@@ -117,6 +119,10 @@ void GameScene::OnRootSceneActivated()
 		rigidBody->SetRuntimeBody(pBody);
 		pBody->SetFixedRotation(bodyDef.fixedRotation);
 
+		b2MassData massData{};
+		massData.mass = rigidBody->GetSettings().mass;
+		pBody->SetMassData(&massData);
+
 		//Colliders 
 		if (!object->GetComponent<ColliderComponent>()) continue;
 
@@ -159,13 +165,14 @@ void GameScene::OnRootSceneDeactivated()
 void GameScene::RootUpdate()
 {
 	//Physics
-	constexpr int32_t velocityIterations = 6;
-	constexpr int32_t positionIterations = 2;
+	constexpr int32_t velocityIterations = 8;
+	constexpr int32_t positionIterations = 3;
 
 	constexpr float calculationHz = 60.f;
-	constexpr float32 ts = 1.f / calculationHz;
+	constexpr float ts = 1.f / calculationHz;
+
 	m_pWorld->Step(ts, velocityIterations, positionIterations);
-	m_pWorld->DrawDebugData();
+	m_pWorld->DebugDraw();
 
 	for (const auto& object : m_pChildren)
 	{
@@ -185,5 +192,11 @@ void GameScene::RootUpdate()
 	Update();
 }
 
+void GameScene::RootOnGUI()
+{
+	ImGui::Begin("Debug Window");
+	OnGUI();
+	ImGui::End();
+}
 
 }

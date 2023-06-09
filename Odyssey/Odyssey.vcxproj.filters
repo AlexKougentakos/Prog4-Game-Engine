@@ -222,9 +222,6 @@
     <ClInclude Include="IAudio.h">
       <Filter>Odyssey Engine\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="SoundAndMusicFiles.h">
-      <Filter>Odyssey Engine\Audio</Filter>
-    </ClInclude>
     <ClInclude Include="Audio.h">
       <Filter>Odyssey Engine\Wrappers</Filter>
     </ClInclude>

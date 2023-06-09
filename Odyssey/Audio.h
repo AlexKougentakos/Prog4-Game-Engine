@@ -1,10 +1,7 @@
 #pragma once
 #include <string>
-
-//Todo: fix this forward declaration issue
-#include <SDL_mixer.h>
-//struct Mix_Music;
-//struct Mix_Chunk;
+struct _Mix_Music;
+struct Mix_Chunk;
 
 //Simple RAII wrappers for SDL_mixer sfx & music structs
 namespace ody
@@ -31,7 +28,7 @@ namespace ody
 	class Music final
 	{
 	public:
-		Mix_Music* GetMusic() const;
+		_Mix_Music* GetMusic() const;
 		explicit Music(const std::string& fullPath);
 		~Music();
 
@@ -40,7 +37,7 @@ namespace ody
 		Music& operator= (const Music&) = delete;
 		Music& operator= (const Music&&) = delete;
 	private:
-		Mix_Music* m_pMusic;
+		_Mix_Music* m_pMusic;
 	};
 }
 

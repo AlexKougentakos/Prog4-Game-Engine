@@ -2,14 +2,14 @@
 #include "RigidBodyComponent.h"
 #include "ColliderComponent.h"
 
-#include "Box2D/Dynamics/b2Fixture.h"
+#include "Box2D/b2_fixture.h"
 
 namespace ody
 {
 	void Utils::RigidbodySettingsToB2DBodyDef(RigidBodySettings bodySettingsIn, b2BodyDef& bodyOut)
 	{
 		bodyOut.type = RigidbodyTypeToB2Type(bodySettingsIn.bodyType);
-		bodyOut.active = bodySettingsIn.enabled;
+		bodyOut.enabled = bodySettingsIn.enabled;
 		bodyOut.awake = bodySettingsIn.awake;
 		bodyOut.bullet = bodySettingsIn.bullet;
 		bodyOut.fixedRotation = bodySettingsIn.fixedRotation;

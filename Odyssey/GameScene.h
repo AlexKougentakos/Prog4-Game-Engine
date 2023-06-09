@@ -2,6 +2,8 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <Box2D/b2_world.h>
+#include <glm/vec2.hpp>
 
 #include "Structs.h"
 class b2World;
@@ -38,6 +40,11 @@ namespace ody
 
 		void RootUpdate();
 		void RootRender();
+		void RootOnGUI();
+
+	/// Box2D World Settings
+		void SetGravity(const glm::vec2& gravity) const { m_pWorld->SetGravity({ gravity.x, gravity.y }); }
+	/// Box2D World Settings
 
 	protected:
 		virtual void Initialize() = 0;
@@ -58,7 +65,8 @@ namespace ody
 
 		void OnRootSceneActivated();
 		void OnRootSceneDeactivated();
-
+		
+		//Box2D
 		b2World* m_pWorld{ nullptr };
 	};
 }

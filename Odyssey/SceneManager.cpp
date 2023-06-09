@@ -23,9 +23,7 @@ namespace ody
 
 	void SceneManager::OnGUI()
 	{
-		ImGui::ShowDemoWindow();
-
-		m_pActiveScene->OnGUI();
+		m_pActiveScene->RootOnGUI();
 	}
 
 	void SceneManager::NextScene()

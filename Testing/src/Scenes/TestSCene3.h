@@ -20,9 +20,14 @@ protected:
 	void Update() override;
 	void OnGUI() override;
 
+	void OnSceneActivated() override;
+
 private:
 
 	ody::MoveCommand* m_pMoveCommand{};
 	ody::InputManager& m_InputManager = ody::InputManager::GetInstance();
+
+	ody::GameObject* gameObject;
+	const float m_CustomGravity{ 40.f };
 };
 
