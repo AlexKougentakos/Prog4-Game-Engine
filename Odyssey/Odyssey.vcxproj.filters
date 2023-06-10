@@ -7,9 +7,6 @@
     <ClCompile Include="TransformComponent.cpp">
       <Filter>Odyssey Engine\Components</Filter>
     </ClCompile>
-    <ClCompile Include="RotatorComponent.cpp">
-      <Filter>Odyssey Engine\Components\Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="Controller.cpp">
       <Filter>Odyssey Engine\Input</Filter>
     </ClCompile>
@@ -21,9 +18,6 @@
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
       <Filter>Odyssey Engine\Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="HealthComponent.cpp">
-      <Filter>Odyssey Engine\Components</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_opengl2.cpp">
       <Filter>Odyssey Engine\ImGui</Filter>
@@ -120,12 +114,6 @@
     <ClInclude Include="TextComponent.h">
       <Filter>Odyssey Engine\Components</Filter>
     </ClInclude>
-    <ClInclude Include="RotatorComponent.h">
-      <Filter>Odyssey Engine\Components\Scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="FPSCounter.h">
-      <Filter>Odyssey Engine\Components\Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="Controller.h">
       <Filter>Odyssey Engine\Input</Filter>
     </ClInclude>
@@ -137,9 +125,6 @@
     </ClInclude>
     <ClInclude Include="SceneManager.h">
       <Filter>Odyssey Engine\Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="HealthComponent.h">
-      <Filter>Odyssey Engine\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\3rdParty\imgui-1.89.4\backends\imgui_impl_opengl2.h">
       <Filter>Odyssey Engine\ImGui</Filter>
@@ -243,6 +228,9 @@
     <ClInclude Include="IPrefab.h">
       <Filter>Odyssey Engine\Scenegraph</Filter>
     </ClInclude>
+    <ClInclude Include="Constants.h">
+      <Filter>Odyssey Engine\Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Odyssey Engine">
@@ -250,9 +238,6 @@
     </Filter>
     <Filter Include="Odyssey Engine\Components">
       <UniqueIdentifier>{70a517d9-766d-4f64-a502-54d8a87005fc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Odyssey Engine\Components\Scripts">
-      <UniqueIdentifier>{bff693ea-cf59-4003-8722-9ad049506f70}</UniqueIdentifier>
     </Filter>
     <Filter Include="Odyssey Engine\Input">
       <UniqueIdentifier>{42da8c60-3eee-4c7e-9457-ef2efdfaaab4}</UniqueIdentifier>

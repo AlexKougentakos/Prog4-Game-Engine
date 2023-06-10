@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "SceneManager.h"
 
 namespace ody
 {
@@ -16,7 +17,7 @@ struct PlayerMovementSettings
 class PlayerMovementComponent : public ody::Component
 {
 public:
-	PlayerMovementComponent();
+	PlayerMovementComponent(const ody::RigidBodyComponent* rigidBody);
 	~PlayerMovementComponent() override = default;
 	PlayerMovementComponent(const PlayerMovementComponent& other) = delete;
 	PlayerMovementComponent(PlayerMovementComponent&& other) = delete;
@@ -24,7 +25,11 @@ public:
 	PlayerMovementComponent& operator=(PlayerMovementComponent&& other) = delete;
 
 	void Update() override;
+	void Jump();
 
 private:
-	ody::RigidBodyComponent* m_pRigidBodyComponent{};
+	const ody::RigidBodyComponent* m_pRigidBodyComponent{};
+
+	bool m_HasJumped{};
+	bool m_IsGrounded{};
 };

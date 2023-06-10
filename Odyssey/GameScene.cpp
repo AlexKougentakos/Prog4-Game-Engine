@@ -99,7 +99,7 @@ GameObject* GameScene::CreateGameObjectFromPrefab(const IPrefab& prefab)
 
 void GameScene::OnRootSceneActivated()
 {
-	m_pWorld = new b2World(b2Vec2(0.f, 9.81f));
+	m_pWorld = new b2World(b2Vec2(0.f, Utils::PixelsToMeters(100.f)));
 	m_pWorld->SetDebugDraw(&DebugRenderer::GetInstance());
 	DebugRenderer::GetInstance().SetWorld(m_pWorld);
 
@@ -112,29 +112,39 @@ void GameScene::OnRootSceneActivated()
 
 		b2BodyDef bodyDef{};
 		Utils::RigidbodySettingsToB2DBodyDef(rigidBody->GetSettings(), bodyDef);
-		bodyDef.position.Set(transform->GetWorldPosition().x, transform->GetWorldPosition().y);
-		//todo: add rotation
+		bodyDef.position.Set(Utils::PixelsToMeters(transform->GetWorldPosition().x), Utils::PixelsToMeters(transform->GetWorldPosition().y));
 
 		b2Body* pBody = m_pWorld->CreateBody(&bodyDef);
 		rigidBody->SetRuntimeBody(pBody);
 		pBody->SetFixedRotation(bodyDef.fixedRotation);
 
-		b2MassData massData{};
-		massData.mass = rigidBody->GetSettings().mass;
-		pBody->SetMassData(&massData);
+		// If you have mass data
+		// b2MassData massData{};
+		// massData.mass = rigidBody->GetSettings().mass;
+		// pBody->SetMassData(&massData);
 
 		//Colliders 
 		if (!object->GetComponent<ColliderComponent>()) continue;
 
 		const auto collider = object->GetComponent<ColliderComponent>();
+		const auto rb = object->GetComponent<RigidBodyComponent>();
 
 		b2PolygonShape boxShape{};
-		b2Vec2 center{ collider->GetDimensions().x, collider->GetDimensions().y };
+		b2Vec2 center{ Utils::PixelsToMeters(collider->GetDimensions().x), Utils::PixelsToMeters(collider->GetDimensions().y) };
 
-		boxShape.SetAsBox(collider->GetDimensions().x, collider->GetDimensions().y, center, 0.f );
+		boxShape.SetAsBox(Utils::PixelsToMeters(collider->GetDimensions().x), Utils::PixelsToMeters(collider->GetDimensions().y), center, 0.f);
 
 		b2FixtureDef fixtureDef{};
-		fixtureDef.shape = &boxShape;
+		b2CircleShape circle{};
+		if (object == m_pChildren[0])
+		{
+			circle.m_radius = Utils::PixelsToMeters( 16.f); // Set the radius of the circle
+
+			fixtureDef.shape = &circle;
+			circle.m_p = center;
+		}
+		else fixtureDef.shape = &boxShape;
+
 		Utils::ColliderSettingsToB2DFixtureDef(collider->GetSettings(), fixtureDef);
 
 		b2Fixture* pFixture = pBody->CreateFixture(&fixtureDef);
@@ -142,7 +152,45 @@ void GameScene::OnRootSceneActivated()
 		collider->SetRuntimeFixture(pFixture);
 	}
 
+	//for (const auto& object : m_pChildren)
+	//{
+	//	if (!object->GetComponent<RigidBodyComponent>()) continue;
 
+	//	const auto transform = object->GetTransform();
+	//	const auto rigidBody = object->GetComponent<RigidBodyComponent>();
+
+	//	b2BodyDef bodyDef{};
+	//	Utils::RigidbodySettingsToB2DBodyDef(rigidBody->GetSettings(), bodyDef);
+	//	bodyDef.position.Set(Utils::PixelsToMeters(transform->GetWorldPosition().x), Utils::PixelsToMeters(transform->GetWorldPosition().y));
+
+	//	b2Body* pBody = m_pWorld->CreateBody(&bodyDef);
+	//	rigidBody->SetRuntimeBody(pBody);
+	//	pBody->SetFixedRotation(bodyDef.fixedRotation);
+
+	//	// If you have mass data
+	//	// b2MassData massData{};
+	//	// massData.mass = rigidBody->GetSettings().mass;
+	//	// pBody->SetMassData(&massData);
+
+	//	//Colliders 
+	//	if (!object->GetComponent<ColliderComponent>()) continue;
+
+	//	const auto collider = object->GetComponent<ColliderComponent>();
+	//	const auto rb = object->GetComponent<RigidBodyComponent>();
+
+	//	b2PolygonShape boxShape{};
+	//	b2Vec2 center{ Utils::PixelsToMeters(collider->GetDimensions().x / 2.f), Utils::PixelsToMeters(collider->GetDimensions().y / 2.f) };
+
+	//	boxShape.SetAsBox(Utils::PixelsToMeters(collider->GetDimensions().x), Utils::PixelsToMeters(collider->GetDimensions().y), center, 0.f);
+
+	//	b2FixtureDef fixtureDef{};
+	//	fixtureDef.shape = &boxShape;
+	//	Utils::ColliderSettingsToB2DFixtureDef(collider->GetSettings(), fixtureDef);
+
+	//	b2Fixture* pFixture = pBody->CreateFixture(&fixtureDef);
+
+	//	collider->SetRuntimeFixture(pFixture);
+	//}
 
 	OnSceneActivated();
 }
@@ -161,8 +209,7 @@ void GameScene::OnRootSceneDeactivated()
 	m_pWorld = nullptr;
 }
 
-
-void GameScene::RootUpdate()
+void GameScene::FixedUpdate()
 {
 	//Physics
 	constexpr int32_t velocityIterations = 8;
@@ -185,9 +232,13 @@ void GameScene::RootUpdate()
 
 		const auto& position = body->GetPosition();
 
-		transform->Translate(position.x, position.y);
+		transform->Translate(Utils::MetersToPixels(position.x), Utils::MetersToPixels(position.y));
 		//todo: rotate too
 	}
+}
+
+void GameScene::RootUpdate()
+{
 
 	Update();
 }

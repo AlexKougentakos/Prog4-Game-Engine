@@ -29,7 +29,10 @@ class Utils final
 public:
 	static void RigidbodySettingsToB2DBodyDef(RigidBodySettings bodySettingsIn, b2BodyDef& bodyOut);
 	static b2BodyType RigidbodyTypeToB2Type(BodyType typeIn);
-	static void ColliderSettingsToB2DFixtureDef(ColliderSettings colliderSettingsIn, b2FixtureDef& fixtureOut);	
+	static void ColliderSettingsToB2DFixtureDef(ColliderSettings colliderSettingsIn, b2FixtureDef& fixtureOut);
+
+	static float PixelsToMeters(float pixels);
+	static float MetersToPixels(float meters);
 };
 
 }

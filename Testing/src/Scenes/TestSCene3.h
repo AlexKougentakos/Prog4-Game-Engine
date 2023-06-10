@@ -27,7 +27,7 @@ private:
 	ody::MoveCommand* m_pMoveCommand{};
 	ody::InputManager& m_InputManager = ody::InputManager::GetInstance();
 
-	ody::GameObject* gameObject;
+	ody::GameObject* player;
 	const float m_CustomGravity{ 40.f };
 };
 

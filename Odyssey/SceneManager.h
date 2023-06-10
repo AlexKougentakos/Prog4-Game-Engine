@@ -13,15 +13,18 @@ namespace ody
 		virtual ~SceneManager() override;
 
 		void Update();
-		void Render();
+		void FixedUpdate();
 
+		void Render();
 		void OnGUI();
+
 
 		//Scene Control
 		void NextScene();
 		void PreviousScene();
 		void AddScene(GameScene* pGameScene);
 
+		GameScene* const GetActiveScene() const { return m_pActiveScene.get(); }
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;

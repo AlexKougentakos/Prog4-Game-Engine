@@ -22,7 +22,7 @@ void ody::GameObject::Update()
 
 void ody::GameObject::Initialize()
 {
-	m_pTransform = &AddComponent<ody::TransformComponent>();
+	m_pTransform = AddComponent<ody::TransformComponent>();
 }
 
 void ody::GameObject::Render() const

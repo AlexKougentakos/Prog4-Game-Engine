@@ -3,6 +3,7 @@
 #include "ColliderComponent.h"
 
 #include "Box2D/b2_fixture.h"
+#include "Constants.h"
 
 namespace ody
 {
@@ -37,5 +38,15 @@ namespace ody
 		fixtureOut.friction = colliderSettingsIn.friction;
 		fixtureOut.restitution = colliderSettingsIn.restitution;
 		fixtureOut.isSensor = colliderSettingsIn.isSensor;
+	}
+
+	float Utils::MetersToPixels(float meters)
+	{
+		return meters * constants::g_PixelsPerMeter;
+	}
+
+	float Utils::PixelsToMeters(float pixels)
+	{
+		return pixels / constants::g_PixelsPerMeter;
 	}
 }

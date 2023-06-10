@@ -8,7 +8,7 @@
 void TilePrefab::Configure(ody::GameObject* gameObject) const
 {
 	ody::ColliderSettings settings{};
-	settings.density = 1.f;
+	settings.density = 0.f;
 	settings.restitution = 0.f;
 	settings.friction = 0.f;
 	settings.isSensor = false;

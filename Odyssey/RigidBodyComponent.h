@@ -43,12 +43,18 @@ namespace ody
 
 		void AddForce(const glm::vec2& force) const;
 
+		void SetVelocity(const glm::vec2& velocity) const;
+		glm::vec2 GetVelocity() const;
+
 		RigidBodySettings GetSettings() const { return m_Settings; }
 
-		b2Body* GetRuntimeBody() const { return m_pRuntimeBody; }
 		void SetRuntimeBody(b2Body* pBody) { m_pRuntimeBody = pBody; }
 
 	private:
+		//Don't expose this to the user
+		friend class GameScene;
+		b2Body* GetRuntimeBody() const { return m_pRuntimeBody; }
+
 		b2Body* m_pRuntimeBody{};
 
 		RigidBodySettings m_Settings{};

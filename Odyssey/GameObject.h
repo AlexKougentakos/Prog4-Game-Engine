@@ -38,13 +38,13 @@ namespace ody
 		void SetParent(GameObject* newParent);
 
 		template <typename T, typename... Targs>
-		T& AddComponent(Targs&&... args)
+		T* AddComponent(Targs&&... args)
 		{
 			T* newComponent(new T(std::forward<Targs>(args)...));
 
 			newComponent->SetOwner(this);
 			m_Components.emplace_back(newComponent);
-			return *newComponent;
+			return newComponent;
 		}
 
 		template<typename  T>

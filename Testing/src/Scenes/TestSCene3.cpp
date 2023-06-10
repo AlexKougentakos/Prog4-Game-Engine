@@ -13,33 +13,36 @@
 #include <json.hpp>
 #include <fstream>
 #include <Box2D/b2_body.h>
+#include "../Components/PlayerMovementComponent.h"
 
 
 void TestScene3::Initialize()
 {
-	gameObject = CreateGameObject();
-	gameObject->GetTransform()->SetPosition(50.0f, 50.0f);
-	auto& test = gameObject->AddComponent<ody::TextureComponent>("pacman.tga");
+	player = CreateGameObject();
+	player->GetTransform()->SetPosition(50.0f, 50.0f);
+	player->AddComponent<ody::TextureComponent>("pacman.tga");
 
 	ody::RigidBodySettings settings;
-	settings.gravityScale = 20;
+	settings.gravityScale = 2;
 	settings.bodyType = ody::BodyType::Dynamic;
 	settings.fixedRotation = true;
-	settings.mass = 1000;
-	gameObject->AddComponent<ody::RigidBodyComponent>(settings);
+	auto rigidBodyPlayer = player->AddComponent<ody::RigidBodyComponent>(settings);
+
+	player->AddComponent<PlayerMovementComponent>(rigidBodyPlayer);
 
 	ody::ColliderSettings settingsCol{};
 	settingsCol.restitution = 0;
-	gameObject->AddComponent<ody::ColliderComponent>(glm::vec2{16,16}, settingsCol);
+	settingsCol.density = 1.f;
+	settingsCol.friction = 0.f;
+	player->AddComponent<ody::ColliderComponent>(glm::vec2{18,18}, settingsCol);
 
-	//ody::InputManager::GetInstance().AddKeyboardCommand('w', ody::InputManager::InputType::Pressed, std::make_unique<ody::MoveCommand>(gameObject, 100.f, glm::vec2{ 0.f, -1.f}));
-	ody::InputManager::GetInstance().AddKeyboardCommand('a', ody::InputManager::InputType::Pressed, std::make_unique<ody::MoveCommand>(gameObject, 7500.f, glm::vec2{-1.f, 0.f}));
-	ody::InputManager::GetInstance().AddKeyboardCommand('d', ody::InputManager::InputType::Pressed, std::make_unique<ody::MoveCommand>(gameObject, 7500.f, glm::vec2{1.f, 0.f}));
+	ody::InputManager::GetInstance().AddKeyboardCommand('w', ody::InputManager::InputType::OnDown, std::make_unique<JumpCommand>(player, 100.f));
+	ody::InputManager::GetInstance().AddKeyboardCommand('a', ody::InputManager::InputType::Pressed, std::make_unique<ody::MoveCommand>(player, 100.f, glm::vec2{-1.f, 0.f}));
+	ody::InputManager::GetInstance().AddKeyboardCommand('d', ody::InputManager::InputType::Pressed, std::make_unique<ody::MoveCommand>(player, 100.f, glm::vec2{1.f, 0.f}));
 
-	//ody::InputManager::GetInstance().AddKeyboardCommand('w', ody::InputManager::InputType::OnRelease, std::make_unique<StopMoveCommand>(gameObject));
-	//ody::InputManager::GetInstance().AddKeyboardCommand('a', ody::InputManager::InputType::OnRelease, std::make_unique<StopMoveCommand>(gameObject));
-	//ody::InputManager::GetInstance().AddKeyboardCommand('s', ody::InputManager::InputType::OnRelease, std::make_unique<StopMoveCommand>(gameObject));
-	//ody::InputManager::GetInstance().AddKeyboardCommand('d', ody::InputManager::InputType::OnRelease, std::make_unique<StopMoveCommand>(gameObject));
+	ody::InputManager::GetInstance().AddKeyboardCommand('w', ody::InputManager::InputType::OnRelease, std::make_unique<StopMoveCommand>(player));
+	ody::InputManager::GetInstance().AddKeyboardCommand('a', ody::InputManager::InputType::OnRelease, std::make_unique<StopMoveCommand>(player));
+	ody::InputManager::GetInstance().AddKeyboardCommand('d', ody::InputManager::InputType::OnRelease, std::make_unique<StopMoveCommand>(player));
 
 	//m_InputManager.AddControllerCommand(ody::XBox360Controller::ControllerButton::LeftThumbStick, 0, ody::InputManager::InputType::OnThumbMove, std::make_unique<ody::MoveCommand>
 	//	(gameObject, 100.f, ody::InputManager::GetInstance().GetThumbstickPositionsRef(0).first));
@@ -64,7 +67,8 @@ void TestScene3::Initialize()
 	// Extract tiles
 	const std::vector<int> data = jsonData["layers"][0]["data"];
 	
-	for (int i = 0; i < data.size(); i++) {
+	for (int i = 0; i < data.size(); i++) 
+	{
 		const int x = (i % width) * tileWidth;
 		const int y = (i / width) * tileHeight;
 
@@ -73,7 +77,8 @@ void TestScene3::Initialize()
 
 		// Depending on the gid, we can set the type and asset
 		// Here's an example where 1 is a wall and 0 is empty
-		if (gid == 1) {
+		if (gid == 1) 
+		{
 			const auto platform = CreateGameObject();
 			platform->GetTransform()->SetPosition(x, y);
 
@@ -85,6 +90,7 @@ void TestScene3::Initialize()
 
 void TestScene3::OnSceneActivated()
 {
+	player->Update();
 	SetGravity({0.f, 1.f});
 }
 
@@ -107,8 +113,5 @@ void TestScene3::Update()
 
 void TestScene3::OnGUI()
 {
-	ImGui::Text("X: %f", gameObject->GetComponent<ody::RigidBodyComponent>()->GetRuntimeBody()->GetLinearVelocity().x);
-	ImGui::Text("Y: %f", gameObject->GetComponent<ody::RigidBodyComponent>()->GetRuntimeBody()->GetLinearVelocity().y);
-
 	//ImGui::ShowDemoWindow();
 }

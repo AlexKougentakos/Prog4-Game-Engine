@@ -38,6 +38,10 @@ namespace ody
 
 		SceneSettings& GetSceneSettings() { return m_SceneSettings; }
 
+		b2World* GetPhysicsWorld() const { return m_pWorld; }
+
+		void FixedUpdate();
+
 		void RootUpdate();
 		void RootRender();
 		void RootOnGUI();
@@ -67,7 +71,7 @@ namespace ody
 		void OnRootSceneDeactivated();
 		
 		//Box2D
-		b2World* m_pWorld{ nullptr };
+		b2World* m_pWorld{ nullptr }; 
 	};
 }
 

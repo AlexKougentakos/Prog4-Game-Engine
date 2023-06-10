@@ -16,6 +16,11 @@ namespace ody
 		m_pActiveScene->RootUpdate();
 	}
 
+	void SceneManager::FixedUpdate()
+	{
+		m_pActiveScene->FixedUpdate();
+	}
+
 	void SceneManager::Render()
 	{
 		m_pActiveScene->Render();

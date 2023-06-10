@@ -19,6 +19,8 @@
 #include "ServiceLocator.h"
 #include "DebugRenderer.h"
 
+#include "Constants.h"
+
 SDL_Window* g_window{};
 
 void PrintSDLVersion()
@@ -73,8 +75,8 @@ ody::Odyssey::Odyssey(const std::string &dataPath,
 		"Odyssey Engine",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		640,
-		480,
+		constants::g_ScreenWidth,
+		constants::g_ScreenHeight,
 		SDL_WINDOW_OPENGL
 	);
 	if (g_window == nullptr) 
@@ -125,13 +127,25 @@ void ody::Odyssey::Run(const std::function<void()>& load)
 	std::chrono::steady_clock::time_point lastTime{ std::chrono::high_resolution_clock::now() };
 	constexpr int FPSLimit{ 60 };
 	constexpr int maxWaitingTimeMs{ static_cast<int>(1000 / FPSLimit) };
+	float lag{ 0.0f };
+	float physicsTimeStep{ 1.0f / 60.0f };
 	while (doContinue)
 	{
 		auto currentTime = std::chrono::high_resolution_clock::now();
 		const float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
 
-		time.SetDeltaTime(deltaTime);
 		doContinue = input.ProcessInput();
+		time.SetDeltaTime(deltaTime);
+
+		lag += deltaTime;
+		while (lag >= physicsTimeStep)
+		{
+			// First time, lastTime is 0, which means deltaTime is very high, which messes this loop up
+			if (deltaTime >= 1000.0f) lag = physicsTimeStep;
+			sceneManager.FixedUpdate();
+			lag -= physicsTimeStep;
+		}
+
 		sceneManager.Update();
 		renderer.Render();
 

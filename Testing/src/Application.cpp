@@ -10,7 +10,6 @@
 #include "TransformComponent.h"
 #include "TextureComponent.h"
 #include "TextComponent.h"
-#include "FPSCounter.h"
 #include "Command.h"
 
 #include "../src/Scenes/TestScene.h"
