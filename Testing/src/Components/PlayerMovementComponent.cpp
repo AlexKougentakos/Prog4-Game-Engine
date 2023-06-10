@@ -8,6 +8,7 @@
 #include <box2d/b2_world_callbacks.h>
 #include <box2d/b2_math.h>
 
+#include "ColliderComponent.h"
 #include "DebugRenderer.h"
 #include "GameScene.h"
 #include "Utils.h"
@@ -43,26 +44,31 @@ PlayerMovementComponent::PlayerMovementComponent(const ody::RigidBodyComponent* 
 
 void PlayerMovementComponent::Update()
 {
+    const auto dimensions = GetOwner()->GetComponent<ody::ColliderComponent>()->GetDimensions();
+
     MyRayCastCallback callback;
     const b2Vec2 currentPos{
-        ody::Utils::PixelsToMeters(GetOwner()->GetTransform()->GetWorldPosition().x),
-        ody::Utils::PixelsToMeters(GetOwner()->GetTransform()->GetWorldPosition().y)
+        ody::Utils::PixelsToMeters(GetOwner()->GetTransform()->GetWorldPosition().x + dimensions.x / 2.f),
+        ody::Utils::PixelsToMeters(GetOwner()->GetTransform()->GetWorldPosition().y + dimensions.y / 2.f)
     };
-    const b2Vec2 endPoint{ currentPos - b2Vec2{0, 0.5f} };
+    const b2Vec2 endPoint{ currentPos - b2Vec2{0, -0.5f} };
 
-    //Todo: fix raycasts
+    ody::DebugRenderer::GetInstance().DrawSegment(
+		currentPos, endPoint,
+		{ 1.f, 0, 0, 1.f }
+	);
+
     ody::SceneManager::GetInstance().GetActiveScene()->GetPhysicsWorld()->RayCast(&callback, currentPos, endPoint);
 
     if (callback.m_fixture != nullptr)
     {
+        if (m_HasJumped) m_HasJumped = false;
         m_IsGrounded = true;
     }
     else
     {
         m_IsGrounded = false;
     }
-
-    std::cout << "Is grounded: " << std::boolalpha << m_IsGrounded << std::endl;
 }
 
 void PlayerMovementComponent::Jump()

@@ -1,5 +1,5 @@
 ﻿#pragma once
-#pragma warning(push, 0)
+#pragma warning(push, 0) 
 #include <SDL_render.h>
 #include <SDL_rect.h>
 #include <vector>
@@ -12,17 +12,160 @@
 
 namespace ody
 {
-
     class DebugRenderer : public ody::Singleton<DebugRenderer>, public b2Draw
     {
     public:
+        DebugRenderer()
+        {
+            m_Renderer = nullptr;
+            m_pWorld = nullptr;
+            m_DrawBuffer.reserve(100); // Set an initial capacity for the buffer
+        }
+
         void SetRenderer(SDL_Renderer* renderer)
         {
             m_Renderer = renderer;
             SetFlags(e_shapeBit | e_jointBit | e_pairBit | e_centerOfMassBit);
         }
 
+        void SetWorld(b2World* world)
+        {
+            m_pWorld = world;
+        }
+
         void DrawPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color) override
+        {
+            DrawCommand command;
+            command.type = CommandType::Polygon;
+            command.vertices = std::vector<b2Vec2>(vertices, vertices + vertexCount);
+            command.color = color;
+            m_DrawBuffer.push_back(command);
+        }
+
+        void DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color) override
+        {
+            DrawCommand command;
+            command.type = CommandType::SolidPolygon;
+            command.vertices = std::vector<b2Vec2>(vertices, vertices + vertexCount);
+            command.color = color;
+            m_DrawBuffer.push_back(command);
+        }
+
+        void DrawCircle(const b2Vec2& center, float radius, const b2Color& color) override
+        {
+            DrawCommand command;
+            command.type = CommandType::Circle;
+            command.center = center;
+            command.radius = radius;
+            command.color = color;
+            m_DrawBuffer.push_back(command);
+        }
+
+        void DrawSolidCircle(const b2Vec2& center, float radius, const b2Vec2& axis, const b2Color& color) override
+        {
+            DrawCommand command;
+            command.type = CommandType::SolidCircle;
+            command.center = center;
+            command.radius = radius;
+            command.axis = axis;
+            command.color = color;
+            m_DrawBuffer.push_back(command);
+        }
+
+        void DrawSegment(const b2Vec2& p1, const b2Vec2& p2, const b2Color& color) override
+        {
+            DrawCommand command;
+            command.type = CommandType::Segment;
+            command.p1 = p1;
+            command.p2 = p2;
+            command.color = color;
+            m_DrawBuffer.push_back(command);
+        }
+
+        void DrawTransform(const b2Transform& xf) override
+        {
+            DrawCommand command;
+            command.type = CommandType::Transform;
+            command.transform = xf;
+            m_DrawBuffer.push_back(command);
+        }
+
+        void DrawPoint(const b2Vec2& p, float size, const b2Color& color) override
+        {
+            DrawCommand command;
+            command.type = CommandType::Point;
+            command.p = p;
+            command.size = size;
+            command.color = color;
+            m_DrawBuffer.push_back(command);
+        }
+
+        void Render()
+        {
+            for (const auto& command : m_DrawBuffer)
+            {
+                switch (command.type)
+                {
+                case CommandType::Polygon:
+                    DrawPolygonInternal(command.vertices.data(), static_cast<int32>(command.vertices.size()), command.color);
+                    break;
+                case CommandType::SolidPolygon:
+                    DrawSolidPolygonInternal(command.vertices.data(), static_cast<int32>(command.vertices.size()), command.color);
+                    break;
+                case CommandType::Circle:
+                    DrawCircleInternal(command.center, command.radius, command.color);
+                    break;
+                case CommandType::SolidCircle:
+                    DrawSolidCircleInternal(command.center, command.radius, command.axis, command.color);
+                    break;
+                case CommandType::Segment:
+                    DrawSegmentInternal(command.p1, command.p2, command.color);
+                    break;
+                case CommandType::Transform:
+                    DrawTransformInternal(command.transform);
+                    break;
+                case CommandType::Point:
+                    DrawPointInternal(command.p, command.size, command.color);
+                    break;
+                }
+            }
+
+            // Clear the draw buffer after rendering
+            m_DrawBuffer.clear();
+        }
+
+    private:
+        enum class CommandType
+        {
+            Polygon,
+            SolidPolygon,
+            Circle,
+            SolidCircle,
+            Segment,
+            Transform,
+            Point
+        };
+
+        struct DrawCommand
+        {
+            CommandType type;
+            std::vector<b2Vec2> vertices;
+            b2Vec2 center;
+            float radius;
+            b2Vec2 axis;
+            b2Vec2 p1;
+            b2Vec2 p2;
+            b2Transform transform;
+            b2Vec2 p;
+            float size;
+            b2Color color;
+        };
+
+        SDL_Renderer* m_Renderer;
+        b2World* m_pWorld;
+        std::vector<DrawCommand> m_DrawBuffer;
+
+        void DrawPolygonInternal(const b2Vec2* vertices, int32 vertexCount, const b2Color& color)
         {
             SDL_Color sdlColor = ConvertColor(color);
             SDL_SetRenderDrawColor(m_Renderer, sdlColor.r, sdlColor.g, sdlColor.b, sdlColor.a);
@@ -33,7 +176,7 @@ namespace ody
             }
         }
 
-        void DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color) override
+        void DrawSolidPolygonInternal(const b2Vec2* vertices, int32 vertexCount, const b2Color& color)
         {
             if (vertexCount <= 0) return;
 
@@ -61,8 +204,7 @@ namespace ody
             SDL_RenderDrawRects(m_Renderer, rects.data(), rects.size());
         }
 
-
-        void DrawCircle(const b2Vec2& center, float radius, const b2Color& color) override
+        void DrawCircleInternal(const b2Vec2& center, float radius, const b2Color& color)
         {
             SDL_Color sdlColor = ConvertColor(color);
             SDL_SetRenderDrawColor(m_Renderer, sdlColor.r, sdlColor.g, sdlColor.b, sdlColor.a);
@@ -73,7 +215,8 @@ namespace ody
             }
         }
 
-        void DrawSolidCircle(const b2Vec2& center, float radius, const b2Vec2& axis, const b2Color& color) override {
+        void DrawSolidCircleInternal(const b2Vec2& center, float radius, const b2Vec2& axis, const b2Color& color)
+        {
             // Convert Box2D coordinates to screen coordinates
             int screenX = Utils::MetersToPixels(center.x);
             int screenY = Utils::MetersToPixels(center.y);
@@ -101,15 +244,15 @@ namespace ody
             }
         }
 
-        void DrawSegment(const b2Vec2& p1, const b2Vec2& p2, const b2Color& color) override
+        void DrawSegmentInternal(const b2Vec2& p1, const b2Vec2& p2, const b2Color& color)
         {
             SDL_Color sdlColor = ConvertColor(color);
             SDL_SetRenderDrawColor(m_Renderer, sdlColor.r, sdlColor.g, sdlColor.b, sdlColor.a);
             SDL_RenderDrawLine(m_Renderer, Utils::MetersToPixels(p1.x), Utils::MetersToPixels(p1.y),
-                Utils::Utils::MetersToPixels(p2.x), Utils::MetersToPixels(p2.y));
+                Utils::MetersToPixels(p2.x), Utils::MetersToPixels(p2.y));
         }
 
-        void DrawTransform(const b2Transform& xf) override
+        void DrawTransformInternal(const b2Transform& xf)
         {
             float scale = 0.4f;  // Length scale for the transform axes
 
@@ -118,14 +261,15 @@ namespace ody
 
             // Draw X-axis (red)
             p2 = p1 + k_axisScale * xf.q.GetXAxis();
-            DrawSegment(p1, p2, b2Color(1, 0, 0));
+            DrawSegmentInternal(p1, p2, b2Color(1, 0, 0));
 
             // Draw Y-axis (green)
             p2 = p1 + k_axisScale * xf.q.GetYAxis();
-            DrawSegment(p1, p2, b2Color(0, 1, 0));
+            DrawSegmentInternal(p1, p2, b2Color(0, 1, 0));
         }
 
-        void DrawPoint(const b2Vec2& p, float size, const b2Color& color) override {
+        void DrawPointInternal(const b2Vec2& p, float size, const b2Color& color)
+        {
             // Convert Box2D's color (0.0 to 1.0) to SDL's color (0 to 255)
             SDL_SetRenderDrawColor(m_Renderer, color.r * 255, color.g * 255, color.b * 255, 255);
 
@@ -145,29 +289,15 @@ namespace ody
             SDL_RenderFillRect(m_Renderer, &rect);
         }
 
-    void SetWorld(b2World* world)
-    {
-        m_pWorld = world;
-    }
-
-    void Render()
-    {
-        //m_pWorld->DebugDraw();
-    }
-
-private:
-    SDL_Renderer* m_Renderer{ nullptr };
-    b2World* m_pWorld{ nullptr };
-
-    SDL_Color ConvertColor(const b2Color& color)
-    {
-        SDL_Color sdlColor;
-        sdlColor.r = static_cast<Uint8>(color.r * 255);
-        sdlColor.g = static_cast<Uint8>(color.g * 255);
-        sdlColor.b = static_cast<Uint8>(color.b * 255);
-        sdlColor.a = SDL_ALPHA_OPAQUE;
-        return sdlColor;
-    }
-};
-#pragma warning(pop)
+        SDL_Color ConvertColor(const b2Color& color)
+        {
+            SDL_Color sdlColor;
+            sdlColor.r = static_cast<Uint8>(color.r * 255);
+            sdlColor.g = static_cast<Uint8>(color.g * 255);
+            sdlColor.b = static_cast<Uint8>(color.b * 255);
+            sdlColor.a = SDL_ALPHA_OPAQUE;
+            return sdlColor;
+        }
+    };
 }
+#pragma warning(pop)

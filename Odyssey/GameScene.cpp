@@ -138,53 +138,13 @@ void GameScene::OnRootSceneActivated()
 		b2CircleShape circle{};
 		if (object == m_pChildren[0])
 		{
-			circle.m_radius = Utils::PixelsToMeters( 16.f); // Set the radius of the circle
+			circle.m_radius = Utils::PixelsToMeters(16.f); // Set the radius of the circle
 
 			fixtureDef.shape = &circle;
 			circle.m_p = center;
 		}
 		else fixtureDef.shape = &boxShape;
 
-		Utils::ColliderSettingsToB2DFixtureDef(collider->GetSettings(), fixtureDef);
-
-		b2Fixture* pFixture = pBody->CreateFixture(&fixtureDef);
-
-		collider->SetRuntimeFixture(pFixture);
-	}
-
-	//for (const auto& object : m_pChildren)
-	//{
-	//	if (!object->GetComponent<RigidBodyComponent>()) continue;
-
-		const auto transform = object->GetTransform();
-		const auto rigidBody = object->GetComponent<RigidBodyComponent>();
-
-	//	b2BodyDef bodyDef{};
-	//	Utils::RigidbodySettingsToB2DBodyDef(rigidBody->GetSettings(), bodyDef);
-	//	bodyDef.position.Set(Utils::PixelsToMeters(transform->GetWorldPosition().x), Utils::PixelsToMeters(transform->GetWorldPosition().y));
-
-		b2Body* pBody = m_pWorld->CreateBody(&bodyDef);
-		rigidBody->SetRuntimeBody(pBody);
-		pBody->SetFixedRotation(bodyDef.fixedRotation);
-
-	//	// If you have mass data
-	//	// b2MassData massData{};
-	//	// massData.mass = rigidBody->GetSettings().mass;
-	//	// pBody->SetMassData(&massData);
-
-		//Colliders 
-		if (!object->GetComponent<ColliderComponent>()) continue;
-
-	//	const auto collider = object->GetComponent<ColliderComponent>();
-	//	const auto rb = object->GetComponent<RigidBodyComponent>();
-
-	//	b2PolygonShape boxShape{};
-	//	b2Vec2 center{ Utils::PixelsToMeters(collider->GetDimensions().x / 2.f), Utils::PixelsToMeters(collider->GetDimensions().y / 2.f) };
-
-	//	boxShape.SetAsBox(Utils::PixelsToMeters(collider->GetDimensions().x), Utils::PixelsToMeters(collider->GetDimensions().y), center, 0.f);
-
-		b2FixtureDef fixtureDef{};
-		fixtureDef.shape = &boxShape;
 		Utils::ColliderSettingsToB2DFixtureDef(collider->GetSettings(), fixtureDef);
 
 		b2Fixture* pFixture = pBody->CreateFixture(&fixtureDef);
@@ -219,7 +179,7 @@ void GameScene::FixedUpdate()
 	constexpr float ts = 1.f / calculationHz;
 
 	m_pWorld->Step(ts, velocityIterations, positionIterations);
-	m_pWorld->DebugDraw();
+	//m_pWorld->DebugDraw();
 
 	for (const auto& object : m_pChildren)
 	{
