@@ -99,48 +99,48 @@ GameObject* GameScene::CreateGameObjectFromPrefab(const IPrefab& prefab)
 
 void GameScene::OnRootSceneActivated()
 {
-	m_pWorld = new b2World(b2Vec2(0.f, 9.81f));
-	m_pWorld->SetDebugDraw(&DebugRenderer::GetInstance());
-	DebugRenderer::GetInstance().SetWorld(m_pWorld);
+	//m_pWorld = new b2World(b2Vec2(0.f, 9.81f));
+	//m_pWorld->SetDebugDraw(&DebugRenderer::GetInstance());
+	//DebugRenderer::GetInstance().SetWorld(m_pWorld);
 
-	for (const auto& object : m_pChildren)
-	{
-		if (!object->GetComponent<RigidBodyComponent>()) continue;
+	//for (const auto& object : m_pChildren)
+	//{
+	//	if (!object->GetComponent<RigidBodyComponent>()) continue;
 
-		const auto transform = object->GetTransform();
-		const auto rigidBody = object->GetComponent<RigidBodyComponent>();
+	//	const auto transform = object->GetTransform();
+	//	const auto rigidBody = object->GetComponent<RigidBodyComponent>();
 
-		b2BodyDef bodyDef{};
-		Utils::RigidbodySettingsToB2DBodyDef(rigidBody->GetSettings(), bodyDef);
-		bodyDef.position.Set(transform->GetWorldPosition().x, transform->GetWorldPosition().y);
-		//todo: add rotation
+	//	b2BodyDef bodyDef{};
+	//	Utils::RigidbodySettingsToB2DBodyDef(rigidBody->GetSettings(), bodyDef);
+	//	bodyDef.position.Set(transform->GetWorldPosition().x, transform->GetWorldPosition().y);
+	//	//todo: add rotation
 
-		b2Body* pBody = m_pWorld->CreateBody(&bodyDef);
-		rigidBody->SetRuntimeBody(pBody);
-		pBody->SetFixedRotation(bodyDef.fixedRotation);
+	//	b2Body* pBody = m_pWorld->CreateBody(&bodyDef);
+	//	rigidBody->SetRuntimeBody(pBody);
+	//	pBody->SetFixedRotation(bodyDef.fixedRotation);
 
-		b2MassData massData{};
-		massData.mass = rigidBody->GetSettings().mass;
-		pBody->SetMassData(&massData);
+	//	b2MassData massData{};
+	//	massData.mass = rigidBody->GetSettings().mass;
+	//	pBody->SetMassData(&massData);
 
-		//Colliders 
-		if (!object->GetComponent<ColliderComponent>()) continue;
+	//	//Colliders 
+	//	if (!object->GetComponent<ColliderComponent>()) continue;
 
-		const auto collider = object->GetComponent<ColliderComponent>();
+	//	const auto collider = object->GetComponent<ColliderComponent>();
 
-		b2PolygonShape boxShape{};
-		b2Vec2 center{ collider->GetDimensions().x, collider->GetDimensions().y };
+	//	b2PolygonShape boxShape{};
+	//	b2Vec2 center{ collider->GetDimensions().x, collider->GetDimensions().y };
 
-		boxShape.SetAsBox(collider->GetDimensions().x, collider->GetDimensions().y, center, 0.f );
+	//	boxShape.SetAsBox(collider->GetDimensions().x, collider->GetDimensions().y, center, 0.f );
 
-		b2FixtureDef fixtureDef{};
-		fixtureDef.shape = &boxShape;
-		Utils::ColliderSettingsToB2DFixtureDef(collider->GetSettings(), fixtureDef);
+	//	b2FixtureDef fixtureDef{};
+	//	fixtureDef.shape = &boxShape;
+	//	Utils::ColliderSettingsToB2DFixtureDef(collider->GetSettings(), fixtureDef);
 
-		b2Fixture* pFixture = pBody->CreateFixture(&fixtureDef);
+	//	b2Fixture* pFixture = pBody->CreateFixture(&fixtureDef);
 
-		collider->SetRuntimeFixture(pFixture);
-	}
+	//	collider->SetRuntimeFixture(pFixture);
+	//}
 
 
 
@@ -157,37 +157,37 @@ void GameScene::OnRootSceneDeactivated()
 {
 	OnSceneDeactivated();
 
-	delete m_pWorld;
-	m_pWorld = nullptr;
+	//delete m_pWorld;
+	//m_pWorld = nullptr;
 }
 
 
 void GameScene::RootUpdate()
 {
 	//Physics
-	constexpr int32_t velocityIterations = 8;
-	constexpr int32_t positionIterations = 3;
+	//constexpr int32_t velocityIterations = 8;
+	//constexpr int32_t positionIterations = 3;
 
-	constexpr float calculationHz = 60.f;
-	constexpr float ts = 1.f / calculationHz;
+	//constexpr float calculationHz = 60.f;
+	//constexpr float ts = 1.f / calculationHz;
 
-	m_pWorld->Step(ts, velocityIterations, positionIterations);
-	m_pWorld->DebugDraw();
+	//m_pWorld->Step(ts, velocityIterations, positionIterations);
+	//m_pWorld->DebugDraw();
 
-	for (const auto& object : m_pChildren)
-	{
-		if (!object->GetComponent<RigidBodyComponent>()) continue;
+	//for (const auto& object : m_pChildren)
+	//{
+	//	if (!object->GetComponent<RigidBodyComponent>()) continue;
 
-		const auto transform = object->GetTransform();
-		const auto rigidBody = object->GetComponent<RigidBodyComponent>();
+	//	const auto transform = object->GetTransform();
+	//	const auto rigidBody = object->GetComponent<RigidBodyComponent>();
 
-		const b2Body* body = rigidBody->GetRuntimeBody();
+	//	const b2Body* body = rigidBody->GetRuntimeBody();
 
-		const auto& position = body->GetPosition();
+	//	const auto& position = body->GetPosition();
 
-		transform->Translate(position.x, position.y);
-		//todo: rotate too
-	}
+	//	transform->Translate(position.x, position.y);
+	//	//todo: rotate too
+	//}
 
 	Update();
 }

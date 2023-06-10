@@ -43,7 +43,7 @@ namespace ody
 		void RootOnGUI();
 
 	/// Box2D World Settings
-		void SetGravity(const glm::vec2& gravity) const { m_pWorld->SetGravity({ gravity.x, gravity.y }); }
+		//void SetGravity(const glm::vec2& gravity) const { m_pWorld->SetGravity({ gravity.x, gravity.y }); }
 	/// Box2D World Settings
 
 	protected:
@@ -67,7 +67,7 @@ namespace ody
 		void OnRootSceneDeactivated();
 		
 		//Box2D
-		b2World* m_pWorld{ nullptr };
+		//b2World* m_pWorld{ nullptr };
 	};
 }
 

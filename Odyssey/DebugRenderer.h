@@ -82,7 +82,7 @@ public:
 
     void Render()
     {
-        m_pWorld->DebugDraw();
+        //m_pWorld->DebugDraw();
     }
 
 private:

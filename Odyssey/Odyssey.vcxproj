@@ -245,6 +245,7 @@
     <ClInclude Include="Command.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="DebugRenderer.h" />
+    <ClInclude Include="Event.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSCounter.h" />
     <ClInclude Include="GameObject.h" />
@@ -256,6 +257,8 @@
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="Odyssey.h" />
+    <ClInclude Include="PhysicsEngine.h" />
+    <ClInclude Include="PhysicsStepEvent.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="RigidBodyComponent.h" />
@@ -298,6 +301,7 @@
     <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="InputManager2.cpp" />
     <ClCompile Include="Odyssey.cpp" />
+    <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="RigidBodyComponent.cpp" />

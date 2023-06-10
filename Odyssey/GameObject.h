@@ -43,6 +43,8 @@ namespace ody
 			T* newComponent(new T(std::forward<Targs>(args)...));
 
 			newComponent->SetOwner(this);
+			newComponent->Initialize();
+
 			m_Components.emplace_back(newComponent);
 			return *newComponent;
 		}

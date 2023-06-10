@@ -10,6 +10,7 @@
 #include "TextComponent.h"
 #include "../Commands/Commands.h"
 #include "../Prefabs/TilePrefab.h"
+#include "PhysicsEngine.h"
 #include <json.hpp>
 #include <fstream>
 #include <Box2D/b2_body.h>
@@ -20,26 +21,29 @@ void TestScene3::Initialize()
 	gameObject = CreateGameObject();
 	gameObject->GetTransform()->SetPosition(50.0f, 50.0f);
 	auto& test = gameObject->AddComponent<ody::TextureComponent>("pacman.tga");
-
-	ody::RigidBodySettings settings;
-	settings.gravityScale = 20;
-	settings.bodyType = ody::BodyType::Dynamic;
-	settings.fixedRotation = true;
-	settings.mass = 1000;
-	gameObject->AddComponent<ody::RigidBodyComponent>(settings);
-
+	
 	ody::ColliderSettings settingsCol{};
 	settingsCol.restitution = 0;
-	gameObject->AddComponent<ody::ColliderComponent>(glm::vec2{16,16}, settingsCol);
+	settingsCol.density = 1.f;
+	settingsCol.friction = 0.3f;
+
+	ody::RigidBodySettings settings;
+	settings.gravityScale = 10;
+	settings.bodyType = ody::BodyType::Dynamic;
+	settings.fixedRotation = true;
+	settings.mass = 1;
+	gameObject->AddComponent<ody::RigidBodyComponent>(settings, settingsCol);
+
+	//gameObject->AddComponent<ody::ColliderComponent>(glm::vec2{16,16}, settingsCol);
 
 	//ody::InputManager::GetInstance().AddKeyboardCommand('w', ody::InputManager::InputType::Pressed, std::make_unique<ody::MoveCommand>(gameObject, 100.f, glm::vec2{ 0.f, -1.f}));
 	ody::InputManager::GetInstance().AddKeyboardCommand('a', ody::InputManager::InputType::Pressed, std::make_unique<ody::MoveCommand>(gameObject, 7500.f, glm::vec2{-1.f, 0.f}));
 	ody::InputManager::GetInstance().AddKeyboardCommand('d', ody::InputManager::InputType::Pressed, std::make_unique<ody::MoveCommand>(gameObject, 7500.f, glm::vec2{1.f, 0.f}));
 
 	//ody::InputManager::GetInstance().AddKeyboardCommand('w', ody::InputManager::InputType::OnRelease, std::make_unique<StopMoveCommand>(gameObject));
-	//ody::InputManager::GetInstance().AddKeyboardCommand('a', ody::InputManager::InputType::OnRelease, std::make_unique<StopMoveCommand>(gameObject));
+	ody::InputManager::GetInstance().AddKeyboardCommand('a', ody::InputManager::InputType::OnRelease, std::make_unique<StopMoveCommand>(gameObject));
 	//ody::InputManager::GetInstance().AddKeyboardCommand('s', ody::InputManager::InputType::OnRelease, std::make_unique<StopMoveCommand>(gameObject));
-	//ody::InputManager::GetInstance().AddKeyboardCommand('d', ody::InputManager::InputType::OnRelease, std::make_unique<StopMoveCommand>(gameObject));
+	ody::InputManager::GetInstance().AddKeyboardCommand('d', ody::InputManager::InputType::OnRelease, std::make_unique<StopMoveCommand>(gameObject));
 
 	//m_InputManager.AddControllerCommand(ody::XBox360Controller::ControllerButton::LeftThumbStick, 0, ody::InputManager::InputType::OnThumbMove, std::make_unique<ody::MoveCommand>
 	//	(gameObject, 100.f, ody::InputManager::GetInstance().GetThumbstickPositionsRef(0).first));
@@ -85,7 +89,8 @@ void TestScene3::Initialize()
 
 void TestScene3::OnSceneActivated()
 {
-	SetGravity({0.f, 1.f});
+	//SetGravity({0.f, 1.f});
+	ody::PhysicsEngine::GetInstance().SetPhysicsWorld({ 0, 9 });
 }
 
 

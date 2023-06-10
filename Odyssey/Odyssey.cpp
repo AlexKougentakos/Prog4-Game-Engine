@@ -18,6 +18,7 @@
 #include "AudioSystem.h"
 #include "ServiceLocator.h"
 #include "DebugRenderer.h"
+#include "PhysicsEngine.h"
 
 SDL_Window* g_window{};
 
@@ -84,9 +85,9 @@ ody::Odyssey::Odyssey(const std::string &dataPath,
 
 	Renderer::GetInstance().Init(g_window);
 
-	auto& resourceManager = ResourceManager::GetInstance();
+	PhysicsEngine::GetInstance().Initialize();
 
-	resourceManager.Init(dataPath);
+	ResourceManager::GetInstance().Init(dataPath);
 
 	m_pAudioSystem = std::make_unique<ody::AudioSystem>(SfxLocationMap);
 
@@ -125,13 +126,25 @@ void ody::Odyssey::Run(const std::function<void()>& load)
 	std::chrono::steady_clock::time_point lastTime{ std::chrono::high_resolution_clock::now() };
 	constexpr int FPSLimit{ 60 };
 	constexpr int maxWaitingTimeMs{ static_cast<int>(1000 / FPSLimit) };
+	float lag{ 0.0f };
+	const float physicsTimeStep{ Time::GetInstance().GetPhysicsTimeStep() }; 
+	constexpr int velocityIterations{ 8 }, positionIterations{ 3 };
+
 	while (doContinue)
 	{
 		auto currentTime = std::chrono::high_resolution_clock::now();
 		const float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
 
-		time.SetDeltaTime(deltaTime);
 		doContinue = input.ProcessInput();
+		time.SetDeltaTime(deltaTime);
+
+		lag += deltaTime;
+		while (lag >= physicsTimeStep)
+		{
+			if (deltaTime >= 1000.0f) lag = physicsTimeStep;
+			PhysicsEngine::GetInstance().Step(physicsTimeStep, velocityIterations, positionIterations);
+			lag -= physicsTimeStep;
+		}
 		sceneManager.Update();
 		renderer.Render();
 

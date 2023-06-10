@@ -18,6 +18,6 @@ void TilePrefab::Configure(ody::GameObject* gameObject) const
 	rigidBodySettings.fixedRotation = true;
 
 	gameObject->AddComponent<ody::TextureComponent>("tile.png", glm::vec2{32.f, 32.f});
-	gameObject->AddComponent<ody::ColliderComponent>(glm::vec2{16.f,16.f}, settings);
-	gameObject->AddComponent<ody::RigidBodyComponent>(rigidBodySettings);
+	//gameObject->AddComponent<ody::ColliderComponent>(glm::vec2{16.f,16.f}, settings);
+	gameObject->AddComponent<ody::RigidBodyComponent>(rigidBodySettings, settings);
 }
