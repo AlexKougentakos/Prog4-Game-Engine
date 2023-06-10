@@ -18,7 +18,7 @@ namespace ody
 	
 	enum class GameEvent
 	{
-		TEST_EVENT
+		StepUpdateEvent,
 	};
 
 #pragma endregion

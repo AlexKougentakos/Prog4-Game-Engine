@@ -2,6 +2,7 @@
 #include <glm/vec2.hpp>
 
 #include "Component.h"
+#include "Observer.h"
 
 class b2Body;
 
@@ -12,6 +13,15 @@ namespace ody
 		Static = 0,
 		Kinematic,
 		Dynamic
+	};
+
+	struct ColliderSettings
+	{
+		float density = 1.0f;
+		float friction = 0.3f;
+		float restitution = 0.5f;
+
+		bool isSensor = false;
 	};
 
 	struct RigidBodySettings
@@ -27,10 +37,10 @@ namespace ody
 		BodyType bodyType{ BodyType::Static };
 	};
 
-	class RigidBodyComponent : public Component
+	class RigidBodyComponent : public Component, public IObserver
 	{
 	public:
-		RigidBodyComponent(RigidBodySettings settings = {});
+		RigidBodyComponent(RigidBodySettings settings = {}, ColliderSettings colliderSettings = {});
 
 		~RigidBodyComponent() override = default;
 		RigidBodyComponent(const RigidBodyComponent& other) = delete;
@@ -38,8 +48,7 @@ namespace ody
 		RigidBodyComponent& operator=(const RigidBodyComponent& other) = delete;
 		RigidBodyComponent& operator=(RigidBodyComponent&& other) = delete;
 
-		void Update() override {}
-		void Render() const override {}
+		void Initialize() override;
 
 		void AddForce(const glm::vec2& force) const;
 
@@ -50,6 +59,7 @@ namespace ody
 
 		void SetRuntimeBody(b2Body* pBody) { m_pRuntimeBody = pBody; }
 
+		void OnNotify(GameEvent gameEvent) override;
 	private:
 		//Don't expose this to the user
 		friend class GameScene;

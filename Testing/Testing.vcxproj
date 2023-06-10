@@ -178,7 +178,6 @@
   <ItemGroup>
     <ClInclude Include="src\Commands\Commands.h" />
     <ClInclude Include="src\Components\PlayerMovementComponent.h" />
-    <ClInclude Include="src\AchievementTest.h" />
     <ClInclude Include="src\Scenes\TestScene.h" />
     <ClInclude Include="src\Scenes\TestScene2.h" />
     <ClInclude Include="src\Scenes\TestSCene3.h" />

@@ -22,6 +22,8 @@ namespace ody
 
 		void SetOwner(ody::GameObject* owner);
 		GameObject* GetOwner() const;
+
+		virtual void Initialize() {};
 		virtual void Update() {}
 		virtual void Render() const {};
 
