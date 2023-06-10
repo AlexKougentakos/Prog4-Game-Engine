@@ -134,6 +134,7 @@ void ody::Odyssey::Run(const std::function<void()>& load)
 		auto currentTime = std::chrono::high_resolution_clock::now();
 		const float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
 
+		time.SetDeltaTime(deltaTime);
 		doContinue = input.ProcessInput();
 		time.SetDeltaTime(deltaTime);
 

@@ -156,24 +156,24 @@ void GameScene::OnRootSceneActivated()
 	//{
 	//	if (!object->GetComponent<RigidBodyComponent>()) continue;
 
-	//	const auto transform = object->GetTransform();
-	//	const auto rigidBody = object->GetComponent<RigidBodyComponent>();
+		const auto transform = object->GetTransform();
+		const auto rigidBody = object->GetComponent<RigidBodyComponent>();
 
 	//	b2BodyDef bodyDef{};
 	//	Utils::RigidbodySettingsToB2DBodyDef(rigidBody->GetSettings(), bodyDef);
 	//	bodyDef.position.Set(Utils::PixelsToMeters(transform->GetWorldPosition().x), Utils::PixelsToMeters(transform->GetWorldPosition().y));
 
-	//	b2Body* pBody = m_pWorld->CreateBody(&bodyDef);
-	//	rigidBody->SetRuntimeBody(pBody);
-	//	pBody->SetFixedRotation(bodyDef.fixedRotation);
+		b2Body* pBody = m_pWorld->CreateBody(&bodyDef);
+		rigidBody->SetRuntimeBody(pBody);
+		pBody->SetFixedRotation(bodyDef.fixedRotation);
 
 	//	// If you have mass data
 	//	// b2MassData massData{};
 	//	// massData.mass = rigidBody->GetSettings().mass;
 	//	// pBody->SetMassData(&massData);
 
-	//	//Colliders 
-	//	if (!object->GetComponent<ColliderComponent>()) continue;
+		//Colliders 
+		if (!object->GetComponent<ColliderComponent>()) continue;
 
 	//	const auto collider = object->GetComponent<ColliderComponent>();
 	//	const auto rb = object->GetComponent<RigidBodyComponent>();
@@ -183,14 +183,14 @@ void GameScene::OnRootSceneActivated()
 
 	//	boxShape.SetAsBox(Utils::PixelsToMeters(collider->GetDimensions().x), Utils::PixelsToMeters(collider->GetDimensions().y), center, 0.f);
 
-	//	b2FixtureDef fixtureDef{};
-	//	fixtureDef.shape = &boxShape;
-	//	Utils::ColliderSettingsToB2DFixtureDef(collider->GetSettings(), fixtureDef);
+		b2FixtureDef fixtureDef{};
+		fixtureDef.shape = &boxShape;
+		Utils::ColliderSettingsToB2DFixtureDef(collider->GetSettings(), fixtureDef);
 
-	//	b2Fixture* pFixture = pBody->CreateFixture(&fixtureDef);
+		b2Fixture* pFixture = pBody->CreateFixture(&fixtureDef);
 
-	//	collider->SetRuntimeFixture(pFixture);
-	//}
+		collider->SetRuntimeFixture(pFixture);
+	}
 
 	OnSceneActivated();
 }
