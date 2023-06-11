@@ -4,6 +4,7 @@
 #include "RigidBodyComponent.h"
 #include <Box2D/b2_body.h>
 #include "../Components/PlayerMovementComponent.h"
+#include "../Components/PlayerShootingComponent.h"
 
 
 void StopMoveCommand::Execute()
@@ -18,4 +19,9 @@ void StopMoveCommand::Execute()
 void JumpCommand::Execute()
 {
 	m_pActor->GetComponent<PlayerMovementComponent>()->Jump();
+}
+
+void ShootBubbleCommand::Execute()
+{
+	m_pActor->GetComponent<PlayerShootingComponent>()->Shoot();
 }

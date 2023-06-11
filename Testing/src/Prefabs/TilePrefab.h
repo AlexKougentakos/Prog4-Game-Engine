@@ -22,7 +22,7 @@ public:
 	WallTilePrefab() = default;
 	virtual ~WallTilePrefab() override = default;
 	WallTilePrefab(const WallTilePrefab& other) = delete;
-	WallTilePrefab(TilePrefab&& other) = delete;
+	WallTilePrefab(WallTilePrefab&& other) = delete;
 	WallTilePrefab& operator=(const WallTilePrefab& other) = delete;
 	WallTilePrefab& operator=(WallTilePrefab&& other) = delete;
 

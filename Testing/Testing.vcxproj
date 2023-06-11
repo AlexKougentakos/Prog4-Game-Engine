@@ -167,6 +167,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Components\PlayerShootingComponent.cpp" />
+    <ClCompile Include="src\Prefabs\BubblePrefab.cpp" />
+    <ClCompile Include="src\Components\BubbleProjectileComponent.cpp" />
     <ClCompile Include="src\Commands\Commands.cpp" />
     <ClCompile Include="src\Components\PlayerMovementComponent.cpp" />
     <ClCompile Include="src\Application.cpp" />
@@ -176,6 +179,9 @@
     <ClCompile Include="src\Prefabs\TilePrefab.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Components\PlayerShootingComponent.h" />
+    <ClInclude Include="src\Prefabs\BubblePrefab.h" />
+    <ClInclude Include="src\Components\BubbleProjectileComponent.h" />
     <ClInclude Include="src\Commands\Commands.h" />
     <ClInclude Include="src\Components\PlayerMovementComponent.h" />
     <ClInclude Include="src\Scenes\TestScene.h" />

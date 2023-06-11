@@ -7,6 +7,11 @@
 #include "Renderer.h"
 #include "Component.h"
 
+ody::GameObject::GameObject(ody::GameScene* scene)
+{
+	m_pParentScene = scene;
+}
+
 ody::GameObject::~GameObject()
 {
 			

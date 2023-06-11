@@ -36,7 +36,6 @@ public:
     float m_fraction;
 };
 
-
 PlayerMovementComponent::PlayerMovementComponent(const ody::RigidBodyComponent* rigidBody)
 {
 	m_pRigidBodyComponent = rigidBody;

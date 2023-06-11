@@ -77,7 +77,7 @@ void GameScene::RemoveChild(GameObject* object, bool keepChildren)
 
 GameObject* GameScene::CreateGameObject()
 {
-	auto gameObject = new GameObject();
+	auto gameObject = new GameObject(this);
 	gameObject->Initialize();
 
 	m_pChildren.emplace_back(std::move(gameObject));
@@ -87,7 +87,7 @@ GameObject* GameScene::CreateGameObject()
 
 GameObject* GameScene::CreateGameObjectFromPrefab(const IPrefab& prefab)
 {
-	auto gameObject = new GameObject();
+	auto gameObject = new GameObject(this);
 	gameObject->Initialize();
 	//todo: test prefabs
 	prefab.Configure(gameObject);

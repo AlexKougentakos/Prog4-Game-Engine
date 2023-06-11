@@ -34,3 +34,19 @@ private:
 	ody::GameObject* m_pActor{};
 	float m_JumpForce{};
 };
+
+class ShootBubbleCommand : public ody::Command
+{
+public:
+	ShootBubbleCommand(ody::GameObject* pActor) : m_pActor{ pActor }{}
+
+	virtual ~ShootBubbleCommand() override = default;
+	ShootBubbleCommand(const ShootBubbleCommand& other) = delete;
+	ShootBubbleCommand(ShootBubbleCommand&& other) = delete;
+	ShootBubbleCommand& operator=(const ShootBubbleCommand& other) = delete;
+	ShootBubbleCommand& operator=(ShootBubbleCommand&& other) = delete;
+
+	virtual void Execute() override;
+private:
+	ody::GameObject* m_pActor{};
+};

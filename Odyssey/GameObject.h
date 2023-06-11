@@ -10,11 +10,12 @@
 namespace ody
 {
 	class Texture2D;
+	class GameScene;
 
 	class GameObject final : public std::enable_shared_from_this<GameObject>
 	{
 	private:
-		GameObject() = default; //Only the scene can create game objects since it has to own them
+		GameObject(GameScene* parentScene); //Only the scene can create game objects since it has to own them
 		friend class GameScene;
 	public:
 		~GameObject();
@@ -84,6 +85,8 @@ namespace ody
 			return false;
 		}
 
+		GameScene* GetScene() const { return m_pParentScene; }
+
 	private:
 		std::vector<std::shared_ptr<ody::Component>> m_Components{};
 		std::vector<GameObject*> m_pChildren{};
@@ -93,6 +96,8 @@ namespace ody
 		bool RemoveChild(unsigned int index);
 		bool RemoveChild(GameObject* child);
 		void AddChild(GameObject* gameObject);
+
+		GameScene* m_pParentScene{};
 
 		//Default Components
 		ody::TransformComponent* m_pTransform{};
