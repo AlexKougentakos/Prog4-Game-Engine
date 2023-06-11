@@ -15,6 +15,7 @@ namespace ody
 		bodyOut.bullet = bodySettingsIn.bullet;
 		bodyOut.fixedRotation = bodySettingsIn.fixedRotation;
 		bodyOut.gravityScale = bodySettingsIn.gravityScale;
+		bodyOut.position.Set(PixelsToMeters(bodySettingsIn.startingPosition.x), PixelsToMeters(bodySettingsIn.startingPosition.y));
 	}
 
 	b2BodyType Utils::RigidbodyTypeToB2Type(BodyType typeIn)

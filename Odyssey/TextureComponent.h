@@ -50,10 +50,6 @@ namespace ody
 			m_pTexture = ody::ResourceManager::GetInstance().LoadTexture(filename);
 		}
 
-		virtual void Update() override
-		{
-
-		}
 		virtual void Render() const override
 		{
 			const auto pTransformComponent{ GetOwner()->GetComponent<TransformComponent>()};

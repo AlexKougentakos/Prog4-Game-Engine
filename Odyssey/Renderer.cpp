@@ -5,6 +5,7 @@
 #include "SceneManager.h"
 #include "Texture2D.h"
 #include "imgui.h"
+#include "ImGuiManager.h"
 #include "backends/imgui_impl_sdl2.h"
 #include "../3rdParty/imgui-1.89.4/backends/imgui_impl_opengl2.h"
 #include "../ImPlot/implot.h"
@@ -48,16 +49,17 @@ void ody::Renderer::Render() const
 	SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
 	SDL_RenderClear(m_renderer);
 
-	auto& sceneMangaer = SceneManager::GetInstance();
+	auto& sceneManager = SceneManager::GetInstance();
 
-	sceneMangaer.Render();
+	sceneManager.Render();
 
 #ifdef _DEBUG
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplSDL2_NewFrame(m_window);
 	ImGui::NewFrame();
 
-	sceneMangaer.OnGUI();
+	sceneManager.OnGUI();
+	ImGuiManager::GetInstance().Render();
 
 	ImGui::Render();
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
@@ -101,5 +103,24 @@ void ody::Renderer::RenderTexture(const Texture2D& texture, const float x, const
 	dst.h = static_cast<int>(height);
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
+
+void ody::Renderer::RenderTexture(const Texture2D& texture, float x, float y, float width, float height, float srcX, float srcY, float scale ) const
+{
+	SDL_Rect src{};
+	src.x = static_cast<int>(srcX);
+	src.y = static_cast<int>(srcY);
+	src.w = static_cast<int>(width);
+	src.h = static_cast<int>(height);
+
+	SDL_Rect dst{};
+	dst.x = static_cast<int>(x);
+	dst.y = static_cast<int>(y);
+	dst.w = static_cast<int>(width * scale);
+	dst.h = static_cast<int>(height * scale);
+
+	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), &src, &dst);
+}
+
+
 
 inline SDL_Renderer* ody::Renderer::GetSDLRenderer() const { return m_renderer; }

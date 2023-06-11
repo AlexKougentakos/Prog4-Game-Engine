@@ -102,6 +102,7 @@ namespace ody
 
         void Render()
         {
+#ifdef _DEBUG
             for (const auto& command : m_DrawBuffer)
             {
                 switch (command.type)
@@ -132,6 +133,7 @@ namespace ody
 
             // Clear the draw buffer after rendering
             m_DrawBuffer.clear();
+#endif
         }
 
     private:

@@ -31,7 +31,7 @@ void WallTilePrefab::Configure(ody::GameObject* gameObject) const
 	settings.restitution = 0.f;
 	settings.friction = 0.f;
 	settings.isSensor = false;
-	settings.collisionGroup = ody::constants::CollisionGroups::None;
+	settings.collisionGroup = ody::constants::CollisionGroups::Group3;
 
 	ody::RigidBodySettings rigidBodySettings{};
 	rigidBodySettings.bodyType = ody::BodyType::Static;

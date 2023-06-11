@@ -21,6 +21,20 @@ void JumpCommand::Execute()
 	m_pActor->GetComponent<PlayerMovementComponent>()->Jump();
 }
 
+void MoveCommand::Execute()
+{
+	const auto b2dBody = m_pActor->GetComponent<ody::RigidBodyComponent>();
+
+	if (m_UseRef)
+		m_pActor->GetComponent<PlayerMovementComponent>()->Move(*m_MoveDirectionRef);
+	//b2dBody->SetLinearVelocity({ m_MoveDirectionRef->x * m_MoveSpeed, m_MoveDirectionRef->y * m_MoveSpeed });
+
+	else
+	{
+		m_pActor->GetComponent<PlayerMovementComponent>()->Move(m_MoveDirection);
+	}
+}
+
 void ShootBubbleCommand::Execute()
 {
 	m_pActor->GetComponent<PlayerShootingComponent>()->Shoot();

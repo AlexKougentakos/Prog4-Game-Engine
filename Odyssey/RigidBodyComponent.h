@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <Box2D/b2_body.h>
 #include <glm/vec2.hpp>
 
 #include "Component.h"
@@ -24,6 +25,7 @@ namespace ody
 		float mass{};
 
 		float gravityScale{ 1.0f };
+		glm::vec2 startingPosition{0.f, 0.f};
 
 		BodyType bodyType{ BodyType::Static };
 	};
@@ -31,7 +33,7 @@ namespace ody
 	class RigidBodyComponent : public Component
 	{
 	public:
-		RigidBodyComponent(RigidBodySettings settings = {});
+		RigidBodyComponent(RigidBodySettings settings = {}, bool runtimeCreate = false);
 
 		~RigidBodyComponent() override = default;
 		RigidBodyComponent(const RigidBodyComponent& other) = delete;
@@ -39,21 +41,25 @@ namespace ody
 		RigidBodyComponent& operator=(const RigidBodyComponent& other) = delete;
 		RigidBodyComponent& operator=(RigidBodyComponent&& other) = delete;
 
+		void Initialize() override;
 		void AddForce(const glm::vec2& force) const;
 
 		void SetVelocity(const glm::vec2& velocity) const;
 		glm::vec2 GetVelocity() const;
 
+		float GetGravityScale() const { return m_pRuntimeBody->GetGravityScale(); }
+		void  SetGravityScale(float scale) const { m_pRuntimeBody->SetGravityScale(scale); }
+
 		RigidBodySettings GetSettings() const { return m_Settings; }
 
+		b2Body* GetRuntimeBody() const { return m_pRuntimeBody; }
 		void SetRuntimeBody(b2Body* pBody) { m_pRuntimeBody = pBody; }
 	private:
-		//Don't expose this to the user
-		friend class GameScene;
-		b2Body* GetRuntimeBody() const { return m_pRuntimeBody; }
 
 		b2Body* m_pRuntimeBody{};
 
 		RigidBodySettings m_Settings{};
+
+		bool m_RuntimeCreate{ false };
 	};
 }

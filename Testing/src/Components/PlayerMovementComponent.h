@@ -1,4 +1,6 @@
 #pragma once
+#include <glm/vec2.hpp>
+
 #include "Component.h"
 #include "SceneManager.h"
 
@@ -26,6 +28,8 @@ public:
 
 	void Update() override;
 	void HandleGroundChecking();
+
+	void Move(const glm::vec2& direction);
 	void Jump();
 
 private:
@@ -33,4 +37,7 @@ private:
 
 	bool m_HasJumped{};
 	bool m_IsGrounded{};
+
+	const float m_JumpForce{33.f};
+	const float m_MoveSpeed{100.f};
 };

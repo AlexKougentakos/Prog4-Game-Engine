@@ -1,13 +1,30 @@
 ﻿#include "RigidBodyComponent.h"
+#include "GameObject.h"
 
 #include <Box2D/b2_body.h>
 
+#include "PhysicsManager.h"
 #include "Utils.h"
 
-ody::RigidBodyComponent::RigidBodyComponent(RigidBodySettings settings)
+ody::RigidBodyComponent::RigidBodyComponent(RigidBodySettings settings, bool runtimeCreate)
 	:m_Settings(settings)
 {
+	m_RuntimeCreate = runtimeCreate;
 }
+
+void ody::RigidBodyComponent::Initialize()
+{
+	if (!m_RuntimeCreate)
+		return;
+
+	b2BodyDef bodyDef{};
+	Utils::RigidbodySettingsToB2DBodyDef(m_Settings, bodyDef);
+
+	b2Body* pBody = PhysicsManager::GetInstance().CreateBody(bodyDef);
+	m_pRuntimeBody = pBody;
+	pBody->SetFixedRotation(bodyDef.fixedRotation);
+}
+
 
 void ody::RigidBodyComponent::AddForce(const glm::vec2& force) const
 {

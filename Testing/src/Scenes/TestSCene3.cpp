@@ -89,13 +89,14 @@ void TestScene3::Initialize()
 	settingsCol.restitution = 0;
 	settingsCol.density = 1.f;
 	settingsCol.friction = 0.f;
+	settingsCol.collisionGroup = ody::constants::CollisionGroups::Group2;
 	player->AddComponent<ody::CircleColliderComponent>(16.f, settingsCol);
 	player->AddComponent<PlayerShootingComponent>();
 
 	ody::InputManager::GetInstance().AddKeyboardCommand('w', ody::InputManager::InputType::OnDown, std::make_unique<JumpCommand>(player, 100.f));
-	ody::InputManager::GetInstance().AddKeyboardCommand('a', ody::InputManager::InputType::Pressed, std::make_unique<ody::MoveCommand>(player, 100.f, glm::vec2{ -1.f, 0.f }));
-	ody::InputManager::GetInstance().AddKeyboardCommand('d', ody::InputManager::InputType::Pressed, std::make_unique<ody::MoveCommand>(player, 100.f, glm::vec2{ 1.f, 0.f }));
-	//See if you can make this space
+	ody::InputManager::GetInstance().AddKeyboardCommand('a', ody::InputManager::InputType::Pressed, std::make_unique<MoveCommand>(player, glm::vec2{ -1.f, 0.f }));
+	ody::InputManager::GetInstance().AddKeyboardCommand('d', ody::InputManager::InputType::Pressed, std::make_unique<MoveCommand>(player, glm::vec2{ 1.f, 0.f }));
+	//todo: See if you can make this space
 	ody::InputManager::GetInstance().AddKeyboardCommand('r', ody::InputManager::InputType::OnDown, std::make_unique<ShootBubbleCommand>(player));
 
 	ody::InputManager::GetInstance().AddKeyboardCommand('w', ody::InputManager::InputType::OnRelease, std::make_unique<StopMoveCommand>(player));

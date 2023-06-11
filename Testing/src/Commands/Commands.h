@@ -18,6 +18,27 @@ private:
 
 };
 
+class MoveCommand final : public ody::Command
+{
+public:
+	MoveCommand(ody::GameObject* pActor, const glm::vec2* moveDir) : m_pActor{ pActor }, m_MoveDirectionRef{ moveDir }, m_UseRef(true) {}
+	MoveCommand(ody::GameObject* pActor, const glm::vec2& moveDir) : m_pActor{ pActor }, m_MoveDirection{ moveDir } {}
+
+	virtual ~MoveCommand() override = default;
+	MoveCommand(const MoveCommand& other) = delete;
+	MoveCommand(MoveCommand&& other) = delete;
+	MoveCommand& operator=(const MoveCommand& other) = delete;
+	MoveCommand& operator=(MoveCommand&& other) = delete;
+
+	virtual void Execute() override;
+private:
+	ody::GameObject* m_pActor{};
+	const glm::vec2* m_MoveDirectionRef{};
+	const glm::vec2 m_MoveDirection{};
+
+	bool m_UseRef{ false };
+};
+
 class JumpCommand : public ody::Command
 {
 public:

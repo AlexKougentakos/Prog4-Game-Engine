@@ -6,7 +6,7 @@
 class BubbleProjectileComponent : public ody::Component
 {
 public:
-	BubbleProjectileComponent(const glm::vec2& direction);
+	BubbleProjectileComponent(const glm::vec2& position, const glm::vec2& direction);
 	~BubbleProjectileComponent() override = default;
 	BubbleProjectileComponent(const BubbleProjectileComponent& other) = delete;
 	BubbleProjectileComponent(BubbleProjectileComponent&& other) = delete;
@@ -17,9 +17,12 @@ public:
 	void Update() override;
 
 private:
-	float m_MoveSpeed{};
+	float m_MoveSpeed{80.f};
 	float m_MoveDistance{100.f};
 
 	glm::vec2 m_StartingPosition{};
 	glm::vec2 m_MoveDirection{};
+
+	const float m_MaxTimeAlive{5.f};
+	float m_TimeAlive{};
 };

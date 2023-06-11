@@ -44,17 +44,13 @@ PlayerMovementComponent::PlayerMovementComponent(const ody::RigidBodyComponent* 
 void PlayerMovementComponent::Update()
 {
     //Change collision ignore groups based on velocity
-    bool isGoingUp = m_pRigidBodyComponent->GetVelocity().y < 0.f;
+    const bool isGoingUp = m_pRigidBodyComponent->GetVelocity().y < 0.f;
 
-    auto colliderComponent = GetOwner()->GetComponent<ody::CircleColliderComponent>();
+    const auto colliderComponent = GetOwner()->GetComponent<ody::CircleColliderComponent>();
     if (isGoingUp)
-    {
         colliderComponent->AddIgnoreGroup(ody::constants::CollisionGroups::Group1);
-    }
     else
-    {
         colliderComponent->RemoveIgnoreGroup(ody::constants::CollisionGroups::Group1);
-    }
 
     HandleGroundChecking();
 }
@@ -88,10 +84,17 @@ void PlayerMovementComponent::HandleGroundChecking()
     }
 }
 
+void PlayerMovementComponent::Move(const glm::vec2& direction)
+{
+    auto vel = m_pRigidBodyComponent->GetVelocity();
+    vel.x = direction.x * m_MoveSpeed;
+    m_pRigidBodyComponent->SetVelocity({ vel.x, vel.y });
+}
+
 void PlayerMovementComponent::Jump()
 {
 	if (m_HasJumped || !m_IsGrounded) return;
 
 	m_HasJumped = true;
-	m_pRigidBodyComponent->AddForce({0, -33.f });
+	m_pRigidBodyComponent->AddForce({0, -m_JumpForce });
 }

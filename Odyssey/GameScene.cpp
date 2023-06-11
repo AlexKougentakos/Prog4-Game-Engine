@@ -13,6 +13,9 @@
 #include <imgui.h>
 #include <iostream>
 
+#include "ImGuiManager.h"
+#include "PhysicsManager.h"
+
 namespace ody
 {
 GameScene::GameScene(std::wstring sceneName)
@@ -103,6 +106,7 @@ void GameScene::OnRootSceneActivated()
 	m_pWorld = new b2World(b2Vec2(0.f, Utils::PixelsToMeters(100.f)));
 	m_pWorld->SetDebugDraw(&DebugRenderer::GetInstance());
 	DebugRenderer::GetInstance().SetWorld(m_pWorld);
+	PhysicsManager::GetInstance().SetPhysicsWorld(m_pWorld);
 
 	for (const auto& object : m_pChildren)
 	{
@@ -195,7 +199,9 @@ void GameScene::FixedUpdate()
 	constexpr float ts = 1.f / calculationHz;
 
 	m_pWorld->Step(ts, velocityIterations, positionIterations);
-	//m_pWorld->DebugDraw();
+	ImGuiManager::GetInstance().AddCheckBox("Debug Draw Box2D", true);
+	if (ImGuiManager::GetInstance().GetCheckBoxState("Debug Draw Box2D"))
+		m_pWorld->DebugDraw();
 
 	for (const auto& object : m_pChildren)
 	{
