@@ -8,7 +8,7 @@
 #include <box2d/b2_world_callbacks.h>
 #include <box2d/b2_math.h>
 
-#include "ColliderComponent.h"
+#include "CircleColliderComponent.h"
 #include "DebugRenderer.h"
 #include "GameScene.h"
 #include "Utils.h"
@@ -44,19 +44,37 @@ PlayerMovementComponent::PlayerMovementComponent(const ody::RigidBodyComponent* 
 
 void PlayerMovementComponent::Update()
 {
-    const auto dimensions = GetOwner()->GetComponent<ody::ColliderComponent>()->GetDimensions();
+    //Change collision ignore groups based on velocity
+    bool isGoingUp = m_pRigidBodyComponent->GetVelocity().y < 0.f;
 
+    auto colliderComponent = GetOwner()->GetComponent<ody::CircleColliderComponent>();
+    if (isGoingUp)
+    {
+        colliderComponent->AddIgnoreGroup(ody::constants::CollisionGroups::Group1);
+    }
+    else
+    {
+        colliderComponent->RemoveIgnoreGroup(ody::constants::CollisionGroups::Group1);
+    }
+
+    HandleGroundChecking();
+}
+
+void PlayerMovementComponent::HandleGroundChecking()
+{
+    const auto radius = GetOwner()->GetComponent<ody::CircleColliderComponent>()->GetRadius();
+        
     MyRayCastCallback callback;
     const b2Vec2 currentPos{
-        ody::Utils::PixelsToMeters(GetOwner()->GetTransform()->GetWorldPosition().x + dimensions.x / 2.f),
-        ody::Utils::PixelsToMeters(GetOwner()->GetTransform()->GetWorldPosition().y + dimensions.y / 2.f)
+        ody::Utils::PixelsToMeters(GetOwner()->GetTransform()->GetWorldPosition().x + radius / 2.f),
+        ody::Utils::PixelsToMeters(GetOwner()->GetTransform()->GetWorldPosition().y + radius / 2.f)
     };
-    const b2Vec2 endPoint{ currentPos - b2Vec2{0, -0.5f} };
+    const b2Vec2 endPoint{ currentPos - b2Vec2{ 0, -0.5f } };
 
     ody::DebugRenderer::GetInstance().DrawSegment(
-		currentPos, endPoint,
-		{ 1.f, 0, 0, 1.f }
-	);
+        currentPos, endPoint,
+        { 1.f, 0, 0, 1.f }
+    );
 
     ody::SceneManager::GetInstance().GetActiveScene()->GetPhysicsWorld()->RayCast(&callback, currentPos, endPoint);
 

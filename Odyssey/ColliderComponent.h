@@ -1,19 +1,15 @@
 ﻿#pragma once
 #include <SDL_rect.h>
 #include <glm/glm.hpp>
-
+#include "Constants.h"
 #include "Component.h"
+#include "Structs.h"
+
+class b2Fixture;
+struct b2Filter;
 
 namespace ody
 {
-struct ColliderSettings
-{
-	float density = 1.0f;
-	float friction = 0.3f;
-	float restitution = 0.5f;
-
-	bool isSensor = false;
-};
 
 class ColliderComponent : public Component
 {
@@ -32,18 +28,25 @@ public:
 	void Update() override {}
 	void Render() const override {}
 
-	void* GetRuntimeFixture() const { return m_pRuntimeFixture; }
-	void SetRuntimeFixture(void* pFixture) { m_pRuntimeFixture = pFixture; }
+	b2Fixture* GetRuntimeFixture() const { return m_pRuntimeFixture; }
+	void SetRuntimeFixture(b2Fixture* pFixture) { m_pRuntimeFixture = pFixture; }
+
+	void AddIgnoreGroup(constants::CollisionGroups collisionIgnoreGroup);
+	void RemoveIgnoreGroup(constants::CollisionGroups collisionIgnoreGroup);
 
 	ColliderSettings GetSettings() const { return m_Settings; }
 
 private:
+	friend class GameScene;
+	void InitializeFilter();
+
 	glm::vec2 m_Dimensions{};
 	glm::vec2 m_Offset{};
 
+
 	ColliderSettings m_Settings{};
 
-	void* m_pRuntimeFixture{};
+	b2Fixture* m_pRuntimeFixture{};
 };
 
 }

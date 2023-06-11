@@ -1,23 +1,23 @@
-﻿#include "ColliderComponent.h"
+#include "CircleColliderComponent.h"
 #include <Box2D/b2_fixture.h>
 
-ody::ColliderComponent::ColliderComponent(const glm::vec2& dimensions, ColliderSettings settings):
-m_Dimensions(dimensions), m_Settings(settings)
+ody::CircleColliderComponent::CircleColliderComponent(float radius, ColliderSettings settings) :
+    m_Radius(radius), m_Settings(settings)
 {
-    
+    // Perform any additional initializations here if needed
 }
 
-void ody::ColliderComponent::InitializeFilter()
+void ody::CircleColliderComponent::InitializeFilter()
 {
     b2Filter filter{};
-    filter.categoryBits = static_cast<uint16>(m_Settings.collisionGroup); //Set the collision group of the player
+    filter.categoryBits = static_cast<uint16>(m_Settings.collisionGroup); //Set the collision group
     filter.maskBits = 0xFFFF;  // collide with everything
     filter.groupIndex = 0;  // no specific group
 
     m_pRuntimeFixture->SetFilterData(filter);
 }
 
-void ody::ColliderComponent::AddIgnoreGroup(constants::CollisionGroups category) 
+void ody::CircleColliderComponent::AddIgnoreGroup(constants::CollisionGroups category)
 {
     b2Filter filter = m_pRuntimeFixture->GetFilterData();
 
@@ -26,7 +26,7 @@ void ody::ColliderComponent::AddIgnoreGroup(constants::CollisionGroups category)
     m_pRuntimeFixture->SetFilterData(filter);
 }
 
-void ody::ColliderComponent::RemoveIgnoreGroup(constants::CollisionGroups category) 
+void ody::CircleColliderComponent::RemoveIgnoreGroup(constants::CollisionGroups category)
 {
     b2Filter filter = m_pRuntimeFixture->GetFilterData();
 

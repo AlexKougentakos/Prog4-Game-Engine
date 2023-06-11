@@ -38,6 +38,8 @@ namespace ody
 		fixtureOut.friction = colliderSettingsIn.friction;
 		fixtureOut.restitution = colliderSettingsIn.restitution;
 		fixtureOut.isSensor = colliderSettingsIn.isSensor;
+
+		fixtureOut.filter.categoryBits = static_cast<uint16>(colliderSettingsIn.collisionGroup);
 	}
 
 	float Utils::MetersToPixels(float meters)

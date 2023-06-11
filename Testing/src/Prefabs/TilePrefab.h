@@ -15,3 +15,17 @@ public:
 	virtual void Configure(ody::GameObject* gameObject) const override;
 };
 
+class WallTilePrefab final : public ody::IPrefab
+{
+public:
+
+	WallTilePrefab() = default;
+	virtual ~WallTilePrefab() override = default;
+	WallTilePrefab(const WallTilePrefab& other) = delete;
+	WallTilePrefab(TilePrefab&& other) = delete;
+	WallTilePrefab& operator=(const WallTilePrefab& other) = delete;
+	WallTilePrefab& operator=(WallTilePrefab&& other) = delete;
+
+	virtual void Configure(ody::GameObject* gameObject) const override;
+};
+

@@ -241,6 +241,7 @@
     <ClInclude Include="..\3rdParty\ImPlot\implot_internal.h" />
     <ClInclude Include="Audio.h" />
     <ClInclude Include="AudioSystem.h" />
+    <ClInclude Include="CircleColliderComponent.h" />
     <ClInclude Include="ColliderComponent.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="Component.h" />
@@ -286,6 +287,7 @@
     <ClCompile Include="..\3rdParty\ImPlot\implot_items.cpp" />
     <ClCompile Include="Audio.cpp" />
     <ClCompile Include="AudioSystem.cpp" />
+    <ClCompile Include="CircleColliderComponent.cpp" />
     <ClCompile Include="ColliderComponent.cpp" />
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="Component.cpp" />

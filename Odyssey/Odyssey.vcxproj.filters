@@ -100,6 +100,9 @@
     <ClCompile Include="Utils.cpp">
       <Filter>Odyssey Engine\Base</Filter>
     </ClCompile>
+    <ClCompile Include="CircleColliderComponent.cpp">
+      <Filter>Odyssey Engine\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h">
@@ -230,6 +233,9 @@
     </ClInclude>
     <ClInclude Include="Constants.h">
       <Filter>Odyssey Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="CircleColliderComponent.h">
+      <Filter>Odyssey Engine\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

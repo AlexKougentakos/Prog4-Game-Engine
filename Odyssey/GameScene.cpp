@@ -4,6 +4,7 @@
 
 #include <Box2D/Box2D.h>
 
+#include "CircleColliderComponent.h"
 #include "ColliderComponent.h"
 #include "DebugRenderer.h"
 #include "IPrefab.h"
@@ -118,38 +119,53 @@ void GameScene::OnRootSceneActivated()
 		rigidBody->SetRuntimeBody(pBody);
 		pBody->SetFixedRotation(bodyDef.fixedRotation);
 
-		// If you have mass data
-		// b2MassData massData{};
-		// massData.mass = rigidBody->GetSettings().mass;
-		// pBody->SetMassData(&massData);
-
 		//Colliders 
-		if (!object->GetComponent<ColliderComponent>()) continue;
+		const auto boxCollider = object->GetComponent<ody::ColliderComponent>();
+		const auto circleCollider = object->GetComponent<ody::CircleColliderComponent>();
 
-		const auto collider = object->GetComponent<ColliderComponent>();
-		const auto rb = object->GetComponent<RigidBodyComponent>();
+		if (!boxCollider && !circleCollider) continue;
 
+		b2CircleShape circleShape{};
 		b2PolygonShape boxShape{};
-		b2Vec2 center{ Utils::PixelsToMeters(collider->GetDimensions().x), Utils::PixelsToMeters(collider->GetDimensions().y) };
-
-		boxShape.SetAsBox(Utils::PixelsToMeters(collider->GetDimensions().x), Utils::PixelsToMeters(collider->GetDimensions().y), center, 0.f);
-
 		b2FixtureDef fixtureDef{};
-		b2CircleShape circle{};
-		if (object == m_pChildren[0])
+		b2Vec2 center;
+
+		if (circleCollider)
 		{
-			circle.m_radius = Utils::PixelsToMeters(16.f); // Set the radius of the circle
+			// Circle Collider
+			circleShape.m_radius = Utils::PixelsToMeters(circleCollider->GetRadius()); // Set the radius of the circle
+			center = b2Vec2{ Utils::PixelsToMeters(circleCollider->GetRadius()), Utils::PixelsToMeters(circleCollider->GetRadius()) };
 
-			fixtureDef.shape = &circle;
-			circle.m_p = center;
+			circleShape.m_p = center; // Set the center of the circle
+			fixtureDef.shape = &circleShape;
+
+			Utils::ColliderSettingsToB2DFixtureDef(circleCollider->GetSettings(), fixtureDef);
 		}
-		else fixtureDef.shape = &boxShape;
+		else
+		{
+			// Box Collider
+			center = b2Vec2{ Utils::PixelsToMeters(boxCollider->GetDimensions().x), Utils::PixelsToMeters(boxCollider->GetDimensions().y) };
 
-		Utils::ColliderSettingsToB2DFixtureDef(collider->GetSettings(), fixtureDef);
+			boxShape.SetAsBox(Utils::PixelsToMeters(boxCollider->GetDimensions().x), Utils::PixelsToMeters(boxCollider->GetDimensions().y), center, 0.f);
+
+			fixtureDef.shape = &boxShape;
+
+			Utils::ColliderSettingsToB2DFixtureDef(boxCollider->GetSettings(), fixtureDef);
+		}
 
 		b2Fixture* pFixture = pBody->CreateFixture(&fixtureDef);
 
-		collider->SetRuntimeFixture(pFixture);
+		// Update the runtime fixture for both ColliderComponent and CircleColliderComponent
+		if (boxCollider)
+		{
+			boxCollider->SetRuntimeFixture(pFixture);
+			boxCollider->InitializeFilter();
+		}
+		else
+		{
+			circleCollider->SetRuntimeFixture(pFixture);
+			circleCollider->InitializeFilter();
+		}
 	}
 
 	OnSceneActivated();

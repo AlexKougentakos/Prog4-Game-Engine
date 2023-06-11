@@ -25,6 +25,7 @@ public:
 	PlayerMovementComponent& operator=(PlayerMovementComponent&& other) = delete;
 
 	void Update() override;
+	void HandleGroundChecking();
 	void Jump();
 
 private:

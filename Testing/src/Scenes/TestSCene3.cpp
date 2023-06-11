@@ -14,35 +14,12 @@
 #include <fstream>
 #include <Box2D/b2_body.h>
 #include "../Components/PlayerMovementComponent.h"
+#include "CircleColliderComponent.h"
 
 
 void TestScene3::Initialize()
 {
-	player = CreateGameObject();
-	player->GetTransform()->SetPosition(50.0f, 50.0f);
-	player->AddComponent<ody::TextureComponent>("pacman.tga");
 
-	ody::RigidBodySettings settings;
-	settings.gravityScale = 2;
-	settings.bodyType = ody::BodyType::Dynamic;
-	settings.fixedRotation = true;
-	auto rigidBodyPlayer = player->AddComponent<ody::RigidBodyComponent>(settings);
-
-	player->AddComponent<PlayerMovementComponent>(rigidBodyPlayer);
-
-	ody::ColliderSettings settingsCol{};
-	settingsCol.restitution = 0;
-	settingsCol.density = 1.f;
-	settingsCol.friction = 0.f;
-	player->AddComponent<ody::ColliderComponent>(glm::vec2{18,18}, settingsCol);
-
-	ody::InputManager::GetInstance().AddKeyboardCommand('w', ody::InputManager::InputType::OnDown, std::make_unique<JumpCommand>(player, 100.f));
-	ody::InputManager::GetInstance().AddKeyboardCommand('a', ody::InputManager::InputType::Pressed, std::make_unique<ody::MoveCommand>(player, 100.f, glm::vec2{-1.f, 0.f}));
-	ody::InputManager::GetInstance().AddKeyboardCommand('d', ody::InputManager::InputType::Pressed, std::make_unique<ody::MoveCommand>(player, 100.f, glm::vec2{1.f, 0.f}));
-
-	ody::InputManager::GetInstance().AddKeyboardCommand('w', ody::InputManager::InputType::OnRelease, std::make_unique<StopMoveCommand>(player));
-	ody::InputManager::GetInstance().AddKeyboardCommand('a', ody::InputManager::InputType::OnRelease, std::make_unique<StopMoveCommand>(player));
-	ody::InputManager::GetInstance().AddKeyboardCommand('d', ody::InputManager::InputType::OnRelease, std::make_unique<StopMoveCommand>(player));
 
 	//m_InputManager.AddControllerCommand(ody::XBox360Controller::ControllerButton::LeftThumbStick, 0, ody::InputManager::InputType::OnThumbMove, std::make_unique<ody::MoveCommand>
 	//	(gameObject, 100.f, ody::InputManager::GetInstance().GetThumbstickPositionsRef(0).first));
@@ -85,7 +62,41 @@ void TestScene3::Initialize()
 			const TilePrefab tilePrefab;
 			tilePrefab.Configure(platform);
 		}
+		if (gid == 2) //Tile that the player CAN'T jump through (mainly walls)
+		{
+			const auto platform = CreateGameObject();
+			platform->GetTransform()->SetPosition(x, y);
+
+			const WallTilePrefab tilePrefab;
+			tilePrefab.Configure(platform);
+		}
 	}
+
+	player = CreateGameObject();
+	player->GetTransform()->SetPosition(50.0f, 50.0f);
+	player->AddComponent<ody::TextureComponent>("pacman.tga");
+
+	ody::RigidBodySettings settings;
+	settings.gravityScale = 2;
+	settings.bodyType = ody::BodyType::Dynamic;
+	settings.fixedRotation = true;
+	auto rigidBodyPlayer = player->AddComponent<ody::RigidBodyComponent>(settings);
+
+	player->AddComponent<PlayerMovementComponent>(rigidBodyPlayer);
+
+	ody::ColliderSettings settingsCol{};
+	settingsCol.restitution = 0;
+	settingsCol.density = 1.f;
+	settingsCol.friction = 0.f;
+	player->AddComponent<ody::CircleColliderComponent>(16.f, settingsCol);
+
+	ody::InputManager::GetInstance().AddKeyboardCommand('w', ody::InputManager::InputType::OnDown, std::make_unique<JumpCommand>(player, 100.f));
+	ody::InputManager::GetInstance().AddKeyboardCommand('a', ody::InputManager::InputType::Pressed, std::make_unique<ody::MoveCommand>(player, 100.f, glm::vec2{ -1.f, 0.f }));
+	ody::InputManager::GetInstance().AddKeyboardCommand('d', ody::InputManager::InputType::Pressed, std::make_unique<ody::MoveCommand>(player, 100.f, glm::vec2{ 1.f, 0.f }));
+
+	ody::InputManager::GetInstance().AddKeyboardCommand('w', ody::InputManager::InputType::OnRelease, std::make_unique<StopMoveCommand>(player));
+	ody::InputManager::GetInstance().AddKeyboardCommand('a', ody::InputManager::InputType::OnRelease, std::make_unique<StopMoveCommand>(player));
+	ody::InputManager::GetInstance().AddKeyboardCommand('d', ody::InputManager::InputType::OnRelease, std::make_unique<StopMoveCommand>(player));
 }
 
 void TestScene3::OnSceneActivated()
