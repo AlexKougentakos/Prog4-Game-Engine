@@ -23,6 +23,11 @@ void ody::CircleColliderComponent::Initialize()
 	shape.m_p = center;
 	b2FixtureDef fixtureDef{};
     Utils::ColliderSettingsToB2DFixtureDef(m_Settings, fixtureDef);
+
+    b2FixtureUserData userData{};
+    userData.pointer = reinterpret_cast<uintptr_t>(GetOwner());
+    fixtureDef.userData = userData;
+
     fixtureDef.shape = &shape;
 	b2Fixture* pFixture = m_pRuntimeBody->CreateFixture(&fixtureDef);
 	m_pRuntimeFixture = pFixture;

@@ -87,11 +87,16 @@ namespace ody
 
 		GameScene* GetScene() const { return m_pParentScene; }
 
+		void SetTag(const std::string& tag) { m_Tag = tag; }
+		const std::string& GetTag() const { return m_Tag; }
+
 	private:
 		std::vector<std::shared_ptr<ody::Component>> m_Components{};
 		std::vector<GameObject*> m_pChildren{};
 
 		GameObject* m_pParent{ NO_PARENT };
+
+		std::string m_Tag{};
 
 		bool RemoveChild(unsigned int index);
 		bool RemoveChild(GameObject* child);

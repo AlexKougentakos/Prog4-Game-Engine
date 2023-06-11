@@ -109,6 +109,9 @@
     <ClCompile Include="ImGuiManager.cpp">
       <Filter>Odyssey Engine\Managers</Filter>
     </ClCompile>
+    <ClCompile Include="StateManager.cpp">
+      <Filter>Odyssey Engine\Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h">
@@ -250,6 +253,12 @@
       <Filter>Odyssey Engine\Components</Filter>
     </ClInclude>
     <ClInclude Include="ImGuiManager.h">
+      <Filter>Odyssey Engine\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>Odyssey Engine\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="StateManager.h">
       <Filter>Odyssey Engine\Managers</Filter>
     </ClInclude>
   </ItemGroup>

@@ -7,6 +7,8 @@
 #include "RigidBodyComponent.h"
 #include "CircleColliderComponent.h"
 
+
+
 BubblePrefab::BubblePrefab(const glm::vec2& position, const glm::vec2& direction)
 {
 	m_SpawnPosition = position;
@@ -28,11 +30,12 @@ void BubblePrefab::Configure(ody::GameObject* gameObject) const
 
 	ody::ColliderSettings colliderSettings{};
 	colliderSettings.restitution = 0;
+	colliderSettings.collisionGroup = ody::constants::CollisionGroups::Group5;
 
 	const auto collider = gameObject->AddComponent<ody::CircleColliderComponent>(16.f, colliderSettings, rb->GetRuntimeBody());
 	collider->AddIgnoreGroup(ody::constants::CollisionGroups::Group1); //Level tiles
 	collider->AddIgnoreGroup(ody::constants::CollisionGroups::Group2); //Player
 
-
+	gameObject->SetTag("Bubble");
 	gameObject->GetTransform()->Translate(m_SpawnPosition.x, m_SpawnPosition.y);
 }

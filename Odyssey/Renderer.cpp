@@ -85,26 +85,28 @@ void ody::Renderer::Destroy()
 	}
 }
 
-void ody::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y) const
+void ody::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, float scale) const
 {
 	SDL_Rect dst{};
 	dst.x = static_cast<int>(x);
 	dst.y = static_cast<int>(y);
 	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &dst.w, &dst.h);
+	dst.w = static_cast<int>(dst.w * scale);
+	dst.h = static_cast<int>(dst.h * scale);
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
-void ody::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const
+void ody::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, float width, float height, float scale) const
 {
 	SDL_Rect dst{};
 	dst.x = static_cast<int>(x);
 	dst.y = static_cast<int>(y);
-	dst.w = static_cast<int>(width);
-	dst.h = static_cast<int>(height);
+	dst.w = static_cast<int>(width * scale);
+	dst.h = static_cast<int>(height * scale);
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
-void ody::Renderer::RenderTexture(const Texture2D& texture, float x, float y, float width, float height, float srcX, float srcY, float scale ) const
+void ody::Renderer::RenderTexture(const Texture2D& texture, float x, float y, float width, float height, float srcX, float srcY, float scale , SDL_RendererFlip flip) const
 {
 	SDL_Rect src{};
 	src.x = static_cast<int>(srcX);
@@ -118,7 +120,8 @@ void ody::Renderer::RenderTexture(const Texture2D& texture, float x, float y, fl
 	dst.w = static_cast<int>(width * scale);
 	dst.h = static_cast<int>(height * scale);
 
-	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), &src, &dst);
+	//SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), &src, &dst);
+	SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), &src, &dst, 0.0, nullptr, flip);
 }
 
 

@@ -15,8 +15,8 @@ namespace ody
 	{
 	public:
 		TextureComponent() = default;
-		TextureComponent(const std::string& filename) :
-			Component()
+		TextureComponent(const std::string& filename, float scale = 1.f) :
+			Component(), m_Scale(scale)
 		{
 			m_pTexture = ody::ResourceManager::GetInstance().LoadTexture(filename);
 
@@ -55,15 +55,17 @@ namespace ody
 			const auto pTransformComponent{ GetOwner()->GetComponent<TransformComponent>()};
 			const glm::vec3 renderPosition{ pTransformComponent->GetWorldPosition() };
 			if (!m_UseDestinationRect)
-				ody::Renderer::GetInstance().RenderTexture(*m_pTexture, renderPosition.x, renderPosition.y);
+				ody::Renderer::GetInstance().RenderTexture(*m_pTexture, renderPosition.x, renderPosition.y, m_Scale);
 			else
-				ody::Renderer::GetInstance().RenderTexture(*m_pTexture, renderPosition.x, renderPosition.y, m_DestinationRect.x, m_DestinationRect.y);
+				ody::Renderer::GetInstance().RenderTexture(*m_pTexture, renderPosition.x, renderPosition.y, m_DestinationRect.x, m_DestinationRect.y, m_Scale);
 		}
 
 	private:
 		std::shared_ptr<ody::Texture2D> m_pTexture{};
 		glm::vec2 m_DestinationRect{};
 		bool m_UseDestinationRect{ false };
+
+		const float m_Scale{ 1.f };
 
 	};
 }

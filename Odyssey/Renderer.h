@@ -18,9 +18,9 @@ namespace ody
 		void Render() const;
 		void Destroy();
 
-		void RenderTexture(const Texture2D& texture, float x, float y) const;
-		void RenderTexture(const Texture2D& texture, float x, float y, float width, float height) const;
-		void RenderTexture(const Texture2D& texture, float x, float y, float width, float height, float srcX, float srcY, float scale = 1.0f) const;
+		void RenderTexture(const Texture2D& texture, float x, float y, float scale = 1.f) const;
+		void RenderTexture(const Texture2D& texture, float x, float y, float width, float height, float scale = 1.f) const;
+		void RenderTexture(const Texture2D& texture, float x, float y, float width, float height, float srcX, float srcY, float scale = 1.0f, SDL_RendererFlip flip = SDL_FLIP_NONE) const;
 
 		SDL_Renderer* GetSDLRenderer() const;
 

@@ -157,6 +157,10 @@ void GameScene::OnRootSceneActivated()
 			Utils::ColliderSettingsToB2DFixtureDef(boxCollider->GetSettings(), fixtureDef);
 		}
 
+		b2FixtureUserData userData{};
+		userData.pointer = reinterpret_cast<uintptr_t>(object.get());
+		fixtureDef.userData = userData;
+
 		b2Fixture* pFixture = pBody->CreateFixture(&fixtureDef);
 
 		// Update the runtime fixture for both ColliderComponent and CircleColliderComponent

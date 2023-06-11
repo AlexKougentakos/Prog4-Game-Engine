@@ -19,4 +19,3 @@ private:
 	glm::vec2 m_MoveDirection{};
 	glm::vec2 m_SpawnPosition{};
 };
-

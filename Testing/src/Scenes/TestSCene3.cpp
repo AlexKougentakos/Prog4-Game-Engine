@@ -10,18 +10,24 @@
 #include "TextComponent.h"
 #include "../Commands/Commands.h"
 #include "../Prefabs/TilePrefab.h"
+#include "../Prefabs/EnemyPrefab.h"
+
 #include <json.hpp>
 #include <fstream>
 #include <Box2D/b2_body.h>
+
+#include "../States/PlayerStates.h"
+#include "AnimatedTextureComponent.h"
 #include "../Components/PlayerMovementComponent.h"
 #include "../Components/PlayerShootingComponent.h"
 #include "CircleColliderComponent.h"
+#include "ImGuiManager.h"
+#include "PhysicsManager.h"
 
+#include "../components/EnemyComponent.h"
 
 void TestScene3::Initialize()
 {
-
-
 	//m_InputManager.AddControllerCommand(ody::XBox360Controller::ControllerButton::LeftThumbStick, 0, ody::InputManager::InputType::OnThumbMove, std::make_unique<ody::MoveCommand>
 	//	(gameObject, 100.f, ody::InputManager::GetInstance().GetThumbstickPositionsRef(0).first));
 
@@ -75,7 +81,7 @@ void TestScene3::Initialize()
 
 	player = CreateGameObject();
 	player->GetTransform()->SetPosition(50.0f, 50.0f);
-	player->AddComponent<ody::TextureComponent>("pacman.tga");
+	player->AddComponent<ody::AnimatedTextureComponent>("Player_Run_Anim.png", glm::ivec2{4,1}, 0.5f, 0.7f);
 
 	ody::RigidBodySettings settings;
 	settings.gravityScale = 2;
@@ -83,7 +89,10 @@ void TestScene3::Initialize()
 	settings.fixedRotation = true;
 	auto rigidBodyPlayer = player->AddComponent<ody::RigidBodyComponent>(settings);
 
-	player->AddComponent<PlayerMovementComponent>(rigidBodyPlayer);
+	m_pPlayerStateManager = std::make_unique<ody::StateManager>();
+	m_pPlayerStateManager->PushState(std::make_unique<PlayerIdle>(player));
+
+	player->AddComponent<PlayerMovementComponent>(rigidBodyPlayer, m_pPlayerStateManager.get());
 
 	ody::ColliderSettings settingsCol{};
 	settingsCol.restitution = 0;
@@ -102,12 +111,25 @@ void TestScene3::Initialize()
 	ody::InputManager::GetInstance().AddKeyboardCommand('w', ody::InputManager::InputType::OnRelease, std::make_unique<StopMoveCommand>(player));
 	ody::InputManager::GetInstance().AddKeyboardCommand('a', ody::InputManager::InputType::OnRelease, std::make_unique<StopMoveCommand>(player));
 	ody::InputManager::GetInstance().AddKeyboardCommand('d', ody::InputManager::InputType::OnRelease, std::make_unique<StopMoveCommand>(player));
+
+	const EnemyPrefab enemyPrefab{ {100, 100}, {1.f,0} };
+	const auto enemy1 = CreateGameObject();
+	enemyPrefab.Configure(enemy1);
+
+	ody::ImGuiManager::GetInstance().AddButton("Become Bubble", [enemy1]() {
+		enemy1->GetComponent<EnemyComponent>()->BecomeBubble();
+		});
 }
 
 void TestScene3::OnSceneActivated()
 {
 	player->Update();
 	SetGravity({0.f, 1.f});
+
+	m_pContactListener = new BubbleBobbleContactListener();
+
+	ody::PhysicsManager::GetInstance().GetPhysicsWorld()->SetContactListener(m_pContactListener);
+
 }
 
 

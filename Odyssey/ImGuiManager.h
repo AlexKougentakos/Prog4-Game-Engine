@@ -2,24 +2,30 @@
 
 #include <unordered_map>
 #include <string>
-#include "imgui.h"
+#include <functional>
 #include "Singleton.h"
+
 namespace ody
 {
-class ImGuiManager final : public ody::Singleton<ImGuiManager>
-{
-public:
-    void AddCheckBox(const std::string& id, bool defaultState);
-    bool GetCheckBoxState(const std::string& id) { return m_CheckBoxStates[id]; }
+    class ImGuiManager final : public ody::Singleton<ImGuiManager>
+    {
+    public:
+        void AddCheckBox(const std::string& id, bool defaultState);
+        bool GetCheckBoxState(const std::string& id) { return m_CheckBoxStates[id]; }
 
-    void Render();
+        // Add function for buttons
+        void AddButton(const std::string& id, std::function<void()> onClick);
 
-private:
-    // Store the state of checkboxes
-    std::unordered_map<std::string, bool> m_CheckBoxStates;
+        void Render();
 
-    ImGuiManager() {}
-    friend class Singleton<ImGuiManager>;
-};
+    private:
+        // Store the state of checkboxes
+        std::unordered_map<std::string, bool> m_CheckBoxStates;
 
+        // Store the buttons
+        std::unordered_map<std::string, std::function<void()>> m_Buttons;
+
+        ImGuiManager() {}
+        friend class Singleton<ImGuiManager>;
+    };
 }

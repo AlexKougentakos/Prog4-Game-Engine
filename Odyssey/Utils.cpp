@@ -5,6 +5,8 @@
 #include "Box2D/b2_fixture.h"
 #include "Constants.h"
 
+#include <random>
+
 namespace ody
 {
 	void Utils::RigidbodySettingsToB2DBodyDef(RigidBodySettings bodySettingsIn, b2BodyDef& bodyOut)
@@ -52,4 +54,30 @@ namespace ody
 	{
 		return pixels / constants::g_PixelsPerMeter;
 	}
+
+	float Utils::RandomFloat(float min, float max)
+	{
+		std::random_device rd;  // Random number from hardware
+		std::mt19937 gen(rd()); // Initialize Mersenne Twister random number generator
+		std::uniform_real_distribution<> distr(min, max); // Define the distribution
+
+		return static_cast<float>( distr(gen));
+	}
+
+	bool Utils::CheckChance(int percentage)
+	{
+		if (percentage < 0 || percentage > 100) 
+		{
+			throw std::invalid_argument("percentage must be between 0 and 100");
+		}
+
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_int_distribution<> distr(1, 100);
+
+		const int roll = distr(gen);
+
+		return roll <= percentage;
+	}
+
 }

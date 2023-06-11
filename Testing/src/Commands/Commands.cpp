@@ -9,11 +9,7 @@
 
 void StopMoveCommand::Execute()
 {
-	const auto b2dBody = m_pActor->GetComponent<ody::RigidBodyComponent>();
-
-	auto vel = b2dBody->GetVelocity();
-	vel.x = 0;
-	b2dBody->SetVelocity(vel);
+	m_pActor->GetComponent<PlayerMovementComponent>()->StopMoving();
 }
 
 void JumpCommand::Execute()

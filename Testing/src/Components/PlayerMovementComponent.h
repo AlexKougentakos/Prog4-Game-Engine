@@ -7,6 +7,7 @@
 namespace ody
 {
 	class RigidBodyComponent;
+	class StateManager;
 }
 
 struct PlayerMovementSettings
@@ -19,7 +20,7 @@ struct PlayerMovementSettings
 class PlayerMovementComponent : public ody::Component
 {
 public:
-	PlayerMovementComponent(const ody::RigidBodyComponent* rigidBody);
+	PlayerMovementComponent(const ody::RigidBodyComponent* rigidBody, ody::StateManager* pStateManager);
 	~PlayerMovementComponent() override = default;
 	PlayerMovementComponent(const PlayerMovementComponent& other) = delete;
 	PlayerMovementComponent(PlayerMovementComponent&& other) = delete;
@@ -30,6 +31,7 @@ public:
 	void HandleGroundChecking();
 
 	void Move(const glm::vec2& direction);
+	void StopMoving() const;
 	void Jump();
 
 private:
@@ -37,6 +39,9 @@ private:
 
 	bool m_HasJumped{};
 	bool m_IsGrounded{};
+
+	bool m_IsSpriteLookingRight{ true };
+	ody::StateManager* m_pPlayerStateManager{};
 
 	const float m_JumpForce{33.f};
 	const float m_MoveSpeed{100.f};

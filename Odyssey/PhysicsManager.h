@@ -1,6 +1,12 @@
 #pragma once
-#include <Box2D/b2_world.h>
+#include <unordered_map>
+#include <set>
 
+#include <Box2D/b2_world.h>
+#include <Box2D/b2_world_callbacks.h>
+#include <Box2D/b2_contact.h>
+
+#include "GameObject.h"
 #include "Singleton.h"
 
 struct b2FixtureDef;
@@ -9,6 +15,7 @@ class b2Body;
 class b2World;
 namespace ody
 {
+
 	class PhysicsManager : public Singleton<PhysicsManager>
 	{
 	public:
@@ -25,7 +32,9 @@ namespace ody
 		b2Body* CreateBody(const b2BodyDef& bodyDef) const;
 		b2Fixture* CreateFixture(b2Body* body, const b2FixtureDef& fixtureDef) const;
 
-		void SetPhysicsWorld(b2World* world) { m_pActivePhysicsWorld = world; }
+		void SetPhysicsWorld(b2World* world);
+		b2World* GetPhysicsWorld() const { return m_pActivePhysicsWorld; }
+
 	private:
 		friend class Singleton<PhysicsManager>;
 		PhysicsManager() = default;

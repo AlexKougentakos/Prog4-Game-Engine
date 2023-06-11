@@ -167,6 +167,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Components\EnemyComponent.cpp" />
+    <ClCompile Include="src\Prefabs\EnemyPrefab.cpp" />
+    <ClCompile Include="src\States\EnemyStates.cpp" />
+    <ClCompile Include="src\States\PlayerStates.cpp" />
     <ClCompile Include="src\Components\PlayerShootingComponent.cpp" />
     <ClCompile Include="src\Prefabs\BubblePrefab.cpp" />
     <ClCompile Include="src\Components\BubbleProjectileComponent.cpp" />
@@ -179,6 +183,10 @@
     <ClCompile Include="src\Prefabs\TilePrefab.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Components\EnemyComponent.h" />
+    <ClInclude Include="src\Prefabs\EnemyPrefab.h" />
+    <ClInclude Include="src\States\EnemyStates.h" />
+    <ClInclude Include="src\States\PlayerStates.h" />
     <ClInclude Include="src\Components\PlayerShootingComponent.h" />
     <ClInclude Include="src\Prefabs\BubblePrefab.h" />
     <ClInclude Include="src\Components\BubbleProjectileComponent.h" />

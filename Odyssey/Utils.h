@@ -33,6 +33,8 @@ public:
 
 	static float PixelsToMeters(float pixels);
 	static float MetersToPixels(float meters);
+	static float RandomFloat(float min, float max);
+	static bool CheckChance(int chance);
 };
 
 }

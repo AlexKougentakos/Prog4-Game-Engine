@@ -2,10 +2,11 @@
 
 #include <iostream>
 
+#include "EnemyComponent.h"
 #include "GameObject.h"
 #include "GameTime.h"
 #include "RigidBodyComponent.h"
-#include "ServiceLocator.h"
+#include "PhysicsManager.h"
 
 BubbleProjectileComponent::BubbleProjectileComponent(const glm::vec2& position, const glm::vec2& moveDir)
 {
@@ -17,6 +18,7 @@ void BubbleProjectileComponent::Initialize()
 {
 
 }
+
 
 void BubbleProjectileComponent::Update()
 {
@@ -34,4 +36,5 @@ void BubbleProjectileComponent::Update()
 	{
 		rigidBody->SetVelocity(glm::vec2{ 0.f, -20.f });
 	}
+
 }

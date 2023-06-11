@@ -8,10 +8,13 @@
 #include <box2d/b2_world_callbacks.h>
 #include <box2d/b2_math.h>
 
+#include "AnimatedTextureComponent.h"
 #include "CircleColliderComponent.h"
 #include "DebugRenderer.h"
 #include "GameScene.h"
+#include "StateManager.h"
 #include "Utils.h"
+#include "../States/PlayerStates.h"
 
 class MyRayCastCallback : public b2RayCastCallback
 {
@@ -36,9 +39,10 @@ public:
     float m_fraction;
 };
 
-PlayerMovementComponent::PlayerMovementComponent(const ody::RigidBodyComponent* rigidBody)
+PlayerMovementComponent::PlayerMovementComponent(const ody::RigidBodyComponent* rigidBody, ody::StateManager* pStateManager)
 {
 	m_pRigidBodyComponent = rigidBody;
+    m_pPlayerStateManager = pStateManager;
 }
 
 void PlayerMovementComponent::Update()
@@ -86,10 +90,31 @@ void PlayerMovementComponent::HandleGroundChecking()
 
 void PlayerMovementComponent::Move(const glm::vec2& direction)
 {
+    if (direction.x < 0.f && m_IsSpriteLookingRight)
+    {
+        GetOwner()->GetComponent<ody::AnimatedTextureComponent>()->Flip();
+        m_IsSpriteLookingRight = false;
+    }
+    else if (direction.x > 0.f && !m_IsSpriteLookingRight)
+    {
+    	GetOwner()->GetComponent<ody::AnimatedTextureComponent>()->Flip();
+		m_IsSpriteLookingRight = true;
+	}
+
+    m_pPlayerStateManager->ChangeState(std::make_unique<PlayerWalk>(GetOwner()));
+
     auto vel = m_pRigidBodyComponent->GetVelocity();
     vel.x = direction.x * m_MoveSpeed;
     m_pRigidBodyComponent->SetVelocity({ vel.x, vel.y });
 }
+
+void PlayerMovementComponent::StopMoving() const
+{
+	m_pPlayerStateManager->ChangeState(std::make_unique<PlayerIdle>(GetOwner()));
+	auto vel = m_pRigidBodyComponent->GetVelocity();
+	m_pRigidBodyComponent->SetVelocity({ 0.f, vel.y });
+}
+
 
 void PlayerMovementComponent::Jump()
 {
