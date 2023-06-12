@@ -177,10 +177,9 @@
     <ClCompile Include="src\Commands\Commands.cpp" />
     <ClCompile Include="src\Components\PlayerMovementComponent.cpp" />
     <ClCompile Include="src\Application.cpp" />
-    <ClCompile Include="src\Scenes\TestScene.cpp" />
-    <ClCompile Include="src\Scenes\TestScene2.cpp" />
     <ClCompile Include="src\Scenes\TestSCene3.cpp" />
     <ClCompile Include="src\Prefabs\TilePrefab.cpp" />
+    <ClCompile Include="src\Scenes\TwoPlayerScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Components\EnemyComponent.h" />
@@ -192,10 +191,9 @@
     <ClInclude Include="src\Components\BubbleProjectileComponent.h" />
     <ClInclude Include="src\Commands\Commands.h" />
     <ClInclude Include="src\Components\PlayerMovementComponent.h" />
-    <ClInclude Include="src\Scenes\TestScene.h" />
-    <ClInclude Include="src\Scenes\TestScene2.h" />
     <ClInclude Include="src\Scenes\TestSCene3.h" />
     <ClInclude Include="src\Prefabs\TilePrefab.h" />
+    <ClInclude Include="src\Scenes\TwoPlayerScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -46,6 +46,8 @@ namespace ody
 		void RootRender();
 		void RootOnGUI();
 
+		void MarkForDelete(ody::GameObject* pObject);
+
 	/// Box2D World Settings
 		void SetGravity(const glm::vec2& gravity) const { m_pWorld->SetGravity({ gravity.x, gravity.y }); }
 	/// Box2D World Settings
@@ -61,6 +63,7 @@ namespace ody
 		virtual void OnSceneDeactivated() {}
 
 		std::vector<std::unique_ptr<GameObject>> m_pChildren{};
+		std::vector<GameObject*> m_pObjectsToDelete{};
 	private:
 		friend class SceneManager;
 
@@ -72,6 +75,8 @@ namespace ody
 		
 		//Box2D
 		b2World* m_pWorld{ nullptr }; 
+
+		static int m_SceneIndex;
 	};
 }
 

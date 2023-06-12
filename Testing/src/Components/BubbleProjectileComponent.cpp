@@ -7,6 +7,7 @@
 #include "GameTime.h"
 #include "RigidBodyComponent.h"
 #include "PhysicsManager.h"
+#include "GameScene.h"
 
 BubbleProjectileComponent::BubbleProjectileComponent(const glm::vec2& position, const glm::vec2& moveDir)
 {
@@ -18,7 +19,6 @@ void BubbleProjectileComponent::Initialize()
 {
 
 }
-
 
 void BubbleProjectileComponent::Update()
 {
@@ -36,5 +36,13 @@ void BubbleProjectileComponent::Update()
 	{
 		rigidBody->SetVelocity(glm::vec2{ 0.f, -20.f });
 	}
+}
 
+void BubbleProjectileComponent::Destroy()
+{
+	/*const auto rigidBody = GetOwner()->GetComponent<ody::RigidBodyComponent>();
+	rigidBody->Disable();*/
+
+	GetOwner()->GetScene()->MarkForDelete(GetOwner());
+	
 }

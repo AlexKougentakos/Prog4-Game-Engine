@@ -123,3 +123,11 @@ void PlayerMovementComponent::Jump()
 	m_HasJumped = true;
 	m_pRigidBodyComponent->AddForce({0, -m_JumpForce });
 }
+
+glm::vec2 PlayerMovementComponent::GetLookDir() const
+{
+    if (m_IsSpriteLookingRight)
+        return { 1.f, 0.f };
+    
+    return { -1.f, 0.f };
+}

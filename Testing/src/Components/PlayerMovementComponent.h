@@ -34,6 +34,8 @@ public:
 	void StopMoving() const;
 	void Jump();
 
+	glm::vec2 GetLookDir() const;
+
 private:
 	const ody::RigidBodyComponent* m_pRigidBodyComponent{};
 

@@ -24,7 +24,13 @@ public:
 
 	void Wander();
 	void BecomeBubble();
+	void PopBubble();
+
+	void BreakOutOfBubble();
 	void UpdateBubble();
+
+	void BecomeEnraged();
+	void UpdateRage();
 
 	void ResetTimer() { m_ElapsedCurrentBahaviourTime = 0.f; }
 private:
@@ -46,8 +52,14 @@ private:
 	float m_TimeSinceLastJump{ 0 };
 	const int m_JumpChance{ 50 }; //In percent
 
+		//Bubble Settings
+	const int m_NumOfBubbleStages{ 3 };
+	const float m_TimePerStage{1.f};
+	int m_CurrentBubbleState{ 1 };
+
 	void TryToJump();
 	void ChangeDirections() { m_MoveDirection.x *= -1.f; }
+	void IncreaseBubbleState();
 
 	ody::RigidBodyComponent* m_pRigidBody{};
 };

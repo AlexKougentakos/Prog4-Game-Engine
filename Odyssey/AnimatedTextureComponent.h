@@ -47,6 +47,12 @@ namespace ody
 			m_AnimationSpeed = speed;
 		}
 
+		/**
+		 * \brief Changes the texture
+		 * \param filename The name of the sprite sheet
+		 * \param spriteCounts Number of columns are rows in the sprite sheet
+		 * \param animationSpeed The amount of seconds between each frame
+		 */
 		void SetTexture(const std::string& filename, const glm::ivec2& spriteCounts, float animationSpeed, float scale = 1.f)
 		{
 			m_pTexture = ody::ResourceManager::GetInstance().LoadTexture(filename);

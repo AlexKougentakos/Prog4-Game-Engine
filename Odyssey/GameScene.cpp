@@ -18,10 +18,12 @@
 
 namespace ody
 {
+int GameScene::m_SceneIndex{ 0 };
+
 GameScene::GameScene(std::wstring sceneName)
 	:m_SceneName(std::move(sceneName))
 {
-	
+	++m_SceneIndex;
 }
 
 void GameScene::AddChild_Safe(GameObject* object)
@@ -39,7 +41,7 @@ void GameScene::AddChild_Safe(GameObject* object)
 }
 
 //This function will place the children of the object, if any, to the parent above
-void GameScene::RemoveChild(GameObject* object, bool keepChildren)
+void GameScene::RemoveChild(GameObject* pObject, bool keepChildren)
 {
 	// If we need to remove the children call the same function on the children
 	if (!keepChildren)
@@ -47,7 +49,7 @@ void GameScene::RemoveChild(GameObject* object, bool keepChildren)
 		for (auto it = m_pChildren.begin(); it != m_pChildren.end(); )
 		{
 			auto& p = *it;
-			if (p->GetParent() == object)
+			if (p->GetParent() == pObject)
 			{
 				RemoveChild(p.get(), false);
 				it = m_pChildren.begin(); // start over, as the vector has been modified
@@ -59,24 +61,27 @@ void GameScene::RemoveChild(GameObject* object, bool keepChildren)
 		}
 	}
 
-
-	if (const auto parent = object->GetParent())
+	if (const auto parent = pObject->GetParent())
 	{
 		// Transfer children to parent (if any)
 		auto& children = parent->GetChildren();
-		auto& object_children = object->GetChildren();
+		auto& object_children = pObject->GetChildren();
 		children.insert(children.end(), make_move_iterator(object_children.begin()), make_move_iterator(object_children.end()));
 		object_children.clear();
 
 		// Remove object from its parent's list of children
-		children.erase(std::remove(children.begin(), children.end(), object), children.end());
+		children.erase(std::remove(children.begin(), children.end(), pObject), children.end());
 	}
 
 	// Remove object from the scene
 	auto& objects = m_pChildren;
 	objects.erase(std::remove_if(objects.begin(), objects.end(),
-		[object](const auto& p) { return p.get() == object; }), objects.end());
+		[pObject](const auto& p) { return p.get() == pObject; }), objects.end());
+
+	// Remove object from deletion list if present
+	m_pObjectsToDelete.erase(std::remove(m_pObjectsToDelete.begin(), m_pObjectsToDelete.end(), pObject), m_pObjectsToDelete.end());
 }
+
 
 GameObject* GameScene::CreateGameObject()
 {
@@ -223,10 +228,24 @@ void GameScene::FixedUpdate()
 	}
 }
 
+void GameScene::MarkForDelete(GameObject* pObject)
+{
+	// Add to deletion list
+	m_pObjectsToDelete.push_back(pObject);
+}
+
 void GameScene::RootUpdate()
 {
-
 	Update();
+
+	// Remove objects marked for deletion
+	for (auto pObject : m_pObjectsToDelete)
+	{
+		RemoveChild(pObject, true); // Assuming you want to keep children
+	}
+
+	// Clear the deletion list
+	m_pObjectsToDelete.clear();
 }
 
 void GameScene::RootOnGUI()

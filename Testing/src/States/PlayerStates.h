@@ -46,3 +46,26 @@ private:
 	ody::GameObject* m_pGameObject{};
 };
 
+class PlayerShoot : public ody::State
+{
+public:
+	PlayerShoot(ody::GameObject* pGameObject);
+	virtual ~PlayerShoot() override = default;
+
+	PlayerShoot(const PlayerShoot& other) = delete;
+	PlayerShoot(PlayerShoot&& other) = delete;
+	PlayerShoot& operator=(const PlayerShoot& other) = delete;
+	PlayerShoot& operator=(PlayerShoot&& other) = delete;
+
+	virtual void Enter() override;
+	virtual void Exit() override;
+	virtual void Update() override;
+
+	virtual std::string GetStateName() override { return "PlayerShoot"; }
+private:
+	ody::GameObject* m_pGameObject{};
+
+	const float m_AnimTime{ 0.5f };
+	float m_ElapsedAnimTime{0.f};
+};
+

@@ -25,6 +25,7 @@
 #include "PhysicsManager.h"
 
 #include "../components/EnemyComponent.h"
+#include "../components/BubbleProjectileComponent.h"
 
 void TestScene3::Initialize()
 {
@@ -82,6 +83,7 @@ void TestScene3::Initialize()
 	player = CreateGameObject();
 	player->GetTransform()->SetPosition(50.0f, 50.0f);
 	player->AddComponent<ody::AnimatedTextureComponent>("Player_Run_Anim.png", glm::ivec2{4,1}, 0.5f, 0.7f);
+	player->SetTag("Player");
 
 	ody::RigidBodySettings settings;
 	settings.gravityScale = 2;
@@ -100,7 +102,7 @@ void TestScene3::Initialize()
 	settingsCol.friction = 0.f;
 	settingsCol.collisionGroup = ody::constants::CollisionGroups::Group2;
 	player->AddComponent<ody::CircleColliderComponent>(16.f, settingsCol);
-	player->AddComponent<PlayerShootingComponent>();
+	player->AddComponent<PlayerShootingComponent>(m_pPlayerStateManager.get());
 
 	ody::InputManager::GetInstance().AddKeyboardCommand('w', ody::InputManager::InputType::OnDown, std::make_unique<JumpCommand>(player, 100.f));
 	ody::InputManager::GetInstance().AddKeyboardCommand('a', ody::InputManager::InputType::Pressed, std::make_unique<MoveCommand>(player, glm::vec2{ -1.f, 0.f }));
@@ -126,10 +128,9 @@ void TestScene3::OnSceneActivated()
 	player->Update();
 	SetGravity({0.f, 1.f});
 
-	m_pContactListener = new BubbleBobbleContactListener();
+	m_pContactListener = std::make_unique< BubbleBobbleContactListener>();
 
-	ody::PhysicsManager::GetInstance().GetPhysicsWorld()->SetContactListener(m_pContactListener);
-
+	ody::PhysicsManager::GetInstance().GetPhysicsWorld()->SetContactListener(m_pContactListener.get());
 }
 
 
@@ -152,4 +153,53 @@ void TestScene3::Update()
 void TestScene3::OnGUI()
 {
 	//ImGui::ShowDemoWindow();
+}
+
+
+void BubbleBobbleContactListener::BeginContact(b2Contact* contact)
+{
+	auto gameObjectA = reinterpret_cast<ody::GameObject*>(contact->GetFixtureA()->GetUserData().pointer);
+	auto gameObjectB = reinterpret_cast<ody::GameObject*>(contact->GetFixtureB()->GetUserData().pointer);
+
+	if (gameObjectA && gameObjectB)
+	{
+	//Bubble Enemy Collisions
+		if (gameObjectA->GetTag() == "Bubble" && gameObjectB->GetTag() == "Enemy")
+		{
+			gameObjectA->GetComponent<BubbleProjectileComponent>()->Destroy();
+			gameObjectB->GetComponent<EnemyComponent>()->BecomeBubble();
+		}
+
+		else if (gameObjectA->GetTag() == "Enemy" && gameObjectB->GetTag() == "Bubble")
+		{
+			gameObjectB->GetComponent<BubbleProjectileComponent>()->Destroy();
+			gameObjectA->GetComponent<EnemyComponent>()->BecomeBubble();
+		}
+	//Player with Bubbled Enemy Collision
+
+		if (gameObjectA->GetTag() == "Player" && gameObjectB->GetTag() == "EnemyInBubble")
+		{
+			gameObjectB->GetComponent<EnemyComponent>()->PopBubble();
+		}
+
+		else if (gameObjectA->GetTag() == "EnemyInBubble" && gameObjectB->GetTag() == "Player")
+		{
+			gameObjectA->GetComponent<EnemyComponent>()->PopBubble();
+		}
+
+	//Player with Enemy Collision
+		//if (gameObjectA->GetTag() == "Player" && gameObjectB->GetTag() == "EnemyInBubble")
+		//{
+		//	gameObjectA->GetComponent<BubbleProjectileComponent>()->Destroy();
+		//	gameObjectB->GetComponent<EnemyComponent>()->BecomeBubble();
+		//}
+
+		//else if (gameObjectA->GetTag() == "EnemyInBubble" && gameObjectB->GetTag() == "Player")
+		//{
+		//	gameObjectB->GetComponent<BubbleProjectileComponent>()->Destroy();
+		//	gameObjectA->GetComponent<EnemyComponent>()->BecomeBubble();
+		//}
+	}
+
+
 }

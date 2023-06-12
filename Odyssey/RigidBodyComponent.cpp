@@ -2,6 +2,7 @@
 #include "GameObject.h"
 
 #include <Box2D/b2_body.h>
+#include <Box2D/b2_world.h>
 
 #include "PhysicsManager.h"
 #include "Utils.h"

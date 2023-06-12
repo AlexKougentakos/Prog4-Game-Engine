@@ -20,7 +20,6 @@ void ody::PhysicsManager::SetPhysicsWorld(b2World* world)
 	m_pActivePhysicsWorld = world;
 }
 
-
 b2Fixture* ody::PhysicsManager::CreateFixture(b2Body* body, const b2FixtureDef& fixtureDef) const
 {
 	return body->CreateFixture(&fixtureDef);

@@ -54,6 +54,8 @@ namespace ody
 
 		b2Body* GetRuntimeBody() const { return m_pRuntimeBody; }
 		void SetRuntimeBody(b2Body* pBody) { m_pRuntimeBody = pBody; }
+
+		void Disable() { m_pRuntimeBody->SetEnabled(false); }
 	private:
 
 		b2Body* m_pRuntimeBody{};

@@ -32,6 +32,8 @@ namespace ody
 		b2Body* CreateBody(const b2BodyDef& bodyDef) const;
 		b2Fixture* CreateFixture(b2Body* body, const b2FixtureDef& fixtureDef) const;
 
+		void CheckForBodiesToDelete() const;
+
 		void SetPhysicsWorld(b2World* world);
 		b2World* GetPhysicsWorld() const { return m_pActivePhysicsWorld; }
 
@@ -40,5 +42,7 @@ namespace ody
 		PhysicsManager() = default;
 
 		b2World* m_pActivePhysicsWorld{};
+
+		std::vector<b2Body*> m_pBodiesForDeletion{};
 	};
 }

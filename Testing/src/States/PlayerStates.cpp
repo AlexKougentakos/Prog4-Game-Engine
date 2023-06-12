@@ -2,7 +2,9 @@
 
 #include <iostream>
 
+#include "GameTime.h"
 #include "GameObject.h"
+#include "AnimatedTextureComponent.h"
 
 #pragma region PlayerIdle
 PlayerIdle::PlayerIdle(ody::GameObject* pGameObject):
@@ -11,12 +13,12 @@ PlayerIdle::PlayerIdle(ody::GameObject* pGameObject):
 
 void PlayerIdle::Enter()
 {
-	std::cout << "PlayerIdle::Enter()" << std::endl;
+	m_pGameObject->GetComponent<ody::AnimatedTextureComponent>()->SetTexture("Player_Idle_Anim.png", glm::ivec2{ 2,1 }, 0.5f, 0.7f);
 }
 
 void PlayerIdle::Exit()
 {
-	std::cout << "PlayerIdle::Exit()" << std::endl;
+	
 }
 
 void PlayerIdle::Update()
@@ -34,16 +36,40 @@ PlayerWalk::PlayerWalk(ody::GameObject* pGameObject) :
 
 void PlayerWalk::Enter()
 {
-	std::cout << "PlayerWalk::Enter()" << std::endl;
+	m_pGameObject->GetComponent<ody::AnimatedTextureComponent>()->SetTexture("Player_Run_Anim.png", glm::ivec2{ 4,1 }, 0.2f, 0.7f);
 }
 
 void PlayerWalk::Exit()
 {
-	std::cout << "PlayerWalk::Exit()" << std::endl;
+	
 }
 
 void PlayerWalk::Update()
 {
-
+	
 }
 #pragma endregion PlayerWalk
+
+#pragma region PlayerShoot
+PlayerShoot::PlayerShoot(ody::GameObject* pGameObject) :
+	m_pGameObject(pGameObject)
+{
+
+}
+
+void PlayerShoot::Enter()
+{
+	m_ElapsedAnimTime = 0.f;
+	m_pGameObject->GetComponent<ody::AnimatedTextureComponent>()->SetTexture("Player_Shoot_Anim.png", glm::ivec2{ 4,1 }, 0.2f, 0.7f);
+}
+
+void PlayerShoot::Exit()
+{
+
+}
+
+void PlayerShoot::Update()
+{
+	
+}
+#pragma endregion PlayerShoot

@@ -80,7 +80,6 @@ namespace ody
 
 		std::map<InputDataController, std::unique_ptr<Command>> m_ControllerActionMap{};
 		std::vector<std::unique_ptr<XBox360Controller>> m_ControllerPtrs{};
-
 		std::map<InputDataKeyboard, std::unique_ptr<Command>> m_KeyboardActionMap{};
 
 		bool m_ExecutedIdleThumbstick{ false };

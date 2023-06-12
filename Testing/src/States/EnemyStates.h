@@ -66,3 +66,23 @@ public:
 private:
 	ody::GameObject* m_pGameObject{};
 };
+
+class EnemyRage : public ody::State
+{
+public:
+	EnemyRage(ody::GameObject* pGameObject);
+	virtual ~EnemyRage() override = default;
+
+	EnemyRage(const EnemyRage& other) = delete;
+	EnemyRage(EnemyRage&& other) = delete;
+	EnemyRage& operator=(const EnemyRage& other) = delete;
+	EnemyRage& operator=(EnemyRage&& other) = delete;
+
+	virtual void Enter() override;
+	virtual void Exit() override;
+	virtual void Update() override;
+
+	virtual std::string GetStateName() override { return "EnemyRage"; }
+private:
+	ody::GameObject* m_pGameObject{};
+};

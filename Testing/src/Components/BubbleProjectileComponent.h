@@ -16,8 +16,10 @@ public:
 	void Initialize() override;
 	void Update() override;
 
+	void Destroy();
+
 private:
-	float m_MoveSpeed{80.f};
+	float m_MoveSpeed{110.f};
 	float m_MoveDistance{100.f};
 
 	glm::vec2 m_StartingPosition{};
