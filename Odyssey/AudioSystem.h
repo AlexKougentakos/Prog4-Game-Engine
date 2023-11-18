@@ -13,7 +13,6 @@ namespace ody
 		AudioSystemImpl* pImpl{};
 
 		std::map<unsigned int, std::pair<std::string, bool>> effectLocationMap{};
-
 	public:
 		virtual void PlaySound(unsigned int effectID) override;
 		virtual void PauseSound() override;

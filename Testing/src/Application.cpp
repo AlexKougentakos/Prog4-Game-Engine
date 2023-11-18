@@ -12,15 +12,14 @@
 #include "TextComponent.h"
 #include "Command.h"
 
-#include "../src/Scenes/TestScene3.h"
-
+#include "Scenes/TestScene.h"
 
 
 void load()
 {
 	auto& sceneManager = ody::SceneManager::GetInstance();
 
-	auto scene3 = new TestScene3();
+	auto scene3 = new TestScene();
 
 	sceneManager.AddScene(scene3);
 }

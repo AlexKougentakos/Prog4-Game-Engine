@@ -23,7 +23,7 @@ namespace ody
 
 	void SceneManager::Render()
 	{
-		m_pActiveScene->Render();
+		m_pActiveScene->RootRender();
 	}
 
 	void SceneManager::OnGUI()

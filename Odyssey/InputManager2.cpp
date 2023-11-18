@@ -12,7 +12,6 @@ using namespace ody;
 
 bool InputManager::ProcessInput()
 {
-	
 	//Keyboard part
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) 
@@ -42,43 +41,6 @@ bool InputManager::ProcessInput()
 	{
 		case SDL_KEYDOWN:
 		{
-			if (e.key.keysym.sym == SDLK_j)
-				SceneManager::GetInstance().PreviousScene();
-			else if (e.key.keysym.sym == SDLK_k)
-				SceneManager::GetInstance().NextScene();
-			else if (e.key.keysym.sym == SDLK_1)
-			{
-				ody::ServiceLocator::GetSoundSystem().PlaySound(1);
-			}
-			else if (e.key.keysym.sym == SDLK_2)
-			{
-				ody::ServiceLocator::GetSoundSystem().PlaySound(2);
-			}
-			else if (e.key.keysym.sym == SDLK_3)
-			{
-				ody::ServiceLocator::GetSoundSystem().PlaySound(3);
-			}
-			else if (e.key.keysym.sym == SDLK_4)
-			{
-				ody::ServiceLocator::GetSoundSystem().PlaySound(4);
-			}
-			else if (e.key.keysym.sym == SDLK_5)
-			{
-				ody::ServiceLocator::GetSoundSystem().PlaySound(5);
-			}
-			else if (e.key.keysym.sym == SDLK_6)
-			{
-				ody::ServiceLocator::GetSoundSystem().PlaySound(6);
-			}
-			else if (e.key.keysym.sym == SDLK_7)
-			{
-				ody::ServiceLocator::GetSoundSystem().PlaySound(7);
-			}
-			else if (e.key.keysym.sym == SDLK_8)
-			{
-				ody::ServiceLocator::GetSoundSystem().PlaySound(8);
-			}
-
 			break;
 		}
 		case SDL_KEYUP:
@@ -86,10 +48,8 @@ bool InputManager::ProcessInput()
 			break;
 		}
 	}
-
-
 #endif
-	}//While loop end
+	}
 
 	//Keyboard Pressed continuously
 	const Uint8* state = SDL_GetKeyboardState(nullptr);

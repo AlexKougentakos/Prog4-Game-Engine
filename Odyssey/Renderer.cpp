@@ -1,7 +1,6 @@
 #include <stdexcept>
 #include "Renderer.h"
 
-#include "DebugRenderer.h"
 #include "SceneManager.h"
 #include "Texture2D.h"
 #include "imgui.h"
@@ -64,8 +63,6 @@ void ody::Renderer::Render() const
 	ImGui::Render();
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 #endif
-
-	DebugRenderer::GetInstance().Render();
 	
 	SDL_RenderPresent(m_renderer);
 }

@@ -2,19 +2,12 @@
 #include "GameTime.h"
 #include "GameObject.h"
 
-#include <Box2D/Box2D.h>
-
-#include "CircleColliderComponent.h"
-#include "ColliderComponent.h"
-#include "DebugRenderer.h"
 #include "IPrefab.h"
-#include "RigidBodyComponent.h"
 #include "Utils.h"
 #include <imgui.h>
 #include <iostream>
 
 #include "ImGuiManager.h"
-#include "PhysicsManager.h"
 
 namespace ody
 {
@@ -108,124 +101,28 @@ GameObject* GameScene::CreateGameObjectFromPrefab(const IPrefab& prefab)
 
 void GameScene::OnRootSceneActivated()
 {
-	m_pWorld = new b2World(b2Vec2(0.f, Utils::PixelsToMeters(100.f)));
-	m_pWorld->SetDebugDraw(&DebugRenderer::GetInstance());
-	DebugRenderer::GetInstance().SetWorld(m_pWorld);
-	PhysicsManager::GetInstance().SetPhysicsWorld(m_pWorld);
-
-	for (const auto& object : m_pChildren)
-	{
-		if (!object->GetComponent<RigidBodyComponent>()) continue;
-
-		const auto transform = object->GetTransform();
-		const auto rigidBody = object->GetComponent<RigidBodyComponent>();
-
-		b2BodyDef bodyDef{};
-		Utils::RigidbodySettingsToB2DBodyDef(rigidBody->GetSettings(), bodyDef);
-		bodyDef.position.Set(Utils::PixelsToMeters(transform->GetWorldPosition().x), Utils::PixelsToMeters(transform->GetWorldPosition().y));
-
-		b2Body* pBody = m_pWorld->CreateBody(&bodyDef);
-		rigidBody->SetRuntimeBody(pBody);
-		pBody->SetFixedRotation(bodyDef.fixedRotation);
-
-		//Colliders 
-		const auto boxCollider = object->GetComponent<ody::ColliderComponent>();
-		const auto circleCollider = object->GetComponent<ody::CircleColliderComponent>();
-
-		if (!boxCollider && !circleCollider) continue;
-
-		b2CircleShape circleShape{};
-		b2PolygonShape boxShape{};
-		b2FixtureDef fixtureDef{};
-		b2Vec2 center;
-
-		if (circleCollider)
-		{
-			// Circle Collider
-			circleShape.m_radius = Utils::PixelsToMeters(circleCollider->GetRadius()); // Set the radius of the circle
-			center = b2Vec2{ Utils::PixelsToMeters(circleCollider->GetRadius()), Utils::PixelsToMeters(circleCollider->GetRadius()) };
-
-			circleShape.m_p = center; // Set the center of the circle
-			fixtureDef.shape = &circleShape;
-
-			Utils::ColliderSettingsToB2DFixtureDef(circleCollider->GetSettings(), fixtureDef);
-		}
-		else
-		{
-			// Box Collider
-			center = b2Vec2{ Utils::PixelsToMeters(boxCollider->GetDimensions().x), Utils::PixelsToMeters(boxCollider->GetDimensions().y) };
-
-			boxShape.SetAsBox(Utils::PixelsToMeters(boxCollider->GetDimensions().x), Utils::PixelsToMeters(boxCollider->GetDimensions().y), center, 0.f);
-
-			fixtureDef.shape = &boxShape;
-
-			Utils::ColliderSettingsToB2DFixtureDef(boxCollider->GetSettings(), fixtureDef);
-		}
-
-		b2FixtureUserData userData{};
-		userData.pointer = reinterpret_cast<uintptr_t>(object.get());
-		fixtureDef.userData = userData;
-
-		b2Fixture* pFixture = pBody->CreateFixture(&fixtureDef);
-
-		// Update the runtime fixture for both ColliderComponent and CircleColliderComponent
-		if (boxCollider)
-		{
-			boxCollider->SetRuntimeFixture(pFixture);
-			boxCollider->InitializeFilter();
-		}
-		else
-		{
-			circleCollider->SetRuntimeFixture(pFixture);
-			circleCollider->InitializeFilter();
-		}
-	}
-
 	OnSceneActivated();
 }
 
 void GameScene::RootRender()
 {
+	Render();
 
+	for (const auto& object : m_pChildren)
+	{
+		object->Render();
+	}
 }
 
 
 void GameScene::OnRootSceneDeactivated()
 {
 	OnSceneDeactivated();
-
-	delete m_pWorld;
-	m_pWorld = nullptr;
 }
 
 void GameScene::FixedUpdate()
 {
-	//Physics
-	constexpr int32_t velocityIterations = 8;
-	constexpr int32_t positionIterations = 3;
-
-	constexpr float calculationHz = 60.f;
-	constexpr float ts = 1.f / calculationHz;
-
-	m_pWorld->Step(ts, velocityIterations, positionIterations);
-	ImGuiManager::GetInstance().AddCheckBox("Debug Draw Box2D", true);
-	if (ImGuiManager::GetInstance().GetCheckBoxState("Debug Draw Box2D"))
-		m_pWorld->DebugDraw();
-
-	for (const auto& object : m_pChildren)
-	{
-		if (!object->GetComponent<RigidBodyComponent>()) continue;
-
-		const auto transform = object->GetTransform();
-		const auto rigidBody = object->GetComponent<RigidBodyComponent>();
-
-		const b2Body* body = rigidBody->GetRuntimeBody();
-
-		const auto& position = body->GetPosition();
-
-		transform->Translate(Utils::MetersToPixels(position.x), Utils::MetersToPixels(position.y));
-		//todo: rotate too
-	}
+	
 }
 
 void GameScene::MarkForDelete(GameObject* pObject)
@@ -237,6 +134,11 @@ void GameScene::MarkForDelete(GameObject* pObject)
 void GameScene::RootUpdate()
 {
 	Update();
+
+	for (const auto& object : m_pChildren)
+	{
+		object->Update();
+	}
 
 	// Remove objects marked for deletion
 	for (auto pObject : m_pObjectsToDelete)

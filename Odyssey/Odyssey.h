@@ -11,8 +11,13 @@ namespace ody
 	class Odyssey final
 	{
 	public:
+		/**
+		 * \brief 
+		 * \param dataPath Location for the data folder
+		 * \param SfxLocationMap Map which contains the ID, location and if the sound should be pre-loaded and kept in memory
+		 */
 		explicit Odyssey(const std::string& dataPath, 
-			std::map<unsigned int, std::pair<std::string, bool>> SfxLocationMap);
+		                 std::map<unsigned int, std::pair<std::string, bool>> SfxLocationMap);
 		~Odyssey();
 		void Run(const std::function<void()>& load);
 

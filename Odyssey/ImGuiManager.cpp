@@ -1,18 +1,28 @@
 ﻿#include "ImGuiManager.h"
+
+#include <utility>
 #include "imgui.h"
 
 namespace ody
 {
-    void ImGuiManager::AddCheckBox(const std::string& id, bool defaultState)
+    void ImGuiManager::AddCheckBox(const std::string& id, bool& stateRef)
     {
-        if (m_CheckBoxStates.find(id) == m_CheckBoxStates.end())
-            m_CheckBoxStates[id] = defaultState;
+        // Use emplace to construct the element in place without default construction
+        const auto result = m_CheckBoxStates.emplace(std::make_pair(id, std::ref(stateRef)));
+
+        // result.second is true if the insertion took place, false if the id already existed
+        // result.first is an iterator to the inserted or existing element
+        if (!result.second) {
+            // The id already existed, update the reference
+            result.first->second = std::ref(stateRef);
+        }
     }
+
 
     // Implement AddButton
     void ImGuiManager::AddButton(const std::string& id, std::function<void()> onClick)
     {
-        m_Buttons[id] = onClick;
+        m_Buttons[id] = std::move(onClick);
     }
 
     void ImGuiManager::Render()
@@ -21,10 +31,11 @@ namespace ody
 
         if (ImGui::CollapsingHeader("Checkboxes"))
         {
-            for (auto& checkBox : m_CheckBoxStates)
+            for (auto& checkBox : m_CheckBoxStates) 
             {
-                ImGui::Checkbox(checkBox.first.c_str(), &checkBox.second);
+                ImGui::Checkbox(checkBox.first.c_str(), &(checkBox.second.get()));
             }
+
         }
 
         if (ImGui::CollapsingHeader("Buttons"))
@@ -40,7 +51,4 @@ namespace ody
 
         ImGui::End();
     }
-
-
-
 }
