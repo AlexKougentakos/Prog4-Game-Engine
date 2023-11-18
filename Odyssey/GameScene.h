@@ -4,12 +4,13 @@
 #include <memory>
 #include <glm/vec2.hpp>
 
+#include "CameraComponent.h"
 #include "Structs.h"
+#include "GameObject.h"
 
 namespace ody
 {
 	class IPrefab;
-	class GameObject;
 
 	class GameScene
 	{
@@ -44,6 +45,8 @@ namespace ody
 
 		void MarkForDelete(ody::GameObject* pObject);
 
+		CameraComponent* GetCamera() const { return m_pCamera.get(); }
+
 	protected:
 		virtual void Initialize() = 0;
 		virtual void PostInitialize() {}
@@ -64,6 +67,8 @@ namespace ody
 
 		void OnRootSceneActivated();
 		void OnRootSceneDeactivated();
+
+		std::unique_ptr<CameraComponent> m_pCamera{};
 
 		static int m_SceneIndex;
 	};

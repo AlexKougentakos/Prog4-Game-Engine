@@ -242,6 +242,7 @@
     <ClInclude Include="AnimatedTextureComponent.h" />
     <ClInclude Include="Audio.h" />
     <ClInclude Include="AudioSystem.h" />
+    <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Constants.h" />
@@ -288,6 +289,7 @@
     <ClCompile Include="AnimatedTextureComponent.cpp" />
     <ClCompile Include="Audio.cpp" />
     <ClCompile Include="AudioSystem.cpp" />
+    <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="GameObject.cpp" />

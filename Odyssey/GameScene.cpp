@@ -17,6 +17,8 @@ GameScene::GameScene(std::wstring sceneName)
 	:m_SceneName(std::move(sceneName))
 {
 	++m_SceneIndex;
+
+	m_pCamera = std::make_unique<CameraComponent>();
 }
 
 void GameScene::AddChild_Safe(GameObject* object)
@@ -90,7 +92,7 @@ GameObject* GameScene::CreateGameObjectFromPrefab(const IPrefab& prefab)
 {
 	auto gameObject = new GameObject(this);
 	gameObject->Initialize();
-	//todo: test prefabs
+	
 	prefab.Configure(gameObject);
 
 	m_pChildren.emplace_back(std::move(gameObject));
@@ -106,14 +108,25 @@ void GameScene::OnRootSceneActivated()
 
 void GameScene::RootRender()
 {
-	Render();
+	Render(); // Your existing scene rendering code
 
-	for (const auto& object : m_pChildren)
-	{
+
+	//todo: optimize this using frustum culling
+	const glm::vec2 cameraPos = m_pCamera->GetPosition();
+
+	for (const auto& object : m_pChildren) {
+		const glm::vec2 renderPosition = glm::vec2(object->GetTransform()->GetWorldPosition()) - cameraPos;
+
+		// Temporarily set the object's position to the renderPosition
+		const glm::vec2 originalPosition = object->GetTransform()->GetWorldPosition();
+		object->GetTransform()->SetPosition(glm::vec3(renderPosition.x, renderPosition.y, 0));
+
 		object->Render();
+
+		// Restore the original position
+		object->GetTransform()->SetPosition(glm::vec3( originalPosition.x, originalPosition.y, 0));
 	}
 }
-
 
 void GameScene::OnRootSceneDeactivated()
 {

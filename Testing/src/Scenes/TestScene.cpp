@@ -3,6 +3,7 @@
 #include "TextureComponent.h"
 #include "imgui.h"
 #include "ImGuiManager.h"
+#include "InputManager2.h"
 
 void TestScene::Initialize()
 {
@@ -12,7 +13,6 @@ void TestScene::Initialize()
 
 	ody::ImGuiManager::GetInstance().AddCheckBox("Show Background", test);
 }
-
 
 void TestScene::Render()
 {

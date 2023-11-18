@@ -97,6 +97,7 @@
     <ClCompile Include="StateManager.cpp">
       <Filter>Odyssey Engine\Managers</Filter>
     </ClCompile>
+    <ClCompile Include="CameraComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h">
@@ -231,6 +232,7 @@
     <ClInclude Include="StateManager.h">
       <Filter>Odyssey Engine\Managers</Filter>
     </ClInclude>
+    <ClInclude Include="CameraComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Odyssey Engine">

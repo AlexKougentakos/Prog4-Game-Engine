@@ -1,7 +1,9 @@
 #include <SDL.h>
 #include "InputManager2.h"
 
+#include "GameScene.h"
 #include "IAudio.h"
+#include "TextureComponent.h"
 
 #ifdef _DEBUG
 #include "SceneManager.h"
@@ -41,6 +43,25 @@ bool InputManager::ProcessInput()
 	{
 		case SDL_KEYDOWN:
 		{
+			if (e.key.keysym.scancode == SDL_SCANCODE_D)
+			{
+				auto pos = SceneManager::GetInstance().GetActiveScene()->GetCamera()->GetPosition();
+
+				SceneManager::GetInstance().GetActiveScene()->GetCamera()->SetPosition({ pos.x + 10, pos.y + 10} );
+			}
+
+			if (e.key.keysym.scancode == SDL_SCANCODE_H)
+			{
+				SceneManager::GetInstance().GetActiveScene()->GetCamera()->SetZoom(0.5f);
+			}
+
+			if (e.key.keysym.scancode == SDL_SCANCODE_SPACE)
+			{
+				auto go = SceneManager::GetInstance().GetActiveScene()->CreateGameObject();
+				go->GetTransform()->SetPosition({ 0,0,0 });
+				go->AddComponent<ody::TextureComponent>("ghost.tga");
+			}
+
 			break;
 		}
 		case SDL_KEYUP:
