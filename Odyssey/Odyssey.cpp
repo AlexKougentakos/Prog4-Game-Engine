@@ -1,6 +1,9 @@
 #include <stdexcept>
-#define WIN32_LEAN_AND_MEAN 
-#include <windows.h>
+
+#ifndef __EMSCRIPTEN__
+	#define WIN32_LEAN_AND_MEAN 
+	#include <windows.h>
+#endif
 #include <chrono>
 #include <iostream>
 #include <thread>

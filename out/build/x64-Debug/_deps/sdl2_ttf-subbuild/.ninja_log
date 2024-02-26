@@ -1,0 +1,21 @@
+# ninja log v5
+3	72	7306923915409505	sdl2_ttf-populate-prefix/src/sdl2_ttf-populate-stamp/sdl2_ttf-populate-mkdir	95e328040e1a64b5
+3	72	7306923915409505	D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_ttf-subbuild/sdl2_ttf-populate-prefix/src/sdl2_ttf-populate-stamp/sdl2_ttf-populate-mkdir	95e328040e1a64b5
+72	1882	7306923933516912	sdl2_ttf-populate-prefix/src/sdl2_ttf-populate-stamp/sdl2_ttf-populate-download	401dce0fb27d7cd2
+72	1882	7306923933516912	D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_ttf-subbuild/sdl2_ttf-populate-prefix/src/sdl2_ttf-populate-stamp/sdl2_ttf-populate-download	401dce0fb27d7cd2
+1882	1930	7306923933989720	sdl2_ttf-populate-prefix/src/sdl2_ttf-populate-stamp/sdl2_ttf-populate-update	40a61140f7e4ceee
+1882	1930	7306923933989720	D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_ttf-subbuild/sdl2_ttf-populate-prefix/src/sdl2_ttf-populate-stamp/sdl2_ttf-populate-update	40a61140f7e4ceee
+1930	1977	7306923934467016	sdl2_ttf-populate-prefix/src/sdl2_ttf-populate-stamp/sdl2_ttf-populate-patch	7fddfa256817fb28
+1930	1977	7306923934467016	D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_ttf-subbuild/sdl2_ttf-populate-prefix/src/sdl2_ttf-populate-stamp/sdl2_ttf-populate-patch	7fddfa256817fb28
+1977	2026	7306923934953060	sdl2_ttf-populate-prefix/src/sdl2_ttf-populate-stamp/sdl2_ttf-populate-configure	7c82e4c86975471c
+1977	2026	7306923934953060	D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_ttf-subbuild/sdl2_ttf-populate-prefix/src/sdl2_ttf-populate-stamp/sdl2_ttf-populate-configure	7c82e4c86975471c
+2026	2074	7306923935429898	sdl2_ttf-populate-prefix/src/sdl2_ttf-populate-stamp/sdl2_ttf-populate-build	148fee908e22142f
+2026	2074	7306923935429898	D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_ttf-subbuild/sdl2_ttf-populate-prefix/src/sdl2_ttf-populate-stamp/sdl2_ttf-populate-build	148fee908e22142f
+2074	2120	7306923935895195	sdl2_ttf-populate-prefix/src/sdl2_ttf-populate-stamp/sdl2_ttf-populate-install	fa01e2d10fc3fb68
+2074	2120	7306923935895195	D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_ttf-subbuild/sdl2_ttf-populate-prefix/src/sdl2_ttf-populate-stamp/sdl2_ttf-populate-install	fa01e2d10fc3fb68
+2120	2169	7306923936391290	sdl2_ttf-populate-prefix/src/sdl2_ttf-populate-stamp/sdl2_ttf-populate-test	ae5942a6e851fa88
+2120	2169	7306923936391290	D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_ttf-subbuild/sdl2_ttf-populate-prefix/src/sdl2_ttf-populate-stamp/sdl2_ttf-populate-test	ae5942a6e851fa88
+2170	2239	7306923937082443	CMakeFiles/sdl2_ttf-populate-complete	d67a5a1ba4da7e6a
+2170	2239	7306923937082443	sdl2_ttf-populate-prefix/src/sdl2_ttf-populate-stamp/sdl2_ttf-populate-done	d67a5a1ba4da7e6a
+2170	2239	7306923937082443	D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_ttf-subbuild/CMakeFiles/sdl2_ttf-populate-complete	d67a5a1ba4da7e6a
+2170	2239	7306923937082443	D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_ttf-subbuild/sdl2_ttf-populate-prefix/src/sdl2_ttf-populate-stamp/sdl2_ttf-populate-done	d67a5a1ba4da7e6a

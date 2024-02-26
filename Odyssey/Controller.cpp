@@ -2,11 +2,12 @@
 #include <cstdlib>
 #include <algorithm>
 
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
-#include <XInput.h>
-#pragma comment(lib, "xinput.lib")
-
+#ifndef __EMSCRIPTEN__
+    #define WIN32_LEAN_AND_MEAN
+    #include <Windows.h>
+    #include <XInput.h>
+    #pragma comment(lib, "xinput.lib")
+#endif
 namespace ody
 {
     class Controller::ControllerImplementation

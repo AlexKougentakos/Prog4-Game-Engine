@@ -1,0 +1,21 @@
+# ninja log v5
+2	129	7306907544982295	glm-populate-prefix/src/glm-populate-stamp/glm-populate-mkdir	671df4ee7dea01a0
+2	129	7306907544982295	D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-subbuild/glm-populate-prefix/src/glm-populate-stamp/glm-populate-mkdir	671df4ee7dea01a0
+129	3597	7306907579675335	glm-populate-prefix/src/glm-populate-stamp/glm-populate-download	7b8e547dd4bc2ac9
+129	3597	7306907579675335	D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-subbuild/glm-populate-prefix/src/glm-populate-stamp/glm-populate-download	7b8e547dd4bc2ac9
+3597	3660	7306907580294947	glm-populate-prefix/src/glm-populate-stamp/glm-populate-update	36f40b6c5e288e45
+3597	3660	7306907580294947	D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-subbuild/glm-populate-prefix/src/glm-populate-stamp/glm-populate-update	36f40b6c5e288e45
+3661	3733	7306907581013414	glm-populate-prefix/src/glm-populate-stamp/glm-populate-patch	93fe173748b72db9
+3661	3733	7306907581013414	D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-subbuild/glm-populate-prefix/src/glm-populate-stamp/glm-populate-patch	93fe173748b72db9
+3733	3801	7306907581723990	glm-populate-prefix/src/glm-populate-stamp/glm-populate-configure	cb8402fe7df80f7
+3733	3801	7306907581723990	D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-subbuild/glm-populate-prefix/src/glm-populate-stamp/glm-populate-configure	cb8402fe7df80f7
+3801	3854	7306907582250788	glm-populate-prefix/src/glm-populate-stamp/glm-populate-build	d8d50699082c6b25
+3801	3854	7306907582250788	D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-subbuild/glm-populate-prefix/src/glm-populate-stamp/glm-populate-build	d8d50699082c6b25
+3854	3908	7306907582793530	glm-populate-prefix/src/glm-populate-stamp/glm-populate-install	3f1243bdb1482676
+3854	3908	7306907582793530	D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-subbuild/glm-populate-prefix/src/glm-populate-stamp/glm-populate-install	3f1243bdb1482676
+3908	3961	7306907583317874	glm-populate-prefix/src/glm-populate-stamp/glm-populate-test	30798e67706b6623
+3908	3961	7306907583317874	D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-subbuild/glm-populate-prefix/src/glm-populate-stamp/glm-populate-test	30798e67706b6623
+3961	4038	7306907584079713	CMakeFiles/glm-populate-complete	18d3fc44cc2fdb7e
+3961	4038	7306907584079713	glm-populate-prefix/src/glm-populate-stamp/glm-populate-done	18d3fc44cc2fdb7e
+3961	4038	7306907584079713	D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-subbuild/CMakeFiles/glm-populate-complete	18d3fc44cc2fdb7e
+3961	4038	7306907584079713	D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-subbuild/glm-populate-prefix/src/glm-populate-stamp/glm-populate-done	18d3fc44cc2fdb7e

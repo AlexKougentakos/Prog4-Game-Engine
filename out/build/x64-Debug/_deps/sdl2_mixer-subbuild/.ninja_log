@@ -1,0 +1,21 @@
+# ninja log v5
+2	55	7306923886439936	sdl2_mixer-populate-prefix/src/sdl2_mixer-populate-stamp/sdl2_mixer-populate-mkdir	c6b8ce599c47ce3
+2	55	7306923886439936	D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_mixer-subbuild/sdl2_mixer-populate-prefix/src/sdl2_mixer-populate-stamp/sdl2_mixer-populate-mkdir	c6b8ce599c47ce3
+56	2295	7306923908831315	sdl2_mixer-populate-prefix/src/sdl2_mixer-populate-stamp/sdl2_mixer-populate-download	8fb5e4bcc954f82a
+56	2295	7306923908831315	D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_mixer-subbuild/sdl2_mixer-populate-prefix/src/sdl2_mixer-populate-stamp/sdl2_mixer-populate-download	8fb5e4bcc954f82a
+2295	2342	7306923909317253	sdl2_mixer-populate-prefix/src/sdl2_mixer-populate-stamp/sdl2_mixer-populate-update	74cf976e0841b580
+2295	2342	7306923909317253	D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_mixer-subbuild/sdl2_mixer-populate-prefix/src/sdl2_mixer-populate-stamp/sdl2_mixer-populate-update	74cf976e0841b580
+2343	2395	7306923909830726	sdl2_mixer-populate-prefix/src/sdl2_mixer-populate-stamp/sdl2_mixer-populate-patch	e507df5bad796d01
+2343	2395	7306923909830726	D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_mixer-subbuild/sdl2_mixer-populate-prefix/src/sdl2_mixer-populate-stamp/sdl2_mixer-populate-patch	e507df5bad796d01
+2395	2442	7306923910309930	sdl2_mixer-populate-prefix/src/sdl2_mixer-populate-stamp/sdl2_mixer-populate-configure	fb41e6e59c99f322
+2395	2442	7306923910309930	D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_mixer-subbuild/sdl2_mixer-populate-prefix/src/sdl2_mixer-populate-stamp/sdl2_mixer-populate-configure	fb41e6e59c99f322
+2442	2494	7306923910817691	sdl2_mixer-populate-prefix/src/sdl2_mixer-populate-stamp/sdl2_mixer-populate-build	6d42941ecc5c52b8
+2442	2494	7306923910817691	D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_mixer-subbuild/sdl2_mixer-populate-prefix/src/sdl2_mixer-populate-stamp/sdl2_mixer-populate-build	6d42941ecc5c52b8
+2494	2546	7306923911355625	sdl2_mixer-populate-prefix/src/sdl2_mixer-populate-stamp/sdl2_mixer-populate-install	3945745d68102d4d
+2494	2546	7306923911355625	D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_mixer-subbuild/sdl2_mixer-populate-prefix/src/sdl2_mixer-populate-stamp/sdl2_mixer-populate-install	3945745d68102d4d
+2547	2595	7306923911837222	sdl2_mixer-populate-prefix/src/sdl2_mixer-populate-stamp/sdl2_mixer-populate-test	1a295177678ab111
+2547	2595	7306923911837222	D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_mixer-subbuild/sdl2_mixer-populate-prefix/src/sdl2_mixer-populate-stamp/sdl2_mixer-populate-test	1a295177678ab111
+2595	2663	7306923912524331	CMakeFiles/sdl2_mixer-populate-complete	d0ffce8f418f4ea9
+2595	2663	7306923912524331	sdl2_mixer-populate-prefix/src/sdl2_mixer-populate-stamp/sdl2_mixer-populate-done	d0ffce8f418f4ea9
+2595	2663	7306923912524331	D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_mixer-subbuild/CMakeFiles/sdl2_mixer-populate-complete	d0ffce8f418f4ea9
+2595	2663	7306923912524331	D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_mixer-subbuild/sdl2_mixer-populate-prefix/src/sdl2_mixer-populate-stamp/sdl2_mixer-populate-done	d0ffce8f418f4ea9

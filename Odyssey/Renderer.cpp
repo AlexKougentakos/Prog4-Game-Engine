@@ -6,8 +6,8 @@
 #include "imgui.h"
 #include "ImGuiManager.h"
 #include "backends/imgui_impl_sdl2.h"
-#include "../3rdParty/imgui-1.89.4/backends/imgui_impl_opengl2.h"
-#include "../ImPlot/implot.h"
+#include "backends/imgui_impl_opengl3.h"
+//#include "../3rdParty/imgui-1.89.4/backends/imgui_impl_opengl2.h
 
 
 
@@ -37,31 +37,29 @@ void ody::Renderer::Init(SDL_Window* window)
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGui_ImplSDL2_InitForOpenGL(window, SDL_GL_GetCurrentContext());
-	ImGui_ImplOpenGL2_Init();
-
-	ImPlot::CreateContext();
+	ImGui_ImplOpenGL3_Init();
 }
 
 void ody::Renderer::Render() const
 {
-	const auto& color = GetBackgroundColor();
-	SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
-	SDL_RenderClear(m_renderer);
+	//const auto& color = GetBackgroundColor();
+	//SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
+	//SDL_RenderClear(m_renderer);
 
 	auto& sceneManager = SceneManager::GetInstance();
 
 	sceneManager.Render();
 
 #ifdef _DEBUG
-	ImGui_ImplOpenGL2_NewFrame();
-	ImGui_ImplSDL2_NewFrame(m_window);
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplSDL2_NewFrame(/*m_window*/);
 	ImGui::NewFrame();
 
 	sceneManager.OnGUI();
 	ImGuiManager::GetInstance().Render();
 
 	ImGui::Render();
-	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 #endif
 	
 	SDL_RenderPresent(m_renderer);
@@ -69,9 +67,7 @@ void ody::Renderer::Render() const
 
 void ody::Renderer::Destroy()
 {
-	ImPlot::DestroyContext();
-
-	ImGui_ImplOpenGL2_Shutdown();
+	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
 
