@@ -24,13 +24,12 @@ void load()
 	sceneManager.AddScene(scene3);
 }
 
-#include <Windows.h>
-#ifndef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN
-#endif
-
 int main(int, char* []) 
 {
+#ifdef __EMSCRIPTEN__
+	fs::path data_location = "";
+#else
+
 	//Here we define the sound effects that we want to use in our game
 	const std::map<unsigned int, std::pair<std::string, bool>> SfxLocationMap{};
 	//{
@@ -46,7 +45,9 @@ int main(int, char* [])
 	//	{10, {"test10.wav", true}}
 	//};
 
+	printf("Hello World\n");
 	ody::Odyssey engine("Data/", SfxLocationMap);
 	engine.Run(load);
 	return 0;
+#endif
 }

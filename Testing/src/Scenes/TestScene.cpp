@@ -1,8 +1,8 @@
 #include "TestScene.h"
 #include "GameObject.h"
 #include "TextureComponent.h"
-#include "imgui.h"
-#include "ImGuiManager.h"
+//#include "imgui.h"
+//#include "ImGuiManager.h"
 #include "InputManager2.h"
 
 void TestScene::Initialize()
@@ -16,7 +16,7 @@ void TestScene::Initialize()
 	gameObject2->AddComponent<ody::TextureComponent>("Player_Idle_Anim.png");
 
 
-	ody::ImGuiManager::GetInstance().AddCheckBox("Show Background", test);
+	//ody::ImGuiManager::GetInstance().AddCheckBox("Show Background", test);
 }
 
 void TestScene::Render()

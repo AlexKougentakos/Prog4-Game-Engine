@@ -12,11 +12,10 @@ namespace ody
 
 		void SetDeltaTime(float elapsedTime);
 		float GetDeltaTime() const { return m_DeltaTime; };
-		float GetPhysicsTimeStep() { return m_PhysicsTimeStep; }
+		float GetPhysicsTimeStep() const { return m_PhysicsTimeStep; }
 	private:
 		std::chrono::steady_clock::time_point m_PrevTime{};
 		float m_DeltaTime{};
-		float total{};
 		float m_PhysicsTimeStep{ 1 / 60.f };
 	};
 }

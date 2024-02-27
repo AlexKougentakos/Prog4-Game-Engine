@@ -8,7 +8,7 @@ TTF_Font* ody::Font::GetFont() const {
 
 ody::Font::Font(const std::string& fullPath, unsigned int size) : m_font(nullptr), m_size(size)
 {
-	m_font = TTF_OpenFont(fullPath.c_str(), size);
+	m_font = TTF_OpenFont(fullPath.c_str(), m_size);
 	if (m_font == nullptr) 
 	{
 		throw std::runtime_error(std::string("Failed to load font: ") + SDL_GetError());

@@ -24,36 +24,36 @@ else()
 endif()
 
 # Define ImGui source files
-set(IMGUI_SOURCES
-  ${imgui_SOURCE_DIR}/imgui.cpp
-  ${imgui_SOURCE_DIR}/imgui_demo.cpp
-  ${imgui_SOURCE_DIR}/imgui_draw.cpp
-  ${imgui_SOURCE_DIR}/imgui_widgets.cpp
-  ${imgui_SOURCE_DIR}/imgui_tables.cpp
-  ${imgui_SOURCE_DIR}/backends/imgui_impl_sdl2.cpp
-  ${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp
-)
+#set(IMGUI_SOURCES
+ # ${imgui_SOURCE_DIR}/imgui.cpp
+#  ${imgui_SOURCE_DIR}/imgui_demo.cpp
+#  ${imgui_SOURCE_DIR}/imgui_draw.cpp
+#  ${imgui_SOURCE_DIR}/imgui_widgets.cpp
+#  ${imgui_SOURCE_DIR}/imgui_tables.cpp
+#  ${imgui_SOURCE_DIR}/backends/imgui_impl_sdl2.cpp
+#  ${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp
+#)
 
 #Ignore compiler warnings for imgui_impl_opengl3.cpp
-set_source_files_properties("${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp"
-                            PROPERTIES COMPILE_FLAGS "/wd4701")
+#set_source_files_properties("${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp"
+#                            PROPERTIES COMPILE_FLAGS "/wd4701")
 
 # list source files here
 add_executable(${TARGET_NAME} ${TARGET_PARAM}
-  Odyssey/AnimatedTextureComponent.cpp
-  Odyssey/AnimatedTextureComponent.h
+  #Odyssey/AnimatedTextureComponent.cpp
+  #Odyssey/AnimatedTextureComponent.h
   Odyssey/Audio.cpp
   Odyssey/Audio.h
-  Odyssey/AudioSystem.cpp
-  Odyssey/AudioSystem.h
+  #Odyssey/AudioSystem.cpp
+  #Odyssey/AudioSystem.h
   Odyssey/CameraComponent.cpp
   Odyssey/CameraComponent.h
   Odyssey/Command.h
   Odyssey/Component.cpp
   Odyssey/Component.h
   Odyssey/Constants.h
-  Odyssey/Controller.cpp
-  Odyssey/Controller.h
+ # Odyssey/Controller.cpp
+ # Odyssey/Controller.h
   Odyssey/Font.cpp
   Odyssey/Font.h
   Odyssey/GameObject.cpp
@@ -63,10 +63,10 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Odyssey/GameTime.cpp
   Odyssey/GameTime.h
   Odyssey/IAudio.h
-  Odyssey/ImGuiManager.cpp
-  Odyssey/ImGuiManager.h
-  Odyssey/InputManager2.cpp
-  Odyssey/InputManager2.h
+#  Odyssey/ImGuiManager.cpp
+ # Odyssey/ImGuiManager.h
+  #Odyssey/InputManager2.cpp
+  #Odyssey/InputManager2.h
   Odyssey/IPrefab.h
   Odyssey/Logger.h
   Odyssey/Observer.h
@@ -98,8 +98,8 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Odyssey/UpdateComponent.h
   Odyssey/Utils.cpp
   Odyssey/Utils.h
-  Odyssey/XboxController.cpp
-  Odyssey/XboxController.h
+  #Odyssey/XboxController.cpp
+  #Odyssey/XboxController.h
   Testing/src/Application.cpp
   Testing/src/Scenes/TestScene.cpp
   Testing/src/Scenes/TestScene.h
@@ -270,7 +270,7 @@ elseif(NOT EMSCRIPTEN)
     GIT_SHALLOW TRUE
     GIT_PROGRESS TRUE
   )
-  set(SDL2IMAGE_INSTALL OFF)
+  set(SDL2MIXER_INSTALL OFF)
   FetchContent_MakeAvailable(SDL2_mixer)
 
   FetchContent_Declare(
@@ -287,9 +287,10 @@ elseif(NOT EMSCRIPTEN)
     ${sdl2_SOURCE_DIR}/include
     ${sdl2_image_SOURCE_DIR}/include
     ${sdl2_ttf_SOURCE_DIR}
+	${sdl2_mixer_SOURCE_DIR}
   )
   target_link_libraries("${TARGET_NAME}" PUBLIC 
-    SDL2::SDL2main SDL2::SDL2 SDL2_image::SDL2_image SDL2_ttf::SDL2_ttf
+    SDL2::SDL2main SDL2::SDL2 SDL2_image::SDL2_image SDL2_ttf::SDL2_ttf SDL2_mixer::SDL2_mixer
   )
 endif()
 
@@ -306,8 +307,8 @@ target_compile_options(${TARGET_NAME} PRIVATE
 target_sources(${TARGET_NAME} PRIVATE ${IMGUI_SOURCES})
 
 if(EMSCRIPTEN)
-  set(EMSCRIPTEN_COMPILE_FLAGS "${EMSCRIPTEN_LINK_FLAGS} -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g")
-  set(EMSCRIPTEN_LINK_FLAGS "${EMSCRIPTEN_LINK_FLAGS} -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -sALLOW_MEMORY_GROWTH --preload-file \"${CMAKE_SOURCE_DIR}/Data@/\" -sSDL2_IMAGE_FORMATS=['tga','png']")
+  set(EMSCRIPTEN_COMPILE_FLAGS "${EMSCRIPTEN_LINK_FLAGS} -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -g")
+  set(EMSCRIPTEN_LINK_FLAGS "${EMSCRIPTEN_LINK_FLAGS} -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -g -sALLOW_MEMORY_GROWTH --preload-file \"${CMAKE_SOURCE_DIR}/Data@/\" -sSDL2_IMAGE_FORMATS=['tga','png']")
 
   # work around https://github.com/emscripten-core/emscripten/issues/11513
   set(EMSCRIPTEN_LINK_FLAGS "${EMSCRIPTEN_LINK_FLAGS} -fno-stack-protector")

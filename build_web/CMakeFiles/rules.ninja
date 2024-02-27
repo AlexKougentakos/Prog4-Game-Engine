@@ -42,7 +42,7 @@ rule CUSTOM_COMMAND
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = C:\Users\alexa\Documents\Cmake\cmake-3.26.4-windows-x86_64\bin\cmake.exe --regenerate-during-build -S"D:\Programming\VisualStudio\Odyssey - CMake" -B"D:\Programming\VisualStudio\Odyssey - CMake\build_web"
+  command = C:\Users\alexa\Documents\Cmake\cmake-3.26.4-windows-x86_64\bin\cmake.exe --regenerate-during-build -S"D:\Programming\VisualStudio\Odyssey - CMake Git" -B"D:\Programming\VisualStudio\Odyssey - CMake Git\build_web"
   description = Re-running CMake...
   generator = 1
 

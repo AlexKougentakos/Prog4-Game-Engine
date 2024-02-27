@@ -34,7 +34,7 @@ include CMakeFiles/rules.ninja
 #############################################
 # Logical path to working directory; prefix for absolute paths.
 
-cmake_ninja_workdir = D$:/Programming/VisualStudio/Odyssey$ -$ CMake/build_web/
+cmake_ninja_workdir = D$:/Programming/VisualStudio/Odyssey$ -$ CMake$ Git/build_web/
 # =============================================================================
 # Object build statements for EXECUTABLE target Odyssey_web
 
@@ -44,229 +44,138 @@ cmake_ninja_workdir = D$:/Programming/VisualStudio/Odyssey$ -$ CMake/build_web/
 
 build cmake_object_order_depends_target_Odyssey_web: phony || CMakeFiles/Odyssey_web.dir
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/AnimatedTextureComponent.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake/Odyssey/AnimatedTextureComponent.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\AnimatedTextureComponent.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
-
-build CMakeFiles/Odyssey_web.dir/Odyssey/Audio.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake/Odyssey/Audio.cpp || cmake_object_order_depends_target_Odyssey_web
+build CMakeFiles/Odyssey_web.dir/Odyssey/Audio.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake$ Git/Odyssey/Audio.cpp || cmake_object_order_depends_target_Odyssey_web
   DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\Audio.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-src"
+  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -g -Wall -Wextra -Wpedantic -Werror
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake Git/build_web/_deps/glm-src"
   OBJECT_DIR = CMakeFiles\Odyssey_web.dir
   OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/AudioSystem.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake/Odyssey/AudioSystem.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\AudioSystem.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
-
-build CMakeFiles/Odyssey_web.dir/Odyssey/CameraComponent.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake/Odyssey/CameraComponent.cpp || cmake_object_order_depends_target_Odyssey_web
+build CMakeFiles/Odyssey_web.dir/Odyssey/CameraComponent.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake$ Git/Odyssey/CameraComponent.cpp || cmake_object_order_depends_target_Odyssey_web
   DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\CameraComponent.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-src"
+  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -g -Wall -Wextra -Wpedantic -Werror
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake Git/build_web/_deps/glm-src"
   OBJECT_DIR = CMakeFiles\Odyssey_web.dir
   OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/Component.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake/Odyssey/Component.cpp || cmake_object_order_depends_target_Odyssey_web
+build CMakeFiles/Odyssey_web.dir/Odyssey/Component.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake$ Git/Odyssey/Component.cpp || cmake_object_order_depends_target_Odyssey_web
   DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\Component.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-src"
+  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -g -Wall -Wextra -Wpedantic -Werror
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake Git/build_web/_deps/glm-src"
   OBJECT_DIR = CMakeFiles\Odyssey_web.dir
   OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/Controller.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake/Odyssey/Controller.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\Controller.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
-
-build CMakeFiles/Odyssey_web.dir/Odyssey/Font.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake/Odyssey/Font.cpp || cmake_object_order_depends_target_Odyssey_web
+build CMakeFiles/Odyssey_web.dir/Odyssey/Font.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake$ Git/Odyssey/Font.cpp || cmake_object_order_depends_target_Odyssey_web
   DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\Font.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-src"
+  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -g -Wall -Wextra -Wpedantic -Werror
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake Git/build_web/_deps/glm-src"
   OBJECT_DIR = CMakeFiles\Odyssey_web.dir
   OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/GameObject.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake/Odyssey/GameObject.cpp || cmake_object_order_depends_target_Odyssey_web
+build CMakeFiles/Odyssey_web.dir/Odyssey/GameObject.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake$ Git/Odyssey/GameObject.cpp || cmake_object_order_depends_target_Odyssey_web
   DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\GameObject.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-src"
+  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -g -Wall -Wextra -Wpedantic -Werror
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake Git/build_web/_deps/glm-src"
   OBJECT_DIR = CMakeFiles\Odyssey_web.dir
   OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/GameScene.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake/Odyssey/GameScene.cpp || cmake_object_order_depends_target_Odyssey_web
+build CMakeFiles/Odyssey_web.dir/Odyssey/GameScene.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake$ Git/Odyssey/GameScene.cpp || cmake_object_order_depends_target_Odyssey_web
   DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\GameScene.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-src"
+  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -g -Wall -Wextra -Wpedantic -Werror
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake Git/build_web/_deps/glm-src"
   OBJECT_DIR = CMakeFiles\Odyssey_web.dir
   OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/GameTime.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake/Odyssey/GameTime.cpp || cmake_object_order_depends_target_Odyssey_web
+build CMakeFiles/Odyssey_web.dir/Odyssey/GameTime.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake$ Git/Odyssey/GameTime.cpp || cmake_object_order_depends_target_Odyssey_web
   DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\GameTime.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-src"
+  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -g -Wall -Wextra -Wpedantic -Werror
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake Git/build_web/_deps/glm-src"
   OBJECT_DIR = CMakeFiles\Odyssey_web.dir
   OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/ImGuiManager.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake/Odyssey/ImGuiManager.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\ImGuiManager.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
-
-build CMakeFiles/Odyssey_web.dir/Odyssey/InputManager2.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake/Odyssey/InputManager2.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\InputManager2.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
-
-build CMakeFiles/Odyssey_web.dir/Odyssey/Odyssey.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake/Odyssey/Odyssey.cpp || cmake_object_order_depends_target_Odyssey_web
+build CMakeFiles/Odyssey_web.dir/Odyssey/Odyssey.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake$ Git/Odyssey/Odyssey.cpp || cmake_object_order_depends_target_Odyssey_web
   DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\Odyssey.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-src"
+  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -g -Wall -Wextra -Wpedantic -Werror
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake Git/build_web/_deps/glm-src"
   OBJECT_DIR = CMakeFiles\Odyssey_web.dir
   OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/PerformanceTimer.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake/Odyssey/PerformanceTimer.cpp || cmake_object_order_depends_target_Odyssey_web
+build CMakeFiles/Odyssey_web.dir/Odyssey/PerformanceTimer.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake$ Git/Odyssey/PerformanceTimer.cpp || cmake_object_order_depends_target_Odyssey_web
   DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\PerformanceTimer.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-src"
+  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -g -Wall -Wextra -Wpedantic -Werror
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake Git/build_web/_deps/glm-src"
   OBJECT_DIR = CMakeFiles\Odyssey_web.dir
   OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/Renderer.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake/Odyssey/Renderer.cpp || cmake_object_order_depends_target_Odyssey_web
+build CMakeFiles/Odyssey_web.dir/Odyssey/Renderer.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake$ Git/Odyssey/Renderer.cpp || cmake_object_order_depends_target_Odyssey_web
   DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\Renderer.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-src"
+  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -g -Wall -Wextra -Wpedantic -Werror
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake Git/build_web/_deps/glm-src"
   OBJECT_DIR = CMakeFiles\Odyssey_web.dir
   OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/ResourceManager.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake/Odyssey/ResourceManager.cpp || cmake_object_order_depends_target_Odyssey_web
+build CMakeFiles/Odyssey_web.dir/Odyssey/ResourceManager.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake$ Git/Odyssey/ResourceManager.cpp || cmake_object_order_depends_target_Odyssey_web
   DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\ResourceManager.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-src"
+  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -g -Wall -Wextra -Wpedantic -Werror
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake Git/build_web/_deps/glm-src"
   OBJECT_DIR = CMakeFiles\Odyssey_web.dir
   OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/SceneManager.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake/Odyssey/SceneManager.cpp || cmake_object_order_depends_target_Odyssey_web
+build CMakeFiles/Odyssey_web.dir/Odyssey/SceneManager.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake$ Git/Odyssey/SceneManager.cpp || cmake_object_order_depends_target_Odyssey_web
   DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\SceneManager.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-src"
+  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -g -Wall -Wextra -Wpedantic -Werror
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake Git/build_web/_deps/glm-src"
   OBJECT_DIR = CMakeFiles\Odyssey_web.dir
   OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/ServiceLocator.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake/Odyssey/ServiceLocator.cpp || cmake_object_order_depends_target_Odyssey_web
+build CMakeFiles/Odyssey_web.dir/Odyssey/ServiceLocator.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake$ Git/Odyssey/ServiceLocator.cpp || cmake_object_order_depends_target_Odyssey_web
   DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\ServiceLocator.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-src"
+  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -g -Wall -Wextra -Wpedantic -Werror
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake Git/build_web/_deps/glm-src"
   OBJECT_DIR = CMakeFiles\Odyssey_web.dir
   OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/StateManager.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake/Odyssey/StateManager.cpp || cmake_object_order_depends_target_Odyssey_web
+build CMakeFiles/Odyssey_web.dir/Odyssey/StateManager.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake$ Git/Odyssey/StateManager.cpp || cmake_object_order_depends_target_Odyssey_web
   DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\StateManager.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-src"
+  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -g -Wall -Wextra -Wpedantic -Werror
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake Git/build_web/_deps/glm-src"
   OBJECT_DIR = CMakeFiles\Odyssey_web.dir
   OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/Texture2D.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake/Odyssey/Texture2D.cpp || cmake_object_order_depends_target_Odyssey_web
+build CMakeFiles/Odyssey_web.dir/Odyssey/Texture2D.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake$ Git/Odyssey/Texture2D.cpp || cmake_object_order_depends_target_Odyssey_web
   DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\Texture2D.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-src"
+  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -g -Wall -Wextra -Wpedantic -Werror
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake Git/build_web/_deps/glm-src"
   OBJECT_DIR = CMakeFiles\Odyssey_web.dir
   OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/TransformComponent.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake/Odyssey/TransformComponent.cpp || cmake_object_order_depends_target_Odyssey_web
+build CMakeFiles/Odyssey_web.dir/Odyssey/TransformComponent.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake$ Git/Odyssey/TransformComponent.cpp || cmake_object_order_depends_target_Odyssey_web
   DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\TransformComponent.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-src"
+  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -g -Wall -Wextra -Wpedantic -Werror
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake Git/build_web/_deps/glm-src"
   OBJECT_DIR = CMakeFiles\Odyssey_web.dir
   OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/Utils.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake/Odyssey/Utils.cpp || cmake_object_order_depends_target_Odyssey_web
+build CMakeFiles/Odyssey_web.dir/Odyssey/Utils.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake$ Git/Odyssey/Utils.cpp || cmake_object_order_depends_target_Odyssey_web
   DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\Utils.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-src"
+  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -g -Wall -Wextra -Wpedantic -Werror
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake Git/build_web/_deps/glm-src"
   OBJECT_DIR = CMakeFiles\Odyssey_web.dir
   OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/XboxController.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake/Odyssey/XboxController.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\XboxController.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
-
-build CMakeFiles/Odyssey_web.dir/Testing/src/Application.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake/Testing/src/Application.cpp || cmake_object_order_depends_target_Odyssey_web
+build CMakeFiles/Odyssey_web.dir/Testing/src/Application.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake$ Git/Testing/src/Application.cpp || cmake_object_order_depends_target_Odyssey_web
   DEP_FILE = CMakeFiles\Odyssey_web.dir\Testing\src\Application.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-src"
+  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -g -Wall -Wextra -Wpedantic -Werror
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake Git/build_web/_deps/glm-src"
   OBJECT_DIR = CMakeFiles\Odyssey_web.dir
   OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Testing\src
 
-build CMakeFiles/Odyssey_web.dir/Testing/src/Scenes/TestScene.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake/Testing/src/Scenes/TestScene.cpp || cmake_object_order_depends_target_Odyssey_web
+build CMakeFiles/Odyssey_web.dir/Testing/src/Scenes/TestScene.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake$ Git/Testing/src/Scenes/TestScene.cpp || cmake_object_order_depends_target_Odyssey_web
   DEP_FILE = CMakeFiles\Odyssey_web.dir\Testing\src\Scenes\TestScene.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-src"
+  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -g -Wall -Wextra -Wpedantic -Werror
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake Git/build_web/_deps/glm-src"
   OBJECT_DIR = CMakeFiles\Odyssey_web.dir
   OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Testing\src\Scenes
-
-build CMakeFiles/Odyssey_web.dir/_deps/imgui-src/imgui.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake/build_web/_deps/imgui-src/imgui.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\_deps\imgui-src\imgui.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\_deps\imgui-src
-
-build CMakeFiles/Odyssey_web.dir/_deps/imgui-src/imgui_demo.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake/build_web/_deps/imgui-src/imgui_demo.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\_deps\imgui-src\imgui_demo.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\_deps\imgui-src
-
-build CMakeFiles/Odyssey_web.dir/_deps/imgui-src/imgui_draw.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake/build_web/_deps/imgui-src/imgui_draw.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\_deps\imgui-src\imgui_draw.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\_deps\imgui-src
-
-build CMakeFiles/Odyssey_web.dir/_deps/imgui-src/imgui_widgets.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake/build_web/_deps/imgui-src/imgui_widgets.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\_deps\imgui-src\imgui_widgets.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\_deps\imgui-src
-
-build CMakeFiles/Odyssey_web.dir/_deps/imgui-src/imgui_tables.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake/build_web/_deps/imgui-src/imgui_tables.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\_deps\imgui-src\imgui_tables.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\_deps\imgui-src
-
-build CMakeFiles/Odyssey_web.dir/_deps/imgui-src/backends/imgui_impl_sdl2.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake/build_web/_deps/imgui-src/backends/imgui_impl_sdl2.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\_deps\imgui-src\backends\imgui_impl_sdl2.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\_deps\imgui-src\backends
-
-build CMakeFiles/Odyssey_web.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey$ -$ CMake/build_web/_deps/imgui-src/backends/imgui_impl_opengl3.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\_deps\imgui-src\backends\imgui_impl_opengl3.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -Wall -Wextra -Wpedantic -Werror /wd4701
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey - CMake/Odyssey" -I"D:/Programming/VisualStudio/Odyssey - CMake/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\_deps\imgui-src\backends
 
 
 # =============================================================================
@@ -276,8 +185,8 @@ build CMakeFiles/Odyssey_web.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp
 #############################################
 # Link the executable Odyssey_web.html
 
-build Odyssey_web.html: CXX_EXECUTABLE_LINKER__Odyssey_web_ CMakeFiles/Odyssey_web.dir/Odyssey/AnimatedTextureComponent.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/Audio.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/AudioSystem.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/CameraComponent.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/Component.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/Controller.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/Font.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/GameObject.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/GameScene.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/GameTime.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/ImGuiManager.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/InputManager2.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/Odyssey.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/PerformanceTimer.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/Renderer.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/ResourceManager.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/SceneManager.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/ServiceLocator.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/StateManager.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/Texture2D.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/TransformComponent.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/Utils.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/XboxController.cpp.o CMakeFiles/Odyssey_web.dir/Testing/src/Application.cpp.o CMakeFiles/Odyssey_web.dir/Testing/src/Scenes/TestScene.cpp.o CMakeFiles/Odyssey_web.dir/_deps/imgui-src/imgui.cpp.o CMakeFiles/Odyssey_web.dir/_deps/imgui-src/imgui_demo.cpp.o CMakeFiles/Odyssey_web.dir/_deps/imgui-src/imgui_draw.cpp.o CMakeFiles/Odyssey_web.dir/_deps/imgui-src/imgui_widgets.cpp.o CMakeFiles/Odyssey_web.dir/_deps/imgui-src/imgui_tables.cpp.o CMakeFiles/Odyssey_web.dir/_deps/imgui-src/backends/imgui_impl_sdl2.cpp.o CMakeFiles/Odyssey_web.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.o
-  LINK_FLAGS = -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -sALLOW_MEMORY_GROWTH --preload-file "D:/Programming/VisualStudio/Odyssey - CMake/Data@/" -sSDL2_IMAGE_FORMATS=['tga','png'] -fno-stack-protector
+build Odyssey_web.html: CXX_EXECUTABLE_LINKER__Odyssey_web_ CMakeFiles/Odyssey_web.dir/Odyssey/Audio.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/CameraComponent.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/Component.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/Font.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/GameObject.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/GameScene.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/GameTime.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/Odyssey.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/PerformanceTimer.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/Renderer.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/ResourceManager.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/SceneManager.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/ServiceLocator.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/StateManager.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/Texture2D.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/TransformComponent.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/Utils.cpp.o CMakeFiles/Odyssey_web.dir/Testing/src/Application.cpp.o CMakeFiles/Odyssey_web.dir/Testing/src/Scenes/TestScene.cpp.o
+  LINK_FLAGS = -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -g -sALLOW_MEMORY_GROWTH --preload-file "D:/Programming/VisualStudio/Odyssey - CMake Git/Data@/" -sSDL2_IMAGE_FORMATS=['tga','png'] -fno-stack-protector
   OBJECT_DIR = CMakeFiles\Odyssey_web.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
@@ -289,7 +198,7 @@ build Odyssey_web.html: CXX_EXECUTABLE_LINKER__Odyssey_web_ CMakeFiles/Odyssey_w
 # Utility command for edit_cache
 
 build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cmd.exe /C "cd /D "D:\Programming\VisualStudio\Odyssey - CMake\build_web" && C:\Users\alexa\Documents\Cmake\cmake-3.26.4-windows-x86_64\bin\cmake-gui.exe -S"D:\Programming\VisualStudio\Odyssey - CMake" -B"D:\Programming\VisualStudio\Odyssey - CMake\build_web""
+  COMMAND = cmd.exe /C "cd /D "D:\Programming\VisualStudio\Odyssey - CMake Git\build_web" && C:\Users\alexa\Documents\Cmake\cmake-3.26.4-windows-x86_64\bin\cmake-gui.exe -S"D:\Programming\VisualStudio\Odyssey - CMake Git" -B"D:\Programming\VisualStudio\Odyssey - CMake Git\build_web""
   DESC = Running CMake cache editor...
   pool = console
   restat = 1
@@ -301,7 +210,7 @@ build edit_cache: phony CMakeFiles/edit_cache.util
 # Utility command for rebuild_cache
 
 build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cmd.exe /C "cd /D "D:\Programming\VisualStudio\Odyssey - CMake\build_web" && C:\Users\alexa\Documents\Cmake\cmake-3.26.4-windows-x86_64\bin\cmake.exe --regenerate-during-build -S"D:\Programming\VisualStudio\Odyssey - CMake" -B"D:\Programming\VisualStudio\Odyssey - CMake\build_web""
+  COMMAND = cmd.exe /C "cd /D "D:\Programming\VisualStudio\Odyssey - CMake Git\build_web" && C:\Users\alexa\Documents\Cmake\cmake-3.26.4-windows-x86_64\bin\cmake.exe --regenerate-during-build -S"D:\Programming\VisualStudio\Odyssey - CMake Git" -B"D:\Programming\VisualStudio\Odyssey - CMake Git\build_web""
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -319,7 +228,7 @@ build Odyssey_web: phony Odyssey_web.html
 # =============================================================================
 
 #############################################
-# Folder: D:/Programming/VisualStudio/Odyssey - CMake/build_web
+# Folder: D:/Programming/VisualStudio/Odyssey - CMake Git/build_web
 
 build all: phony Odyssey_web.html
 
@@ -330,14 +239,14 @@ build all: phony Odyssey_web.html
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeCCompiler.cmake.in C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeCInformation.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeCXXCompiler.cmake.in C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeCXXInformation.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeCommonLanguageInclude.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeDetermineCCompiler.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeDetermineCXXCompiler.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeDetermineCompiler.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeDetermineSystem.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeFindBinUtils.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeGenericSystem.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeInitializeConfigs.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeLanguageInformation.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeNinjaFindMake.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeSystem.cmake.in C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeSystemSpecificInformation.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeSystemSpecificInitialize.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeTestCCompiler.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeTestCXXCompiler.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/Compiler/Clang-C.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/Compiler/Clang-CXX.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/Compiler/Clang-FindBinUtils.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/Compiler/Clang.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/Compiler/GNU.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/FetchContent.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/FetchContent/CMakeLists.cmake.in C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/FindGit.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/FindPackageHandleStandardArgs.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/FindPackageMessage.cmake CMakeCache.txt CMakeFiles/3.26.4/CMakeCCompiler.cmake CMakeFiles/3.26.4/CMakeCXXCompiler.cmake CMakeFiles/3.26.4/CMakeSystem.cmake D$:/Programming/VisualStudio/Odyssey$ -$ CMake/CMakeLists.txt D$:/Programming/emsdk-main/emsdk-main/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake
+build build.ninja: RERUN_CMAKE | C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeCCompiler.cmake.in C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeCInformation.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeCXXCompiler.cmake.in C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeCXXInformation.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeCommonLanguageInclude.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeDetermineCCompiler.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeDetermineCXXCompiler.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeDetermineCompiler.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeDetermineSystem.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeFindBinUtils.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeGenericSystem.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeInitializeConfigs.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeLanguageInformation.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeNinjaFindMake.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeSystem.cmake.in C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeSystemSpecificInformation.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeSystemSpecificInitialize.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeTestCCompiler.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeTestCXXCompiler.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/Compiler/Clang-C.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/Compiler/Clang-CXX.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/Compiler/Clang-FindBinUtils.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/Compiler/Clang.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/Compiler/GNU.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/FetchContent.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/FetchContent/CMakeLists.cmake.in C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/FindGit.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/FindPackageHandleStandardArgs.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/FindPackageMessage.cmake CMakeCache.txt CMakeFiles/3.26.4/CMakeCCompiler.cmake CMakeFiles/3.26.4/CMakeCXXCompiler.cmake CMakeFiles/3.26.4/CMakeSystem.cmake D$:/Programming/VisualStudio/Odyssey$ -$ CMake$ Git/CMakeLists.txt D$:/Programming/emsdk-main/emsdk-main/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeCCompiler.cmake.in C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeCInformation.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeCXXCompiler.cmake.in C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeCXXInformation.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeCommonLanguageInclude.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeDetermineCCompiler.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeDetermineCXXCompiler.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeDetermineCompiler.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeDetermineSystem.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeFindBinUtils.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeGenericSystem.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeInitializeConfigs.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeLanguageInformation.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeNinjaFindMake.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeSystem.cmake.in C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeSystemSpecificInformation.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeSystemSpecificInitialize.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeTestCCompiler.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeTestCXXCompiler.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/Compiler/Clang-C.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/Compiler/Clang-CXX.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/Compiler/Clang-FindBinUtils.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/Compiler/Clang.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/Compiler/GNU.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/FetchContent.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/FetchContent/CMakeLists.cmake.in C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/FindGit.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/FindPackageHandleStandardArgs.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/FindPackageMessage.cmake CMakeCache.txt CMakeFiles/3.26.4/CMakeCCompiler.cmake CMakeFiles/3.26.4/CMakeCXXCompiler.cmake CMakeFiles/3.26.4/CMakeSystem.cmake D$:/Programming/VisualStudio/Odyssey$ -$ CMake/CMakeLists.txt D$:/Programming/emsdk-main/emsdk-main/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake: phony
+build C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeCCompiler.cmake.in C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeCInformation.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeCXXCompiler.cmake.in C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeCXXInformation.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeCommonLanguageInclude.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeDetermineCCompiler.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeDetermineCXXCompiler.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeDetermineCompiler.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeDetermineSystem.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeFindBinUtils.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeGenericSystem.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeInitializeConfigs.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeLanguageInformation.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeNinjaFindMake.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeSystem.cmake.in C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeSystemSpecificInformation.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeSystemSpecificInitialize.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeTestCCompiler.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeTestCXXCompiler.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/Compiler/Clang-C.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/Compiler/Clang-CXX.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/Compiler/Clang-FindBinUtils.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/Compiler/Clang.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/Compiler/GNU.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/FetchContent.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/FetchContent/CMakeLists.cmake.in C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/FindGit.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/FindPackageHandleStandardArgs.cmake C$:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/FindPackageMessage.cmake CMakeCache.txt CMakeFiles/3.26.4/CMakeCCompiler.cmake CMakeFiles/3.26.4/CMakeCXXCompiler.cmake CMakeFiles/3.26.4/CMakeSystem.cmake D$:/Programming/VisualStudio/Odyssey$ -$ CMake$ Git/CMakeLists.txt D$:/Programming/emsdk-main/emsdk-main/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake: phony
 
 
 #############################################

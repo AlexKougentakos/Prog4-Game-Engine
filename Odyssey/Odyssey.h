@@ -3,9 +3,13 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <chrono>
 
 namespace ody
 {
+	class Time;
+	class SceneManager;
+	class Renderer;
 	class AudioSystem;
 
 	class Odyssey final
@@ -20,6 +24,7 @@ namespace ody
 		                 std::map<unsigned int, std::pair<std::string, bool>> SfxLocationMap);
 		~Odyssey();
 		void Run(const std::function<void()>& load);
+		void RunOneFrame();
 
 		Odyssey(const Odyssey& other) = delete;
 		Odyssey(Odyssey&& other) = delete;
@@ -29,6 +34,17 @@ namespace ody
 
 		//Services for ServiceProvider
 		std::map<unsigned int, std::pair<std::string, bool>> m_SfxLocationMap;
-		std::unique_ptr<AudioSystem> m_pAudioSystem;
+		//std::unique_ptr<AudioSystem> m_pAudioSystem;
+
+		//Update Loop Variables
+		Renderer* m_pRenderer{};
+		SceneManager* m_pSceneManager{};
+		Time* m_pTime{};
+
+		int m_MaxWaitingTimeMs{};
+		float lag{};
+		const float m_PhysicsTimeStep{ 1.0f / 60.0f };
+		std::chrono::steady_clock::time_point m_LastTime{};
+
 	};
 }
