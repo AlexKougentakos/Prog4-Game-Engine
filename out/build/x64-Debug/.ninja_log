@@ -3,7 +3,7 @@
 19	985	7306924182999388	CMakeFiles/Odyssey.dir/Odyssey/CameraComponent.cpp.obj	1a4e873c03a272e0
 19	793	7307462573617857	CMakeFiles/Odyssey.dir/Odyssey/SceneManager.cpp.obj	b8ec7ab2e61b54be
 15	922	7307484019559881	CMakeFiles/Odyssey.dir/Odyssey/Font.cpp.obj	6f23f2dd63defa22
-19	2999	7307495543952587	CMakeFiles/Odyssey.dir/Odyssey/Odyssey.cpp.obj	5867c0b51aba81a6
+18	2888	7307515901957673	CMakeFiles/Odyssey.dir/Odyssey/Odyssey.cpp.obj	5867c0b51aba81a6
 54	1534	7306924188489630	CMakeFiles/Odyssey.dir/Odyssey/ImGuiManager.cpp.obj	53de541bed5e4711
 28	1644	7306924189454309	CMakeFiles/Odyssey.dir/Odyssey/Controller.cpp.obj	d1ca68ca31ea2919
 16	687	7307460842245287	CMakeFiles/Odyssey.dir/Odyssey/Renderer.cpp.obj	c9b839ee8db3f744
@@ -30,11 +30,5 @@
 6	5150	7306924224672278	CMakeFiles/Odyssey.dir/Odyssey/AnimatedTextureComponent.cpp.obj	905cd5703688fbb1
 23	1464	7307462580310039	CMakeFiles/Odyssey.dir/Testing/src/Scenes/TestScene.cpp.obj	da4164f4e67756fb
 59	5546	7306924228634562	CMakeFiles/Odyssey.dir/Odyssey/InputManager2.cpp.obj	6ae2d582316ee108
-23	3039	7307486910393172	CMakeFiles/Odyssey.dir/Testing/src/Application.cpp.obj	5bfabd638498fff2
-3000	3373	7307495545499489	Odyssey.exe	6c8bf18f9448550a
-19	2862	7307512401042143	CMakeFiles/Odyssey.dir/Testing/src/Application.cpp.obj	5bfabd638498fff2
-15	3269	7307512405087471	CMakeFiles/Odyssey.dir/Odyssey/Odyssey.cpp.obj	5867c0b51aba81a6
-3269	3739	7307512407665081	Odyssey.exe	6c8bf18f9448550a
-22	2430	7307515897430869	CMakeFiles/Odyssey.dir/Testing/src/Application.cpp.obj	5bfabd638498fff2
-18	2888	7307515901957673	CMakeFiles/Odyssey.dir/Odyssey/Odyssey.cpp.obj	5867c0b51aba81a6
-2888	3272	7307515903597022	Odyssey.exe	6c8bf18f9448550a
+16	2516	7308489235495827	CMakeFiles/Odyssey.dir/Testing/src/Application.cpp.obj	5bfabd638498fff2
+2517	2853	7308489236897244	Odyssey.exe	6c8bf18f9448550a

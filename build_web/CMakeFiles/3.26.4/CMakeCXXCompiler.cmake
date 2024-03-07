@@ -1,7 +1,7 @@
-set(CMAKE_CXX_COMPILER "D:/Programming/emsdk-main/emsdk-main/upstream/emscripten/em++.bat")
+set(CMAKE_CXX_COMPILER "C:/Users/alexa/AppData/Local/emsdk/upstream/emscripten/em++.bat")
 set(CMAKE_CXX_COMPILER_ARG1 "")
 set(CMAKE_CXX_COMPILER_ID "Clang")
-set(CMAKE_CXX_COMPILER_VERSION "19.0.0")
+set(CMAKE_CXX_COMPILER_VERSION "17.0.0")
 set(CMAKE_CXX_COMPILER_VERSION_INTERNAL "")
 set(CMAKE_CXX_COMPILER_WRAPPER "")
 set(CMAKE_CXX_STANDARD_COMPUTED_DEFAULT "98")
@@ -22,10 +22,10 @@ set(CMAKE_CXX_SIMULATE_VERSION "")
 
 
 
-set(CMAKE_AR "D:/Programming/emsdk-main/emsdk-main/upstream/emscripten/emar.bat")
-set(CMAKE_CXX_COMPILER_AR "D:/Programming/emsdk-main/emsdk-main/upstream/emscripten/emar.bat")
-set(CMAKE_RANLIB "D:/Programming/emsdk-main/emsdk-main/upstream/emscripten/emranlib.bat")
-set(CMAKE_CXX_COMPILER_RANLIB "D:/Programming/emsdk-main/emsdk-main/upstream/emscripten/emranlib.bat")
+set(CMAKE_AR "C:/Users/alexa/AppData/Local/emsdk/upstream/emscripten/emar.bat")
+set(CMAKE_CXX_COMPILER_AR "C:/Users/alexa/AppData/Local/emsdk/upstream/emscripten/emar.bat")
+set(CMAKE_RANLIB "C:/Users/alexa/AppData/Local/emsdk/upstream/emscripten/emranlib.bat")
+set(CMAKE_CXX_COMPILER_RANLIB "C:/Users/alexa/AppData/Local/emsdk/upstream/emscripten/emranlib.bat")
 set(CMAKE_LINKER "C:/MinGW/bin/ld.exe")
 set(CMAKE_MT "")
 set(CMAKE_COMPILER_IS_GNUCXX )
@@ -53,7 +53,7 @@ set(CMAKE_CXX_LINKER_PREFERENCE_PROPAGATES 1)
 # Save compiler ABI information.
 set(CMAKE_CXX_SIZEOF_DATA_PTR "4")
 set(CMAKE_CXX_COMPILER_ABI "")
-set(CMAKE_CXX_BYTE_ORDER "LITTLE_ENDIAN")
+set(CMAKE_CXX_BYTE_ORDER "")
 set(CMAKE_CXX_LIBRARY_ARCHITECTURE "")
 
 if(CMAKE_CXX_SIZEOF_DATA_PTR)
@@ -77,7 +77,7 @@ endif()
 
 
 
-set(CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES "D:/Programming/emsdk-main/emsdk-main/upstream/emscripten/cache/sysroot/include")
+set(CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES "C:/Users/alexa/AppData/Local/emsdk/upstream/emscripten/cache/sysroot/include")
 set(CMAKE_CXX_IMPLICIT_LINK_LIBRARIES "")
 set(CMAKE_CXX_IMPLICIT_LINK_DIRECTORIES "")
 set(CMAKE_CXX_IMPLICIT_LINK_FRAMEWORK_DIRECTORIES "")

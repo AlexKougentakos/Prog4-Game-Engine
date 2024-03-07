@@ -154,7 +154,6 @@ void ody::Odyssey::Run(const std::function<void()>& load)
 #endif
 }
 
-
 void ody::Odyssey::RunOneFrame()
 {
 	auto currentTime = std::chrono::high_resolution_clock::now();
