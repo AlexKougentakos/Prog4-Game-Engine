@@ -1,21 +1,21 @@
 # ninja log v5
-2	58	7306923859635144	sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-mkdir	37552de3ec54352f
-2	58	7306923859635144	D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-mkdir	37552de3ec54352f
-59	2087	7306923879933637	sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-download	cfd1cc65e22ff61f
-2135	2189	7306923880948849	D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-patch	80cbb4ed343e355c
-59	2087	7306923879933637	D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-download	cfd1cc65e22ff61f
-2087	2135	7306923880402546	sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-update	65bd1725700e524d
-2087	2135	7306923880402546	D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-update	65bd1725700e524d
-2135	2189	7306923880948849	sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-patch	80cbb4ed343e355c
-2189	2244	7306923881486904	sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-configure	75f167f6c038a8f4
-2189	2244	7306923881486904	D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-configure	75f167f6c038a8f4
-2244	2295	7306923881998822	sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-build	4907715b30c6157d
-2244	2295	7306923881998822	D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-build	4907715b30c6157d
-2295	2342	7306923882471888	sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-install	beac82cc5da6b521
-2295	2342	7306923882471888	D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-install	beac82cc5da6b521
-2390	2463	7306923883679619	D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-done	fb6e7dc5b99fe439
-2342	2389	7306923882942482	sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-test	74d6e12c4fef4c17
-2342	2389	7306923882942482	D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-test	74d6e12c4fef4c17
-2390	2463	7306923883679619	CMakeFiles/sdl2_image-populate-complete	fb6e7dc5b99fe439
-2390	2463	7306923883679619	sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-done	fb6e7dc5b99fe439
-2390	2463	7306923883679619	D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_image-subbuild/CMakeFiles/sdl2_image-populate-complete	fb6e7dc5b99fe439
+2	58	7315512502227793	sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-mkdir	aebf5b5adb7bb346
+2	58	7315512502227793	D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-mkdir	aebf5b5adb7bb346
+58	1986	7315512521514413	sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-download	1ef49281a1aabf35
+58	1986	7315512521514413	D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-download	1ef49281a1aabf35
+2036	2086	7315512522512637	sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-patch	fa66495f14ac6183
+1986	2036	7315512522005913	sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-update	76725f2e0548f531
+2036	2086	7315512522512637	D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-patch	fa66495f14ac6183
+1986	2036	7315512522005913	D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-update	76725f2e0548f531
+2086	2142	7315512523073796	sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-configure	2bb80622fa94a212
+2086	2142	7315512523073796	D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-configure	2bb80622fa94a212
+2291	2362	7315512525278043	D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-done	eac35620131c3b72
+2142	2193	7315512523577646	sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-build	53020104a3b9df65
+2142	2193	7315512523577646	D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-build	53020104a3b9df65
+2193	2242	7315512524070969	sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-install	dfc54efd7bb1c3f3
+2193	2242	7315512524070969	D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-install	dfc54efd7bb1c3f3
+2291	2362	7315512525278043	CMakeFiles/sdl2_image-populate-complete	eac35620131c3b72
+2242	2291	7315512524563482	sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-test	7b8e6e937e55e974
+2242	2291	7315512524563482	D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-test	7b8e6e937e55e974
+2291	2362	7315512525278043	sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/sdl2_image-populate-done	eac35620131c3b72
+2291	2362	7315512525278043	D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/_deps/sdl2_image-subbuild/CMakeFiles/sdl2_image-populate-complete	eac35620131c3b72

@@ -22,14 +22,14 @@ function(check_file_hash has_hash hash_is_good)
   set("${has_hash}" TRUE PARENT_SCOPE)
 
   message(STATUS "verifying file...
-       file='D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/downloads/glm-0.9.9.8.zip'")
+       file='D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/downloads/glm-0.9.9.8.zip'")
 
-  file("" "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/downloads/glm-0.9.9.8.zip" actual_value)
+  file("" "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/downloads/glm-0.9.9.8.zip" actual_value)
 
   if(NOT "${actual_value}" STREQUAL "")
     set("${hash_is_good}" FALSE PARENT_SCOPE)
     message(STATUS " hash of
-    D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/downloads/glm-0.9.9.8.zip
+    D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/downloads/glm-0.9.9.8.zip
   does not match expected value
     expected: ''
       actual: '${actual_value}'")
@@ -71,7 +71,7 @@ function(sleep_before_download attempt)
   execute_process(COMMAND "${CMAKE_COMMAND}" -E sleep "${sleep_seconds}")
 endfunction()
 
-if("D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/downloads/glm-0.9.9.8.zip" STREQUAL "")
+if("D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/downloads/glm-0.9.9.8.zip" STREQUAL "")
   message(FATAL_ERROR "LOCAL can't be empty")
 endif()
 
@@ -79,32 +79,32 @@ if("https://github.com/g-truc/glm/releases/download/0.9.9.8/glm-0.9.9.8.zip" STR
   message(FATAL_ERROR "REMOTE can't be empty")
 endif()
 
-if(EXISTS "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/downloads/glm-0.9.9.8.zip")
+if(EXISTS "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/downloads/glm-0.9.9.8.zip")
   check_file_hash(has_hash hash_is_good)
   if(has_hash)
     if(hash_is_good)
       message(STATUS "File already exists and hash match (skip download):
-  file='D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/downloads/glm-0.9.9.8.zip'
+  file='D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/downloads/glm-0.9.9.8.zip'
   =''"
       )
       return()
     else()
       message(STATUS "File already exists but hash mismatch. Removing...")
-      file(REMOVE "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/downloads/glm-0.9.9.8.zip")
+      file(REMOVE "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/downloads/glm-0.9.9.8.zip")
     endif()
   else()
     message(STATUS "File already exists but no hash specified (use URL_HASH):
-  file='D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/downloads/glm-0.9.9.8.zip'
+  file='D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/downloads/glm-0.9.9.8.zip'
 Old file will be removed and new file downloaded from URL."
     )
-    file(REMOVE "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/downloads/glm-0.9.9.8.zip")
+    file(REMOVE "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/downloads/glm-0.9.9.8.zip")
   endif()
 endif()
 
 set(retry_number 5)
 
 message(STATUS "Downloading...
-   dst='D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/downloads/glm-0.9.9.8.zip'
+   dst='D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/downloads/glm-0.9.9.8.zip'
    timeout='none'
    inactivity timeout='none'"
 )
@@ -126,7 +126,7 @@ foreach(i RANGE ${retry_number})
 
       file(
         DOWNLOAD
-        "${url}" "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/downloads/glm-0.9.9.8.zip"
+        "${url}" "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/downloads/glm-0.9.9.8.zip"
         
         # no TIMEOUT
         # no INACTIVITY_TIMEOUT
@@ -143,7 +143,7 @@ foreach(i RANGE ${retry_number})
         check_file_hash(has_hash hash_is_good)
         if(has_hash AND NOT hash_is_good)
           message(STATUS "Hash mismatch, removing...")
-          file(REMOVE "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/downloads/glm-0.9.9.8.zip")
+          file(REMOVE "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/downloads/glm-0.9.9.8.zip")
         else()
           message(STATUS "Downloading... done")
           return()

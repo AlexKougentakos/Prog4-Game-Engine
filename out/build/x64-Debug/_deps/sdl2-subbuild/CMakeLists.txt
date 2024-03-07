@@ -19,9 +19,9 @@ project(sdl2-populate NONE)
 
 include(ExternalProject)
 ExternalProject_Add(sdl2-populate
-                     "UPDATE_DISCONNECTED" "False" "DOWNLOAD_EXTRACT_TIMESTAMP" "FALSE" "EXTERNALPROJECT_INTERNAL_ARGUMENT_SEPARATOR" "URL" "https://www.libsdl.org/release/SDL2-devel-2.28.5-VC.zip" "DOWNLOAD_NO_PROGRESS" "ON" "DOWNLOAD_DIR" "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/downloads"
-                    SOURCE_DIR          "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2-src"
-                    BINARY_DIR          "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2-build"
+                     "UPDATE_DISCONNECTED" "False" "DOWNLOAD_EXTRACT_TIMESTAMP" "FALSE" "EXTERNALPROJECT_INTERNAL_ARGUMENT_SEPARATOR" "URL" "https://www.libsdl.org/release/SDL2-devel-2.28.5-VC.zip" "DOWNLOAD_NO_PROGRESS" "ON" "DOWNLOAD_DIR" "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/downloads"
+                    SOURCE_DIR          "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/_deps/sdl2-src"
+                    BINARY_DIR          "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/_deps/sdl2-build"
                     CONFIGURE_COMMAND   ""
                     BUILD_COMMAND       ""
                     INSTALL_COMMAND     ""

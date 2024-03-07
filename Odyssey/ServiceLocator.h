@@ -1,11 +1,11 @@
 #pragma once
 #include <memory>
 
+#include "IAudio.h"
 
 namespace ody
 {
     class NullSoundSystem;
-    class IAudio;
 
     class ServiceLocator final
     {

@@ -3,10 +3,7 @@
 	#include <windows.h>
 	#include <XInput.h>
 	#pragma comment(lib, "xinput.lib")
-#else
 
-
-#endif
 
 
 
@@ -167,3 +164,4 @@ glm::vec2 XBox360Controller::GetThumbStickPos(bool leftThumb) const
 	
 	return pImpl->GetRightThumbStickPos();
 }
+#endif

@@ -22,14 +22,14 @@ function(check_file_hash has_hash hash_is_good)
   set("${has_hash}" TRUE PARENT_SCOPE)
 
   message(STATUS "verifying file...
-       file='D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/downloads/SDL2_mixer-devel-2.8.0-VC.zip'")
+       file='D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/downloads/SDL2_mixer-devel-2.8.0-VC.zip'")
 
-  file("" "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/downloads/SDL2_mixer-devel-2.8.0-VC.zip" actual_value)
+  file("" "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/downloads/SDL2_mixer-devel-2.8.0-VC.zip" actual_value)
 
   if(NOT "${actual_value}" STREQUAL "")
     set("${hash_is_good}" FALSE PARENT_SCOPE)
     message(STATUS " hash of
-    D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/downloads/SDL2_mixer-devel-2.8.0-VC.zip
+    D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/downloads/SDL2_mixer-devel-2.8.0-VC.zip
   does not match expected value
     expected: ''
       actual: '${actual_value}'")
@@ -71,7 +71,7 @@ function(sleep_before_download attempt)
   execute_process(COMMAND "${CMAKE_COMMAND}" -E sleep "${sleep_seconds}")
 endfunction()
 
-if("D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/downloads/SDL2_mixer-devel-2.8.0-VC.zip" STREQUAL "")
+if("D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/downloads/SDL2_mixer-devel-2.8.0-VC.zip" STREQUAL "")
   message(FATAL_ERROR "LOCAL can't be empty")
 endif()
 
@@ -79,32 +79,32 @@ if("https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-devel-2.8.0-VC.
   message(FATAL_ERROR "REMOTE can't be empty")
 endif()
 
-if(EXISTS "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/downloads/SDL2_mixer-devel-2.8.0-VC.zip")
+if(EXISTS "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/downloads/SDL2_mixer-devel-2.8.0-VC.zip")
   check_file_hash(has_hash hash_is_good)
   if(has_hash)
     if(hash_is_good)
       message(STATUS "File already exists and hash match (skip download):
-  file='D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/downloads/SDL2_mixer-devel-2.8.0-VC.zip'
+  file='D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/downloads/SDL2_mixer-devel-2.8.0-VC.zip'
   =''"
       )
       return()
     else()
       message(STATUS "File already exists but hash mismatch. Removing...")
-      file(REMOVE "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/downloads/SDL2_mixer-devel-2.8.0-VC.zip")
+      file(REMOVE "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/downloads/SDL2_mixer-devel-2.8.0-VC.zip")
     endif()
   else()
     message(STATUS "File already exists but no hash specified (use URL_HASH):
-  file='D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/downloads/SDL2_mixer-devel-2.8.0-VC.zip'
+  file='D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/downloads/SDL2_mixer-devel-2.8.0-VC.zip'
 Old file will be removed and new file downloaded from URL."
     )
-    file(REMOVE "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/downloads/SDL2_mixer-devel-2.8.0-VC.zip")
+    file(REMOVE "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/downloads/SDL2_mixer-devel-2.8.0-VC.zip")
   endif()
 endif()
 
 set(retry_number 5)
 
 message(STATUS "Downloading...
-   dst='D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/downloads/SDL2_mixer-devel-2.8.0-VC.zip'
+   dst='D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/downloads/SDL2_mixer-devel-2.8.0-VC.zip'
    timeout='none'
    inactivity timeout='none'"
 )
@@ -126,7 +126,7 @@ foreach(i RANGE ${retry_number})
 
       file(
         DOWNLOAD
-        "${url}" "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/downloads/SDL2_mixer-devel-2.8.0-VC.zip"
+        "${url}" "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/downloads/SDL2_mixer-devel-2.8.0-VC.zip"
         
         # no TIMEOUT
         # no INACTIVITY_TIMEOUT
@@ -143,7 +143,7 @@ foreach(i RANGE ${retry_number})
         check_file_hash(has_hash hash_is_good)
         if(has_hash AND NOT hash_is_good)
           message(STATUS "Hash mismatch, removing...")
-          file(REMOVE "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/downloads/SDL2_mixer-devel-2.8.0-VC.zip")
+          file(REMOVE "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/downloads/SDL2_mixer-devel-2.8.0-VC.zip")
         else()
           message(STATUS "Downloading... done")
           return()

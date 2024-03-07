@@ -4,19 +4,19 @@
 cmake_minimum_required(VERSION 3.5)
 
 file(MAKE_DIRECTORY
-  "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/glm-src"
-  "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/glm-build"
-  "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/glm-subbuild/glm-populate-prefix"
-  "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/glm-subbuild/glm-populate-prefix/tmp"
-  "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/glm-subbuild/glm-populate-prefix/src/glm-populate-stamp"
-  "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/downloads"
-  "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/glm-subbuild/glm-populate-prefix/src/glm-populate-stamp"
+  "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/_deps/glm-src"
+  "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/_deps/glm-build"
+  "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/_deps/glm-subbuild/glm-populate-prefix"
+  "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/_deps/glm-subbuild/glm-populate-prefix/tmp"
+  "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/_deps/glm-subbuild/glm-populate-prefix/src/glm-populate-stamp"
+  "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/downloads"
+  "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/_deps/glm-subbuild/glm-populate-prefix/src/glm-populate-stamp"
 )
 
 set(configSubDirs )
 foreach(subDir IN LISTS configSubDirs)
-    file(MAKE_DIRECTORY "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/glm-subbuild/glm-populate-prefix/src/glm-populate-stamp/${subDir}")
+    file(MAKE_DIRECTORY "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/_deps/glm-subbuild/glm-populate-prefix/src/glm-populate-stamp/${subDir}")
 endforeach()
 if(cfgdir)
-  file(MAKE_DIRECTORY "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/glm-subbuild/glm-populate-prefix/src/glm-populate-stamp${cfgdir}") # cfgdir has leading slash
+  file(MAKE_DIRECTORY "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/_deps/glm-subbuild/glm-populate-prefix/src/glm-populate-stamp${cfgdir}") # cfgdir has leading slash
 endif()

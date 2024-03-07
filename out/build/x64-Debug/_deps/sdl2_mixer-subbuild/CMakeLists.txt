@@ -19,9 +19,9 @@ project(sdl2_mixer-populate NONE)
 
 include(ExternalProject)
 ExternalProject_Add(sdl2_mixer-populate
-                     "UPDATE_DISCONNECTED" "False" "DOWNLOAD_EXTRACT_TIMESTAMP" "FALSE" "EXTERNALPROJECT_INTERNAL_ARGUMENT_SEPARATOR" "URL" "https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-devel-2.8.0-VC.zip" "DOWNLOAD_NO_PROGRESS" "ON" "DOWNLOAD_DIR" "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/downloads"
-                    SOURCE_DIR          "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_mixer-src"
-                    BINARY_DIR          "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_mixer-build"
+                     "UPDATE_DISCONNECTED" "False" "DOWNLOAD_EXTRACT_TIMESTAMP" "FALSE" "EXTERNALPROJECT_INTERNAL_ARGUMENT_SEPARATOR" "URL" "https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-devel-2.8.0-VC.zip" "DOWNLOAD_NO_PROGRESS" "ON" "DOWNLOAD_DIR" "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/downloads"
+                    SOURCE_DIR          "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/_deps/sdl2_mixer-src"
+                    BINARY_DIR          "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/_deps/sdl2_mixer-build"
                     CONFIGURE_COMMAND   ""
                     BUILD_COMMAND       ""
                     INSTALL_COMMAND     ""

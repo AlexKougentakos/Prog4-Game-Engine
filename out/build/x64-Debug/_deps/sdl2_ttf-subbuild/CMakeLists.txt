@@ -19,9 +19,9 @@ project(sdl2_ttf-populate NONE)
 
 include(ExternalProject)
 ExternalProject_Add(sdl2_ttf-populate
-                     "UPDATE_DISCONNECTED" "False" "DOWNLOAD_EXTRACT_TIMESTAMP" "FALSE" "EXTERNALPROJECT_INTERNAL_ARGUMENT_SEPARATOR" "URL" "https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-devel-2.20.2-VC.zip" "DOWNLOAD_NO_PROGRESS" "ON" "DOWNLOAD_DIR" "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/downloads"
-                    SOURCE_DIR          "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_ttf-src"
-                    BINARY_DIR          "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_ttf-build"
+                     "UPDATE_DISCONNECTED" "False" "DOWNLOAD_EXTRACT_TIMESTAMP" "FALSE" "EXTERNALPROJECT_INTERNAL_ARGUMENT_SEPARATOR" "URL" "https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-devel-2.20.2-VC.zip" "DOWNLOAD_NO_PROGRESS" "ON" "DOWNLOAD_DIR" "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/downloads"
+                    SOURCE_DIR          "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/_deps/sdl2_ttf-src"
+                    BINARY_DIR          "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/_deps/sdl2_ttf-build"
                     CONFIGURE_COMMAND   ""
                     BUILD_COMMAND       ""
                     INSTALL_COMMAND     ""

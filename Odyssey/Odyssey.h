@@ -7,6 +7,7 @@
 
 namespace ody
 {
+	class InputManager;
 	class Time;
 	class SceneManager;
 	class Renderer;
@@ -40,11 +41,15 @@ namespace ody
 		Renderer* m_pRenderer{};
 		SceneManager* m_pSceneManager{};
 		Time* m_pTime{};
+		InputManager* m_pInputManager{};
+		std::unique_ptr<AudioSystem> m_pAudioSystem{};
 
 		int m_MaxWaitingTimeMs{};
 		float lag{};
 		const float m_PhysicsTimeStep{ 1.0f / 60.0f };
 		std::chrono::steady_clock::time_point m_LastTime{};
+
+		bool m_DoContinue{ true };
 
 	};
 }

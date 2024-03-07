@@ -19,9 +19,9 @@ project(glm-populate NONE)
 
 include(ExternalProject)
 ExternalProject_Add(glm-populate
-                     "UPDATE_DISCONNECTED" "False" "DOWNLOAD_EXTRACT_TIMESTAMP" "FALSE" "EXTERNALPROJECT_INTERNAL_ARGUMENT_SEPARATOR" "URL" "https://github.com/g-truc/glm/releases/download/0.9.9.8/glm-0.9.9.8.zip" "DOWNLOAD_NO_PROGRESS" "ON" "DOWNLOAD_DIR" "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/downloads"
-                    SOURCE_DIR          "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/glm-src"
-                    BINARY_DIR          "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/glm-build"
+                     "UPDATE_DISCONNECTED" "False" "DOWNLOAD_EXTRACT_TIMESTAMP" "FALSE" "EXTERNALPROJECT_INTERNAL_ARGUMENT_SEPARATOR" "URL" "https://github.com/g-truc/glm/releases/download/0.9.9.8/glm-0.9.9.8.zip" "DOWNLOAD_NO_PROGRESS" "ON" "DOWNLOAD_DIR" "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/downloads"
+                    SOURCE_DIR          "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/_deps/glm-src"
+                    BINARY_DIR          "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/_deps/glm-build"
                     CONFIGURE_COMMAND   ""
                     BUILD_COMMAND       ""
                     INSTALL_COMMAND     ""

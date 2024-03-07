@@ -19,9 +19,9 @@ project(sdl2_image-populate NONE)
 
 include(ExternalProject)
 ExternalProject_Add(sdl2_image-populate
-                     "UPDATE_DISCONNECTED" "False" "DOWNLOAD_EXTRACT_TIMESTAMP" "FALSE" "EXTERNALPROJECT_INTERNAL_ARGUMENT_SEPARATOR" "URL" "https://www.libsdl.org/projects/SDL_image/release/SDL2_image-devel-2.8.2-VC.zip" "DOWNLOAD_NO_PROGRESS" "ON" "DOWNLOAD_DIR" "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/downloads"
-                    SOURCE_DIR          "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_image-src"
-                    BINARY_DIR          "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug/_deps/sdl2_image-build"
+                     "UPDATE_DISCONNECTED" "False" "DOWNLOAD_EXTRACT_TIMESTAMP" "FALSE" "EXTERNALPROJECT_INTERNAL_ARGUMENT_SEPARATOR" "URL" "https://www.libsdl.org/projects/SDL_image/release/SDL2_image-devel-2.8.2-VC.zip" "DOWNLOAD_NO_PROGRESS" "ON" "DOWNLOAD_DIR" "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/downloads"
+                    SOURCE_DIR          "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/_deps/sdl2_image-src"
+                    BINARY_DIR          "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug/_deps/sdl2_image-build"
                     CONFIGURE_COMMAND   ""
                     BUILD_COMMAND       ""
                     INSTALL_COMMAND     ""

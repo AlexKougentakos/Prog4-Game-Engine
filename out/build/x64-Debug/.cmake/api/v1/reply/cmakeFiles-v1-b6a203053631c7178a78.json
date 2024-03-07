@@ -209,8 +209,8 @@
 	"kind" : "cmakeFiles",
 	"paths" : 
 	{
-		"build" : "D:/Programming/VisualStudio/Odyssey - CMake Git/out/build/x64-Debug",
-		"source" : "D:/Programming/VisualStudio/Odyssey - CMake Git"
+		"build" : "D:/Programming/VisualStudio/Odyssey-CMake Git/out/build/x64-Debug",
+		"source" : "D:/Programming/VisualStudio/Odyssey-CMake Git"
 	},
 	"version" : 
 	{

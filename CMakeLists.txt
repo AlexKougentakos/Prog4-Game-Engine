@@ -20,7 +20,8 @@ if(EMSCRIPTEN)
   set(TARGET_PARAM )
 else()
   set(TARGET_NAME Odyssey)
-  set(TARGET_PARAM WIN32)
+  set(TARGET_PARAM WIN32) #windows app
+  #set(TARGET_PARAM) #console app THIS WON'T COPY THE DATA FOLDER INTO THE BUILD FOLDER
 endif()
 
 # Define ImGui source files
@@ -44,16 +45,16 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   #Odyssey/AnimatedTextureComponent.h
   Odyssey/Audio.cpp
   Odyssey/Audio.h
-  #Odyssey/AudioSystem.cpp
-  #Odyssey/AudioSystem.h
+  Odyssey/AudioSystem.cpp
+  Odyssey/AudioSystem.h
   Odyssey/CameraComponent.cpp
   Odyssey/CameraComponent.h
   Odyssey/Command.h
   Odyssey/Component.cpp
   Odyssey/Component.h
   Odyssey/Constants.h
- # Odyssey/Controller.cpp
- # Odyssey/Controller.h
+  Odyssey/Controller.cpp
+  Odyssey/Controller.h
   Odyssey/Font.cpp
   Odyssey/Font.h
   Odyssey/GameObject.cpp
@@ -65,8 +66,8 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Odyssey/IAudio.h
 #  Odyssey/ImGuiManager.cpp
  # Odyssey/ImGuiManager.h
-  #Odyssey/InputManager2.cpp
-  #Odyssey/InputManager2.h
+  Odyssey/InputManager2.cpp
+  Odyssey/InputManager2.h
   Odyssey/IPrefab.h
   Odyssey/Logger.h
   Odyssey/Observer.h
@@ -98,11 +99,14 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Odyssey/UpdateComponent.h
   Odyssey/Utils.cpp
   Odyssey/Utils.h
-  #Odyssey/XboxController.cpp
-  #Odyssey/XboxController.h
+  Odyssey/XboxController.cpp
+  Odyssey/XboxController.h
   Testing/src/Application.cpp
   Testing/src/Scenes/TestScene.cpp
   Testing/src/Scenes/TestScene.h
+  Testing/src/Commands.cpp
+  Testing/src/Commands.h
+
   
   ${IMGUI_SOURCES}
 )
@@ -306,8 +310,8 @@ target_compile_options(${TARGET_NAME} PRIVATE
 )
 target_sources(${TARGET_NAME} PRIVATE ${IMGUI_SOURCES})
 
-if(EMSCRIPTEN)
-  set(EMSCRIPTEN_COMPILE_FLAGS "${EMSCRIPTEN_LINK_FLAGS} -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -g")
+if(EMSCRIPTEN) #TODO: REMOVE THE USE THREADS FLAG LATER
+  set(EMSCRIPTEN_COMPILE_FLAGS "${EMSCRIPTEN_LINK_FLAGS} -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -s USE_PTHREADS=1 -s -g")
   set(EMSCRIPTEN_LINK_FLAGS "${EMSCRIPTEN_LINK_FLAGS} -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -g -sALLOW_MEMORY_GROWTH --preload-file \"${CMAKE_SOURCE_DIR}/Data@/\" -sSDL2_IMAGE_FORMATS=['tga','png']")
 
   # work around https://github.com/emscripten-core/emscripten/issues/11513

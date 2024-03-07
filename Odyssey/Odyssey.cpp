@@ -101,9 +101,8 @@ ody::Odyssey::Odyssey(const std::string &dataPath,
 
 	resourceManager.Init(dataPath);
 
-	//m_pAudioSystem = std::make_unique<ody::AudioSystem>(SfxLocationMap);
-
-	//ody::ServiceLocator::Provide(m_pAudioSystem.get());
+	m_pAudioSystem = std::make_unique<ody::AudioSystem>(SfxLocationMap);
+	ody::ServiceLocator::Provide(m_pAudioSystem.get());
 
 	// Setup for resources and initial state
 	std::vector<std::string> paths;
@@ -114,6 +113,7 @@ ody::Odyssey::Odyssey(const std::string &dataPath,
 	m_pRenderer = &Renderer::GetInstance();
 	m_pSceneManager = &SceneManager::GetInstance();
 	m_pTime = &ody::Time::GetInstance();
+	m_pInputManager = &InputManager::GetInstance();
 }
 
 ody::Odyssey::~Odyssey()
@@ -128,18 +128,17 @@ void ody::Odyssey::Run(const std::function<void()>& load)
 {
 	load();
 
-	printf("Starting game loop\n");
+	printf("Starting game loop edited string\n");
 #ifdef __EMSCRIPTEN__
 	// Use Emscripten's main loop mechanism
 	emscripten_set_main_loop_arg(&LoopCallback, this, 0, true);
 	printf("Emscripten main loop set\n");
 #else
 	// Traditional loop for non-Emscripten (desktop) builds
-	bool doContinue = true;
 	m_LastTime = std::chrono::high_resolution_clock::now();
 	constexpr int FPSLimit = 60;
 	m_MaxWaitingTimeMs = 1000 / FPSLimit;
-	while (doContinue)
+	while (m_DoContinue)
 	{
 		RunOneFrame();
 
@@ -156,17 +155,16 @@ void ody::Odyssey::Run(const std::function<void()>& load)
 
 void ody::Odyssey::RunOneFrame()
 {
-	auto currentTime = std::chrono::high_resolution_clock::now();
+	const auto currentTime = std::chrono::high_resolution_clock::now();
 	const float deltaTime = std::chrono::duration<float>(currentTime - m_LastTime).count();
 
 	m_pTime->SetDeltaTime(deltaTime);
-	//doContinue = input.ProcessInput();
+	m_DoContinue = m_pInputManager->ProcessInput();
 	//m_pTime->SetDeltaTime(deltaTime);
 
 	lag += deltaTime;
 	while (lag >= m_PhysicsTimeStep)
 	{
-		std::cout << lag << " " << m_PhysicsTimeStep << std::endl;
 		// First time, lastTime is 0, which means deltaTime is very high, which messes this loop up
 		if (deltaTime >= 1000.0f) lag = m_PhysicsTimeStep;
 		m_pSceneManager->FixedUpdate();

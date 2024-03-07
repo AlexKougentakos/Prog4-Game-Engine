@@ -1,13 +1,12 @@
-﻿#include "Controller.h"
+﻿#ifndef __EMSCRIPTEN__
+#include "Controller.h"
 #include <cstdlib>
 #include <algorithm>
 
-#ifndef __EMSCRIPTEN__
-    #define WIN32_LEAN_AND_MEAN
-    #include <Windows.h>
-    #include <XInput.h>
-    #pragma comment(lib, "xinput.lib")
-#endif
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
+#include <XInput.h>
+#pragma comment(lib, "xinput.lib")
 namespace ody
 {
     class Controller::ControllerImplementation
@@ -20,7 +19,7 @@ namespace ody
             m_PreviousState = m_CurrentState;
             XInputGetState(m_ControllerIdx, &m_CurrentState);
 
-            auto buttonChanges{ m_CurrentState.Gamepad.wButtons ^ m_PreviousState.Gamepad.wButtons };
+            const auto buttonChanges{ m_CurrentState.Gamepad.wButtons ^ m_PreviousState.Gamepad.wButtons };
             m_ButtonsDown = buttonChanges & m_CurrentState.Gamepad.wButtons;
             m_ButtonsUp = buttonChanges & (~m_CurrentState.Gamepad.wButtons);
         }
@@ -125,3 +124,4 @@ float ody::Controller::GetAxis(unsigned int button) const
 {
     return m_pImpl->GetAxis(button);
 }
+#endif
