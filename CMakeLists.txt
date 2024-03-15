@@ -11,17 +11,28 @@ FetchContent_Declare(
     GIT_TAG v1.90.4
 )
 FetchContent_MakeAvailable(imgui)
-if(EMSCRIPTEN)
-  message("Using Emscripten!")
-endif()
 
 if(EMSCRIPTEN)
   set(TARGET_NAME Odyssey_web)
   set(TARGET_PARAM )
+  message("Using Emscripten!")
 else()
   set(TARGET_NAME Odyssey)
   set(TARGET_PARAM WIN32) #windows app
   #set(TARGET_PARAM) #console app THIS WON'T COPY THE DATA FOLDER INTO THE BUILD FOLDER
+endif()
+
+# Now declare the SDL_AudioPlayer library for Emscripten builds
+if(EMSCRIPTEN)
+  FetchContent_Declare(
+    sdl_audioplayer
+    GIT_REPOSITORY https://github.com/madureira/SDL_AudioPlayer.git
+  )
+  FetchContent_GetProperties(sdl_audioplayer)
+  if(NOT sdl_audioplayer_POPULATED)
+    FetchContent_Populate(sdl_audioplayer)
+    # Include SDL_AudioPlayer headers after the target is defined
+  endif()
 endif()
 
 # Define ImGui source files
@@ -47,6 +58,8 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Odyssey/Audio.h
   Odyssey/AudioSystem.cpp
   Odyssey/AudioSystem.h
+  Odyssey/WebAudioSystem.cpp
+  Odyssey/WebAudioSystem.h
   Odyssey/CameraComponent.cpp
   Odyssey/CameraComponent.h
   Odyssey/Command.h
@@ -104,10 +117,9 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Testing/src/Application.cpp
   Testing/src/Scenes/TestScene.cpp
   Testing/src/Scenes/TestScene.h
-  Testing/src/Commands.cpp
-  Testing/src/Commands.h
+  #Testing/src/Commands.cpp
+  #Testing/src/Commands.h
 
-  
   ${IMGUI_SOURCES}
 )
 
@@ -128,6 +140,10 @@ FetchContent_Declare(
 FetchContent_GetProperties(glm)
 if(NOT glm_POPULATED)
   FetchContent_Populate(glm)
+endif()
+
+if(EMSCRIPTEN)
+  target_include_directories(${TARGET_NAME} PRIVATE ${sdl_audioplayer_SOURCE_DIR})
 endif()
 
 # add SDL2
@@ -311,8 +327,8 @@ target_compile_options(${TARGET_NAME} PRIVATE
 target_sources(${TARGET_NAME} PRIVATE ${IMGUI_SOURCES})
 
 if(EMSCRIPTEN) #TODO: REMOVE THE USE THREADS FLAG LATER
-  set(EMSCRIPTEN_COMPILE_FLAGS "${EMSCRIPTEN_LINK_FLAGS} -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -s USE_PTHREADS=1 -s -g")
-  set(EMSCRIPTEN_LINK_FLAGS "${EMSCRIPTEN_LINK_FLAGS} -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -g -sALLOW_MEMORY_GROWTH --preload-file \"${CMAKE_SOURCE_DIR}/Data@/\" -sSDL2_IMAGE_FORMATS=['tga','png']")
+  set(EMSCRIPTEN_COMPILE_FLAGS "${EMSCRIPTEN_LINK_FLAGS} -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -s -sNO_DISABLE_EXCEPTION_CATCHING -g")
+  set(EMSCRIPTEN_LINK_FLAGS "${EMSCRIPTEN_LINK_FLAGS} -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -g -sNO_DISABLE_EXCEPTION_CATCHING -sALLOW_MEMORY_GROWTH --preload-file \"${CMAKE_SOURCE_DIR}/Data@/\" -sSDL2_IMAGE_FORMATS=['tga','png']")
 
   # work around https://github.com/emscripten-core/emscripten/issues/11513
   set(EMSCRIPTEN_LINK_FLAGS "${EMSCRIPTEN_LINK_FLAGS} -fno-stack-protector")

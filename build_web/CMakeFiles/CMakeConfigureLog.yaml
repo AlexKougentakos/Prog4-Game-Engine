@@ -4,7 +4,7 @@ events:
   -
     kind: "message-v1"
     backtrace:
-      - "C:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/share/cmake-3.26/Modules/CMakeDetermineSystem.cmake:199 (message)"
+      - "C:/Program Files/CMake/share/cmake-3.29/Modules/CMakeDetermineSystem.cmake:200 (message)"
       - "CMakeLists.txt:2 (project)"
     message: |
       The target system is: Emscripten - 1 - x86

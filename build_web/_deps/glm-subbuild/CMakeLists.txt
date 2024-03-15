@@ -1,7 +1,13 @@
 # Distributed under the OSI-approved BSD 3-Clause License.  See accompanying
 # file Copyright.txt or https://cmake.org/licensing for details.
 
-cmake_minimum_required(VERSION 3.26.4)
+cmake_minimum_required(VERSION 3.29.0-rc2)
+
+# Reject any attempt to use a toolchain file. We must not use one because
+# we could be downloading it here. If the CMAKE_TOOLCHAIN_FILE environment
+# variable is set, the cache variable will have been initialized from it.
+unset(CMAKE_TOOLCHAIN_FILE CACHE)
+unset(ENV{CMAKE_TOOLCHAIN_FILE})
 
 # We name the project and the target for the ExternalProject_Add() call
 # to something that will highlight to the user what we are working on if
@@ -13,7 +19,7 @@ project(glm-populate NONE)
 
 include(ExternalProject)
 ExternalProject_Add(glm-populate
-                     "UPDATE_DISCONNECTED" "False" "DOWNLOAD_EXTRACT_TIMESTAMP" "FALSE" "URL" "https://github.com/g-truc/glm/releases/download/0.9.9.8/glm-0.9.9.8.zip" "DOWNLOAD_NO_PROGRESS" "ON" "DOWNLOAD_DIR" "D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/downloads"
+                     "UPDATE_DISCONNECTED" "False" "DOWNLOAD_EXTRACT_TIMESTAMP" "FALSE" "EXTERNALPROJECT_INTERNAL_ARGUMENT_SEPARATOR" "URL" "https://github.com/g-truc/glm/releases/download/0.9.9.8/glm-0.9.9.8.zip" "DOWNLOAD_NO_PROGRESS" "ON" "DOWNLOAD_DIR" "D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/downloads"
                     SOURCE_DIR          "D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src"
                     BINARY_DIR          "D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-build"
                     CONFIGURE_COMMAND   ""

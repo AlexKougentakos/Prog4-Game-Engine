@@ -3,6 +3,8 @@
 #ifndef __EMSCRIPTEN__
 	#define WIN32_LEAN_AND_MEAN 
 	#include <windows.h>
+#else
+#include "WebAudioSystem.h"
 #endif
 
 #include <iostream>
@@ -101,7 +103,11 @@ ody::Odyssey::Odyssey(const std::string &dataPath,
 
 	resourceManager.Init(dataPath);
 
+#ifndef __EMSCRIPTEN__
 	m_pAudioSystem = std::make_unique<ody::AudioSystem>(SfxLocationMap);
+#else
+	m_pAudioSystem = std::make_unique<ody::WebAudioSystem>(SfxLocationMap);
+#endif
 	ody::ServiceLocator::Provide(m_pAudioSystem.get());
 
 	// Setup for resources and initial state

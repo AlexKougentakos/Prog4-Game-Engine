@@ -25,7 +25,7 @@ set(error_code 1)
 set(number_of_tries 0)
 while(error_code AND number_of_tries LESS 3)
   execute_process(
-    COMMAND "C:/Program Files/Git/cmd/git.exe" 
+    COMMAND "C:/Program Files/Git/cmd/git.exe"
             clone --no-checkout --config "advice.detachedHead=false" "https://github.com/ocornut/imgui.git" "imgui-src"
     WORKING_DIRECTORY "D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps"
     RESULT_VARIABLE error_code
@@ -40,7 +40,7 @@ if(error_code)
 endif()
 
 execute_process(
-  COMMAND "C:/Program Files/Git/cmd/git.exe" 
+  COMMAND "C:/Program Files/Git/cmd/git.exe"
           checkout "v1.90.4" --
   WORKING_DIRECTORY "D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src"
   RESULT_VARIABLE error_code

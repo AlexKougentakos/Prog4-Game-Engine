@@ -1,4 +1,5 @@
 #pragma once
+#ifndef __EMSCRIPTEN__
 #include <map>
 
 #include "IAudio.h"
@@ -23,3 +24,4 @@ namespace ody
 		virtual ~AudioSystem() override;
 	};
 }
+#endif

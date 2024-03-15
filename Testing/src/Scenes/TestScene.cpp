@@ -4,7 +4,8 @@
 //#include "imgui.h"
 //#include "ImGuiManager.h"
 #include "InputManager2.h"
-#include "../Commands.h"
+#include "SDL_egl.h"
+//#include "../Commands.h"
 
 void TestScene::Initialize()
 {
@@ -16,8 +17,7 @@ void TestScene::Initialize()
 	gameObject2->GetTransform()->SetPosition(50.0f, 50.0f);
 	gameObject2->AddComponent<ody::TextureComponent>("Player_Idle_Anim.png");
 
-	ody::InputManager::GetInstance().AddKeyboardCommand('w', ody::InputManager::InputType::OnDown, std::make_unique<PlaySound>());
-
+	//ody::InputManager::GetInstance().AddKeyboardCommand('w', ody::InputManager::InputType::OnDown, std::make_unique<PlaySound>());
 
 	//ody::ImGuiManager::GetInstance().AddCheckBox("Show Background", test);
 }

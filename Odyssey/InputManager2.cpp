@@ -5,9 +5,9 @@
 #include "IAudio.h"
 #include "TextureComponent.h"
 
+#include "ServiceLocator.h"
 #ifdef _DEBUG
 #include "SceneManager.h"
-#include "ServiceLocator.h"
 #endif
 
 using namespace ody;
@@ -45,6 +45,7 @@ bool InputManager::ProcessInput()
 				if (e.key.keysym.scancode == SDL_SCANCODE_D)
 				{
 					printf("D is pressed\n");
+					ody::ServiceLocator::GetSoundSystem().PlaySound(1);
 				}
 			}
 		}

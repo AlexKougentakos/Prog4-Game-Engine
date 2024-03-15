@@ -3,7 +3,7 @@
 # No other meaning or use of this file is supported.
 
 method=git
-command=C:/Users/alexa/Documents/Cmake/cmake-3.26.4-windows-x86_64/bin/cmake.exe;-P;D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-subbuild/imgui-populate-prefix/tmp/imgui-populate-gitclone.cmake
+command=C:/Program Files/CMake/bin/cmake.exe;-P;D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-subbuild/imgui-populate-prefix/tmp/imgui-populate-gitclone.cmake
 source_dir=D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src
 work_dir=D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps
 repository=https://github.com/ocornut/imgui.git

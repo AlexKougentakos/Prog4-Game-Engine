@@ -1,0 +1,14 @@
+# Target labels
+ imgui-populate
+# Source files and their labels
+D:/Programming/VisualStudio/Odyssey-CMake Git/solution/_deps/imgui-subbuild/CMakeFiles/imgui-populate
+D:/Programming/VisualStudio/Odyssey-CMake Git/solution/_deps/imgui-subbuild/CMakeFiles/1871845ceaa74de327f29dcba3ae306a/imgui-populate.rule
+D:/Programming/VisualStudio/Odyssey-CMake Git/solution/_deps/imgui-subbuild/CMakeFiles/6e9ebd506dcc16676cd851f8a53acea9/imgui-populate-complete.rule
+D:/Programming/VisualStudio/Odyssey-CMake Git/solution/_deps/imgui-subbuild/CMakeFiles/abd930b90609c0be7e7215ba7b29344c/imgui-populate-build.rule
+D:/Programming/VisualStudio/Odyssey-CMake Git/solution/_deps/imgui-subbuild/CMakeFiles/abd930b90609c0be7e7215ba7b29344c/imgui-populate-configure.rule
+D:/Programming/VisualStudio/Odyssey-CMake Git/solution/_deps/imgui-subbuild/CMakeFiles/abd930b90609c0be7e7215ba7b29344c/imgui-populate-download.rule
+D:/Programming/VisualStudio/Odyssey-CMake Git/solution/_deps/imgui-subbuild/CMakeFiles/abd930b90609c0be7e7215ba7b29344c/imgui-populate-install.rule
+D:/Programming/VisualStudio/Odyssey-CMake Git/solution/_deps/imgui-subbuild/CMakeFiles/abd930b90609c0be7e7215ba7b29344c/imgui-populate-mkdir.rule
+D:/Programming/VisualStudio/Odyssey-CMake Git/solution/_deps/imgui-subbuild/CMakeFiles/abd930b90609c0be7e7215ba7b29344c/imgui-populate-patch.rule
+D:/Programming/VisualStudio/Odyssey-CMake Git/solution/_deps/imgui-subbuild/CMakeFiles/abd930b90609c0be7e7215ba7b29344c/imgui-populate-test.rule
+D:/Programming/VisualStudio/Odyssey-CMake Git/solution/_deps/imgui-subbuild/CMakeFiles/abd930b90609c0be7e7215ba7b29344c/imgui-populate-update.rule

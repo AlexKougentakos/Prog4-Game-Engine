@@ -1,3 +1,5 @@
+#ifndef __EMSCRIPTEN__
+
 #include "AudioSystem.h"
 #include <iostream>
 #include <SDL_mixer.h>
@@ -7,11 +9,6 @@
 #include "Audio.h"
 #include "ResourceManager.h"
 
-#ifdef __EMSCRIPTEN__
-#include <emscripten/threading.h>
-#endif
-
-
 namespace ody
 {
 	class AudioSystem::AudioSystemImpl final
@@ -19,13 +16,7 @@ namespace ody
 	public:
 		AudioSystemImpl()
 		{
-#ifdef __EMSCRIPTEN__
-			emscripten_async_call([](void* arg) {
-				static_cast<AudioSystemImpl*>(arg)->AudioWorker();
-				}, this, 0);
-#else
 			m_WorkerThread = std::jthread(&AudioSystemImpl::AudioWorker, this);
-#endif
 		}
 
 		~AudioSystemImpl()
@@ -68,9 +59,7 @@ namespace ody
 		std::queue<unsigned int> m_EventQueue{};
 		std::mutex m_QueueMutex{};
 		std::condition_variable m_QueueCondition{};
-#ifndef __EMSCRIPTEN__
 		std::jthread m_WorkerThread{};
-#endif
 		bool m_QuitRequested{false};
 
 		void AudioWorker()
@@ -146,3 +135,4 @@ namespace ody
 		pImpl->StopAllSounds();
 	}
 }
+#endif

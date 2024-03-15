@@ -1,0 +1,14 @@
+# Target labels
+ sdl_audioplayer-populate
+# Source files and their labels
+D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-subbuild/CMakeFiles/sdl_audioplayer-populate
+D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-subbuild/CMakeFiles/sdl_audioplayer-populate.rule
+D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-subbuild/CMakeFiles/sdl_audioplayer-populate-complete.rule
+D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-subbuild/sdl_audioplayer-populate-prefix/src/sdl_audioplayer-populate-stamp/sdl_audioplayer-populate-build.rule
+D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-subbuild/sdl_audioplayer-populate-prefix/src/sdl_audioplayer-populate-stamp/sdl_audioplayer-populate-configure.rule
+D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-subbuild/sdl_audioplayer-populate-prefix/src/sdl_audioplayer-populate-stamp/sdl_audioplayer-populate-download.rule
+D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-subbuild/sdl_audioplayer-populate-prefix/src/sdl_audioplayer-populate-stamp/sdl_audioplayer-populate-install.rule
+D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-subbuild/sdl_audioplayer-populate-prefix/src/sdl_audioplayer-populate-stamp/sdl_audioplayer-populate-mkdir.rule
+D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-subbuild/sdl_audioplayer-populate-prefix/src/sdl_audioplayer-populate-stamp/sdl_audioplayer-populate-patch.rule
+D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-subbuild/sdl_audioplayer-populate-prefix/src/sdl_audioplayer-populate-stamp/sdl_audioplayer-populate-test.rule
+D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-subbuild/sdl_audioplayer-populate-prefix/src/sdl_audioplayer-populate-stamp/sdl_audioplayer-populate-update.rule
