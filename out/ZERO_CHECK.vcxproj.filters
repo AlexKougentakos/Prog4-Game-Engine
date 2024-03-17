@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\CMakeFiles\b905d8da4de9479c7914519369029cfa\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{41E2F8D6-0538-332B-BB8C-809D596FE1A7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

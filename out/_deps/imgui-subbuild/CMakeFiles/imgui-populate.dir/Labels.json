@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/imgui-subbuild/CMakeFiles/imgui-populate"
+		},
+		{
+			"file" : "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/imgui-subbuild/CMakeFiles/f3b3c60955e1343fe783cea67f95dc23/imgui-populate.rule"
+		},
+		{
+			"file" : "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/imgui-subbuild/CMakeFiles/5110581897e410433bb1f0dc22de1ca7/imgui-populate-complete.rule"
+		},
+		{
+			"file" : "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/imgui-subbuild/CMakeFiles/815b30686549bd1b0fba3a322e327445/imgui-populate-build.rule"
+		},
+		{
+			"file" : "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/imgui-subbuild/CMakeFiles/815b30686549bd1b0fba3a322e327445/imgui-populate-configure.rule"
+		},
+		{
+			"file" : "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/imgui-subbuild/CMakeFiles/815b30686549bd1b0fba3a322e327445/imgui-populate-download.rule"
+		},
+		{
+			"file" : "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/imgui-subbuild/CMakeFiles/815b30686549bd1b0fba3a322e327445/imgui-populate-install.rule"
+		},
+		{
+			"file" : "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/imgui-subbuild/CMakeFiles/815b30686549bd1b0fba3a322e327445/imgui-populate-mkdir.rule"
+		},
+		{
+			"file" : "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/imgui-subbuild/CMakeFiles/815b30686549bd1b0fba3a322e327445/imgui-populate-patch.rule"
+		},
+		{
+			"file" : "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/imgui-subbuild/CMakeFiles/815b30686549bd1b0fba3a322e327445/imgui-populate-test.rule"
+		},
+		{
+			"file" : "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/imgui-subbuild/CMakeFiles/815b30686549bd1b0fba3a322e327445/imgui-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"imgui-populate"
+		],
+		"name" : "imgui-populate"
+	}
+}

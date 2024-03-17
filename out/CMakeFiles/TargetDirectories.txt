@@ -1,0 +1,4 @@
+D:/Programming/VisualStudio/Odyssey-CMake Git/out/CMakeFiles/OdysseyLib.dir
+D:/Programming/VisualStudio/Odyssey-CMake Git/out/CMakeFiles/Testing.dir
+D:/Programming/VisualStudio/Odyssey-CMake Git/out/CMakeFiles/ALL_BUILD.dir
+D:/Programming/VisualStudio/Odyssey-CMake Git/out/CMakeFiles/ZERO_CHECK.dir

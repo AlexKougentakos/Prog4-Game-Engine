@@ -73,10 +73,10 @@ void LoopCallback(void* arg)
 #endif
 
 ody::Odyssey::Odyssey(const std::string &dataPath, 
-	std::map<unsigned int, std::pair<std::string, bool>> SfxLocationMap)
+	std::map<unsigned int, std::pair<std::string, bool>> sfxLocationMap)
 {
 
-	m_SfxLocationMap = SfxLocationMap;
+	m_SfxLocationMap = sfxLocationMap;
 	PrintSDLVersion();
 	
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) 
@@ -104,7 +104,7 @@ ody::Odyssey::Odyssey(const std::string &dataPath,
 	resourceManager.Init(dataPath);
 
 #ifndef __EMSCRIPTEN__
-	m_pAudioSystem = std::make_unique<ody::AudioSystem>(SfxLocationMap);
+	m_pAudioSystem = std::make_unique<ody::AudioSystem>(sfxLocationMap);
 #else
 	m_pAudioSystem = std::make_unique<ody::WebAudioSystem>(SfxLocationMap);
 #endif

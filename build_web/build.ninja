@@ -36,197 +36,222 @@ include CMakeFiles/rules.ninja
 
 cmake_ninja_workdir = D$:/Programming/VisualStudio/Odyssey-CMake$ Git/build_web/
 # =============================================================================
-# Object build statements for EXECUTABLE target Odyssey_web
+# Object build statements for STATIC_LIBRARY target OdysseyLib
 
 
 #############################################
-# Order-only phony target for Odyssey_web
+# Order-only phony target for OdysseyLib
 
-build cmake_object_order_depends_target_Odyssey_web: phony || .
+build cmake_object_order_depends_target_OdysseyLib: phony || .
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/Audio.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/Audio.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\Audio.cpp.o.d
+build CMakeFiles/OdysseyLib.dir/Odyssey/Audio.cpp.o: CXX_COMPILER__OdysseyLib_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/Audio.cpp || cmake_object_order_depends_target_OdysseyLib
+  DEP_FILE = CMakeFiles\OdysseyLib.dir\Odyssey\Audio.cpp.o.d
   FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -s -sNO_DISABLE_EXCEPTION_CATCHING -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src/backends" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src"
+  OBJECT_DIR = CMakeFiles\OdysseyLib.dir
+  OBJECT_FILE_DIR = CMakeFiles\OdysseyLib.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/AudioSystem.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/AudioSystem.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\AudioSystem.cpp.o.d
+build CMakeFiles/OdysseyLib.dir/Odyssey/AudioSystem.cpp.o: CXX_COMPILER__OdysseyLib_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/AudioSystem.cpp || cmake_object_order_depends_target_OdysseyLib
+  DEP_FILE = CMakeFiles\OdysseyLib.dir\Odyssey\AudioSystem.cpp.o.d
   FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -s -sNO_DISABLE_EXCEPTION_CATCHING -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src/backends" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src"
+  OBJECT_DIR = CMakeFiles\OdysseyLib.dir
+  OBJECT_FILE_DIR = CMakeFiles\OdysseyLib.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/WebAudioSystem.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/WebAudioSystem.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\WebAudioSystem.cpp.o.d
+build CMakeFiles/OdysseyLib.dir/Odyssey/WebAudioSystem.cpp.o: CXX_COMPILER__OdysseyLib_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/WebAudioSystem.cpp || cmake_object_order_depends_target_OdysseyLib
+  DEP_FILE = CMakeFiles\OdysseyLib.dir\Odyssey\WebAudioSystem.cpp.o.d
   FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -s -sNO_DISABLE_EXCEPTION_CATCHING -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src/backends" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src"
+  OBJECT_DIR = CMakeFiles\OdysseyLib.dir
+  OBJECT_FILE_DIR = CMakeFiles\OdysseyLib.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/CameraComponent.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/CameraComponent.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\CameraComponent.cpp.o.d
+build CMakeFiles/OdysseyLib.dir/Odyssey/CameraComponent.cpp.o: CXX_COMPILER__OdysseyLib_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/CameraComponent.cpp || cmake_object_order_depends_target_OdysseyLib
+  DEP_FILE = CMakeFiles\OdysseyLib.dir\Odyssey\CameraComponent.cpp.o.d
   FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -s -sNO_DISABLE_EXCEPTION_CATCHING -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src/backends" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src"
+  OBJECT_DIR = CMakeFiles\OdysseyLib.dir
+  OBJECT_FILE_DIR = CMakeFiles\OdysseyLib.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/Component.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/Component.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\Component.cpp.o.d
+build CMakeFiles/OdysseyLib.dir/Odyssey/Component.cpp.o: CXX_COMPILER__OdysseyLib_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/Component.cpp || cmake_object_order_depends_target_OdysseyLib
+  DEP_FILE = CMakeFiles\OdysseyLib.dir\Odyssey\Component.cpp.o.d
   FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -s -sNO_DISABLE_EXCEPTION_CATCHING -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src/backends" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src"
+  OBJECT_DIR = CMakeFiles\OdysseyLib.dir
+  OBJECT_FILE_DIR = CMakeFiles\OdysseyLib.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/Controller.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/Controller.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\Controller.cpp.o.d
+build CMakeFiles/OdysseyLib.dir/Odyssey/Controller.cpp.o: CXX_COMPILER__OdysseyLib_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/Controller.cpp || cmake_object_order_depends_target_OdysseyLib
+  DEP_FILE = CMakeFiles\OdysseyLib.dir\Odyssey\Controller.cpp.o.d
   FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -s -sNO_DISABLE_EXCEPTION_CATCHING -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src/backends" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src"
+  OBJECT_DIR = CMakeFiles\OdysseyLib.dir
+  OBJECT_FILE_DIR = CMakeFiles\OdysseyLib.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/Font.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/Font.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\Font.cpp.o.d
+build CMakeFiles/OdysseyLib.dir/Odyssey/Font.cpp.o: CXX_COMPILER__OdysseyLib_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/Font.cpp || cmake_object_order_depends_target_OdysseyLib
+  DEP_FILE = CMakeFiles\OdysseyLib.dir\Odyssey\Font.cpp.o.d
   FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -s -sNO_DISABLE_EXCEPTION_CATCHING -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src/backends" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src"
+  OBJECT_DIR = CMakeFiles\OdysseyLib.dir
+  OBJECT_FILE_DIR = CMakeFiles\OdysseyLib.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/GameObject.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/GameObject.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\GameObject.cpp.o.d
+build CMakeFiles/OdysseyLib.dir/Odyssey/GameObject.cpp.o: CXX_COMPILER__OdysseyLib_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/GameObject.cpp || cmake_object_order_depends_target_OdysseyLib
+  DEP_FILE = CMakeFiles\OdysseyLib.dir\Odyssey\GameObject.cpp.o.d
   FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -s -sNO_DISABLE_EXCEPTION_CATCHING -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src/backends" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src"
+  OBJECT_DIR = CMakeFiles\OdysseyLib.dir
+  OBJECT_FILE_DIR = CMakeFiles\OdysseyLib.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/GameScene.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/GameScene.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\GameScene.cpp.o.d
+build CMakeFiles/OdysseyLib.dir/Odyssey/GameScene.cpp.o: CXX_COMPILER__OdysseyLib_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/GameScene.cpp || cmake_object_order_depends_target_OdysseyLib
+  DEP_FILE = CMakeFiles\OdysseyLib.dir\Odyssey\GameScene.cpp.o.d
   FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -s -sNO_DISABLE_EXCEPTION_CATCHING -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src/backends" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src"
+  OBJECT_DIR = CMakeFiles\OdysseyLib.dir
+  OBJECT_FILE_DIR = CMakeFiles\OdysseyLib.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/GameTime.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/GameTime.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\GameTime.cpp.o.d
+build CMakeFiles/OdysseyLib.dir/Odyssey/GameTime.cpp.o: CXX_COMPILER__OdysseyLib_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/GameTime.cpp || cmake_object_order_depends_target_OdysseyLib
+  DEP_FILE = CMakeFiles\OdysseyLib.dir\Odyssey\GameTime.cpp.o.d
   FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -s -sNO_DISABLE_EXCEPTION_CATCHING -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src/backends" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src"
+  OBJECT_DIR = CMakeFiles\OdysseyLib.dir
+  OBJECT_FILE_DIR = CMakeFiles\OdysseyLib.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/InputManager2.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/InputManager2.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\InputManager2.cpp.o.d
+build CMakeFiles/OdysseyLib.dir/Odyssey/InputManager2.cpp.o: CXX_COMPILER__OdysseyLib_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/InputManager2.cpp || cmake_object_order_depends_target_OdysseyLib
+  DEP_FILE = CMakeFiles\OdysseyLib.dir\Odyssey\InputManager2.cpp.o.d
   FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -s -sNO_DISABLE_EXCEPTION_CATCHING -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src/backends" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src"
+  OBJECT_DIR = CMakeFiles\OdysseyLib.dir
+  OBJECT_FILE_DIR = CMakeFiles\OdysseyLib.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/Odyssey.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/Odyssey.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\Odyssey.cpp.o.d
+build CMakeFiles/OdysseyLib.dir/Odyssey/Odyssey.cpp.o: CXX_COMPILER__OdysseyLib_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/Odyssey.cpp || cmake_object_order_depends_target_OdysseyLib
+  DEP_FILE = CMakeFiles\OdysseyLib.dir\Odyssey\Odyssey.cpp.o.d
   FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -s -sNO_DISABLE_EXCEPTION_CATCHING -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src/backends" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src"
+  OBJECT_DIR = CMakeFiles\OdysseyLib.dir
+  OBJECT_FILE_DIR = CMakeFiles\OdysseyLib.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/PerformanceTimer.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/PerformanceTimer.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\PerformanceTimer.cpp.o.d
+build CMakeFiles/OdysseyLib.dir/Odyssey/PerformanceTimer.cpp.o: CXX_COMPILER__OdysseyLib_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/PerformanceTimer.cpp || cmake_object_order_depends_target_OdysseyLib
+  DEP_FILE = CMakeFiles\OdysseyLib.dir\Odyssey\PerformanceTimer.cpp.o.d
   FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -s -sNO_DISABLE_EXCEPTION_CATCHING -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src/backends" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src"
+  OBJECT_DIR = CMakeFiles\OdysseyLib.dir
+  OBJECT_FILE_DIR = CMakeFiles\OdysseyLib.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/Renderer.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/Renderer.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\Renderer.cpp.o.d
+build CMakeFiles/OdysseyLib.dir/Odyssey/Renderer.cpp.o: CXX_COMPILER__OdysseyLib_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/Renderer.cpp || cmake_object_order_depends_target_OdysseyLib
+  DEP_FILE = CMakeFiles\OdysseyLib.dir\Odyssey\Renderer.cpp.o.d
   FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -s -sNO_DISABLE_EXCEPTION_CATCHING -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src/backends" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src"
+  OBJECT_DIR = CMakeFiles\OdysseyLib.dir
+  OBJECT_FILE_DIR = CMakeFiles\OdysseyLib.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/ResourceManager.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/ResourceManager.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\ResourceManager.cpp.o.d
+build CMakeFiles/OdysseyLib.dir/Odyssey/ResourceManager.cpp.o: CXX_COMPILER__OdysseyLib_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/ResourceManager.cpp || cmake_object_order_depends_target_OdysseyLib
+  DEP_FILE = CMakeFiles\OdysseyLib.dir\Odyssey\ResourceManager.cpp.o.d
   FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -s -sNO_DISABLE_EXCEPTION_CATCHING -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src/backends" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src"
+  OBJECT_DIR = CMakeFiles\OdysseyLib.dir
+  OBJECT_FILE_DIR = CMakeFiles\OdysseyLib.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/SceneManager.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/SceneManager.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\SceneManager.cpp.o.d
+build CMakeFiles/OdysseyLib.dir/Odyssey/SceneManager.cpp.o: CXX_COMPILER__OdysseyLib_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/SceneManager.cpp || cmake_object_order_depends_target_OdysseyLib
+  DEP_FILE = CMakeFiles\OdysseyLib.dir\Odyssey\SceneManager.cpp.o.d
   FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -s -sNO_DISABLE_EXCEPTION_CATCHING -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src/backends" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src"
+  OBJECT_DIR = CMakeFiles\OdysseyLib.dir
+  OBJECT_FILE_DIR = CMakeFiles\OdysseyLib.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/ServiceLocator.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/ServiceLocator.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\ServiceLocator.cpp.o.d
+build CMakeFiles/OdysseyLib.dir/Odyssey/ServiceLocator.cpp.o: CXX_COMPILER__OdysseyLib_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/ServiceLocator.cpp || cmake_object_order_depends_target_OdysseyLib
+  DEP_FILE = CMakeFiles\OdysseyLib.dir\Odyssey\ServiceLocator.cpp.o.d
   FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -s -sNO_DISABLE_EXCEPTION_CATCHING -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src/backends" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src"
+  OBJECT_DIR = CMakeFiles\OdysseyLib.dir
+  OBJECT_FILE_DIR = CMakeFiles\OdysseyLib.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/StateManager.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/StateManager.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\StateManager.cpp.o.d
+build CMakeFiles/OdysseyLib.dir/Odyssey/StateManager.cpp.o: CXX_COMPILER__OdysseyLib_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/StateManager.cpp || cmake_object_order_depends_target_OdysseyLib
+  DEP_FILE = CMakeFiles\OdysseyLib.dir\Odyssey\StateManager.cpp.o.d
   FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -s -sNO_DISABLE_EXCEPTION_CATCHING -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src/backends" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src"
+  OBJECT_DIR = CMakeFiles\OdysseyLib.dir
+  OBJECT_FILE_DIR = CMakeFiles\OdysseyLib.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/Texture2D.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/Texture2D.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\Texture2D.cpp.o.d
+build CMakeFiles/OdysseyLib.dir/Odyssey/Texture2D.cpp.o: CXX_COMPILER__OdysseyLib_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/Texture2D.cpp || cmake_object_order_depends_target_OdysseyLib
+  DEP_FILE = CMakeFiles\OdysseyLib.dir\Odyssey\Texture2D.cpp.o.d
   FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -s -sNO_DISABLE_EXCEPTION_CATCHING -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src/backends" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src"
+  OBJECT_DIR = CMakeFiles\OdysseyLib.dir
+  OBJECT_FILE_DIR = CMakeFiles\OdysseyLib.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/TransformComponent.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/TransformComponent.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\TransformComponent.cpp.o.d
+build CMakeFiles/OdysseyLib.dir/Odyssey/TransformComponent.cpp.o: CXX_COMPILER__OdysseyLib_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/TransformComponent.cpp || cmake_object_order_depends_target_OdysseyLib
+  DEP_FILE = CMakeFiles\OdysseyLib.dir\Odyssey\TransformComponent.cpp.o.d
   FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -s -sNO_DISABLE_EXCEPTION_CATCHING -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src/backends" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src"
+  OBJECT_DIR = CMakeFiles\OdysseyLib.dir
+  OBJECT_FILE_DIR = CMakeFiles\OdysseyLib.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/Utils.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/Utils.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\Utils.cpp.o.d
+build CMakeFiles/OdysseyLib.dir/Odyssey/Utils.cpp.o: CXX_COMPILER__OdysseyLib_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/Utils.cpp || cmake_object_order_depends_target_OdysseyLib
+  DEP_FILE = CMakeFiles\OdysseyLib.dir\Odyssey\Utils.cpp.o.d
   FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -s -sNO_DISABLE_EXCEPTION_CATCHING -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src/backends" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src"
+  OBJECT_DIR = CMakeFiles\OdysseyLib.dir
+  OBJECT_FILE_DIR = CMakeFiles\OdysseyLib.dir\Odyssey
 
-build CMakeFiles/Odyssey_web.dir/Odyssey/XboxController.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/XboxController.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\Odyssey\XboxController.cpp.o.d
+build CMakeFiles/OdysseyLib.dir/Odyssey/XboxController.cpp.o: CXX_COMPILER__OdysseyLib_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Odyssey/XboxController.cpp || cmake_object_order_depends_target_OdysseyLib
+  DEP_FILE = CMakeFiles\OdysseyLib.dir\Odyssey\XboxController.cpp.o.d
   FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -s -sNO_DISABLE_EXCEPTION_CATCHING -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Odyssey
-
-build CMakeFiles/Odyssey_web.dir/Testing/src/Application.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Testing/src/Application.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\Testing\src\Application.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -s -sNO_DISABLE_EXCEPTION_CATCHING -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Testing\src
-
-build CMakeFiles/Odyssey_web.dir/Testing/src/Scenes/TestScene.cpp.o: CXX_COMPILER__Odyssey_web_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Testing/src/Scenes/TestScene.cpp || cmake_object_order_depends_target_Odyssey_web
-  DEP_FILE = CMakeFiles\Odyssey_web.dir\Testing\src\Scenes\TestScene.cpp.o.d
-  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -s -sNO_DISABLE_EXCEPTION_CATCHING -g -Wall -Wextra -Wpedantic -Werror
-  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src"
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
-  OBJECT_FILE_DIR = CMakeFiles\Odyssey_web.dir\Testing\src\Scenes
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src/backends" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src"
+  OBJECT_DIR = CMakeFiles\OdysseyLib.dir
+  OBJECT_FILE_DIR = CMakeFiles\OdysseyLib.dir\Odyssey
 
 
 # =============================================================================
-# Link build statements for EXECUTABLE target Odyssey_web
+# Link build statements for STATIC_LIBRARY target OdysseyLib
 
 
 #############################################
-# Link the executable Odyssey_web.html
+# Link the static library libOdysseyLib.a
 
-build Odyssey_web.html: CXX_EXECUTABLE_LINKER__Odyssey_web_ CMakeFiles/Odyssey_web.dir/Odyssey/Audio.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/AudioSystem.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/WebAudioSystem.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/CameraComponent.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/Component.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/Controller.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/Font.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/GameObject.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/GameScene.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/GameTime.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/InputManager2.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/Odyssey.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/PerformanceTimer.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/Renderer.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/ResourceManager.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/SceneManager.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/ServiceLocator.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/StateManager.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/Texture2D.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/TransformComponent.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/Utils.cpp.o CMakeFiles/Odyssey_web.dir/Odyssey/XboxController.cpp.o CMakeFiles/Odyssey_web.dir/Testing/src/Application.cpp.o CMakeFiles/Odyssey_web.dir/Testing/src/Scenes/TestScene.cpp.o
-  LINK_FLAGS = -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -g -sNO_DISABLE_EXCEPTION_CATCHING -sALLOW_MEMORY_GROWTH --preload-file "D:/Programming/VisualStudio/Odyssey-CMake Git/Data@/" -sSDL2_IMAGE_FORMATS=['tga','png'] -fno-stack-protector
-  OBJECT_DIR = CMakeFiles\Odyssey_web.dir
+build libOdysseyLib.a: CXX_STATIC_LIBRARY_LINKER__OdysseyLib_ CMakeFiles/OdysseyLib.dir/Odyssey/Audio.cpp.o CMakeFiles/OdysseyLib.dir/Odyssey/AudioSystem.cpp.o CMakeFiles/OdysseyLib.dir/Odyssey/WebAudioSystem.cpp.o CMakeFiles/OdysseyLib.dir/Odyssey/CameraComponent.cpp.o CMakeFiles/OdysseyLib.dir/Odyssey/Component.cpp.o CMakeFiles/OdysseyLib.dir/Odyssey/Controller.cpp.o CMakeFiles/OdysseyLib.dir/Odyssey/Font.cpp.o CMakeFiles/OdysseyLib.dir/Odyssey/GameObject.cpp.o CMakeFiles/OdysseyLib.dir/Odyssey/GameScene.cpp.o CMakeFiles/OdysseyLib.dir/Odyssey/GameTime.cpp.o CMakeFiles/OdysseyLib.dir/Odyssey/InputManager2.cpp.o CMakeFiles/OdysseyLib.dir/Odyssey/Odyssey.cpp.o CMakeFiles/OdysseyLib.dir/Odyssey/PerformanceTimer.cpp.o CMakeFiles/OdysseyLib.dir/Odyssey/Renderer.cpp.o CMakeFiles/OdysseyLib.dir/Odyssey/ResourceManager.cpp.o CMakeFiles/OdysseyLib.dir/Odyssey/SceneManager.cpp.o CMakeFiles/OdysseyLib.dir/Odyssey/ServiceLocator.cpp.o CMakeFiles/OdysseyLib.dir/Odyssey/StateManager.cpp.o CMakeFiles/OdysseyLib.dir/Odyssey/Texture2D.cpp.o CMakeFiles/OdysseyLib.dir/Odyssey/TransformComponent.cpp.o CMakeFiles/OdysseyLib.dir/Odyssey/Utils.cpp.o CMakeFiles/OdysseyLib.dir/Odyssey/XboxController.cpp.o
+  OBJECT_DIR = CMakeFiles\OdysseyLib.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
-  TARGET_FILE = Odyssey_web.html
-  TARGET_PDB = Odyssey_web.html.dbg
+  TARGET_FILE = libOdysseyLib.a
+  TARGET_PDB = OdysseyLib.a.dbg
+
+# =============================================================================
+# Object build statements for EXECUTABLE target Testing
+
+
+#############################################
+# Order-only phony target for Testing
+
+build cmake_object_order_depends_target_Testing: phony || cmake_object_order_depends_target_OdysseyLib
+
+build CMakeFiles/Testing.dir/Testing/src/Application.cpp.o: CXX_COMPILER__Testing_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Testing/src/Application.cpp || cmake_object_order_depends_target_Testing
+  DEP_FILE = CMakeFiles\Testing.dir\Testing\src\Application.cpp.o.d
+  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -s -sNO_DISABLE_EXCEPTION_CATCHING -g -Wall -Wextra -Wpedantic -Werror
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src/backends" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src"
+  OBJECT_DIR = CMakeFiles\Testing.dir
+  OBJECT_FILE_DIR = CMakeFiles\Testing.dir\Testing\src
+
+build CMakeFiles/Testing.dir/Testing/src/Scenes/TestScene.cpp.o: CXX_COMPILER__Testing_unscanned_ D$:/Programming/VisualStudio/Odyssey-CMake$ Git/Testing/src/Scenes/TestScene.cpp || cmake_object_order_depends_target_Testing
+  DEP_FILE = CMakeFiles\Testing.dir\Testing\src\Scenes\TestScene.cpp.o.d
+  FLAGS = -std=gnu++20  -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -s -sNO_DISABLE_EXCEPTION_CATCHING -g -Wall -Wextra -Wpedantic -Werror
+  INCLUDES = -I"D:/Programming/VisualStudio/Odyssey-CMake Git/Odyssey" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/imgui-src/backends" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/glm-src" -I"D:/Programming/VisualStudio/Odyssey-CMake Git/build_web/_deps/sdl_audioplayer-src"
+  OBJECT_DIR = CMakeFiles\Testing.dir
+  OBJECT_FILE_DIR = CMakeFiles\Testing.dir\Testing\src\Scenes
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target Testing
+
+
+#############################################
+# Link the executable Testing.html
+
+build Testing.html: CXX_EXECUTABLE_LINKER__Testing_ CMakeFiles/Testing.dir/Testing/src/Application.cpp.o CMakeFiles/Testing.dir/Testing/src/Scenes/TestScene.cpp.o | libOdysseyLib.a || libOdysseyLib.a
+  LINK_FLAGS = -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -g -sNO_DISABLE_EXCEPTION_CATCHING -sALLOW_MEMORY_GROWTH --preload-file "D:/Programming/VisualStudio/Odyssey-CMake Git/Data@/" -sSDL2_IMAGE_FORMATS=['tga','png'] -fno-stack-protector
+  LINK_LIBRARIES = libOdysseyLib.a
+  OBJECT_DIR = CMakeFiles\Testing.dir
+  POST_BUILD = cd .
+  PRE_LINK = cd .
+  TARGET_FILE = Testing.html
+  TARGET_PDB = Testing.html.dbg
 
 
 #############################################
@@ -255,7 +280,9 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 # =============================================================================
 # Target aliases.
 
-build Odyssey_web: phony Odyssey_web.html
+build OdysseyLib: phony libOdysseyLib.a
+
+build Testing: phony Testing.html
 
 # =============================================================================
 # Folder targets.
@@ -265,7 +292,7 @@ build Odyssey_web: phony Odyssey_web.html
 #############################################
 # Folder: D:/Programming/VisualStudio/Odyssey-CMake Git/build_web
 
-build all: phony Odyssey_web.html
+build all: phony libOdysseyLib.a Testing.html
 
 # =============================================================================
 # Built-in targets

@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\CMakeFiles\1dd578c3dd7882e387de17e72b657d4d\sdl2_image-populate-mkdir.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\CMakeFiles\1dd578c3dd7882e387de17e72b657d4d\sdl2_image-populate-download.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\CMakeFiles\1dd578c3dd7882e387de17e72b657d4d\sdl2_image-populate-update.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\CMakeFiles\1dd578c3dd7882e387de17e72b657d4d\sdl2_image-populate-patch.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\CMakeFiles\1dd578c3dd7882e387de17e72b657d4d\sdl2_image-populate-configure.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\CMakeFiles\1dd578c3dd7882e387de17e72b657d4d\sdl2_image-populate-build.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\CMakeFiles\1dd578c3dd7882e387de17e72b657d4d\sdl2_image-populate-install.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\CMakeFiles\1dd578c3dd7882e387de17e72b657d4d\sdl2_image-populate-test.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\CMakeFiles\2e63f6503309a70f836dc7c3a5151b0d\sdl2_image-populate-complete.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\CMakeFiles\604e57ddac6be8ba3e962f0c1a046f27\sdl2_image-populate.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\CMakeFiles\sdl2_image-populate" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{022BDBAC-E0A1-3204-BE5A-5B5AD726AD62}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
