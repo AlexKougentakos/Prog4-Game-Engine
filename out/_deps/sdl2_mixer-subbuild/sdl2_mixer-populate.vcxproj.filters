@@ -1,44 +1,44 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_mixer-subbuild\CMakeFiles\70dcb55a18f6c694b8f4397968e805af\sdl2_mixer-populate-mkdir.rule">
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_mixer-subbuild\CMakeFiles\819da39affc544c9d37c23afaa60f341\sdl2_mixer-populate-mkdir.rule">
       <Filter>CMake Rules</Filter>
     </CustomBuild>
-    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_mixer-subbuild\CMakeFiles\70dcb55a18f6c694b8f4397968e805af\sdl2_mixer-populate-download.rule">
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_mixer-subbuild\CMakeFiles\819da39affc544c9d37c23afaa60f341\sdl2_mixer-populate-download.rule">
       <Filter>CMake Rules</Filter>
     </CustomBuild>
-    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_mixer-subbuild\CMakeFiles\70dcb55a18f6c694b8f4397968e805af\sdl2_mixer-populate-update.rule">
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_mixer-subbuild\CMakeFiles\819da39affc544c9d37c23afaa60f341\sdl2_mixer-populate-update.rule">
       <Filter>CMake Rules</Filter>
     </CustomBuild>
-    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_mixer-subbuild\CMakeFiles\70dcb55a18f6c694b8f4397968e805af\sdl2_mixer-populate-patch.rule">
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_mixer-subbuild\CMakeFiles\819da39affc544c9d37c23afaa60f341\sdl2_mixer-populate-patch.rule">
       <Filter>CMake Rules</Filter>
     </CustomBuild>
-    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_mixer-subbuild\CMakeFiles\70dcb55a18f6c694b8f4397968e805af\sdl2_mixer-populate-configure.rule">
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_mixer-subbuild\CMakeFiles\819da39affc544c9d37c23afaa60f341\sdl2_mixer-populate-configure.rule">
       <Filter>CMake Rules</Filter>
     </CustomBuild>
-    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_mixer-subbuild\CMakeFiles\70dcb55a18f6c694b8f4397968e805af\sdl2_mixer-populate-build.rule">
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_mixer-subbuild\CMakeFiles\819da39affc544c9d37c23afaa60f341\sdl2_mixer-populate-build.rule">
       <Filter>CMake Rules</Filter>
     </CustomBuild>
-    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_mixer-subbuild\CMakeFiles\70dcb55a18f6c694b8f4397968e805af\sdl2_mixer-populate-install.rule">
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_mixer-subbuild\CMakeFiles\819da39affc544c9d37c23afaa60f341\sdl2_mixer-populate-install.rule">
       <Filter>CMake Rules</Filter>
     </CustomBuild>
-    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_mixer-subbuild\CMakeFiles\70dcb55a18f6c694b8f4397968e805af\sdl2_mixer-populate-test.rule">
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_mixer-subbuild\CMakeFiles\819da39affc544c9d37c23afaa60f341\sdl2_mixer-populate-test.rule">
       <Filter>CMake Rules</Filter>
     </CustomBuild>
-    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_mixer-subbuild\CMakeFiles\4b8a4a25ce762f9704e0e3873eaf138e\sdl2_mixer-populate-complete.rule">
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_mixer-subbuild\CMakeFiles\bb5b3c8ead534fc1554f56125a28c75b\sdl2_mixer-populate-complete.rule">
       <Filter>CMake Rules</Filter>
     </CustomBuild>
-    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_mixer-subbuild\CMakeFiles\a09323b5ed4697f193523fbda803201a\sdl2_mixer-populate.rule">
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_mixer-subbuild\CMakeFiles\3034fb5624492858c6f5f872e6a2df9d\sdl2_mixer-populate.rule">
       <Filter>CMake Rules</Filter>
     </CustomBuild>
-    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_mixer-subbuild\CMakeLists.txt" />
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_mixer-subbuild\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_mixer-subbuild\CMakeFiles\sdl2_mixer-populate" />
+    <None Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_mixer-subbuild\CMakeFiles\sdl2_mixer-populate" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CMake Rules">
-      <UniqueIdentifier>{2F17D068-65C7-3262-8F4E-FF5A16300134}</UniqueIdentifier>
+      <UniqueIdentifier>{52DF451E-F1A6-3ED4-93E5-C66A8DED1A69}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -5,8 +5,8 @@ cmake_minimum_required(VERSION 3.5)
 
 # Make file names absolute:
 #
-get_filename_component(filename "D:/Programming/VisualStudio/Odyssey-CMake Git/out/downloads/SDL2_image-devel-2.8.2-VC.zip" ABSOLUTE)
-get_filename_component(directory "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_image-src" ABSOLUTE)
+get_filename_component(filename "D:/Programming/VisualStudio/Odyssey-CMake-Git/out/downloads/SDL2_image-devel-2.8.2-VC.zip" ABSOLUTE)
+get_filename_component(directory "D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_image-src" ABSOLUTE)
 
 message(STATUS "extracting...
      src='${filename}'

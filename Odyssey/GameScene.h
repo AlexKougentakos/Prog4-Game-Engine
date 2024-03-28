@@ -33,6 +33,7 @@ namespace ody
 		void RemoveChild(GameObject* pObject, bool deleteObject = false);
 
 		GameObject* CreateGameObject();
+		//todo: Template this function
 		GameObject* CreateGameObjectFromPrefab(const IPrefab& prefab);
 
 		SceneSettings& GetSceneSettings() { return m_SceneSettings; }

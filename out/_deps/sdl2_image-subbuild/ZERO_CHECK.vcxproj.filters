@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\CMakeFiles\604e57ddac6be8ba3e962f0c1a046f27\generate.stamp.rule">
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\CMakeFiles\794cda38f4c2b52d61a88806b942a3a3\generate.stamp.rule">
       <Filter>CMake Rules</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CMake Rules">
-      <UniqueIdentifier>{022BDBAC-E0A1-3204-BE5A-5B5AD726AD62}</UniqueIdentifier>
+      <UniqueIdentifier>{8C80C3F6-0259-33D2-9BB4-923F1F9F487D}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

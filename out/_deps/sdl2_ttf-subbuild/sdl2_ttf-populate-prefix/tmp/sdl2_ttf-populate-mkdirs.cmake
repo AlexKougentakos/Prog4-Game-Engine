@@ -4,19 +4,19 @@
 cmake_minimum_required(VERSION 3.5)
 
 file(MAKE_DIRECTORY
-  "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_ttf-src"
-  "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_ttf-build"
-  "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_ttf-subbuild/sdl2_ttf-populate-prefix"
-  "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_ttf-subbuild/sdl2_ttf-populate-prefix/tmp"
-  "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_ttf-subbuild/sdl2_ttf-populate-prefix/src/sdl2_ttf-populate-stamp"
-  "D:/Programming/VisualStudio/Odyssey-CMake Git/out/downloads"
-  "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_ttf-subbuild/sdl2_ttf-populate-prefix/src/sdl2_ttf-populate-stamp"
+  "D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_ttf-src"
+  "D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_ttf-build"
+  "D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_ttf-subbuild/sdl2_ttf-populate-prefix"
+  "D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_ttf-subbuild/sdl2_ttf-populate-prefix/tmp"
+  "D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_ttf-subbuild/sdl2_ttf-populate-prefix/src/sdl2_ttf-populate-stamp"
+  "D:/Programming/VisualStudio/Odyssey-CMake-Git/out/downloads"
+  "D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_ttf-subbuild/sdl2_ttf-populate-prefix/src/sdl2_ttf-populate-stamp"
 )
 
 set(configSubDirs Debug)
 foreach(subDir IN LISTS configSubDirs)
-    file(MAKE_DIRECTORY "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_ttf-subbuild/sdl2_ttf-populate-prefix/src/sdl2_ttf-populate-stamp/${subDir}")
+    file(MAKE_DIRECTORY "D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_ttf-subbuild/sdl2_ttf-populate-prefix/src/sdl2_ttf-populate-stamp/${subDir}")
 endforeach()
 if(cfgdir)
-  file(MAKE_DIRECTORY "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_ttf-subbuild/sdl2_ttf-populate-prefix/src/sdl2_ttf-populate-stamp${cfgdir}") # cfgdir has leading slash
+  file(MAKE_DIRECTORY "D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_ttf-subbuild/sdl2_ttf-populate-prefix/src/sdl2_ttf-populate-stamp${cfgdir}") # cfgdir has leading slash
 endif()

@@ -1,219 +1,219 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\Audio.cpp">
+    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\Audio.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\AudioSystem.cpp">
+    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\AudioSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\WebAudioSystem.cpp">
+    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\WebAudioSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\CameraComponent.cpp">
+    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\CameraComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\Component.cpp">
+    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\Component.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\Controller.cpp">
+    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\Controller.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\Font.cpp">
+    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\Font.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\GameObject.cpp">
+    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\GameScene.cpp">
+    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\GameScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\GameTime.cpp">
+    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\GameTime.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\InputManager2.cpp">
+    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\InputManager2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\ImGuiManager.cpp">
+    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\ImGuiManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\Odyssey.cpp">
+    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\Odyssey.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\PerformanceTimer.cpp">
+    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\PerformanceTimer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\Renderer.cpp">
+    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\ResourceManager.cpp">
+    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\ResourceManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\SceneManager.cpp">
+    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\SceneManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\ServiceLocator.cpp">
+    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\ServiceLocator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\StateManager.cpp">
+    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\StateManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\Texture2D.cpp">
+    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\Texture2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\TransformComponent.cpp">
+    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\TransformComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\Utils.cpp">
+    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\Utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\XboxController.cpp">
+    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\XboxController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\imgui-src\imgui.cpp">
+    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\imgui-src\imgui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\imgui-src\imgui_demo.cpp">
+    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\imgui-src\imgui_demo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\imgui-src\imgui_draw.cpp">
+    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\imgui-src\imgui_draw.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\imgui-src\imgui_widgets.cpp">
+    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\imgui-src\imgui_widgets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\imgui-src\imgui_tables.cpp">
+    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\imgui-src\imgui_tables.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\imgui-src\backends\imgui_impl_sdl2.cpp">
+    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\imgui-src\backends\imgui_impl_sdl2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\imgui-src\backends\imgui_impl_opengl3.cpp">
+    <ClCompile Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\imgui-src\backends\imgui_impl_opengl3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\Audio.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\Audio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\AudioSystem.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\AudioSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\WebAudioSystem.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\WebAudioSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\CameraComponent.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\CameraComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\Command.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\Command.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\Component.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\Component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\Constants.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\Constants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\Controller.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\Controller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\Font.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\Font.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\GameObject.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\GameScene.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\GameScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\GameTime.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\GameTime.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\IAudio.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\IAudio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\InputManager2.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\InputManager2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\ImGuiManager.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\ImGuiManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\IPrefab.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\IPrefab.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\Logger.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\Logger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\Observer.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\Observer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\Odyssey.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\Odyssey.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\PerformanceTimer.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\PerformanceTimer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\RenderComponent.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\RenderComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\Renderer.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\ResourceManager.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\ResourceManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\SceneManager.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\SceneManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\ServiceLocator.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\ServiceLocator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\Singleton.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\Singleton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\State.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\State.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\StateManager.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\StateManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\Structs.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\Structs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\Subject.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\Subject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\TextComponent.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\TextComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\Texture2D.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\Texture2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\TextureComponent.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\TextureComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\TransformComponent.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\TransformComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\UpdateComponent.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\UpdateComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\Utils.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake Git\Odyssey\XboxController.h">
+    <ClInclude Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\Odyssey\XboxController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\CMakeLists.txt" />
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{990BAC54-31C9-372C-8665-F535C090A331}</UniqueIdentifier>
+      <UniqueIdentifier>{D3A78F2D-CBAC-3CB1-AD6B-5273F119A6C2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{0B906A7E-973A-3467-8550-B9BDD10982DF}</UniqueIdentifier>
+      <UniqueIdentifier>{A4B3C16C-9D14-368B-9A98-5B1C55735046}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

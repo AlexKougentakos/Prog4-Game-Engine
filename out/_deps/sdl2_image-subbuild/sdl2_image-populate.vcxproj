@@ -10,7 +10,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{2F98EE2B-D824-3B0F-81D9-20093D428A7E}</ProjectGuid>
+    <ProjectGuid>{9EF2DCDA-D367-31D1-B1C9-5428EE9612C4}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
     <Platform>x64</Platform>
@@ -45,13 +45,13 @@
     </Midl>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\CMakeFiles\1dd578c3dd7882e387de17e72b657d4d\sdl2_image-populate-mkdir.rule">
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\CMakeFiles\ad4d4c1cce9dbb3e82b99f469f70c378\sdl2_image-populate-mkdir.rule">
       <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Creating directories for 'sdl2_image-populate'</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -Dcfgdir=/Debug -P "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/tmp/sdl2_image-populate-mkdirs.cmake"
+"C:\Program Files\CMake\bin\cmake.exe" -Dcfgdir=/Debug -P D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/tmp/sdl2_image-populate-mkdirs.cmake
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -E touch "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/Debug/sdl2_image-populate-mkdir"
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/Debug/sdl2_image-populate-mkdir
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -60,25 +60,25 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-mkdir</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-mkdir</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\CMakeFiles\1dd578c3dd7882e387de17e72b657d4d\sdl2_image-populate-download.rule">
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\CMakeFiles\ad4d4c1cce9dbb3e82b99f469f70c378\sdl2_image-populate-download.rule">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Performing download step (download, verify and extract) for 'sdl2_image-populate'</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-cd "D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps"
+cd D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps
 if %errorlevel% neq 0 goto :cmEnd
 D:
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -P "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/download-sdl2_image-populate.cmake"
+"C:\Program Files\CMake\bin\cmake.exe" -P D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/download-sdl2_image-populate.cmake
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -P "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/verify-sdl2_image-populate.cmake"
+"C:\Program Files\CMake\bin\cmake.exe" -P D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/verify-sdl2_image-populate.cmake
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -P "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/extract-sdl2_image-populate.cmake"
+"C:\Program Files\CMake\bin\cmake.exe" -P D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/extract-sdl2_image-populate.cmake
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -E touch "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/Debug/sdl2_image-populate-download"
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/Debug/sdl2_image-populate-download
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -86,18 +86,18 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\download-sdl2_image-populate.cmake;D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\sdl2_image-populate-urlinfo.txt;D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-mkdir;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-download</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\download-sdl2_image-populate.cmake;D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\sdl2_image-populate-urlinfo.txt;D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-mkdir;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-download</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\CMakeFiles\1dd578c3dd7882e387de17e72b657d4d\sdl2_image-populate-update.rule">
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\CMakeFiles\ad4d4c1cce9dbb3e82b99f469f70c378\sdl2_image-populate-update.rule">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No update step for 'sdl2_image-populate'</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
 "C:\Program Files\CMake\bin\cmake.exe" -E echo_append
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -E touch "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/Debug/sdl2_image-populate-update"
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/Debug/sdl2_image-populate-update
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -105,18 +105,18 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\sdl2_image-populate-update-info.txt;D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-download;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-update</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\sdl2_image-populate-update-info.txt;D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-download;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-update</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\CMakeFiles\1dd578c3dd7882e387de17e72b657d4d\sdl2_image-populate-patch.rule">
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\CMakeFiles\ad4d4c1cce9dbb3e82b99f469f70c378\sdl2_image-populate-patch.rule">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No patch step for 'sdl2_image-populate'</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
 "C:\Program Files\CMake\bin\cmake.exe" -E echo_append
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -E touch "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/Debug/sdl2_image-populate-patch"
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/Debug/sdl2_image-populate-patch
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -124,23 +124,23 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\sdl2_image-populate-patch-info.txt;D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-update;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-patch</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\sdl2_image-populate-patch-info.txt;D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-update;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-patch</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\CMakeFiles\1dd578c3dd7882e387de17e72b657d4d\sdl2_image-populate-configure.rule">
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\CMakeFiles\ad4d4c1cce9dbb3e82b99f469f70c378\sdl2_image-populate-configure.rule">
       <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No configure step for 'sdl2_image-populate'</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-cd "D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-build"
+cd D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-build
 if %errorlevel% neq 0 goto :cmEnd
 D:
 if %errorlevel% neq 0 goto :cmEnd
 "C:\Program Files\CMake\bin\cmake.exe" -E echo_append
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -E touch "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/Debug/sdl2_image-populate-configure"
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/Debug/sdl2_image-populate-configure
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -148,23 +148,23 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\tmp\sdl2_image-populate-cfgcmd.txt;D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-patch;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-configure</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\tmp\sdl2_image-populate-cfgcmd.txt;D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-patch;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-configure</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\CMakeFiles\1dd578c3dd7882e387de17e72b657d4d\sdl2_image-populate-build.rule">
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\CMakeFiles\ad4d4c1cce9dbb3e82b99f469f70c378\sdl2_image-populate-build.rule">
       <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No build step for 'sdl2_image-populate'</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-cd "D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-build"
+cd D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-build
 if %errorlevel% neq 0 goto :cmEnd
 D:
 if %errorlevel% neq 0 goto :cmEnd
 "C:\Program Files\CMake\bin\cmake.exe" -E echo_append
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -E touch "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/Debug/sdl2_image-populate-build"
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/Debug/sdl2_image-populate-build
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -172,23 +172,23 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-configure;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-build</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-configure;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-build</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\CMakeFiles\1dd578c3dd7882e387de17e72b657d4d\sdl2_image-populate-install.rule">
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\CMakeFiles\ad4d4c1cce9dbb3e82b99f469f70c378\sdl2_image-populate-install.rule">
       <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No install step for 'sdl2_image-populate'</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-cd "D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-build"
+cd D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-build
 if %errorlevel% neq 0 goto :cmEnd
 D:
 if %errorlevel% neq 0 goto :cmEnd
 "C:\Program Files\CMake\bin\cmake.exe" -E echo_append
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -E touch "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/Debug/sdl2_image-populate-install"
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/Debug/sdl2_image-populate-install
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -196,23 +196,23 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-build;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-install</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-build;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-install</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\CMakeFiles\1dd578c3dd7882e387de17e72b657d4d\sdl2_image-populate-test.rule">
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\CMakeFiles\ad4d4c1cce9dbb3e82b99f469f70c378\sdl2_image-populate-test.rule">
       <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No test step for 'sdl2_image-populate'</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-cd "D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-build"
+cd D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-build
 if %errorlevel% neq 0 goto :cmEnd
 D:
 if %errorlevel% neq 0 goto :cmEnd
 "C:\Program Files\CMake\bin\cmake.exe" -E echo_append
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -E touch "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/Debug/sdl2_image-populate-test"
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/Debug/sdl2_image-populate-test
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -220,21 +220,21 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-install;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-test</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-install;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-test</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\CMakeFiles\2e63f6503309a70f836dc7c3a5151b0d\sdl2_image-populate-complete.rule">
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\CMakeFiles\7d1a31ad27c1c72d1d669eb5f08ad5ea\sdl2_image-populate-complete.rule">
       <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Completed 'sdl2_image-populate'</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -E make_directory "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_image-subbuild/CMakeFiles/Debug"
+"C:\Program Files\CMake\bin\cmake.exe" -E make_directory D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_image-subbuild/CMakeFiles/Debug
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -E touch "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_image-subbuild/CMakeFiles/Debug/sdl2_image-populate-complete"
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_image-subbuild/CMakeFiles/Debug/sdl2_image-populate-complete
 if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -E touch "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/Debug/sdl2_image-populate-done"
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/src/sdl2_image-populate-stamp/Debug/sdl2_image-populate-done
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -242,13 +242,13 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-install;D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-mkdir;D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-download;D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-update;D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-patch;D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-configure;D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-build;D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-test;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\CMakeFiles\Debug\sdl2_image-populate-complete</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-install;D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-mkdir;D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-download;D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-update;D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-patch;D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-configure;D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-build;D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\src\sdl2_image-populate-stamp\Debug\sdl2_image-populate-test;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\CMakeFiles\Debug\sdl2_image-populate-complete</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\CMakeFiles\604e57ddac6be8ba3e962f0c1a046f27\sdl2_image-populate.rule">
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\CMakeFiles\794cda38f4c2b52d61a88806b942a3a3\sdl2_image-populate.rule">
       <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'"></Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
@@ -258,18 +258,18 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\CMakeFiles\Debug\sdl2_image-populate-complete;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\CMakeFiles\sdl2_image-populate</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\CMakeFiles\Debug\sdl2_image-populate-complete;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\CMakeFiles\sdl2_image-populate</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
       <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</VerifyInputsAndOutputsExist>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\CMakeLists.txt">
+    <CustomBuild Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\CMakeLists.txt">
       <UseUtf8Encoding>Always</UseUtf8Encoding>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_image-subbuild/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_image-subbuild/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" "-SD:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_image-subbuild" "-BD:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_image-subbuild" --check-stamp-file "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_image-subbuild/CMakeFiles/generate.stamp"
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_image-subbuild -BD:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_image-subbuild --check-stamp-file D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_image-subbuild/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -277,18 +277,18 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Program Files\CMake\share\cmake-3.29\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.29\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.29\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.29\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.29\Modules\ExternalProject.cmake;C:\Program Files\CMake\share\cmake-3.29\Modules\ExternalProject\PatchInfo.txt.in;C:\Program Files\CMake\share\cmake-3.29\Modules\ExternalProject\RepositoryInfo.txt.in;C:\Program Files\CMake\share\cmake-3.29\Modules\ExternalProject\UpdateInfo.txt.in;C:\Program Files\CMake\share\cmake-3.29\Modules\ExternalProject\cfgcmd.txt.in;C:\Program Files\CMake\share\cmake-3.29\Modules\ExternalProject\download.cmake.in;C:\Program Files\CMake\share\cmake-3.29\Modules\ExternalProject\extractfile.cmake.in;C:\Program Files\CMake\share\cmake-3.29\Modules\ExternalProject\mkdirs.cmake.in;C:\Program Files\CMake\share\cmake-3.29\Modules\ExternalProject\shared_internal_commands.cmake;C:\Program Files\CMake\share\cmake-3.29\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\CMake\share\cmake-3.29\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.29\Modules\Platform\WindowsPaths.cmake;D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\CMakeFiles\3.29.0-rc2\CMakeSystem.cmake;D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\tmp\sdl2_image-populate-mkdirs.cmake;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Program Files\CMake\share\cmake-3.29\Modules\CMakeDetermineSystem.cmake;C:\Program Files\CMake\share\cmake-3.29\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.29\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.29\Modules\CMakeSystem.cmake.in;C:\Program Files\CMake\share\cmake-3.29\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.29\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.29\Modules\ExternalProject.cmake;C:\Program Files\CMake\share\cmake-3.29\Modules\ExternalProject\PatchInfo.txt.in;C:\Program Files\CMake\share\cmake-3.29\Modules\ExternalProject\RepositoryInfo.txt.in;C:\Program Files\CMake\share\cmake-3.29\Modules\ExternalProject\UpdateInfo.txt.in;C:\Program Files\CMake\share\cmake-3.29\Modules\ExternalProject\cfgcmd.txt.in;C:\Program Files\CMake\share\cmake-3.29\Modules\ExternalProject\download.cmake.in;C:\Program Files\CMake\share\cmake-3.29\Modules\ExternalProject\extractfile.cmake.in;C:\Program Files\CMake\share\cmake-3.29\Modules\ExternalProject\mkdirs.cmake.in;C:\Program Files\CMake\share\cmake-3.29\Modules\ExternalProject\shared_internal_commands.cmake;C:\Program Files\CMake\share\cmake-3.29\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\CMake\share\cmake-3.29\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.29\Modules\Platform\WindowsPaths.cmake;D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\CMakeFiles\3.29.0-rc2\CMakeSystem.cmake;D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\sdl2_image-populate-prefix\tmp\sdl2_image-populate-mkdirs.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <None Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\CMakeFiles\sdl2_image-populate">
+    <None Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\CMakeFiles\sdl2_image-populate">
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="D:\Programming\VisualStudio\Odyssey-CMake Git\out\_deps\sdl2_image-subbuild\ZERO_CHECK.vcxproj">
-      <Project>{2EE9300A-1289-3142-A071-0636F05B377A}</Project>
+    <ProjectReference Include="D:\Programming\VisualStudio\Odyssey-CMake-Git\out\_deps\sdl2_image-subbuild\ZERO_CHECK.vcxproj">
+      <Project>{13859DA0-4E8F-3E88-862A-6C761EA83275}</Project>
       <Name>ZERO_CHECK</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>

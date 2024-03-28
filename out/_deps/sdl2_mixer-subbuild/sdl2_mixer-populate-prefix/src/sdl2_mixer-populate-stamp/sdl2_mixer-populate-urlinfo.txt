@@ -3,9 +3,9 @@
 # No other meaning or use of this file is supported.
 
 method=url
-command=C:/Program Files/CMake/bin/cmake.exe;-P;D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_mixer-subbuild/sdl2_mixer-populate-prefix/src/sdl2_mixer-populate-stamp/download-sdl2_mixer-populate.cmake;COMMAND;C:/Program Files/CMake/bin/cmake.exe;-P;D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_mixer-subbuild/sdl2_mixer-populate-prefix/src/sdl2_mixer-populate-stamp/verify-sdl2_mixer-populate.cmake;COMMAND;C:/Program Files/CMake/bin/cmake.exe;-P;D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_mixer-subbuild/sdl2_mixer-populate-prefix/src/sdl2_mixer-populate-stamp/extract-sdl2_mixer-populate.cmake
-source_dir=D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_mixer-src
-work_dir=D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps
+command=C:/Program Files/CMake/bin/cmake.exe;-P;D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_mixer-subbuild/sdl2_mixer-populate-prefix/src/sdl2_mixer-populate-stamp/download-sdl2_mixer-populate.cmake;COMMAND;C:/Program Files/CMake/bin/cmake.exe;-P;D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_mixer-subbuild/sdl2_mixer-populate-prefix/src/sdl2_mixer-populate-stamp/verify-sdl2_mixer-populate.cmake;COMMAND;C:/Program Files/CMake/bin/cmake.exe;-P;D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_mixer-subbuild/sdl2_mixer-populate-prefix/src/sdl2_mixer-populate-stamp/extract-sdl2_mixer-populate.cmake
+source_dir=D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_mixer-src
+work_dir=D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps
 url(s)=https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-devel-2.8.0-VC.zip
 hash=
 no_extract=

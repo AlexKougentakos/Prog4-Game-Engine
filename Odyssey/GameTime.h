@@ -14,8 +14,8 @@ namespace ody
 		float GetDeltaTime() const { return m_DeltaTime; };
 		float GetPhysicsTimeStep() const { return m_PhysicsTimeStep; }
 	private:
-		std::chrono::steady_clock::time_point m_PrevTime{};
-		float m_DeltaTime{};
+        std::chrono::high_resolution_clock::time_point m_PrevTime;
+        float m_DeltaTime{};
 		float m_PhysicsTimeStep{ 1 / 60.f };
 	};
 }

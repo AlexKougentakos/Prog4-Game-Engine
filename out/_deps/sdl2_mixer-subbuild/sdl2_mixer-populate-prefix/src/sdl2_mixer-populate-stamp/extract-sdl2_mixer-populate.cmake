@@ -5,8 +5,8 @@ cmake_minimum_required(VERSION 3.5)
 
 # Make file names absolute:
 #
-get_filename_component(filename "D:/Programming/VisualStudio/Odyssey-CMake Git/out/downloads/SDL2_mixer-devel-2.8.0-VC.zip" ABSOLUTE)
-get_filename_component(directory "D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_mixer-src" ABSOLUTE)
+get_filename_component(filename "D:/Programming/VisualStudio/Odyssey-CMake-Git/out/downloads/SDL2_mixer-devel-2.8.0-VC.zip" ABSOLUTE)
+get_filename_component(directory "D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_mixer-src" ABSOLUTE)
 
 message(STATUS "extracting...
      src='${filename}'

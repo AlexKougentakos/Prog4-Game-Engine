@@ -22,7 +22,7 @@ void TestScene::Initialize()
 
 	//ody::ImGuiManager::GetInstance().AddCheckBox("Show Background", test);
 
-	glm::vec2 pos = { 0, 0 };
+	//glm::vec2 pos = { 0, 0 };
 }
 
 void TestScene::Render()

@@ -106,7 +106,7 @@ ody::Odyssey::Odyssey(const std::string &dataPath,
 #ifndef __EMSCRIPTEN__
 	m_pAudioSystem = std::make_unique<ody::AudioSystem>(sfxLocationMap);
 #else
-	m_pAudioSystem = std::make_unique<ody::WebAudioSystem>(SfxLocationMap);
+	m_pAudioSystem = std::make_unique<ody::WebAudioSystem>(sfxLocationMap);
 #endif
 	ody::ServiceLocator::Provide(m_pAudioSystem.get());
 

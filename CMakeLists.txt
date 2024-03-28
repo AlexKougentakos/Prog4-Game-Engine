@@ -23,9 +23,11 @@ set(IMGUI_SOURCES
   ${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp
 )
 
+if (WIN32)
 #Ignore compiler warnings for imgui_impl_opengl3.cpp
 set_source_files_properties("${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp"
-                            PROPERTIES COMPILE_FLAGS "/wd4701")
+                           PROPERTIES COMPILE_FLAGS "/wd4701")
+endif()
 
 # Fetch GLM
 FetchContent_Declare(
@@ -292,25 +294,25 @@ set_target_properties(OdysseyLib PROPERTIES
   CXX_STANDARD_REQUIRED ON
 )
 
-# Create the Testing executable
-add_executable(Testing
+# Create the Game executable
+add_executable(Game
   Testing/src/Application.cpp
   Testing/src/Scenes/TestScene.cpp
   Testing/src/Scenes/TestScene.h
   ${IMGUI_SOURCES}
 )
 
-# Link the Testing executable with the Odyssey library, ImGui, and GLM
-target_link_libraries(Testing PRIVATE OdysseyLib ${IMGUI_LIBRARIES})
-target_include_directories(Testing PRIVATE
+# Link the Game executable with the Odyssey library, ImGui, and GLM
+target_link_libraries(Game PRIVATE OdysseyLib ${IMGUI_LIBRARIES})
+target_include_directories(Game PRIVATE
   ${CMAKE_SOURCE_DIR}/Odyssey/
   ${imgui_SOURCE_DIR}
   ${imgui_SOURCE_DIR}/backends
   ${glm_SOURCE_DIR}
 )
 
-# Set C++20 standard for the Testing executable
-set_target_properties(Testing PROPERTIES
+# Set C++20 standard for the Game executable
+set_target_properties(Game PROPERTIES
   CXX_STANDARD 20
   CXX_STANDARD_REQUIRED ON
 )
@@ -321,44 +323,45 @@ target_compile_options(OdysseyLib PRIVATE
   $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic -Werror>
 )
 
-target_compile_options(Testing PRIVATE
+target_compile_options(Game PRIVATE
   $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>
   $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic -Werror>
 )
 
 # EMSCRIPTEN-specific settings
 if(EMSCRIPTEN)
-  set(EMSCRIPTEN_COMPILE_FLAGS "${EMSCRIPTEN_LINK_FLAGS} -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -s -sNO_DISABLE_EXCEPTION_CATCHING -g")
-  set(EMSCRIPTEN_LINK_FLAGS "${EMSCRIPTEN_LINK_FLAGS} -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -g -sNO_DISABLE_EXCEPTION_CATCHING -sALLOW_MEMORY_GROWTH --preload-file "${CMAKE_SOURCE_DIR}/Data@/" -sSDL2_IMAGE_FORMATS=['tga','png']")
-#Work around https://github.com/emscripten-core/emscripten/issues/11513
-
-set(EMSCRIPTEN_LINK_FLAGS "${EMSCRIPTEN_LINK_FLAGS} -fno-stack-protector")
-#Use the Emscripten toolchain
-
-set(CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/EmscriptenToolchain.cmake)
-#Additional settings for the Odyssey library
-
-set_target_properties(OdysseyLib PROPERTIES
-COMPILE_FLAGS "${EMSCRIPTEN_COMPILE_FLAGS}"
-LINK_FLAGS "${EMSCRIPTEN_LINK_FLAGS}"
-)
-#Additional settings for the Testing executable
-
-set_target_properties(Testing PROPERTIES
-COMPILE_FLAGS "${EMSCRIPTEN_COMPILE_FLAGS}"
-LINK_FLAGS "${EMSCRIPTEN_LINK_FLAGS}"
-)
-#Have Emscripten generate an HTML page for the Testing executable
-
-set(CMAKE_EXECUTABLE_SUFFIX ".html")
-
+    set(EMSCRIPTEN_COMPILE_FLAGS "${EMSCRIPTEN_LINK_FLAGS} -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -sNO_DISABLE_EXCEPTION_CATCHING -g")
+    
+    # Note the correction in the placement of the quotation marks around the path for --preload-file
+    set(EMSCRIPTEN_LINK_FLAGS "${EMSCRIPTEN_LINK_FLAGS} -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -g -sNO_DISABLE_EXCEPTION_CATCHING -sALLOW_MEMORY_GROWTH --preload-file ${CMAKE_SOURCE_DIR}/Data@/ -sSDL2_IMAGE_FORMATS=['tga','png']")
+    
+    #Work around https://github.com/emscripten-core/emscripten/issues/11513
+    set(EMSCRIPTEN_LINK_FLAGS "${EMSCRIPTEN_LINK_FLAGS} -fno-stack-protector")
+    
+    #Use the Emscripten toolchain
+    set(CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/EmscriptenToolchain.cmake)
+    
+    #Additional settings for the Odyssey library
+    set_target_properties(OdysseyLib PROPERTIES
+        COMPILE_FLAGS "${EMSCRIPTEN_COMPILE_FLAGS}"
+        LINK_FLAGS "${EMSCRIPTEN_LINK_FLAGS}"
+    )
+    
+    #Additional settings for the Game executable
+    set_target_properties(Game PROPERTIES
+        COMPILE_FLAGS "${EMSCRIPTEN_COMPILE_FLAGS}"
+        LINK_FLAGS "${EMSCRIPTEN_LINK_FLAGS}"
+    )
+    
+    #Have Emscripten generate an HTML page for the Game executable
+    set(CMAKE_EXECUTABLE_SUFFIX ".html")
 else()
-#Set the startup project for Visual Studio
+    #Set the startup project for Visual Studio
 
-set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Testing)
-#Add post build commands for the Testing executable
+    set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Game)
+    #Add post build commands for the Game executable
 
-add_custom_command(TARGET Testing POST_BUILD
-COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/Data" "$<TARGET_FILE_DIR:Testing>/Data"
-)
+    add_custom_command(TARGET Game POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/Data" "$<TARGET_FILE_DIR:Game>/Data"
+    )
 endif()

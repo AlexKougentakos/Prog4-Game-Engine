@@ -1,6 +1,8 @@
 # CMake generation dependency list for this directory.
+C:/Program Files/CMake/share/cmake-3.29/Modules/CMakeDetermineSystem.cmake
 C:/Program Files/CMake/share/cmake-3.29/Modules/CMakeGenericSystem.cmake
 C:/Program Files/CMake/share/cmake-3.29/Modules/CMakeInitializeConfigs.cmake
+C:/Program Files/CMake/share/cmake-3.29/Modules/CMakeSystem.cmake.in
 C:/Program Files/CMake/share/cmake-3.29/Modules/CMakeSystemSpecificInformation.cmake
 C:/Program Files/CMake/share/cmake-3.29/Modules/CMakeSystemSpecificInitialize.cmake
 C:/Program Files/CMake/share/cmake-3.29/Modules/ExternalProject.cmake
@@ -15,6 +17,6 @@ C:/Program Files/CMake/share/cmake-3.29/Modules/ExternalProject/shared_internal_
 C:/Program Files/CMake/share/cmake-3.29/Modules/Platform/Windows-Initialize.cmake
 C:/Program Files/CMake/share/cmake-3.29/Modules/Platform/Windows.cmake
 C:/Program Files/CMake/share/cmake-3.29/Modules/Platform/WindowsPaths.cmake
-D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_image-subbuild/CMakeFiles/3.29.0-rc2/CMakeSystem.cmake
-D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_image-subbuild/CMakeLists.txt
-D:/Programming/VisualStudio/Odyssey-CMake Git/out/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/tmp/sdl2_image-populate-mkdirs.cmake
+D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_image-subbuild/CMakeFiles/3.29.0-rc2/CMakeSystem.cmake
+D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_image-subbuild/CMakeLists.txt
+D:/Programming/VisualStudio/Odyssey-CMake-Git/out/_deps/sdl2_image-subbuild/sdl2_image-populate-prefix/tmp/sdl2_image-populate-mkdirs.cmake
