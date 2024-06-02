@@ -1,4 +1,0 @@
-D:/Programming/VisualStudio/Odyssey-CMake-Git/cmake-build-debug/CMakeFiles/OdysseyLib.dir
-D:/Programming/VisualStudio/Odyssey-CMake-Git/cmake-build-debug/CMakeFiles/Testing.dir
-D:/Programming/VisualStudio/Odyssey-CMake-Git/cmake-build-debug/CMakeFiles/edit_cache.dir
-D:/Programming/VisualStudio/Odyssey-CMake-Git/cmake-build-debug/CMakeFiles/rebuild_cache.dir
