@@ -1,7 +1,11 @@
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#include <XInput.h>
-#pragma comment(lib, "xinput.lib")
+#ifndef __EMSCRIPTEN__
+	#define WIN32_LEAN_AND_MEAN
+	#include <windows.h>
+	#include <XInput.h>
+	#pragma comment(lib, "xinput.lib")
+
+
+
 
 #include "XboxController.h"
 
@@ -160,3 +164,4 @@ glm::vec2 XBox360Controller::GetThumbStickPos(bool leftThumb) const
 	
 	return pImpl->GetRightThumbStickPos();
 }
+#endif

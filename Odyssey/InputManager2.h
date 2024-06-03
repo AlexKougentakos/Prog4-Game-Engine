@@ -5,8 +5,11 @@
 #include <vector>
 
 #include "Singleton.h"
-#include "XboxController.h"
 #include "Command.h"
+
+#ifndef __EMSCRIPTEN__
+#include "XboxController.h"
+#endif
 
 namespace ody
 {
@@ -16,8 +19,9 @@ namespace ody
 	public:
 		bool ProcessInput();
 
+#ifndef __EMSCRIPTEN__
 		XBox360Controller* GetController(unsigned int controllerIdx);
-
+#endif
 		enum class InputType
 		{
 			OnDown,
@@ -29,8 +33,10 @@ namespace ody
 			OnThumbIdleContinuous //will execute every frame when thumbstick is idle
 		};
 
-		void AddControllerCommand(XBox360Controller::ControllerButton button, unsigned int controllerID, InputType type, std::unique_ptr<Command> pCommand);
 		void AddKeyboardCommand(unsigned int keyboardKey, InputType type, std::unique_ptr<Command> pCommand);
+
+#ifndef __EMSCRIPTEN__
+		void AddControllerCommand(XBox360Controller::ControllerButton button, unsigned int controllerID, InputType type, std::unique_ptr<Command> pCommand);
 
 		glm::vec2 GetThumbstickDirection(unsigned int controllerIdx, bool leftThumb = true) const;
 
@@ -39,8 +45,11 @@ namespace ody
 			AddControllerIfNeeded(controllerIdx);
 			return m_ControllerPtrs[controllerIdx]->GetThumbStickPositions();
 		}
+#endif
 
 	private:
+
+#ifndef __EMSCRIPTEN__
 		struct InputDataController
 		{
 			unsigned int controllerID{};
@@ -59,6 +68,7 @@ namespace ody
 				return type < other.type;
 			}
 		};
+#endif
 
 		struct InputDataKeyboard
 		{
@@ -78,13 +88,16 @@ namespace ody
 		friend class Singleton<InputManager>;
 		InputManager() = default;
 
+#ifndef __EMSCRIPTEN__
+		//Controller
 		std::map<InputDataController, std::unique_ptr<Command>> m_ControllerActionMap{};
 		std::vector<std::unique_ptr<XBox360Controller>> m_ControllerPtrs{};
-		std::map<InputDataKeyboard, std::unique_ptr<Command>> m_KeyboardActionMap{};
-
 		bool m_ExecutedIdleThumbstick{ false };
+		void AddControllerIfNeeded(unsigned int controllerID);
+
+#endif
+		std::map<InputDataKeyboard, std::unique_ptr<Command>> m_KeyboardActionMap{};
 		bool m_ExecutedOnDown{ false };
 
-		void AddControllerIfNeeded(unsigned int controllerID);
 	};
 }

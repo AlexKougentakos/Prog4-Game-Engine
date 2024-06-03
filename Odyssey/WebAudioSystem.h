@@ -1,5 +1,5 @@
 #pragma once
-#ifndef __EMSCRIPTEN__
+#ifdef __EMSCRIPTEN__
 #include <map>
 
 #include "IAudio.h"
@@ -7,11 +7,11 @@
 
 namespace ody
 {
-	class AudioSystem : public IAudio
+	class WebAudioSystem : public IAudio
 	{
 	private:
-		class AudioSystemImpl;
-		AudioSystemImpl* pImpl{};
+		class WebAudioSystemImpl;
+		WebAudioSystemImpl* pImpl{};
 
 		std::map<unsigned int, std::pair<std::string, bool>> effectLocationMap{};
 	public:
@@ -20,8 +20,9 @@ namespace ody
 		virtual void StopSound() override;
 		virtual void StopAllSounds() override;
 
-		explicit AudioSystem(const std::map<unsigned int, std::pair<std::string, bool>>& effectLocationMap);
-		virtual ~AudioSystem() override;
+		explicit WebAudioSystem(const std::map<unsigned int, std::pair<std::string, bool>>& effectLocationMap);
+		virtual ~WebAudioSystem() override;
+
 	};
 }
 #endif

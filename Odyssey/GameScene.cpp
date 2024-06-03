@@ -4,7 +4,7 @@
 
 #include "IPrefab.h"
 #include "Utils.h"
-#include <imgui.h>
+//#include <imgui.h>
 #include <iostream>
 
 #include "ImGuiManager.h"
@@ -165,9 +165,9 @@ void GameScene::RootUpdate()
 
 void GameScene::RootOnGUI()
 {
-	ImGui::Begin("Debug Window");
-	OnGUI();
-	ImGui::End();
+	//ImGui::Begin("Debug Window");
+	//OnGUI();
+	//ImGui::End();
 }
 
 }

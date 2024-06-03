@@ -2,6 +2,7 @@
 #include <memory>
 #include <vector>
 #include <string>
+#include <algorithm>
 #include "Component.h"
 #include "TransformComponent.h"
 
