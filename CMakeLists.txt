@@ -41,70 +41,121 @@ if(NOT glm_POPULATED)
   FetchContent_Populate(glm)
 endif()
 
-# Create the Odyssey static library
-add_library(OdysseyLib STATIC
+# Define Odyssey source files and assign to filters
+set(ODYSSEY_AUDIO
   Odyssey/Audio.cpp
   Odyssey/Audio.h
   Odyssey/AudioSystem.cpp
   Odyssey/AudioSystem.h
   Odyssey/WebAudioSystem.cpp
   Odyssey/WebAudioSystem.h
-  Odyssey/CameraComponent.cpp
-  Odyssey/CameraComponent.h
-  Odyssey/Command.h
-  Odyssey/Component.cpp
-  Odyssey/Component.h
-  Odyssey/Constants.h
-  Odyssey/Controller.cpp
-  Odyssey/Controller.h
-  Odyssey/Font.cpp
-  Odyssey/Font.h
-  Odyssey/GameObject.cpp
-  Odyssey/GameObject.h
-  Odyssey/GameScene.cpp
-  Odyssey/GameScene.h
-  Odyssey/GameTime.cpp
-  Odyssey/GameTime.h
   Odyssey/IAudio.h
-  Odyssey/InputManager2.cpp
-  Odyssey/InputManager2.h
-  Odyssey/ImGuiManager.cpp
-  Odyssey/ImGuiManager.h
-  Odyssey/IPrefab.h
-  Odyssey/Logger.h
-  Odyssey/Observer.h
-  Odyssey/Odyssey.cpp
-  Odyssey/Odyssey.h
-  Odyssey/PerformanceTimer.cpp
-  Odyssey/PerformanceTimer.h
-  Odyssey/RenderComponent.h
-  Odyssey/Renderer.cpp
-  Odyssey/Renderer.h
+)
+source_group("Audio" FILES ${ODYSSEY_AUDIO})
+
+source_group("ImGui Lib" FILES ${IMGUI_SOURCES})
+
+set(ODYSSEY_MANAGERS
   Odyssey/ResourceManager.cpp
   Odyssey/ResourceManager.h
   Odyssey/SceneManager.cpp
   Odyssey/SceneManager.h
+  Odyssey/StateManager.cpp
+  Odyssey/StateManager.h
+  Odyssey/ImGuiManager.cpp
+  Odyssey/ImGuiManager.h
+)
+source_group("Managers" FILES ${ODYSSEY_MANAGERS})
+
+set(ODYSSEY_ENGINECOMPONENTS
+  Odyssey/CameraComponent.cpp
+  Odyssey/CameraComponent.h
+  Odyssey/Component.cpp
+  Odyssey/Component.h
+  Odyssey/RenderComponent.h
+  Odyssey/TextComponent.h
+  Odyssey/TransformComponent.cpp
+  Odyssey/TransformComponent.h
+  Odyssey/UpdateComponent.h
+)
+source_group("Engine Components" FILES ${ODYSSEY_ENGINECOMPONENTS})
+
+set(ODYSSEY_INPUT
+  Odyssey/Controller.cpp
+  Odyssey/Controller.h
+  Odyssey/InputManager2.cpp
+  Odyssey/InputManager2.h
+  Odyssey/XboxController.cpp
+  Odyssey/XboxController.h
+)
+source_group("Input" FILES ${ODYSSEY_INPUT})
+
+set(ODYSSEY_CORE
+  Odyssey/Constants.h
+  Odyssey/GameTime.cpp
+  Odyssey/GameTime.h
+  Odyssey/Odyssey.cpp
+  Odyssey/Odyssey.h
+  Odyssey/Renderer.cpp
+  Odyssey/Renderer.h
+  Odyssey/Structs.h
+)
+source_group("Core" FILES ${ODYSSEY_CORE})
+
+set(ODYSSEY_TOOLS
+  Odyssey/Logger.h
+  Odyssey/PerformanceTimer.cpp
+  Odyssey/PerformanceTimer.h
+  Odyssey/Utils.cpp
+  Odyssey/Utils.h
+)
+source_group("Tools" FILES ${ODYSSEY_TOOLS})
+
+set(ODYSSEY_WRAPPERS
+  Odyssey/Font.cpp
+  Odyssey/Font.h
+  Odyssey/Texture2D.cpp
+  Odyssey/Texture2D.h
+)
+source_group("Wrappers" FILES ${ODYSSEY_WRAPPERS})
+
+set(ODYSSEY_PATTERNS
+  Odyssey/Command.h
+  Odyssey/IPrefab.h
+  Odyssey/Observer.h
   Odyssey/ServiceLocator.cpp
   Odyssey/ServiceLocator.h
   Odyssey/Singleton.h
   Odyssey/State.h
-  Odyssey/StateManager.cpp
-  Odyssey/StateManager.h
-  Odyssey/Structs.h
   Odyssey/Subject.h
-  Odyssey/TextComponent.h
-  Odyssey/Texture2D.cpp
-  Odyssey/Texture2D.h
-  Odyssey/TextureComponent.h
-  Odyssey/TransformComponent.cpp
-  Odyssey/TransformComponent.h
-  Odyssey/UpdateComponent.h
-  Odyssey/Utils.cpp
-  Odyssey/Utils.h
-  Odyssey/XboxController.cpp
-  Odyssey/XboxController.h
+)
+source_group("Patterns" FILES ${ODYSSEY_PATTERNS})
+
+set(ODYSSEY_SCENEGRAPH
+  Odyssey/GameObject.cpp
+  Odyssey/GameObject.h
+  Odyssey/GameScene.cpp
+  Odyssey/GameScene.h
+)
+source_group("SceneGraph" FILES ${ODYSSEY_SCENEGRAPH})
+
+# Combine all source files
+set(ODYSSEY_SOURCES
+  ${ODYSSEY_AUDIO}
+  ${ODYSSEY_IMGUILIB}
+  ${ODYSSEY_MANAGERS}
+  ${ODYSSEY_ENGINECOMPONENTS}
+  ${ODYSSEY_INPUT}
+  ${ODYSSEY_CORE}
+  ${ODYSSEY_TOOLS}
+  ${ODYSSEY_WRAPPERS}
+  ${ODYSSEY_PATTERNS}
+  ${ODYSSEY_SCENEGRAPH}
   ${IMGUI_SOURCES}
 )
+
+# Create the Odyssey static library
+add_library(OdysseyLib STATIC ${ODYSSEY_SOURCES})
 
 # Include ImGui and GLM directories for the Odyssey library
 target_include_directories(OdysseyLib PUBLIC
@@ -112,6 +163,7 @@ target_include_directories(OdysseyLib PUBLIC
   ${imgui_SOURCE_DIR}/backends
   ${glm_SOURCE_DIR}
 )
+
 
 # Add SDL2 dependencies for the Odyssey library
 if(EMSCRIPTEN)
