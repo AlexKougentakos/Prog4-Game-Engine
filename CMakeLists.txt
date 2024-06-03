@@ -413,7 +413,15 @@ else()
     set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Game)
     #Add post build commands for the Game executable
 
+    get_target_property(GAME_OUTPUT_DIR Game RUNTIME_OUTPUT_DIRECTORY)
+    if(NOT GAME_OUTPUT_DIR)
+        set(GAME_OUTPUT_DIR ${CMAKE_BINARY_DIR})
+    endif()
+
+    message(STATUS "Game target output directory: ${GAME_OUTPUT_DIR}")
+
     add_custom_command(TARGET Game POST_BUILD
-    COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/Data" "$<TARGET_FILE_DIR:Game>/Data"
+        COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/Data" "${GAME_OUTPUT_DIR}/Data"
     )
+
 endif()
