@@ -47,19 +47,19 @@ void ody::Renderer::Render() const
 
 	sceneManager.Render();
 
-//#ifdef _DEBUG
+#ifdef _DEBUG
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
 
-	//sceneManager.OnGUI();
-	//ImGuiManager::GetInstance().Render();
+	sceneManager.OnGUI();
+	ImGuiManager::GetInstance().Render();
 
 	ImGui::ShowDemoWindow();
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-//#endif
+#endif
 	
 	SDL_RenderPresent(m_renderer);
 }

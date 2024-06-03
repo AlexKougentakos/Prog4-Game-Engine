@@ -4,7 +4,7 @@
 
 #include "IPrefab.h"
 #include "Utils.h"
-//#include <imgui.h>
+#include <imgui.h>
 #include <iostream>
 
 #include "ImGuiManager.h"
@@ -108,7 +108,7 @@ void GameScene::OnRootSceneActivated()
 
 void GameScene::RootRender()
 {
-	Render(); // Your existing scene rendering code
+	Render();
 
 
 	//todo: optimize this using frustum culling
@@ -165,9 +165,9 @@ void GameScene::RootUpdate()
 
 void GameScene::RootOnGUI()
 {
-	//ImGui::Begin("Debug Window");
-	//OnGUI();
-	//ImGui::End();
+	ImGui::Begin("Debug Window");
+	OnGUI();
+	ImGui::End();
 }
 
 }

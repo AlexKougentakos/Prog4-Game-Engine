@@ -1,23 +1,11 @@
-﻿	#pragma once
+﻿#pragma once
 
-#pragma region Forward Declarations External
-//Rigidbody stuff
-
-struct b2BodyDef;
-struct b2FixtureDef;
-
-//enum b2BodyType : int;
-#pragma endregion Forward Declarations External
 
 namespace ody
 {
 
 #pragma region Forward Declarations
-//Rigidbody stuff
-struct RigidBodySettings;
-struct ColliderSettings;
 
-enum class BodyType;
 #pragma endregion Forward Declarations
 
 /**

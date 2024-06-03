@@ -1,7 +1,7 @@
 #if _DEBUG
-#if __has_include(<vld.h>)
-#include <vld.h>
-#endif
+    #if __has_include(<vld.h>)
+    #include <vld.h>
+    #endif
 #endif
 
 #include "Odyssey.h"
@@ -49,7 +49,6 @@ int main(int, char* [])
     //  {10, {"test10.wav", true}}
     //};
 
-    printf("Hello World\n");
     ody::Odyssey engine(data_location.string(), SfxLocationMap);
     engine.Run(load);
     return 0;

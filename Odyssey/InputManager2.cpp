@@ -22,9 +22,11 @@ bool InputManager::ProcessInput()
 	{
 		ImGui_ImplSDL2_ProcessEvent(&e);
 
-		if (e.type == SDL_QUIT) {
+		if (e.type == SDL_QUIT) 
+		{
 			return false;
 		}
+
 		//Keyboard OnDown and OnRelease
 		for (const auto& mapPair : m_KeyboardActionMap)
 		{

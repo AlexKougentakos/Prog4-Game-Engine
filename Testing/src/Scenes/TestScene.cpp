@@ -1,11 +1,8 @@
 #include "TestScene.h"
 #include "GameObject.h"
 #include "TextureComponent.h"
-//#include "imgui.h"
-//#include "ImGuiManager.h"
 #include "InputManager2.h"
-#include "SDL_egl.h"
-#include "imgui.h"
+#include "ImGuiManager.h"
 //#include "../Commands.h"
 
 void TestScene::Initialize()
@@ -20,7 +17,7 @@ void TestScene::Initialize()
 
 	//ody::InputManager::GetInstance().AddKeyboardCommand('w', ody::InputManager::InputType::OnDown, std::make_unique<PlaySound>());
 
-	//ody::ImGuiManager::GetInstance().AddCheckBox("Show Background", test);
+	ody::ImGuiManager::GetInstance().AddCheckBox("Show Background", test);
 
 	//glm::vec2 pos = { 0, 0 };
 }
