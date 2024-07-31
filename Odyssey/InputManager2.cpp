@@ -1,13 +1,15 @@
 #include <SDL.h>
 #include "InputManager2.h"
 
+#include <imgui_impl_sdl2.h>
+
 #include "GameScene.h"
 #include "IAudio.h"
 #include "TextureComponent.h"
 
+#include "ServiceLocator.h"
 #ifdef _DEBUG
 #include "SceneManager.h"
-#include "ServiceLocator.h"
 #endif
 
 using namespace ody;
@@ -18,13 +20,17 @@ bool InputManager::ProcessInput()
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) 
 	{
-		if (e.type == SDL_QUIT) {
+		ImGui_ImplSDL2_ProcessEvent(&e);
+
+		if (e.type == SDL_QUIT) 
+		{
 			return false;
 		}
+
 		//Keyboard OnDown and OnRelease
-		for (auto& mapPair : m_KeyboardActionMap)
+		for (const auto& mapPair : m_KeyboardActionMap)
 		{
-			if (unsigned int(e.key.keysym.sym) == mapPair.first.key)
+			if (static_cast<unsigned int>(e.key.keysym.sym) == mapPair.first.key)
 			{
 				if (mapPair.first.type == InputType::OnDown && e.type == SDL_KEYDOWN && e.key.repeat == 0)
 				{
@@ -37,8 +43,22 @@ bool InputManager::ProcessInput()
 				}
 			}
 		}
+#ifdef __EMSCRIPTEN__
+		switch (e.key.type)
+		{
+			case SDL_KEYDOWN:
+			{
+				if (e.key.keysym.scancode == SDL_SCANCODE_D)
+				{
+					printf("D is pressed\n");
+					ody::ServiceLocator::GetSoundSystem().PlaySound(1);
+				}
+			}
+		}
+#endif
 
-#ifdef _DEBUG //These are only used for debbuging
+
+#ifdef _DEBUG //These are only used for debugging
 	switch (e.key.type)
 	{
 		case SDL_KEYDOWN:
@@ -83,6 +103,7 @@ bool InputManager::ProcessInput()
 		}
 	}
 
+#ifndef __EMSCRIPTEN__
 	//Controller part
 	for (auto& controller : m_ControllerPtrs)
 	{
@@ -119,9 +140,12 @@ bool InputManager::ProcessInput()
 			}
 		}
 	}
+#endif
 
 	return true;
 }
+
+#ifndef __EMSCRIPTEN__
 
 XBox360Controller* InputManager::GetController(unsigned int controllerIdx)
 {
@@ -161,13 +185,14 @@ void InputManager::AddControllerCommand(XBox360Controller::ControllerButton butt
 	m_ControllerActionMap[inputData] = std::move(pCommand);
 }
 
+glm::vec2 InputManager::GetThumbstickDirection(unsigned int controllerIdx, bool leftThumb) const
+{
+	return m_ControllerPtrs[controllerIdx]->GetThumbStickPos(leftThumb);
+}
+#endif
+
 void InputManager::AddKeyboardCommand(unsigned int keyboardKey, InputType type, std::unique_ptr<Command> pCommand)
 {
 	const InputDataKeyboard inputData{ keyboardKey, type };
 	m_KeyboardActionMap[inputData] = std::move(pCommand);
-}
-
-glm::vec2 InputManager::GetThumbstickDirection(unsigned controllerIdx, bool leftThumb) const
-{
-	return m_ControllerPtrs[controllerIdx]->GetThumbStickPos(leftThumb);
 }

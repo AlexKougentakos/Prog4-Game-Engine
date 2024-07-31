@@ -1,5 +1,5 @@
 ﻿#pragma once
-
+#ifndef __EMSCRIPTEN__
 #include <memory>
 
 namespace ody
@@ -23,3 +23,4 @@ namespace ody
 	private:
 	};
 }
+#endif

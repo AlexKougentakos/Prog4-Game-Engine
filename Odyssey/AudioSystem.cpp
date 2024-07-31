@@ -1,3 +1,5 @@
+#ifndef __EMSCRIPTEN__
+
 #include "AudioSystem.h"
 #include <iostream>
 #include <SDL_mixer.h>
@@ -133,3 +135,4 @@ namespace ody
 		pImpl->StopAllSounds();
 	}
 }
+#endif

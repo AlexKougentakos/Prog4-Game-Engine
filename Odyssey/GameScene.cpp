@@ -108,7 +108,7 @@ void GameScene::OnRootSceneActivated()
 
 void GameScene::RootRender()
 {
-	Render(); // Your existing scene rendering code
+	Render();
 
 
 	//todo: optimize this using frustum culling

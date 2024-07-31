@@ -1,15 +1,12 @@
 #include <stdexcept>
 #include "Renderer.h"
 
+#include <backends/imgui_impl_sdl2.h>
 #include "SceneManager.h"
 #include "Texture2D.h"
 #include "imgui.h"
 #include "ImGuiManager.h"
-#include "backends/imgui_impl_sdl2.h"
-#include "../3rdParty/imgui-1.89.4/backends/imgui_impl_opengl2.h"
-#include "../ImPlot/implot.h"
-
-
+#include "backends/imgui_impl_opengl3.h"
 
 int GetOpenGLDriverIndex()
 {
@@ -37,9 +34,7 @@ void ody::Renderer::Init(SDL_Window* window)
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGui_ImplSDL2_InitForOpenGL(window, SDL_GL_GetCurrentContext());
-	ImGui_ImplOpenGL2_Init();
-
-	ImPlot::CreateContext();
+	ImGui_ImplOpenGL3_Init();
 }
 
 void ody::Renderer::Render() const
@@ -53,15 +48,17 @@ void ody::Renderer::Render() const
 	sceneManager.Render();
 
 #ifdef _DEBUG
-	ImGui_ImplOpenGL2_NewFrame();
-	ImGui_ImplSDL2_NewFrame(m_window);
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
 
 	sceneManager.OnGUI();
 	ImGuiManager::GetInstance().Render();
 
+	ImGui::ShowDemoWindow();
+
 	ImGui::Render();
-	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 #endif
 	
 	SDL_RenderPresent(m_renderer);
@@ -69,9 +66,7 @@ void ody::Renderer::Render() const
 
 void ody::Renderer::Destroy()
 {
-	ImPlot::DestroyContext();
-
-	ImGui_ImplOpenGL2_Shutdown();
+	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
 
@@ -121,6 +116,4 @@ void ody::Renderer::RenderTexture(const Texture2D& texture, float x, float y, fl
 	SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), &src, &dst, 0.0, nullptr, flip);
 }
 
-
-
-inline SDL_Renderer* ody::Renderer::GetSDLRenderer() const { return m_renderer; }
+SDL_Renderer* ody::Renderer::GetSDLRenderer() const { return m_renderer; }

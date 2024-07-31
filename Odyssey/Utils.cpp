@@ -1,5 +1,6 @@
 ﻿#include "Utils.h"
 #include "Constants.h"
+#include <stdexcept>
 
 #include <random>
 

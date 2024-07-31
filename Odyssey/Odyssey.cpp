@@ -1,7 +1,12 @@
 #include <stdexcept>
-#define WIN32_LEAN_AND_MEAN 
-#include <windows.h>
-#include <chrono>
+
+#ifndef __EMSCRIPTEN__
+	#define WIN32_LEAN_AND_MEAN 
+	#include <windows.h>
+#else
+#include "WebAudioSystem.h"
+#endif
+
 #include <iostream>
 #include <thread>
 #include <SDL.h>
@@ -58,11 +63,20 @@ void PrintSDLVersion()
 		version.major, version.minor, version.patch);
 }
 
+#ifdef __EMSCRIPTEN__
+#include "emscripten.h"
+
+void LoopCallback(void* arg)
+{
+	static_cast<ody::Odyssey*>(arg)->RunOneFrame();
+}
+#endif
+
 ody::Odyssey::Odyssey(const std::string &dataPath, 
-	std::map<unsigned int, std::pair<std::string, bool>> SfxLocationMap)
+	std::map<unsigned int, std::pair<std::string, bool>> sfxLocationMap)
 {
 
-	m_SfxLocationMap = SfxLocationMap;
+	m_SfxLocationMap = sfxLocationMap;
 	PrintSDLVersion();
 	
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) 
@@ -89,10 +103,23 @@ ody::Odyssey::Odyssey(const std::string &dataPath,
 
 	resourceManager.Init(dataPath);
 
-	m_pAudioSystem = std::make_unique<ody::AudioSystem>(SfxLocationMap);
-
+#ifndef __EMSCRIPTEN__
+	m_pAudioSystem = std::make_unique<ody::AudioSystem>(sfxLocationMap);
+#else
+	m_pAudioSystem = std::make_unique<ody::WebAudioSystem>(sfxLocationMap);
+#endif
 	ody::ServiceLocator::Provide(m_pAudioSystem.get());
 
+	// Setup for resources and initial state
+	std::vector<std::string> paths;
+	for (const auto& audioFile : m_SfxLocationMap)
+		paths.emplace_back(audioFile.second.first);
+	ResourceManager::GetInstance().PreLoad(paths);
+
+	m_pRenderer = &Renderer::GetInstance();
+	m_pSceneManager = &SceneManager::GetInstance();
+	m_pTime = &ody::Time::GetInstance();
+	m_pInputManager = &InputManager::GetInstance();
 }
 
 ody::Odyssey::~Odyssey()
@@ -107,48 +134,54 @@ void ody::Odyssey::Run(const std::function<void()>& load)
 {
 	load();
 
-	std::vector<std::string> paths{};
-
-	for (const auto& audioFile : m_SfxLocationMap)
-		paths.emplace_back(audioFile.second.first);
-
-	ResourceManager::GetInstance().PreLoad(paths);
-
-	const auto& renderer = Renderer::GetInstance();
-	auto& sceneManager = SceneManager::GetInstance();
-	auto& input = ody::InputManager::GetInstance();
-	auto& time = ody::Time::GetInstance();
-
-	bool doContinue = true;
-	std::chrono::steady_clock::time_point lastTime{ std::chrono::high_resolution_clock::now() };
-	constexpr int FPSLimit{ 60 };
-	constexpr int maxWaitingTimeMs{ static_cast<int>(1000 / FPSLimit) };
-	float lag{ 0.0f };
-	float physicsTimeStep{ 1.0f / 60.0f };
-	while (doContinue)
+	printf("Starting game loop edited string\n");
+#ifdef __EMSCRIPTEN__
+	// Use Emscripten's main loop mechanism
+	emscripten_set_main_loop_arg(&LoopCallback, this, 0, true);
+	printf("Emscripten main loop set\n");
+#else
+	// Traditional loop for non-Emscripten (desktop) builds
+	m_LastTime = std::chrono::high_resolution_clock::now();
+	constexpr int FPSLimit = 60;
+	m_MaxWaitingTimeMs = 1000 / FPSLimit;
+	while (m_DoContinue)
 	{
+		RunOneFrame();
+
 		auto currentTime = std::chrono::high_resolution_clock::now();
-		const float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
-
-		time.SetDeltaTime(deltaTime);
-		doContinue = input.ProcessInput();
-		time.SetDeltaTime(deltaTime);
-
-		lag += deltaTime;
-		while (lag >= physicsTimeStep)
+		auto frameEndTime = m_LastTime + std::chrono::milliseconds(m_MaxWaitingTimeMs);
+		if (currentTime < frameEndTime)
 		{
-			// First time, lastTime is 0, which means deltaTime is very high, which messes this loop up
-			if (deltaTime >= 1000.0f) lag = physicsTimeStep;
-			sceneManager.FixedUpdate();
-			lag -= physicsTimeStep;
+			std::this_thread::sleep_until(frameEndTime);
 		}
-
-		sceneManager.Update();
-		renderer.Render();
-
-		lastTime = currentTime;
-
-		const auto sleepTime{ currentTime + std::chrono::milliseconds(maxWaitingTimeMs) - std::chrono::high_resolution_clock::now() };
-		std::this_thread::sleep_for(sleepTime);
+		m_LastTime = frameEndTime;
 	}
+#endif
+}
+
+void ody::Odyssey::RunOneFrame()
+{
+	const auto currentTime = std::chrono::high_resolution_clock::now();
+	const float deltaTime = std::chrono::duration<float>(currentTime - m_LastTime).count();
+
+	m_pTime->SetDeltaTime(deltaTime);
+	m_DoContinue = m_pInputManager->ProcessInput();
+	//m_pTime->SetDeltaTime(deltaTime);
+
+	lag += deltaTime;
+	while (lag >= m_PhysicsTimeStep)
+	{
+		// First time, lastTime is 0, which means deltaTime is very high, which messes this loop up
+		if (deltaTime >= 1000.0f) lag = m_PhysicsTimeStep;
+		m_pSceneManager->FixedUpdate();
+		lag -= m_PhysicsTimeStep;
+	}
+
+	m_pSceneManager->Update();
+	m_pRenderer->Render();
+
+	m_LastTime = currentTime;
+
+	const auto sleepTime{ currentTime + std::chrono::milliseconds(m_MaxWaitingTimeMs) - std::chrono::high_resolution_clock::now() };
+	std::this_thread::sleep_for(sleepTime);
 }

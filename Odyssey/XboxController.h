@@ -1,4 +1,5 @@
 #pragma once
+#ifndef __ENSCRIPTEN__
 #include <utility>
 #include <glm/vec2.hpp>
 
@@ -52,3 +53,4 @@ namespace ody
 		~XBox360Controller();
 	};
 }
+#endif
