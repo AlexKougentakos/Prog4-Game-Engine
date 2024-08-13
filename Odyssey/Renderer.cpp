@@ -55,8 +55,6 @@ void ody::Renderer::Render() const
 	sceneManager.OnGUI();
 	ImGuiManager::GetInstance().Render();
 
-	ImGui::ShowDemoWindow();
-
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 #endif

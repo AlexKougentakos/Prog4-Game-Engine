@@ -12,7 +12,7 @@
 #include "TextComponent.h"
 #include "Command.h"
 
-#include "Scenes/TestScene.h"
+#include "Scenes/TichuScene.h"
 
 #include <filesystem>
 namespace fs = std::filesystem;
@@ -22,9 +22,9 @@ void load()
 {
 	auto& sceneManager = ody::SceneManager::GetInstance();
 
-	const auto scene3 = new TestScene();
+	const auto pTichuScene = new TichuScene();
 
-	sceneManager.AddScene(scene3);
+	sceneManager.AddScene(pTichuScene);
 }
 
 int main(int, char* [])

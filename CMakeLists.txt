@@ -76,7 +76,10 @@ set(ODYSSEY_ENGINECOMPONENTS
   Odyssey/TextComponent.h
   Odyssey/TransformComponent.cpp
   Odyssey/TransformComponent.h
+  Odyssey/TextureComponent.h
   Odyssey/UpdateComponent.h
+  Odyssey/AnimatedTextureComponent.h
+  Odyssey/AnimatedTextureComponent.cpp
 )
 source_group("Engine Components" FILES ${ODYSSEY_ENGINECOMPONENTS})
 
@@ -349,8 +352,10 @@ set_target_properties(OdysseyLib PROPERTIES
 # Create the Game executable
 add_executable(Game
   Testing/src/Application.cpp
-  Testing/src/Scenes/TestScene.cpp
-  Testing/src/Scenes/TestScene.h
+  Testing/src/Scenes/TichuScene.cpp
+  Testing/src/Scenes/TichuScene.h
+  Testing/src/Components/CardComponent.cpp
+  Testing/src/Components/CardComponent.h
   ${IMGUI_SOURCES}
 )
 
@@ -358,6 +363,7 @@ add_executable(Game
 target_link_libraries(Game PRIVATE OdysseyLib ${IMGUI_LIBRARIES})
 target_include_directories(Game PRIVATE
   ${CMAKE_SOURCE_DIR}/Odyssey/
+  ${CMAKE_SOURCE_DIR}/Testing/src
   ${imgui_SOURCE_DIR}
   ${imgui_SOURCE_DIR}/backends
   ${glm_SOURCE_DIR}

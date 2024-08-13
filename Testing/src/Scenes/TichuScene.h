@@ -3,15 +3,15 @@
 
 #include <iostream>
 
-class TestScene : public ody::GameScene
+class TichuScene : public ody::GameScene
 {
 public:
-	TestScene() : ody::GameScene(L"Test Scene") { Initialize(); }
+	TichuScene() : ody::GameScene(L"Tichu Scene") { Initialize(); }
 
-	TestScene(const TestScene& other) = delete;
-	TestScene(TestScene&& other) noexcept = delete;
-	TestScene& operator=(const TestScene& other) = delete;
-	TestScene& operator=(TestScene&& other) noexcept = delete;
+	TichuScene(const TichuScene& other) = delete;
+	TichuScene(TichuScene&& other) noexcept = delete;
+	TichuScene& operator=(const TichuScene& other) = delete;
+	TichuScene& operator=(TichuScene&& other) noexcept = delete;
 
 protected:
 	void Initialize() override;
@@ -27,6 +27,6 @@ protected:
 	{
 		std::cout << "Scene Deactivated" << std::endl;
 	}
-
-	bool test = true;
+private:
+	std::vector<ody::GameObject*> m_pCards{};
 };
