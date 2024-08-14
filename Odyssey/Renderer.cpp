@@ -4,6 +4,7 @@
 #include <backends/imgui_impl_sdl2.h>
 
 #include "Constants.h"
+#include "DebugDrawer.h"
 #include "SceneManager.h"
 #include "Texture2D.h"
 #include "imgui.h"
@@ -60,6 +61,10 @@ void ody::Renderer::Render() const
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+	DebugDrawer::GetInstance().Render(m_renderer);
+	DebugDrawer::GetInstance().Clear(); // Clear after rendering if you don't want shapes to persist
+
 #endif
 	
 	SDL_RenderPresent(m_renderer);

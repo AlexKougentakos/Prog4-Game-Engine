@@ -27,6 +27,8 @@ bool InputManager::ProcessInput()
 			return false;
 		}
 
+		ProcessMouseEvents(e);
+
 		//Keyboard OnDown and OnRelease
 		for (const auto& mapPair : m_KeyboardActionMap)
 		{
@@ -183,6 +185,57 @@ glm::vec2 InputManager::GetThumbstickDirection(unsigned int controllerIdx, bool 
 	return m_ControllerPtrs[controllerIdx]->GetThumbStickPos(leftThumb);
 }
 #endif
+
+void InputManager::ProcessMouseEvents(const SDL_Event& e)
+{
+	switch (e.type)
+	{
+	case SDL_MOUSEMOTION:
+		m_MousePosition = glm::ivec2(e.motion.x, e.motion.y);
+		m_MouseMotion += glm::ivec2(e.motion.xrel, e.motion.yrel);
+		for (const auto& mapPair : m_MouseActionMap)
+		{
+			if (mapPair.first.type == InputType::OnMouseMove)
+			{
+				mapPair.second->Execute();
+			}
+		}
+		break;
+
+	case SDL_MOUSEBUTTONDOWN:
+	case SDL_MOUSEBUTTONUP:
+		m_MousePosition = glm::ivec2(e.button.x, e.button.y);
+		for (const auto& mapPair : m_MouseActionMap)
+		{
+			if (mapPair.first.button == e.button.button)
+			{
+				if ((mapPair.first.type == InputType::OnMouseButtonDown && e.type == SDL_MOUSEBUTTONDOWN) ||
+					(mapPair.first.type == InputType::OnMouseButtonUp && e.type == SDL_MOUSEBUTTONUP))
+				{
+					mapPair.second->Execute();
+				}
+			}
+		}
+		break;
+
+	case SDL_MOUSEWHEEL:
+		m_MouseWheelDelta = e.wheel.y;
+		for (const auto& mapPair : m_MouseActionMap)
+		{
+			if (mapPair.first.type == InputType::OnMouseWheel)
+			{
+				mapPair.second->Execute();
+			}
+		}
+		break;
+	}
+}
+
+void InputManager::AddMouseCommand(int mouseButton, InputType type, std::unique_ptr<Command> pCommand)
+{
+	const InputDataMouse inputData{ mouseButton, type };
+	m_MouseActionMap[inputData] = std::move(pCommand);
+}
 
 void InputManager::AddKeyboardCommand(unsigned int keyboardKey, InputType type, std::unique_ptr<Command> pCommand)
 {

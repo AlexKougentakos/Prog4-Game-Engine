@@ -358,6 +358,8 @@ add_executable(Game
   Testing/src/Components/CardComponent.h
   Testing/src/Components/PlayerComponent.cpp
     Testing/src/Components/PlayerComponent.h
+    Testing/src/Commands/CardSelectCommand.cpp
+    Testing/src/Commands/CardSelectCommand.h
   ${IMGUI_SOURCES}
 )
 

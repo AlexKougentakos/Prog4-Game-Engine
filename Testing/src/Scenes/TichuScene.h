@@ -33,6 +33,9 @@ protected:
 		std::cout << "Scene Deactivated" << std::endl;
 	}
 private:
+	void CreateDeck();
+	void CreatePlayersWithCards();
+
 	std::vector<PlayerComponent*> m_pPlayers{};
 	std::vector<Card> m_Cards;
 };
