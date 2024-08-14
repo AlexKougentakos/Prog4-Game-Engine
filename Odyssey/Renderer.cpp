@@ -114,4 +114,18 @@ void ody::Renderer::RenderTexture(const Texture2D& texture, float x, float y, fl
 	SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), &src, &dst, 0.0, nullptr, flip);
 }
 
+// New method with rotation support
+void ody::Renderer::RenderTexture(const Texture2D& texture, float x, float y, float width, float height, float rotation, float scale, SDL_RendererFlip flip) const
+{
+	SDL_Rect dst{};
+	dst.x = static_cast<int>(x);
+	dst.y = static_cast<int>(y);
+	dst.w = static_cast<int>(width * scale);
+	dst.h = static_cast<int>(height * scale);
+
+	SDL_Point center{dst.w / 2, dst.h / 2};  // Rotate around the center of the texture
+
+	SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst, rotation, &center, flip);
+}
+
 SDL_Renderer* ody::Renderer::GetSDLRenderer() const { return m_renderer; }

@@ -4,7 +4,6 @@
 
 
 CardComponent::CardComponent(CardColour colour, uint8_t power) :
-	   Component(),
 	   m_Colour(colour),
 	   m_Power(power)
 {

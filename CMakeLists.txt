@@ -356,6 +356,8 @@ add_executable(Game
   Testing/src/Scenes/TichuScene.h
   Testing/src/Components/CardComponent.cpp
   Testing/src/Components/CardComponent.h
+  Testing/src/Components/PlayerComponent.cpp
+    Testing/src/Components/PlayerComponent.h
   ${IMGUI_SOURCES}
 )
 

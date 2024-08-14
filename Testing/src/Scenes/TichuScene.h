@@ -3,6 +3,11 @@
 
 #include <iostream>
 
+//We have to include it since we can't forward declare the Card Struct
+#include "Components/PlayerComponent.h"
+
+class CardComponent;
+
 class TichuScene : public ody::GameScene
 {
 public:
@@ -28,5 +33,6 @@ protected:
 		std::cout << "Scene Deactivated" << std::endl;
 	}
 private:
-	std::vector<ody::GameObject*> m_pCards{};
+	std::vector<PlayerComponent*> m_pPlayers{};
+	std::vector<Card> m_Cards;
 };
