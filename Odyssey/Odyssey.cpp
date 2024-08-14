@@ -92,11 +92,10 @@ ody::Odyssey::Odyssey(const std::string &dataPath,
 		constants::g_ScreenHeight,
 		SDL_WINDOW_OPENGL
 	);
-	if (g_window == nullptr) 
+	if (g_window == nullptr)
 	{
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 	}
-
 	Renderer::GetInstance().Init(g_window);
 
 	auto& resourceManager = ResourceManager::GetInstance();

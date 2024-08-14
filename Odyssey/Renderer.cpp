@@ -2,6 +2,8 @@
 #include "Renderer.h"
 
 #include <backends/imgui_impl_sdl2.h>
+
+#include "Constants.h"
 #include "SceneManager.h"
 #include "Texture2D.h"
 #include "imgui.h"
@@ -25,6 +27,7 @@ int GetOpenGLDriverIndex()
 void ody::Renderer::Init(SDL_Window* window)
 {
 	m_window = window;
+	SDL_SetWindowSize(m_window, constants::g_ScreenWidth, constants::g_ScreenHeight);
 	m_renderer = SDL_CreateRenderer(window, GetOpenGLDriverIndex(), SDL_RENDERER_ACCELERATED);
 	if (m_renderer == nullptr) 
 	{

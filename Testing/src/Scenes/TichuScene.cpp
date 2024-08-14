@@ -10,7 +10,7 @@
 void TichuScene::Initialize()
 {
 	const auto gameObject = CreateGameObject();
-	gameObject->AddComponent<ody::TextureComponent>("background.tga");
+	gameObject->AddComponent<ody::TextureComponent>("cloth.jpg");
 	
 	for (int i = 0; i < 52; i++)
 	{

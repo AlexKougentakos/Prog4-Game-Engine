@@ -75,13 +75,6 @@ bool InputManager::ProcessInput()
 				SceneManager::GetInstance().GetActiveScene()->GetCamera()->SetZoom(0.5f);
 			}
 
-			if (e.key.keysym.scancode == SDL_SCANCODE_SPACE)
-			{
-				auto go = SceneManager::GetInstance().GetActiveScene()->CreateGameObject();
-				go->GetTransform()->SetPosition({ 0,0,0 });
-				go->AddComponent<ody::TextureComponent>("ghost.tga");
-			}
-
 			break;
 		}
 		case SDL_KEYUP:
