@@ -18,11 +18,22 @@ PlayerComponent::PlayerComponent(const int playerID, const std::vector<Card>& ca
 	m_Cards = cards;
 }
 
-void PlayerComponent::SelectCardAtMousePosition(const glm::vec2&)
+void PlayerComponent::SelectCardAtMousePosition(const glm::vec2& mousePosition)
 {
+    for (const auto& [card, hitbox] : m_CardHitBoxMap)
+    {
+        if (mousePosition.x >= hitbox.x && mousePosition.x <= hitbox.x + hitbox.width &&
+            mousePosition.y >= hitbox.y && mousePosition.y <= hitbox.y + hitbox.height)
+        {
+            // Mouse is within the hitbox of this card
+            //SelectCard(card);
+            __debugbreak();
+            return;
+        }
+    }
 
+    // If we reach here, no card was selected
 }
-
 void PlayerComponent::Initialize()
 {
     LoadCardTextures();
