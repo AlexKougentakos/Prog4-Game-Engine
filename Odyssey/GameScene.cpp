@@ -167,6 +167,12 @@ void GameScene::RootOnGUI()
 {
 	ImGui::Begin("Debug Window");
 	OnGUI();
+
+	for (const auto& object : m_pChildren)
+	{
+		object->OnGui();
+	}
+
 	ImGui::End();
 }
 

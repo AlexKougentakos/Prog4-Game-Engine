@@ -38,4 +38,7 @@ private:
 
 	std::vector<PlayerComponent*> m_pPlayers{};
 	std::vector<Card> m_Cards;
+
+	//ImGui
+	bool m_ShowCardHitboxes{true};
 };

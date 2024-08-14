@@ -1,5 +1,6 @@
 ﻿#include "PlayerComponent.h"
 
+#include <imgui.h>
 #include <iostream>
 #include <string>
 #include <ranges>
@@ -80,6 +81,8 @@ void PlayerComponent::Render() const
         );
     }
 
+    if (!m_ShowCardHitboxes) return;
+
     //Debug draw the hitboxes
     for (const auto& value : m_CardHitBoxMap | std::views::values) 
     {
@@ -91,6 +94,7 @@ void PlayerComponent::Update()
 {
     CalculateHitBoxes(); //This has a dirty check so it's not expensive
 }
+
 
 void PlayerComponent::CalculateHitBoxes()
 {
@@ -250,4 +254,9 @@ void PlayerComponent::CalculateRenderingParameters()
         break;
     default: ;  
     }
+}
+
+void PlayerComponent::OnGui()
+{
+    
 }

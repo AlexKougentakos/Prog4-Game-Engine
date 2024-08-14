@@ -38,6 +38,14 @@ void ody::GameObject::Render() const
 	}
 }
 
+void ody::GameObject::OnGui()
+{
+	for (const auto& component : m_Components)
+	{
+		component->OnGui();
+	}
+}
+
 size_t ody::GameObject::GetChildCount() const 
 {
 	return m_pChildren.size(); 

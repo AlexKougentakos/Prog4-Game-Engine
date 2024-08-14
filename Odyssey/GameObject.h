@@ -29,6 +29,7 @@ namespace ody
 
 		void Update();
 		void Render() const;
+		void OnGui();
 
 		size_t GetChildCount() const;
 		GameObject* GetChildAt(unsigned int index);

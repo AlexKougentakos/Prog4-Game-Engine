@@ -70,6 +70,10 @@ public:
 	void Initialize() override;
 	void Render() const override;
 	void Update() override;
+	void OnGui() override;
+
+	//ImGui Relative Items
+	void ShowCardHitBoxes(const bool show) { m_ShowCardHitboxes = show; }
 
 private:
 	int m_PlayerID{};
@@ -91,6 +95,8 @@ private:
 	std::map<Card, CardHitbox> m_CardHitBoxMap{};
 	bool m_HitBoxesDirty{ true };
 
+	//On Gui Bindings
+	bool m_ShowCardHitboxes{ true };
 
 	void LoadCardTextures();
 	void CalculateRenderingParameters();

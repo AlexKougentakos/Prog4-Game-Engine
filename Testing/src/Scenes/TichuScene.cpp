@@ -1,5 +1,6 @@
 #include "TichuScene.h"
 
+#include <imgui.h>
 #include <random>
 
 #include "GameObject.h"
@@ -66,5 +67,12 @@ void TichuScene::CreatePlayersWithCards()
 
 void TichuScene::OnGUI()
 {
+	
+	ImGui::Checkbox("Show card colliders", &m_ShowCardHitboxes);
+
+	for (const auto& player : m_pPlayers)
+	{
+		player->ShowCardHitBoxes(m_ShowCardHitboxes);
+	}
 
 }
