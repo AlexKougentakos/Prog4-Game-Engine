@@ -42,6 +42,11 @@ struct Card
 		// If colours are the same, compare by power
 		return power < other.power;
 	}
+
+	bool operator==(const Card& other) const
+	{
+		return colour == other.colour && power == other.power;
+	}
 };
 
 class PlayerComponent final : public ody::Component
@@ -61,12 +66,15 @@ public:
 
 	void SelectCardAtMousePosition(const glm::vec2& mousePos);
 
+
 	void Initialize() override;
 	void Render() const override;
+	void Update() override;
 
 private:
 	int m_PlayerID{};
 	std::vector<Card> m_Cards{};
+	std::vector<Card> m_SelectedCards{};
 	std::vector<std::shared_ptr<ody::Texture2D>> m_CardTextures{};
 
 	// Cache these values
@@ -77,11 +85,15 @@ private:
 	float m_Rotation{};
 	const float m_CardScale{ 1.5f };
 	const float m_CardSpacing{ 25.f };
+	glm::vec2 m_CardPickupDirection{ 0,0 };
+	const float m_CardPickupAmount{ 20.f };
 
 	std::map<Card, CardHitbox> m_CardHitBoxMap{};
+	bool m_HitBoxesDirty{ true };
 
 
 	void LoadCardTextures();
 	void CalculateRenderingParameters();
 	CardHitbox CalculateRotatedHitbox(float centerX, float centerY, float width, float height, float rotation, bool manualCorrection);
+	void CalculateHitBoxes();
 };
