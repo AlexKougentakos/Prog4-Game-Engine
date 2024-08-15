@@ -119,6 +119,8 @@ set(ODYSSEY_WRAPPERS
   Odyssey/Font.h
   Odyssey/Texture2D.cpp
   Odyssey/Texture2D.h
+  Odyssey/DebugDrawer.cpp
+  Odyssey/DebugDrawer.h
 )
 source_group("Wrappers" FILES ${ODYSSEY_WRAPPERS})
 
@@ -360,6 +362,8 @@ add_executable(Game
     Testing/src/Components/PlayerComponent.h
     Testing/src/Commands/CardSelectCommand.cpp
     Testing/src/Commands/CardSelectCommand.h
+    Testing/src/Tichu.h
+    Testing/src/Tichu.cpp
   ${IMGUI_SOURCES}
 )
 

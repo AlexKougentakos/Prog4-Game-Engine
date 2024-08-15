@@ -95,7 +95,6 @@ void PlayerComponent::Update()
     CalculateHitBoxes(); //This has a dirty check so it's not expensive
 }
 
-
 void PlayerComponent::CalculateHitBoxes()
 {
     if (!m_HitBoxesDirty) return;
@@ -210,7 +209,7 @@ void PlayerComponent::LoadCardTextures()
         std::string cardName = std::to_string(i);
         std::string paddedCardName = std::string(3 - cardName.length(), '0') + cardName;
         std::string completePath = "Cards/tile" + paddedCardName + ".png";
-        m_CardTextures.push_back(ody::ResourceManager::GetInstance().LoadTexture(completePath));
+        m_CardTextures.emplace_back(ody::ResourceManager::GetInstance().LoadTexture(completePath));
     }
 }
 

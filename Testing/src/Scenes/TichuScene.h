@@ -36,9 +36,13 @@ private:
 	void CreateDeck();
 	void CreatePlayersWithCards();
 
+	void CheckSubmittedHand();
+
 	std::vector<PlayerComponent*> m_pPlayers{};
 	std::vector<Card> m_Cards;
 
+	int m_CurrentPlayerIndex{ 1 };
+
 	//ImGui
-	bool m_ShowCardHitboxes{true};
+	bool m_ShowCardHitboxes{false};
 };

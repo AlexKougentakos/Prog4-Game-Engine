@@ -8,6 +8,7 @@
 #include "InputManager2.h"
 #include "ImGuiManager.h"
 #include "Commands/CardSelectCommand.h"
+#include "Tichu.h"
 
 void TichuScene::Initialize()
 {
@@ -17,7 +18,7 @@ void TichuScene::Initialize()
 	CreateDeck();
 	CreatePlayersWithCards();
 
-	ody::InputManager::GetInstance().AddMouseCommand(SDL_BUTTON_LEFT, ody::InputManager::InputType::OnMouseButtonDown, std::make_unique<CardSelectCommand>(m_pPlayers[0]));
+	ody::InputManager::GetInstance().AddMouseCommand(SDL_BUTTON_LEFT, ody::InputManager::InputType::OnMouseButtonDown, std::make_unique<CardSelectCommand>(m_pPlayers[1]));
 }
 
 void TichuScene::Render()
@@ -65,6 +66,16 @@ void TichuScene::CreatePlayersWithCards()
 	}
 }
 
+void TichuScene::CheckSubmittedHand()
+{
+	std::vector<Card> submittedHand = m_pPlayers[m_CurrentPlayerIndex]->GetHand();
+	std::sort(submittedHand.begin(), submittedHand.end());
+
+	const Combination combination = Tichu::CreateCombination(submittedHand);
+
+
+}
+
 void TichuScene::OnGUI()
 {
 	
@@ -75,4 +86,8 @@ void TichuScene::OnGUI()
 		player->ShowCardHitBoxes(m_ShowCardHitboxes);
 	}
 
+	if (ImGui::Button("Play Cards", { 100, 50 }))
+	{
+		CheckSubmittedHand();
+	}
 }

@@ -33,6 +33,8 @@ namespace ody
 		std::shared_ptr<Music> LoadMusic(const std::string& file) const;
 		std::shared_ptr<Sound> LoadSoundEffect(const std::string& file);
 
+		std::string GetDatPath() const { return m_DataPath; }
+
 		//Should only be called once, in the run function of the engine
 		void PreLoad(const std::vector<std::string>& paths);
 

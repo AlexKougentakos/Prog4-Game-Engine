@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <map>
+#include <string>
 #include <vector>
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
@@ -32,20 +33,32 @@ struct Card
 	CardColour colour;
 	uint8_t power;
 
-	// Define the less-than operator in order to use a map for the hitboxes
+
 	bool operator<(const Card& other) const
 	{
-		// First compare by colour
-		if (colour != other.colour)
-			return colour < other.colour;
-
-		// If colours are the same, compare by power
 		return power < other.power;
 	}
-
+	bool operator>(const Card& other) const
+	{
+		return power > other.power;
+	}
 	bool operator==(const Card& other) const
 	{
 		return colour == other.colour && power == other.power;
+	}
+};
+
+// Custom comparator for std::map
+struct CardMapComparator
+{
+	bool operator()(const Card& lhs, const Card& rhs) const
+	{
+		// First compare by colour
+		if (lhs.colour != rhs.colour)
+			return lhs.colour < rhs.colour;
+
+		// If colours are the same, compare by power
+		return lhs.power < rhs.power;
 	}
 };
 
@@ -72,6 +85,8 @@ public:
 	void Update() override;
 	void OnGui() override;
 
+	const std::vector<Card>& GetHand() { return m_SelectedCards; }
+
 	//ImGui Relative Items
 	void ShowCardHitBoxes(const bool show) { m_ShowCardHitboxes = show; }
 
@@ -92,7 +107,7 @@ private:
 	glm::vec2 m_CardPickupDirection{ 0,0 };
 	const float m_CardPickupAmount{ 20.f };
 
-	std::map<Card, CardHitbox> m_CardHitBoxMap{};
+	std::map<Card, CardHitbox, CardMapComparator> m_CardHitBoxMap{};
 	bool m_HitBoxesDirty{ true };
 
 	//On Gui Bindings
