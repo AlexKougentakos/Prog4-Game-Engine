@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <ranges>
+#include <SDL_image.h>
 
 #include "Constants.h"
 #include "DebugDrawer.h"
@@ -38,7 +39,8 @@ void PlayerComponent::Render() const
 
     for (size_t i = 0; i < m_Cards.size(); ++i)
     {
-        const bool isSelected = std::ranges::find(m_SelectedCards, m_Cards[i]) != m_SelectedCards.end();
+        const bool isSelected = std::find(m_SelectedCards.begin(), m_SelectedCards.end(), m_Cards[i]) != m_SelectedCards.end();
+
         //Move them to the side slightly, so you can see all the cards
         const glm::vec3 cardPosition = m_StartPosition + m_Offset * static_cast<float>(i) + glm::vec3{ m_CardPickupDirection, 0.f } * m_CardPickupAmount * static_cast<float>(isSelected);
         
@@ -60,11 +62,14 @@ void PlayerComponent::Render() const
 
     if (!m_ShowCardHitboxes) return;
 
+
+#ifndef __EMSCRIPTEN__
     //Debug draw the hitboxes
-    for (const auto& value : m_CardHitBoxMap | std::views::values) 
+    for (const auto& value : m_CardHitBoxMap | std::views::values)
     {
         ody::DebugDrawer::GetInstance().DrawSquare(value.x, value.y, value.width, value.height);
     }
+#endif
 }
 
 void PlayerComponent::Update() 
@@ -84,7 +89,7 @@ void PlayerComponent::CalculateHitBoxes()
     // Add hitboxes for partially visible cards
     for (size_t i = 0; i < m_Cards.size() - 1; ++i)
     {
-        const bool isSelected = std::ranges::find(m_SelectedCards, m_Cards[i]) != m_SelectedCards.end();
+        const bool isSelected = std::find(m_SelectedCards.begin(), m_SelectedCards.end(), m_Cards[i]) != m_SelectedCards.end();
         //Move them to the side slightly, so you can see all the cards
         const glm::vec3 cardPosition = m_StartPosition + m_Offset * static_cast<float>(i) + glm::vec3{ m_CardPickupDirection, 0.f } * m_CardPickupAmount * static_cast<float>(isSelected);
 
@@ -109,7 +114,7 @@ void PlayerComponent::CalculateHitBoxes()
     if (!m_Cards.empty())
     {
         const size_t lastIndex = m_Cards.size() - 1;
-        const bool isSelected = std::ranges::find(m_SelectedCards, m_Cards[lastIndex]) != m_SelectedCards.end();
+        const bool isSelected = std::find(m_SelectedCards.begin(), m_SelectedCards.end(), m_Cards[lastIndex]) != m_SelectedCards.end();
         const glm::vec3 lastCardPosition = m_StartPosition + m_Offset * static_cast<float>(lastIndex) + glm::vec3{ m_CardPickupDirection, 0.f } * m_CardPickupAmount * static_cast<float>(isSelected);
 
         const float centerX = lastCardPosition.x + (cardWidth * m_CardScale) / 2.0f;
@@ -138,7 +143,7 @@ void PlayerComponent::SelectCardAtMousePosition(const glm::vec2& mousePosition)
             mousePosition.y >= hitbox.y && mousePosition.y <= hitbox.y + hitbox.height)
         {
             //If if it doesn't exist, add it to the selected ones
-            const auto cardIt = std::ranges::find(m_SelectedCards, card);
+            const auto cardIt = std::find(m_SelectedCards.begin(), m_SelectedCards.end(), card);
             if (cardIt == m_SelectedCards.end())
             {
                 m_SelectedCards.emplace_back(card);
@@ -218,17 +223,30 @@ void PlayerComponent::SetCards(const std::vector<Card>& newCards)
     CalculateRenderingParameters();
 }
 
-
 void PlayerComponent::LoadCardTextures()
 {
+    std::cout << "Starting to load card textures..." << std::endl;
     m_CardTextures.clear();
     for (int i = 0; i < 52; ++i) //todo: make this 56 cards later
     {
         std::string cardName = std::to_string(i);
         std::string paddedCardName = std::string(3 - cardName.length(), '0') + cardName;
         std::string completePath = "Cards/tile" + paddedCardName + ".png";
-        m_CardTextures.emplace_back(ody::ResourceManager::GetInstance().LoadTexture(completePath));
+
+        std::cout << "Attempting to load texture: " << completePath << std::endl;
+
+        try {
+            auto texture = ody::ResourceManager::GetInstance().LoadTexture(completePath);
+            m_CardTextures.emplace_back(texture);
+            std::cout << "Successfully loaded texture: " << completePath << std::endl;
+        }
+        catch (const std::exception& e) {
+            std::cerr << "Error loading texture " << completePath << ": " << e.what() << std::endl;
+            std::cerr << "SDL_image error: " << IMG_GetError() << std::endl;
+        }
     }
+
+    std::cout << "Finished loading card textures. Total loaded: " << m_CardTextures.size() << std::endl;
 }
 
 void PlayerComponent::CalculateRenderingParameters()

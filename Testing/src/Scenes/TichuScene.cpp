@@ -13,7 +13,7 @@
 void TichuScene::Initialize()
 {
 	const auto gameObject = CreateGameObject();
-	gameObject->AddComponent<ody::TextureComponent>("cloth.jpg");
+	gameObject->AddComponent<ody::TextureComponent>("cloth.png");
 	
 	CreateDeck();
 	CreatePlayers();
@@ -46,8 +46,12 @@ void TichuScene::CreateDeck()
 	// Shuffle the deck before distributing
 	std::random_device rd;
 	std::mt19937 g(rd());
-
+	//Emscripten doesn't have support for ranges yet
+#ifndef __EMSCRIPTEN__
 	std::ranges::shuffle(m_Cards, g);
+#else
+	std::shuffle(m_Cards.begin(), m_Cards.end(), g);
+#endif
 }
 
 void TichuScene::CreatePlayers()
@@ -85,7 +89,7 @@ void TichuScene::CheckSubmittedHand()
 	std::vector<Card> submittedHand = m_pPlayers[m_CurrentPlayerIndex]->GetHand();
 	std::sort(submittedHand.begin(), submittedHand.end());
 
-	const Combination combination = Tichu::CreateCombination(submittedHand);
+	Tichu::CreateCombination(submittedHand);
 
 
 }
@@ -131,6 +135,7 @@ void TichuScene::OnGUI()
 		case CombinationType::CT_Straight: comboTypeStr = "Straight"; break;
 		case CombinationType::CT_Steps: comboTypeStr = "Steps"; break;
 		case CombinationType::CT_FullHouse: comboTypeStr = "Full House"; break;
+		case CombinationType::CT_Invalid:comboTypeStr = "Invalid"; break;
 		}
 		ImGui::Text("Combination Type: %s", comboTypeStr);
 
@@ -141,7 +146,7 @@ void TichuScene::OnGUI()
 		ImGui::Text("Power: %d", combo.power);
 
 		// Display validity
-		bool isValid = (combo.combinationType != CombinationType::CT_Invalid);
+		const bool isValid = (combo.combinationType != CombinationType::CT_Invalid);
 		ImGui::TextColored(isValid ? ImVec4(0, 1, 0, 1) : ImVec4(1, 0, 0, 1),
 			isValid ? "Valid Combination" : "Invalid Combination");
 	}
