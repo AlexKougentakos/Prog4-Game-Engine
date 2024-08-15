@@ -63,7 +63,7 @@ void ody::Renderer::Render() const
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 	DebugDrawer::GetInstance().Render(m_renderer);
-	DebugDrawer::GetInstance().Clear(); // Clear after rendering if you don't want shapes to persist
+	DebugDrawer::GetInstance().Clear(); // Clear after rendering so that the shapes don't persist
 
 #endif
 	

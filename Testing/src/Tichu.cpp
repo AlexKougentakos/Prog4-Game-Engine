@@ -28,5 +28,19 @@ Combination Tichu::CreateCombination(const std::vector<Card>& cards)
 		combination.power = cards[0].power;
 	}
 
+	else if (numberOfCards == 5 )
+	{
+		if (cards[0].power == cards[1].power && cards[0].power == cards[2].power && cards[3].power == cards[4].power) //In the format 2 2 2 + 3 3 
+		{
+			combination.combinationType = CombinationType::CT_FullHouse;
+			combination.power = cards[0].power;
+		}
+		else if (cards[0].power == cards[1].power && cards[2].power == cards[3].power && cards[3].power == cards[4].power) // In the format 2 2 + 3 3 3
+		{
+			combination.combinationType = CombinationType::CT_FullHouse;
+			combination.power = cards[4].power;
+		}
+	}
+
 	return combination;
 }

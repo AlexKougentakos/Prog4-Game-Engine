@@ -11,43 +11,20 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include "Texture2D.h"
+#include "Tichu.h"
 #include "TransformComponent.h"
 #include "glm/gtx/rotate_vector.hpp"
 
-PlayerComponent::PlayerComponent(const int playerID, const std::vector<Card>& cards):
+PlayerComponent::PlayerComponent(const int playerID):
 	m_PlayerID(playerID)
 {
-	m_Cards = cards;
+
 }
 
-void PlayerComponent::SelectCardAtMousePosition(const glm::vec2& mousePosition)
-{
-    for (const auto& [card, hitbox] : m_CardHitBoxMap)
-    {
-        if (mousePosition.x >= hitbox.x && mousePosition.x <= hitbox.x + hitbox.width &&
-            mousePosition.y >= hitbox.y && mousePosition.y <= hitbox.y + hitbox.height)
-        {
-            //If if it doesn't exist, add it to the selected ones
-            const auto cardIt = std::ranges::find(m_SelectedCards, card);
-            if (cardIt == m_SelectedCards.end())
-            {
-                m_SelectedCards.emplace_back(card);
-            }
-            //Otherwise remove it
-            else m_SelectedCards.erase(cardIt);
-
-            m_HitBoxesDirty = true;
-            return;
-        }
-    }
-
-    // If we reach here, no card was selected
-}
 
 void PlayerComponent::Initialize()
 {
     LoadCardTextures();
-    CalculateRenderingParameters();
 
     CalculateHitBoxes();
 }
@@ -97,7 +74,7 @@ void PlayerComponent::Update()
 
 void PlayerComponent::CalculateHitBoxes()
 {
-    if (!m_HitBoxesDirty) return;
+    if (!m_HitBoxesDirty || m_Cards.empty()) return;
 
     m_CardHitBoxMap.clear();
 
@@ -153,6 +130,32 @@ void PlayerComponent::CalculateHitBoxes()
     m_HitBoxesDirty = false;
 }
 
+void PlayerComponent::SelectCardAtMousePosition(const glm::vec2& mousePosition)
+{
+    for (const auto& [card, hitbox] : m_CardHitBoxMap)
+    {
+        if (mousePosition.x >= hitbox.x && mousePosition.x <= hitbox.x + hitbox.width &&
+            mousePosition.y >= hitbox.y && mousePosition.y <= hitbox.y + hitbox.height)
+        {
+            //If if it doesn't exist, add it to the selected ones
+            const auto cardIt = std::ranges::find(m_SelectedCards, card);
+            if (cardIt == m_SelectedCards.end())
+            {
+                m_SelectedCards.emplace_back(card);
+            }
+            //Otherwise remove it
+            else m_SelectedCards.erase(cardIt);
+
+            m_HitBoxesDirty = true;
+            return;
+        }
+    }
+
+    // If we reach here, no card was selected
+}
+
+
+
 CardHitbox PlayerComponent::CalculateRotatedHitbox(float centerX, float centerY, float width, float height, float rotation, bool manualCorrection)
 {
     // Convert rotation to radians
@@ -200,6 +203,21 @@ CardHitbox PlayerComponent::CalculateRotatedHitbox(float centerX, float centerY,
 
     return CardHitbox{ rotatedX, rotatedY, rotatedWidth, rotatedHeight };
 }
+
+
+void PlayerComponent::SetCards(const std::vector<Card>& newCards)
+{
+
+    m_Cards.clear();
+    m_SelectedCards.clear();
+    m_CardHitBoxMap.clear();
+    m_HitBoxesDirty = true;
+
+    m_Cards = newCards;
+
+    CalculateRenderingParameters();
+}
+
 
 void PlayerComponent::LoadCardTextures()
 {
@@ -257,5 +275,5 @@ void PlayerComponent::CalculateRenderingParameters()
 
 void PlayerComponent::OnGui()
 {
-    
+
 }

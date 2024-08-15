@@ -65,8 +65,7 @@ struct CardMapComparator
 class PlayerComponent final : public ody::Component
 {
 public:
-	//Pass the cards by reference since there are 14 of them (28 bytes)
-	explicit PlayerComponent(const int playerID, const std::vector<Card>& cards);
+	explicit PlayerComponent(const int playerID);
 	
 	~PlayerComponent() override = default;
 	PlayerComponent(const PlayerComponent& other) = delete;
@@ -74,22 +73,21 @@ public:
 	PlayerComponent& operator=(const PlayerComponent& other) = delete;
 	PlayerComponent& operator=(PlayerComponent&& other) = delete;
 
-	const std::vector<Card>& GetCards() const { return m_Cards; }
-	int GetPlayerID() const { return m_PlayerID; }
-
-	void SelectCardAtMousePosition(const glm::vec2& mousePos);
-
-
 	void Initialize() override;
 	void Render() const override;
 	void Update() override;
 	void OnGui() override;
 
+	void SelectCardAtMousePosition(const glm::vec2& mousePos);
+	void SetCards(const std::vector<Card>& newCards);
+	
+
+	int GetPlayerID() const { return m_PlayerID; }
+	const std::vector<Card>& GetCards() const { return m_Cards; }
 	const std::vector<Card>& GetHand() { return m_SelectedCards; }
 
 	//ImGui Relative Items
 	void ShowCardHitBoxes(const bool show) { m_ShowCardHitboxes = show; }
-
 private:
 	int m_PlayerID{};
 	std::vector<Card> m_Cards{};
@@ -108,10 +106,10 @@ private:
 	const float m_CardPickupAmount{ 20.f };
 
 	std::map<Card, CardHitbox, CardMapComparator> m_CardHitBoxMap{};
-	bool m_HitBoxesDirty{ true };
+	bool m_HitBoxesDirty{ false };
 
 	//On Gui Bindings
-	bool m_ShowCardHitboxes{ true };
+	bool m_ShowCardHitboxes{ false };
 
 	void LoadCardTextures();
 	void CalculateRenderingParameters();

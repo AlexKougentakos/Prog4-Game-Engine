@@ -34,7 +34,8 @@ protected:
 	}
 private:
 	void CreateDeck();
-	void CreatePlayersWithCards();
+	void CreatePlayers();
+	void DealCards();
 
 	void CheckSubmittedHand();
 

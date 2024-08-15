@@ -16,7 +16,8 @@ void TichuScene::Initialize()
 	gameObject->AddComponent<ody::TextureComponent>("cloth.jpg");
 	
 	CreateDeck();
-	CreatePlayersWithCards();
+	CreatePlayers();
+	DealCards();
 
 	ody::InputManager::GetInstance().AddMouseCommand(SDL_BUTTON_LEFT, ody::InputManager::InputType::OnMouseButtonDown, std::make_unique<CardSelectCommand>(m_pPlayers[1]));
 }
@@ -33,6 +34,8 @@ void TichuScene::Update()
 
 void TichuScene::CreateDeck()
 {
+	m_Cards.clear();
+
 	for (int i = 0; i < 52; i++)
 	{
 		const uint8_t cardValue = static_cast<uint8_t>(i % 13 + 2); //This is because 'i' starts at 0 and the cards start at 2
@@ -47,22 +50,33 @@ void TichuScene::CreateDeck()
 	std::ranges::shuffle(m_Cards, g);
 }
 
-void TichuScene::CreatePlayersWithCards()
+void TichuScene::CreatePlayers()
 {
 	for (int i = 0; i < 4; ++i)
 	{
-		constexpr int numberOfCards = 13;
 		const auto player = CreateGameObject();
 
+		const auto playerComponent = player->AddComponent<PlayerComponent>(i);
+		m_pPlayers.emplace_back(playerComponent);
+	}
+}
+
+void TichuScene::DealCards()
+{
+	//Deletes the old cards and creates new ones
+	//You can just shuffle the current ones but it's done once per round only
+	CreateDeck();
+
+	for (const auto& player : m_pPlayers)
+	{
+		constexpr int numberOfCards = 13;
 		// Calculate the start and end indices for this player's cards
-		const int startIndex = i * numberOfCards;
+		const int startIndex = player->GetPlayerID() * numberOfCards;
 		const int endIndex = startIndex + numberOfCards;
 
 		// Create a vector of cards for this player
 		std::vector<Card> playerCards(m_Cards.begin() + startIndex, m_Cards.begin() + endIndex);
-
-		const auto playerComponent = player->AddComponent<PlayerComponent>(i, playerCards);
-		m_pPlayers.emplace_back(playerComponent);
+		player->SetCards(playerCards);
 	}
 }
 
@@ -78,16 +92,60 @@ void TichuScene::CheckSubmittedHand()
 
 void TichuScene::OnGUI()
 {
-	
-	ImGui::Checkbox("Show card colliders", &m_ShowCardHitboxes);
-
-	for (const auto& player : m_pPlayers)
+	if (ImGui::CollapsingHeader("Debug"))
 	{
-		player->ShowCardHitBoxes(m_ShowCardHitboxes);
+		ImGui::Checkbox("Show card colliders", &m_ShowCardHitboxes);
+
+		for (const auto& player : m_pPlayers)
+		{
+			player->ShowCardHitBoxes(m_ShowCardHitboxes);
+		}
+
+		if (ImGui::Button("Deal Cards", { 90, 25 }))
+		{
+			DealCards();
+		}
 	}
 
-	if (ImGui::Button("Play Cards", { 100, 50 }))
+	if (ImGui::CollapsingHeader("Game Moves"))
 	{
-		CheckSubmittedHand();
+		ImGui::SliderInt("Current Player", &m_CurrentPlayerIndex, 0, 3);
+
+		if (ImGui::Button("Play Cards", { 90, 25 }))
+		{
+			CheckSubmittedHand();
+		}
 	}
+
+	if (ImGui::CollapsingHeader("Selected Combination"))
+	{
+		const Combination combo = Tichu::CreateCombination(m_pPlayers[m_CurrentPlayerIndex]->GetHand());
+
+		// Display combination type
+		const char* comboTypeStr = "Invalid";
+		switch (combo.combinationType)
+		{
+		case CombinationType::CT_Single: comboTypeStr = "Single"; break;
+		case CombinationType::CT_Doubles: comboTypeStr = "Doubles"; break;
+		case CombinationType::CT_Triples: comboTypeStr = "Triples"; break;
+		case CombinationType::CT_Straight: comboTypeStr = "Straight"; break;
+		case CombinationType::CT_Steps: comboTypeStr = "Steps"; break;
+		case CombinationType::CT_FullHouse: comboTypeStr = "Full House"; break;
+		}
+		ImGui::Text("Combination Type: %s", comboTypeStr);
+
+		// Display number of cards
+		ImGui::Text("Number of Cards: %d", combo.numberOfCards);
+
+		// Display power
+		ImGui::Text("Power: %d", combo.power);
+
+		// Display validity
+		bool isValid = (combo.combinationType != CombinationType::CT_Invalid);
+		ImGui::TextColored(isValid ? ImVec4(0, 1, 0, 1) : ImVec4(1, 0, 0, 1),
+			isValid ? "Valid Combination" : "Invalid Combination");
+	}
+
+
+
 }
