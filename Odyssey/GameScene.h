@@ -52,7 +52,10 @@ namespace ody
 		virtual void Initialize() = 0;
 		virtual void PostInitialize() {}
 		virtual void Update() {}
+		//Gets called before the game object's render
 		virtual void Render() {}
+		//Gets called after the game object's render
+		virtual void PostRender() {}
 
 		virtual void OnGUI() {}
 		virtual void OnSceneActivated() {}

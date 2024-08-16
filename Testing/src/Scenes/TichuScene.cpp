@@ -8,24 +8,50 @@
 #include "InputManager2.h"
 #include "ImGuiManager.h"
 #include "Commands/CardSelectCommand.h"
-#include "Tichu.h"
 
 void TichuScene::Initialize()
 {
-	const auto gameObject = CreateGameObject();
-	gameObject->AddComponent<ody::TextureComponent>("cloth.png");
+	//const auto gameObject = CreateGameObject();
+	//gameObject->AddComponent<ody::TextureComponent>("cloth.png");
 	
+	CreateCardRenderPackage();
 	CreateDeck();
 	CreatePlayers();
 	DealCards();
 
-	ody::InputManager::GetInstance().AddMouseCommand(SDL_BUTTON_LEFT, ody::InputManager::InputType::OnMouseButtonDown, std::make_unique<CardSelectCommand>(m_pPlayers[1]));
+	m_pTichuGame = std::make_unique<Tichu>();
+
+	ody::InputManager::GetInstance().AddMouseCommand(SDL_BUTTON_LEFT, ody::InputManager::InputType::OnMouseButtonDown, std::make_unique<CardSelectCommand>(m_pPlayers, m_CurrentPlayerIndex));
 }
 
-void TichuScene::Render()
+void TichuScene::PostRender() 
 {
+	const float cardHeight = static_cast<float>(renderPackage.cardTextures[0]->GetSize().y);
+	const float cardWidth = static_cast<float>(renderPackage.cardTextures[0]->GetSize().x);
+	const float stackWidth = renderPackage.cardSpacing * (m_CurrentCards.size() - 1) + cardWidth * renderPackage.cardScale;
+	const auto startPosition = glm::vec3(ody::constants::g_ScreenWidth / 2.f - stackWidth / 2, ody::constants::g_ScreenHeight / 2.f - cardHeight, 0);
+	//const auto startPosition = glm::vec3(0, 0, 0);
 
+	for (size_t i = 0; i < m_CurrentCards.size(); ++i)
+	{
+		//Move them to the side slightly, so you can see all the cards
+		const glm::vec3 cardPosition = startPosition + glm::vec3{ renderPackage.cardSpacing, 0, 0 } *static_cast<float>(i);
+
+		// Calculate the name of the card texture
+		const size_t textureIndex = m_CurrentCards[i].colour * 13 + m_CurrentCards[i].power - 2;
+
+		// Render the texture with rotation
+		ody::Renderer::GetInstance().RenderTexture(
+			*renderPackage.cardTextures[textureIndex],
+			cardPosition.x,
+			cardPosition.y,
+			cardWidth,
+			cardHeight,
+			1.5
+		);
+	}
 }
+
 
 void TichuScene::Update()
 {
@@ -60,8 +86,26 @@ void TichuScene::CreatePlayers()
 	{
 		const auto player = CreateGameObject();
 
-		const auto playerComponent = player->AddComponent<PlayerComponent>(i);
+		const auto playerComponent = player->AddComponent<PlayerComponent>(i, renderPackage);
 		m_pPlayers.emplace_back(playerComponent);
+	}
+}
+
+
+void TichuScene::CreateCardRenderPackage()
+{
+	renderPackage.cardTextures.clear();
+	renderPackage.cardScale = 1.5f;
+	renderPackage.cardSpacing = 25.f;
+
+	for (int i = 0; i < 52; ++i) //todo: make this 56 cards later
+	{
+		std::string cardName = std::to_string(i);
+		std::string paddedCardName = std::string(3 - cardName.length(), '0') + cardName;
+		std::string completePath = "Cards/tile" + paddedCardName + ".png";
+
+		auto texture = ody::ResourceManager::GetInstance().LoadTexture(completePath);
+		renderPackage.cardTextures.emplace_back(texture);
 	}
 }
 
@@ -89,9 +133,13 @@ void TichuScene::CheckSubmittedHand()
 	std::vector<Card> submittedHand = m_pPlayers[m_CurrentPlayerIndex]->GetHand();
 	std::sort(submittedHand.begin(), submittedHand.end());
 
-	Tichu::CreateCombination(submittedHand);
+	const Combination combination = Tichu::CreateCombination(submittedHand);
 
-
+	if (m_pTichuGame->PlayHand(combination))
+	{
+		m_CurrentPlayerIndex++;
+		m_CurrentCards = submittedHand;
+	}
 }
 
 void TichuScene::OnGUI()

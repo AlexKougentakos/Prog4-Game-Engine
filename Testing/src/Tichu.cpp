@@ -44,3 +44,23 @@ Combination Tichu::CreateCombination(const std::vector<Card>& cards)
 
 	return combination;
 }
+
+bool Tichu::PlayHand(const Combination combination)
+{
+	//The table is empty and your combination is valid
+	if (m_CurrentStrongestCombination.numberOfCards == 0 && combination.combinationType != CombinationType::CT_Invalid)
+	{
+		m_CurrentStrongestCombination = combination;
+		return true;
+	}
+
+	//The combinations are the same but the one thrown is of higher power
+	if (m_CurrentStrongestCombination.combinationType == combination.combinationType && combination.power > m_CurrentStrongestCombination.power)
+	{
+		m_CurrentStrongestCombination = combination;
+		return true;
+	}
+
+	//The combination cannot beat the one that is already present
+	return false;
+}

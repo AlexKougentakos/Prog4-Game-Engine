@@ -2,6 +2,8 @@
 #include <vector>
 #include "Components/PlayerComponent.h"
 
+
+
 enum class CombinationType : uint8_t
 {
 	CT_Invalid = 0,
@@ -27,12 +29,19 @@ private:
 	friend class Tichu;
 };
 
+struct Card;
+
 class Tichu final
 {
 public:
-	//To be used to check combinations etc
-
+	Tichu() = default;
 	//Expects the array is sorted by power level
 	static Combination CreateCombination(const std::vector<Card>& cards);
+
+	//Returns if the combination was accepted and taken in as the highest combination played
+	bool PlayHand(const Combination combination);
+
+private:
+	Combination m_CurrentStrongestCombination{};
 };
 

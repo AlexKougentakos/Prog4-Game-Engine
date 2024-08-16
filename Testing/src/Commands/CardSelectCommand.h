@@ -5,7 +5,7 @@
 class CardSelectCommand : public ody::Command
 {
 public:
-	CardSelectCommand(PlayerComponent* pPlayerComponent);
+	CardSelectCommand(const std::vector<PlayerComponent*>& pPlayerComponents, const int& currentPlayerIndex);
 
 	virtual ~CardSelectCommand() override = default;
 	CardSelectCommand(const CardSelectCommand& other) = delete;
@@ -15,6 +15,6 @@ public:
 
 	virtual void Execute() override;
 private:
-	PlayerComponent* m_pPlayerComponent{};
-	
+	std::vector<PlayerComponent*> m_pPlayerComponents{};	
+	const int& m_CurrentPlayerIndex;
 };

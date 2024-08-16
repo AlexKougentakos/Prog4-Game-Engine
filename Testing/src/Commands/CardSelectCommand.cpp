@@ -1,13 +1,15 @@
 ﻿#include "CardSelectCommand.h"
 #include "InputManager2.h"
 
-CardSelectCommand::CardSelectCommand(PlayerComponent* pPlayerComponent) : 
-	m_pPlayerComponent{ pPlayerComponent }
+CardSelectCommand::CardSelectCommand(const std::vector<PlayerComponent*>& pPlayerComponents, const int& currentPlayerIndex) :
+	m_pPlayerComponents{ pPlayerComponents },
+	m_CurrentPlayerIndex{currentPlayerIndex}
 {
 	
 }
 
 void CardSelectCommand::Execute()
 {
-	m_pPlayerComponent->SelectCardAtMousePosition(ody::InputManager::GetInstance().GetMousePosition());
+
+	m_pPlayerComponents[m_CurrentPlayerIndex]->SelectCardAtMousePosition(ody::InputManager::GetInstance().GetMousePosition());
 }

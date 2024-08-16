@@ -1,4 +1,6 @@
 ﻿#pragma once
+#include "CardRenderPackage.h"
+
 #include <map>
 #include <string>
 #include <vector>
@@ -7,10 +9,6 @@
 
 #include "Component.h"
 
-namespace ody
-{
-	class Texture2D;
-}
 
 struct CardHitbox
 {
@@ -65,7 +63,7 @@ struct CardMapComparator
 class PlayerComponent final : public ody::Component
 {
 public:
-	explicit PlayerComponent(const int playerID);
+	explicit PlayerComponent(const int playerID, CardRenderPackage renderPackage);
 	
 	~PlayerComponent() override = default;
 	PlayerComponent(const PlayerComponent& other) = delete;
@@ -80,7 +78,6 @@ public:
 
 	void SelectCardAtMousePosition(const glm::vec2& mousePos);
 	void SetCards(const std::vector<Card>& newCards);
-	
 
 	int GetPlayerID() const { return m_PlayerID; }
 	const std::vector<Card>& GetCards() const { return m_Cards; }
@@ -92,7 +89,7 @@ private:
 	int m_PlayerID{};
 	std::vector<Card> m_Cards{};
 	std::vector<Card> m_SelectedCards{};
-	std::vector<std::shared_ptr<ody::Texture2D>> m_CardTextures{};
+	CardRenderPackage m_RenderPackage{};
 
 	// Cache these values
 	float m_ScreenWidth{};
@@ -100,8 +97,6 @@ private:
 	glm::vec3 m_StartPosition{};
 	glm::vec3 m_Offset{};
 	float m_Rotation{};
-	const float m_CardScale{ 1.5f };
-	const float m_CardSpacing{ 25.f };
 	glm::vec2 m_CardPickupDirection{ 0,0 };
 	const float m_CardPickupAmount{ 20.f };
 
@@ -111,7 +106,6 @@ private:
 	//On Gui Bindings
 	bool m_ShowCardHitboxes{ false };
 
-	void LoadCardTextures();
 	void CalculateRenderingParameters();
 	CardHitbox CalculateRotatedHitbox(float centerX, float centerY, float width, float height, float rotation, bool manualCorrection);
 	void CalculateHitBoxes();

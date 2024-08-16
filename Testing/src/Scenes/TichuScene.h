@@ -3,8 +3,8 @@
 
 #include <iostream>
 
-//We have to include it since we can't forward declare the Card Struct
-#include "Components/PlayerComponent.h"
+#include "Tichu.h"
+#include "CardRenderPackage.h"
 
 class CardComponent;
 
@@ -20,7 +20,7 @@ public:
 
 protected:
 	void Initialize() override;
-	void Render() override;
+	void PostRender() override;
 	void Update() override;
 	void OnGUI() override;
 
@@ -36,11 +36,15 @@ private:
 	void CreateDeck();
 	void CreatePlayers();
 	void DealCards();
+	void CreateCardRenderPackage();
 
 	void CheckSubmittedHand();
 
 	std::vector<PlayerComponent*> m_pPlayers{};
-	std::vector<Card> m_Cards;
+	std::vector<Card> m_Cards{};
+	std::vector<Card> m_CurrentCards{};
+	CardRenderPackage renderPackage{};
+	std::unique_ptr<Tichu> m_pTichuGame{};
 
 	int m_CurrentPlayerIndex{ 1 };
 

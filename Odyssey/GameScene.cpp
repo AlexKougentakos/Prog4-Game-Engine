@@ -110,7 +110,6 @@ void GameScene::RootRender()
 {
 	Render();
 
-
 	//todo: optimize this using frustum culling
 	const glm::vec2 cameraPos = m_pCamera->GetPosition();
 
@@ -126,6 +125,8 @@ void GameScene::RootRender()
 		// Restore the original position
 		object->GetTransform()->SetPosition(glm::vec3( originalPosition.x, originalPosition.y, 0));
 	}
+
+	PostRender();
 }
 
 void GameScene::OnRootSceneDeactivated()
