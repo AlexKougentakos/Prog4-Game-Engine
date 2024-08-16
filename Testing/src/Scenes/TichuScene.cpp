@@ -11,8 +11,8 @@
 
 void TichuScene::Initialize()
 {
-	//const auto gameObject = CreateGameObject();
-	//gameObject->AddComponent<ody::TextureComponent>("cloth.png");
+	const auto gameObject = CreateGameObject();
+	gameObject->AddComponent<ody::TextureComponent>("cloth.png");
 	
 	CreateCardRenderPackage();
 	CreateDeck();
@@ -29,8 +29,7 @@ void TichuScene::PostRender()
 	const float cardHeight = static_cast<float>(renderPackage.cardTextures[0]->GetSize().y);
 	const float cardWidth = static_cast<float>(renderPackage.cardTextures[0]->GetSize().x);
 	const float stackWidth = renderPackage.cardSpacing * (m_CurrentCards.size() - 1) + cardWidth * renderPackage.cardScale;
-	const auto startPosition = glm::vec3(ody::constants::g_ScreenWidth / 2.f - stackWidth / 2, ody::constants::g_ScreenHeight / 2.f - cardHeight, 0);
-	//const auto startPosition = glm::vec3(0, 0, 0);
+	const auto startPosition = glm::vec3(ody::constants::g_ScreenWidth / 2.f - stackWidth / 2, ody::constants::g_ScreenHeight / 2.f - (cardHeight * renderPackage.cardScale) / 2.f, 0);
 
 	for (size_t i = 0; i < m_CurrentCards.size(); ++i)
 	{
@@ -137,10 +136,21 @@ void TichuScene::CheckSubmittedHand()
 
 	if (m_pTichuGame->PlayHand(combination))
 	{
-		m_CurrentPlayerIndex++;
+		m_pPlayers[m_CurrentPlayerIndex]->PlayedSelectedCards();
+		NextPlayer();
 		m_CurrentCards = submittedHand;
 	}
 }
+
+void TichuScene::NextPlayer()
+{
+	do
+	{
+		// Increment the current player index
+		m_CurrentPlayerIndex = (m_CurrentPlayerIndex + 1) % 4;
+	} while (m_pPlayers[m_CurrentPlayerIndex]->IsOut());
+}
+
 
 void TichuScene::OnGUI()
 {
@@ -159,7 +169,7 @@ void TichuScene::OnGUI()
 		}
 	}
 
-	if (ImGui::CollapsingHeader("Game Moves"))
+	if (ImGui::CollapsingHeader("Game Moves"), ImGuiTreeNodeFlags_DefaultOpen)
 	{
 		ImGui::SliderInt("Current Player", &m_CurrentPlayerIndex, 0, 3);
 
@@ -167,9 +177,15 @@ void TichuScene::OnGUI()
 		{
 			CheckSubmittedHand();
 		}
+
+		ImGui::SameLine();
+		if (ImGui::Button("Pass", { 90, 25 }))
+		{
+			//
+		}
 	}
 
-	if (ImGui::CollapsingHeader("Selected Combination"))
+	if (ImGui::CollapsingHeader("Selected Combination"), ImGuiTreeNodeFlags_DefaultOpen)
 	{
 		const Combination combo = Tichu::CreateCombination(m_pPlayers[m_CurrentPlayerIndex]->GetHand());
 

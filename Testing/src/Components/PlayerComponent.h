@@ -79,9 +79,12 @@ public:
 	void SelectCardAtMousePosition(const glm::vec2& mousePos);
 	void SetCards(const std::vector<Card>& newCards);
 
+	void PlayedSelectedCards();
+
 	int GetPlayerID() const { return m_PlayerID; }
 	const std::vector<Card>& GetCards() const { return m_Cards; }
 	const std::vector<Card>& GetHand() { return m_SelectedCards; }
+	bool IsOut() const { return m_IsOut; }
 
 	//ImGui Relative Items
 	void ShowCardHitBoxes(const bool show) { m_ShowCardHitboxes = show; }
@@ -102,6 +105,8 @@ private:
 
 	std::map<Card, CardHitbox, CardMapComparator> m_CardHitBoxMap{};
 	bool m_HitBoxesDirty{ false };
+
+	bool m_IsOut{false};
 
 	//On Gui Bindings
 	bool m_ShowCardHitboxes{ false };

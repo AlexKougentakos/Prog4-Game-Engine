@@ -221,6 +221,21 @@ void PlayerComponent::SetCards(const std::vector<Card>& newCards)
     CalculateRenderingParameters();
 }
 
+void PlayerComponent::PlayedSelectedCards()
+{
+    // Remove selected cards from m_Cards
+    std::erase_if(m_Cards, [this](const Card& card) 
+                {
+	                return std::find(m_SelectedCards.begin(), m_SelectedCards.end(), card) != m_SelectedCards.end();
+                });
+
+    // Clear the selected cards
+    m_SelectedCards.clear();
+    m_HitBoxesDirty = true;
+    if (m_Cards.size() == 0) m_IsOut = true;
+    CalculateRenderingParameters();
+}
+
 void PlayerComponent::CalculateRenderingParameters()
 {
     const float cardHeight = static_cast<float>(m_RenderPackage.cardTextures[0]->GetSize().y);

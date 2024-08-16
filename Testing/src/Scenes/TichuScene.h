@@ -39,6 +39,7 @@ private:
 	void CreateCardRenderPackage();
 
 	void CheckSubmittedHand();
+	void NextPlayer();
 
 	std::vector<PlayerComponent*> m_pPlayers{};
 	std::vector<Card> m_Cards{};
@@ -46,7 +47,7 @@ private:
 	CardRenderPackage renderPackage{};
 	std::unique_ptr<Tichu> m_pTichuGame{};
 
-	int m_CurrentPlayerIndex{ 1 };
+	int m_CurrentPlayerIndex{ 0 };
 
 	//ImGui
 	bool m_ShowCardHitboxes{false};
