@@ -80,6 +80,7 @@ public:
 	void SetCards(const std::vector<Card>& newCards);
 
 	void PlayedSelectedCards();
+	void Pass();
 
 	int GetPlayerID() const { return m_PlayerID; }
 	const std::vector<Card>& GetCards() const { return m_Cards; }

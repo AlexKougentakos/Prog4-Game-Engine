@@ -21,7 +21,7 @@ void TichuScene::Initialize()
 
 	m_pTichuGame = std::make_unique<Tichu>();
 
-	ody::InputManager::GetInstance().AddMouseCommand(SDL_BUTTON_LEFT, ody::InputManager::InputType::OnMouseButtonDown, std::make_unique<CardSelectCommand>(m_pPlayers, m_CurrentPlayerIndex));
+	ody::InputManager::GetInstance().AddMouseCommand(SDL_BUTTON_LEFT, ody::InputManager::InputType::OnMouseButtonDown, std::make_unique<CardSelectCommand>(m_pPlayers, m_pTichuGame->GetCurrentPlayerIndex()));
 }
 
 void TichuScene::PostRender() 
@@ -46,7 +46,7 @@ void TichuScene::PostRender()
 			cardPosition.y,
 			cardWidth,
 			cardHeight,
-			1.5
+			renderPackage.cardScale
 		);
 	}
 }
@@ -54,7 +54,17 @@ void TichuScene::PostRender()
 
 void TichuScene::Update()
 {
+	//todo: add a dirty flag for this
+	std::vector<PlayerState> playerStates{};
 
+	for (const auto player : m_pPlayers)
+	{
+		PlayerState playerState{};
+		playerState.isOut = player->IsOut();
+		playerStates.emplace_back(playerState);
+	}
+
+	m_pTichuGame->UpdatePlayerStates(playerStates);
 }
 
 void TichuScene::CreateDeck()
@@ -129,28 +139,30 @@ void TichuScene::DealCards()
 
 void TichuScene::CheckSubmittedHand()
 {
-	std::vector<Card> submittedHand = m_pPlayers[m_CurrentPlayerIndex]->GetHand();
+	std::vector<Card> submittedHand = m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()]->GetHand();
 	std::sort(submittedHand.begin(), submittedHand.end());
 
 	const Combination combination = Tichu::CreateCombination(submittedHand);
 
 	if (m_pTichuGame->PlayHand(combination))
 	{
-		m_pPlayers[m_CurrentPlayerIndex]->PlayedSelectedCards();
-		NextPlayer();
+		int previousPlayer = m_pTichuGame->GetCurrentPlayerIndex() - 1;
+		if (previousPlayer < 0) previousPlayer = 3;
+
+		//Previous player because the current player index gets incremented inside PlayHand()
+
+		m_pPlayers[previousPlayer]->PlayedSelectedCards();
 		m_CurrentCards = submittedHand;
 	}
 }
 
-void TichuScene::NextPlayer()
+void TichuScene::Pass() const
 {
-	do
+	if (m_pTichuGame->Pass())
 	{
-		// Increment the current player index
-		m_CurrentPlayerIndex = (m_CurrentPlayerIndex + 1) % 4;
-	} while (m_pPlayers[m_CurrentPlayerIndex]->IsOut());
+		m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()]->Pass();
+	}
 }
-
 
 void TichuScene::OnGUI()
 {
@@ -171,8 +183,6 @@ void TichuScene::OnGUI()
 
 	if (ImGui::CollapsingHeader("Game Moves"), ImGuiTreeNodeFlags_DefaultOpen)
 	{
-		ImGui::SliderInt("Current Player", &m_CurrentPlayerIndex, 0, 3);
-
 		if (ImGui::Button("Play Cards", { 90, 25 }))
 		{
 			CheckSubmittedHand();
@@ -181,13 +191,13 @@ void TichuScene::OnGUI()
 		ImGui::SameLine();
 		if (ImGui::Button("Pass", { 90, 25 }))
 		{
-			//
+			Pass();
 		}
 	}
 
 	if (ImGui::CollapsingHeader("Selected Combination"), ImGuiTreeNodeFlags_DefaultOpen)
 	{
-		const Combination combo = Tichu::CreateCombination(m_pPlayers[m_CurrentPlayerIndex]->GetHand());
+		const Combination combo = Tichu::CreateCombination(m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()]->GetHand());
 
 		// Display combination type
 		const char* comboTypeStr = "Invalid";

@@ -236,15 +236,20 @@ void PlayerComponent::PlayedSelectedCards()
     CalculateRenderingParameters();
 }
 
+void PlayerComponent::Pass()
+{
+    m_SelectedCards.clear();
+    m_HitBoxesDirty = true;
+    CalculateRenderingParameters();
+}
+
 void PlayerComponent::CalculateRenderingParameters()
 {
     const float cardHeight = static_cast<float>(m_RenderPackage.cardTextures[0]->GetSize().y);
     const float cardWidth = static_cast<float>(m_RenderPackage.cardTextures[0]->GetSize().x);
-   
 
     m_ScreenWidth = ody::constants::g_ScreenWidth;
     m_ScreenHeight = ody::constants::g_ScreenHeight;
-
         
     const float stackWidth = m_RenderPackage.cardSpacing * (m_Cards.size() - 1) + cardWidth * m_RenderPackage.cardScale;
 

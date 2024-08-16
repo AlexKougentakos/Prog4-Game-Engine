@@ -17,6 +17,13 @@ enum class CombinationType : uint8_t
 	//TODO: Add bombs later
 };
 
+struct PlayerState
+{
+	bool declaredTichu{ false };
+	bool declaredGrandTichu{ false };
+	bool isOut{ false };
+};
+
 struct Combination
 {
 	uint8_t numberOfCards{};
@@ -41,7 +48,16 @@ public:
 	//Returns if the combination was accepted and taken in as the highest combination played
 	bool PlayHand(const Combination combination);
 
+	void UpdatePlayerStates(const std::vector<PlayerState>& playerStates);
+
+	bool Pass();
+	const int& GetCurrentPlayerIndex() const { return m_CurrentPlayerIndex; }
+
 private:
 	Combination m_CurrentStrongestCombination{};
-};
 
+	void NextPlayer();
+
+	int m_CurrentPlayerIndex{};
+	std::vector<PlayerState> m_PlayerStates{};
+};

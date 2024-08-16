@@ -1,5 +1,7 @@
 #include "Tichu.h"
 
+#include <iostream>
+
 Combination Tichu::CreateCombination(const std::vector<Card>& cards)
 {
 	const size_t numberOfCards = cards.size();
@@ -51,6 +53,7 @@ bool Tichu::PlayHand(const Combination combination)
 	if (m_CurrentStrongestCombination.numberOfCards == 0 && combination.combinationType != CombinationType::CT_Invalid)
 	{
 		m_CurrentStrongestCombination = combination;
+		NextPlayer();
 		return true;
 	}
 
@@ -58,9 +61,39 @@ bool Tichu::PlayHand(const Combination combination)
 	if (m_CurrentStrongestCombination.combinationType == combination.combinationType && combination.power > m_CurrentStrongestCombination.power)
 	{
 		m_CurrentStrongestCombination = combination;
+		NextPlayer();
 		return true;
 	}
 
+	
 	//The combination cannot beat the one that is already present
 	return false;
+}
+
+void Tichu::UpdatePlayerStates(const std::vector<PlayerState>& playerStates)
+{
+	m_PlayerStates = playerStates;
+}
+
+bool Tichu::Pass()
+{
+	//If the current highest combination is invalid this means that the table is empty
+	//If it's empty, and it's your turn you can't pass
+	if (m_CurrentStrongestCombination.combinationType == CombinationType::CT_Invalid) 
+		return false;
+
+	NextPlayer();
+	return true;
+}
+
+
+void Tichu::NextPlayer()
+{
+	//Increment the player ID
+	do
+	{
+		m_CurrentPlayerIndex = (m_CurrentPlayerIndex + 1) % 4;
+	} while (m_PlayerStates[m_CurrentPlayerIndex].isOut);
+
+	//Keep incrementing until you reach the player's ID who is not out
 }
