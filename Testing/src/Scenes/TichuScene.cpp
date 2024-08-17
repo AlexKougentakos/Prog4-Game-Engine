@@ -21,7 +21,7 @@ void TichuScene::Initialize()
 
 	m_pTichuGame = std::make_unique<Tichu>();
 
-	ody::InputManager::GetInstance().AddMouseCommand(SDL_BUTTON_LEFT, ody::InputManager::InputType::OnMouseButtonDown, std::make_unique<CardSelectCommand>(m_pPlayers, m_pTichuGame->GetCurrentPlayerIndex()));
+	ody::InputManager::GetInstance().AddMouseCommand<CardSelectCommand>(SDL_BUTTON_LEFT, ody::InputManager::InputType::OnMouseButtonDown, m_pPlayers, m_pTichuGame->GetCurrentPlayerIndex());
 }
 
 void TichuScene::PostRender() 
