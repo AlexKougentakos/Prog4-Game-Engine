@@ -181,6 +181,9 @@ void ody::Odyssey::RunOneFrame()
 
 	m_LastTime = currentTime;
 
+	//Reset at the end of the frame
+	m_pInputManager->ResetMouseMotion();
+
 	const auto sleepTime{ currentTime + std::chrono::milliseconds(m_MaxWaitingTimeMs) - std::chrono::high_resolution_clock::now() };
 	std::this_thread::sleep_for(sleepTime);
 }

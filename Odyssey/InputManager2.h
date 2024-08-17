@@ -63,6 +63,7 @@ namespace ody
 
         glm::ivec2 GetMousePosition() const { return m_MousePosition; }
         glm::ivec2 GetMouseMotion() const { return m_MouseMotion; }
+        void ResetMouseMotion() { m_MouseMotion = glm::vec2{}; }
         int GetMouseWheelDelta() const { return m_MouseWheelDelta; }
 
     private:

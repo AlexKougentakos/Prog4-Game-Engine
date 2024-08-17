@@ -1,5 +1,4 @@
 ﻿#include "Utils.h"
-#include "Constants.h"
 #include <stdexcept>
 
 #include <random>
@@ -23,4 +22,24 @@ namespace ody
 		return roll <= chance;
 	}
 
+	bool Utils::AreEqual(float a, float b, float epsilon)
+	{
+		return std::abs(a - b) <= epsilon;
+	}
+
+	bool Utils::AreEqual(const glm::vec2& a, const glm::vec2& b, float epsilon)
+	{
+		return AreEqual(a.x, b.x, epsilon) && AreEqual(a.y, b.y, epsilon);
+	}
+
+	bool Utils::AreEqual(const glm::vec3& a, const glm::vec3& b, float epsilon)
+	{
+		return AreEqual(a.x, b.x, epsilon) && AreEqual(a.y, b.y, epsilon) && AreEqual(a.z, b.z, epsilon);
+	}
+
+	bool Utils::AreEqual(const glm::vec4& a, const glm::vec4& b, float epsilon)
+	{
+		return AreEqual(a.x, b.x, epsilon) && AreEqual(a.y, b.y, epsilon) &&
+			AreEqual(a.z, b.z, epsilon) && AreEqual(a.w, b.w, epsilon);
+	}
 }

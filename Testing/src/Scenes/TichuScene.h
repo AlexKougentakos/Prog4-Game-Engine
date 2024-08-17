@@ -6,6 +6,7 @@
 #include "Tichu.h"
 #include "CardRenderPackage.h"
 
+class ButtonManagerComponent;
 class CardComponent;
 
 class TichuScene : public ody::GameScene
@@ -46,6 +47,8 @@ private:
 	std::vector<Card> m_CurrentCards{};
 	CardRenderPackage renderPackage{};
 	std::unique_ptr<Tichu> m_pTichuGame{};
+
+	ButtonManagerComponent* m_pButtonManager{};
 
 	//ImGui
 	bool m_ShowCardHitboxes{false};

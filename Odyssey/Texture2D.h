@@ -1,5 +1,6 @@
 #pragma once
 #include <glm/vec2.hpp>
+#include <glm/vec4.hpp>
 
 struct SDL_Texture;
 namespace ody
@@ -20,7 +21,9 @@ namespace ody
 		
 		SDL_Texture* GetSDLTexture() const;
 		glm::ivec2 GetSize() const;
+		void Tint(const glm::vec4& color);
 	private:
-		SDL_Texture* m_texture;
+		SDL_Texture* m_texture{};
+		glm::vec4 m_CurrentTint{1.f, 1.f, 1.f, 1.f};
 	};
 }

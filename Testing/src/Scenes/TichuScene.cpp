@@ -7,12 +7,16 @@
 #include "TextureComponent.h"
 #include "InputManager2.h"
 #include "ImGuiManager.h"
+#include "Commands/ButtonPressed.h"
 #include "Commands/CardSelectCommand.h"
+#include "ButtonManagerComponent.h"
+#include "DebugDrawer.h"
 
 void TichuScene::Initialize()
 {
 	const auto gameObject = CreateGameObject();
 	gameObject->AddComponent<ody::TextureComponent>("cloth.png");
+	m_pButtonManager = gameObject->AddComponent<ButtonManagerComponent>();
 	
 	CreateCardRenderPackage();
 	CreateDeck();
@@ -22,6 +26,10 @@ void TichuScene::Initialize()
 	m_pTichuGame = std::make_unique<Tichu>();
 
 	ody::InputManager::GetInstance().AddMouseCommand<CardSelectCommand>(SDL_BUTTON_LEFT, ody::InputManager::InputType::OnMouseButtonDown, m_pPlayers, m_pTichuGame->GetCurrentPlayerIndex());
+	ody::InputManager::GetInstance().AddMouseCommand<ButtonPressed>(SDL_BUTTON_LEFT, ody::InputManager::InputType::OnMouseButtonDown, m_pButtonManager);
+
+
+	m_pButtonManager->AddButton("PassButton.png", [&]() { Pass(); } , { 175, 380 });
 }
 
 void TichuScene::PostRender() 
