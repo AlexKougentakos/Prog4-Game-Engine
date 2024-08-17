@@ -20,7 +20,7 @@ glm::ivec2 ody::Texture2D::GetSize() const
 	return { dst.w,dst.h };
 }
 
-void ody::Texture2D::Tint(const glm::vec4& color)
+void ody::Texture2D::Tint(const glm::vec4& color) 
 {
 	//I'm not sure how expensive these calls are so I'm making this
 	//safe to call every frame

@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <functional>
+#include <map>
 #include <string>
 #include <vector>
 #include <glm/vec2.hpp>
@@ -7,34 +8,34 @@
 #include "Component.h"
 #include "Texture2D.h"
 
-class ConstructedButton final
+class Button
 {
 public:
-	~ConstructedButton() = default;
-	ConstructedButton(const ConstructedButton& other) = delete;
-	ConstructedButton(ConstructedButton&& other) = delete;
-	ConstructedButton& operator=(const ConstructedButton& other) = delete;
-	ConstructedButton& operator=(ConstructedButton&& other) = delete;
+	void SetEnabled(const bool isEnabled) { m_IsEnabled = isEnabled; }
+
 private:
 	friend class ButtonManagerComponent;
-	ConstructedButton();
+	Button(std::shared_ptr<ody::Texture2D> texture, std::function<void()>&& callback,
+		glm::vec2& screenPosition, glm::ivec2& dimensions) :
+		texture(texture), callback(std::move(callback)),
+		screenPosition(screenPosition), dimensions(dimensions)
+	{}
+
+	std::shared_ptr<ody::Texture2D> texture{};
+	std::function<void()> callback{};
+	glm::vec2 screenPosition{};
+	glm::ivec2 dimensions{};
+
+	glm::vec4 hoveredTint{0.5f, 0.5f, 0.5f, 1.f};
+	glm::vec4 pressedTint{0.3f, 0.3f, 0.3f, 1.f};
+	glm::vec4 disabledTint{0.4f, 0.4f, 0.4f, 1.f};
+
+	//Interfacing
+	bool m_IsEnabled{ true };
 };
 
 class ButtonManagerComponent final : public ody::Component
 {
-private:
-
-	struct Button
-	{
-		std::shared_ptr<ody::Texture2D> texture{};
-		std::function<void()> callback{};
-		glm::vec2 screenPosition{};
-		glm::vec2 dimensions{};
-
-		glm::vec4 hoveredTint{};
-		glm::vec4 pressedTint{};
-	};
-
 public:
 	ButtonManagerComponent() = default;
 
@@ -48,10 +49,11 @@ public:
 	virtual void Update() override;
 
 
-	void AddButton(const std::string& imagePath, std::function<void()> callback, glm::vec2 screenPosition);
+	Button* AddButton(const std::string& imagePath, std::function<void()> callback, glm::vec2 screenPosition);
 
 private:
 	friend class ButtonPressed;
+	friend class ButtonManagerComponent;
 	void OnMouseClick(const glm::vec2& mousePos);
 	bool IsPointInsideButton(const glm::vec2& point, const Button& pButton) const;
 

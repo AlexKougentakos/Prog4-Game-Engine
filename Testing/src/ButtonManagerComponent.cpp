@@ -26,9 +26,15 @@ void ButtonManagerComponent::Update()
     const glm::vec2 mousePos = inputManager.GetMousePosition();
     for (const auto& button : m_pButtons)
     {
+        if (!button->m_IsEnabled)
+        {
+            button->texture->Tint(button->disabledTint);
+            continue;
+        }
+
         if (IsPointInsideButton(mousePos, *button))
         {
-            button->texture->Tint({ 0.5f, 0.5f, 0.5f, 1.f });
+            button->texture->Tint(button->hoveredTint);
         }
         else 
         {
@@ -43,6 +49,7 @@ void ButtonManagerComponent::OnMouseClick(const glm::vec2& mousePos)
     {
         if (IsPointInsideButton(mousePos, *button))
         {
+            //todo: add clicked tint
             button->callback();
             return;
         }
@@ -50,11 +57,17 @@ void ButtonManagerComponent::OnMouseClick(const glm::vec2& mousePos)
     
 }
 
-void ButtonManagerComponent::AddButton(const std::string& imagePath, std::function<void()> callback, glm::vec2 screenPosition)
+Button* ButtonManagerComponent::AddButton(const std::string& imagePath, std::function<void()> callback, glm::vec2 screenPosition)
 {
 	std::shared_ptr<ody::Texture2D> texture = ody::ResourceManager::GetInstance().LoadTexture(imagePath);
 
-	m_pButtons.emplace_back(std::make_unique<Button>(texture, std::move(callback), screenPosition, texture->GetSize()));
+    auto dimensions = texture->GetSize();
+
+    //Using new here instead of make_unique because the constructor of Button is private
+    const auto pButton = new Button(texture, std::move(callback), screenPosition, dimensions);
+	m_pButtons.emplace_back(std::unique_ptr<Button>(pButton));
+
+    return pButton;
 }
 
 bool ButtonManagerComponent::IsPointInsideButton(const glm::vec2& point, const Button& pButton) const
