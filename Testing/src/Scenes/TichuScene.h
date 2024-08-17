@@ -6,6 +6,7 @@
 #include "Tichu.h"
 #include "CardRenderPackage.h"
 
+class Button;
 class ButtonManagerComponent;
 class CardComponent;
 
@@ -49,6 +50,7 @@ private:
 	std::unique_ptr<Tichu> m_pTichuGame{};
 
 	ButtonManagerComponent* m_pButtonManager{};
+	Button* m_pPassButton{};
 
 	//ImGui
 	bool m_ShowCardHitboxes{false};

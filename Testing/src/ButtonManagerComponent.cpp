@@ -20,9 +20,6 @@ void ButtonManagerComponent::Update()
 {
 	const auto& inputManager = ody::InputManager::GetInstance();
 
-    //Only check this if the mouse has moved
-	if (inputManager.GetMouseMotion().x == 0 || inputManager.GetMouseMotion().y == 0) return;
-
     const glm::vec2 mousePos = inputManager.GetMousePosition();
     for (const auto& button : m_pButtons)
     {

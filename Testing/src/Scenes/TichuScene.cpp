@@ -29,7 +29,8 @@ void TichuScene::Initialize()
 	ody::InputManager::GetInstance().AddMouseCommand<ButtonPressed>(SDL_BUTTON_LEFT, ody::InputManager::InputType::OnMouseButtonDown, m_pButtonManager);
 
 
-	m_pButtonManager->AddButton("PassButton.png", [&]() { Pass(); } , { 185, 400 });
+	m_pPassButton = m_pButtonManager->AddButton("PassButton.png", [&]() { Pass(); } , { 185, 400 });
+	m_pPassButton->SetEnabled(false); //We start on an empty table so you can't say pass
 	m_pButtonManager->AddButton("PlayButton.png", [&]() { CheckSubmittedHand(); } , { 530, 400 });
 }
 
@@ -156,6 +157,7 @@ void TichuScene::CheckSubmittedHand()
 
 	if (m_pTichuGame->PlayHand(combination))
 	{
+		m_pPassButton->SetEnabled(true);
 		int previousPlayer = m_pTichuGame->GetCurrentPlayerIndex() - 1;
 		if (previousPlayer < 0) previousPlayer = 3;
 
@@ -174,6 +176,7 @@ void TichuScene::Pass()
 		if (booleanInfo.second)
 		{
 			m_CurrentCards.clear();
+			m_pPassButton->SetEnabled(false);
 		}
 
 		m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()]->Pass();
