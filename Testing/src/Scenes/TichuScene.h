@@ -39,7 +39,7 @@ private:
 	void CreateCardRenderPackage();
 
 	void CheckSubmittedHand();
-	void Pass() const;
+	void Pass();
 
 	std::vector<PlayerComponent*> m_pPlayers{};
 	std::vector<Card> m_Cards{};

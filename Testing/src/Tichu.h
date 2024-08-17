@@ -29,7 +29,7 @@ struct Combination
 	uint8_t numberOfCards{};
 	uint8_t power{};
 
-	CombinationType combinationType{};
+	CombinationType combinationType{CombinationType::CT_Invalid};
 
 private:
 	Combination() = default;
@@ -50,13 +50,16 @@ public:
 
 	void UpdatePlayerStates(const std::vector<PlayerState>& playerStates);
 
-	bool Pass();
+	//First bool is if the pass is valid, second is if it's a round reset, meaning 3 players passed in a row
+	std::pair<bool, bool> Pass();
 	const int& GetCurrentPlayerIndex() const { return m_CurrentPlayerIndex; }
 
 private:
 	Combination m_CurrentStrongestCombination{};
 
 	void NextPlayer();
+
+	int m_PassesInARow{0};
 
 	int m_CurrentPlayerIndex{};
 	std::vector<PlayerState> m_PlayerStates{};

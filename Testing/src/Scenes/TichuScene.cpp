@@ -133,6 +133,7 @@ void TichuScene::DealCards()
 
 		// Create a vector of cards for this player
 		std::vector<Card> playerCards(m_Cards.begin() + startIndex, m_Cards.begin() + endIndex);
+		std::sort(playerCards.begin(), playerCards.end());
 		player->SetCards(playerCards);
 	}
 }
@@ -156,10 +157,16 @@ void TichuScene::CheckSubmittedHand()
 	}
 }
 
-void TichuScene::Pass() const
+void TichuScene::Pass()
 {
-	if (m_pTichuGame->Pass())
+	const std::pair<bool, bool> booleanInfo = m_pTichuGame->Pass();
+	if (booleanInfo.first)
 	{
+		if (booleanInfo.second)
+		{
+			m_CurrentCards.clear();
+		}
+
 		m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()]->Pass();
 	}
 }
@@ -197,7 +204,11 @@ void TichuScene::OnGUI()
 
 	if (ImGui::CollapsingHeader("Selected Combination"), ImGuiTreeNodeFlags_DefaultOpen)
 	{
-		const Combination combo = Tichu::CreateCombination(m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()]->GetHand());
+		//Not very efficient but it's debug only
+		auto cards = m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()]->GetHand();
+		std::sort(cards.begin(), cards.end());
+
+		const Combination combo = Tichu::CreateCombination(cards);
 
 		// Display combination type
 		const char* comboTypeStr = "Invalid";
