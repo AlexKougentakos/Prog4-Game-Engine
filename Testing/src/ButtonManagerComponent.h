@@ -7,6 +7,19 @@
 #include "Component.h"
 #include "Texture2D.h"
 
+class ConstructedButton final
+{
+public:
+	~ConstructedButton() = default;
+	ConstructedButton(const ConstructedButton& other) = delete;
+	ConstructedButton(ConstructedButton&& other) = delete;
+	ConstructedButton& operator=(const ConstructedButton& other) = delete;
+	ConstructedButton& operator=(ConstructedButton&& other) = delete;
+private:
+	friend class ButtonManagerComponent;
+	ConstructedButton();
+};
+
 class ButtonManagerComponent final : public ody::Component
 {
 private:

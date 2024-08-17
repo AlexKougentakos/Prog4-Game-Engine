@@ -29,7 +29,8 @@ void TichuScene::Initialize()
 	ody::InputManager::GetInstance().AddMouseCommand<ButtonPressed>(SDL_BUTTON_LEFT, ody::InputManager::InputType::OnMouseButtonDown, m_pButtonManager);
 
 
-	m_pButtonManager->AddButton("PassButton.png", [&]() { Pass(); } , { 175, 380 });
+	m_pButtonManager->AddButton("PassButton.png", [&]() { Pass(); } , { 185, 400 });
+	m_pButtonManager->AddButton("PlayButton.png", [&]() { CheckSubmittedHand(); } , { 530, 400 });
 }
 
 void TichuScene::PostRender() 
