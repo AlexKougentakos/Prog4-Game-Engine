@@ -223,25 +223,3 @@ void InputManager::ProcessMouseEvents(const SDL_Event& e)
     }
 }
 
-bool InputManager::InputDataController::operator<(const InputDataController& other) const
-{
-    if (controllerID < other.controllerID) return true;
-    if (controllerID > other.controllerID) return false;
-    if (button < other.button) return true;
-    if (button > other.button) return false;
-    return type < other.type;
-}
-
-bool InputManager::InputDataKeyboard::operator<(const InputDataKeyboard& other) const
-{
-    if (key < other.key) return true;
-    if (key > other.key) return false;
-    return type < other.type;
-}
-
-bool InputManager::InputDataMouse::operator<(const InputDataMouse& other) const
-{
-    if (button < other.button) return true;
-    if (button > other.button) return false;
-    return type < other.type;
-}

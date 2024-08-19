@@ -353,17 +353,23 @@ set_target_properties(OdysseyLib PROPERTIES
 
 # Create the Game executable
 add_executable(Game
-  Testing/src/Application.cpp
-  Testing/src/Scenes/TichuScene.cpp
-  Testing/src/Scenes/TichuScene.h
-  Testing/src/Components/CardComponent.cpp
-  Testing/src/Components/CardComponent.h
-  Testing/src/Components/PlayerComponent.cpp
+    Testing/src/Application.cpp
+    Testing/src/CardRenderPackage.h
+    Testing/src/Tichu.cpp
+    Testing/src/Tichu.h
+    Testing/src/ButtonManagerComponent.cpp
+    Testing/src/ButtonManagerComponent.h
+    Testing/src/Scenes/TichuScene.cpp
+    Testing/src/Scenes/TichuScene.h
+    Testing/src/Components/CardComponent.cpp
+    Testing/src/Components/CardComponent.h
+    Testing/src/Components/PlayerComponent.cpp
     Testing/src/Components/PlayerComponent.h
     Testing/src/Commands/CardSelectCommand.cpp
     Testing/src/Commands/CardSelectCommand.h
-    Testing/src/Tichu.h
-    Testing/src/Tichu.cpp
+    Testing/src/Commands/ButtonPressed.cpp
+    Testing/src/Commands/ButtonPressed.h
+
   ${IMGUI_SOURCES}
 )
 

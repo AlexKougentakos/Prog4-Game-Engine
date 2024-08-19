@@ -82,6 +82,8 @@ public:
 	void PlayedSelectedCards();
 	void Pass();
 
+	void SetPlaying(const bool playing) { m_IsPlaying = playing; }
+
 	int GetPlayerID() const { return m_PlayerID; }
 	const std::vector<Card>& GetCards() const { return m_Cards; }
 	const std::vector<Card>& GetHand() { return m_SelectedCards; }
@@ -107,7 +109,13 @@ private:
 	std::map<Card, CardHitbox, CardMapComparator> m_CardHitBoxMap{};
 	bool m_HitBoxesDirty{ false };
 
+	bool m_IsPlaying{ false };
 	bool m_IsOut{false};
+
+	std::shared_ptr<ody::Texture2D> m_pRedLightTexture{};
+	std::shared_ptr<ody::Texture2D> m_pGreenLightTexture{};
+	glm::vec2 m_LightSize{};
+	glm::vec2 m_LightPosition{};
 
 	//On Gui Bindings
 	bool m_ShowCardHitboxes{ false };

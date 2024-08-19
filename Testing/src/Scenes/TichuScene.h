@@ -42,6 +42,8 @@ private:
 
 	void CheckSubmittedHand();
 	void Pass();
+	
+	void UpdateLights() const;
 
 	std::vector<PlayerComponent*> m_pPlayers{};
 	std::vector<Card> m_Cards{};

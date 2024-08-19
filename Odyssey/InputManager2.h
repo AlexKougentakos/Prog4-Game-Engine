@@ -67,27 +67,45 @@ namespace ody
         int GetMouseWheelDelta() const { return m_MouseWheelDelta; }
 
     private:
+
 #ifndef __EMSCRIPTEN__
         struct InputDataController
         {
             unsigned int controllerID{};
             XBox360Controller::ControllerButton button{};
             InputType type{};
-            bool operator<(const InputDataController& other) const;
+            bool operator<(const InputDataController& other) const
+            {
+                if (controllerID < other.controllerID) return true;
+                if (controllerID > other.controllerID) return false;
+                if (button < other.button) return true;
+                if (button > other.button) return false;
+                return type < other.type;
+            }
         };
 #endif
         struct InputDataKeyboard
         {
             unsigned int key{};
             InputType type{};
-            bool operator<(const InputDataKeyboard& other) const;
+            bool operator<(const InputDataKeyboard& other) const
+            {
+                if (key < other.key) return true;
+                if (key > other.key) return false;
+                return type < other.type;
+            }
         };
 
         struct InputDataMouse
         {
             int button{};
             InputType type{};
-            bool operator<(const InputDataMouse& other) const;
+            bool operator<(const InputDataMouse& other) const
+            {
+                if (button < other.button) return true;
+                if (button > other.button) return false;
+                return type < other.type;
+            }
         };
 
         friend class Singleton<InputManager>;

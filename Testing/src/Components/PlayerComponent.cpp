@@ -26,11 +26,18 @@ PlayerComponent::PlayerComponent(const int playerID, CardRenderPackage renderPac
 void PlayerComponent::Initialize()
 {
     CalculateHitBoxes();
+
+	m_pRedLightTexture = ody::ResourceManager::GetInstance().LoadTexture("RedLight.png");
+	m_pGreenLightTexture = ody::ResourceManager::GetInstance().LoadTexture("GreenLight.png");
+
+    m_LightSize = { 40.f, 40.f };
 }
 
 void PlayerComponent::Render() const
 {
     if (m_RenderPackage.cardTextures.empty()) return;
+
+    if (m_IsOut) return;
 
     const float cardWidth = static_cast<float>(m_RenderPackage.cardTextures[0]->GetSize().x);
     const float cardHeight = static_cast<float>(m_RenderPackage.cardTextures[0]->GetSize().y);
@@ -57,6 +64,27 @@ void PlayerComponent::Render() const
             SDL_FLIP_NONE
         );
     }
+
+    if (m_IsPlaying)
+	{
+		ody::Renderer::GetInstance().RenderTexture(
+			*m_pGreenLightTexture,
+            m_LightPosition.x,
+            m_LightPosition.y,
+            40.f,
+            40.f
+		);
+	}
+    else
+	{
+		ody::Renderer::GetInstance().RenderTexture(
+			*m_pRedLightTexture,
+			m_LightPosition.x,
+			m_LightPosition.y,
+			40.f,
+			40.f
+		);
+	}
 
     if (!m_ShowCardHitboxes) return;
 
@@ -157,8 +185,6 @@ void PlayerComponent::SelectCardAtMousePosition(const glm::vec2& mousePosition)
     // If we reach here, no card was selected
 }
 
-
-
 CardHitbox PlayerComponent::CalculateRotatedHitbox(float centerX, float centerY, float width, float height, float rotation, bool manualCorrection)
 {
     // Convert rotation to radians
@@ -206,7 +232,6 @@ CardHitbox PlayerComponent::CalculateRotatedHitbox(float centerX, float centerY,
 
     return CardHitbox{ rotatedX, rotatedY, rotatedWidth, rotatedHeight };
 }
-
 
 void PlayerComponent::SetCards(const std::vector<Card>& newCards)
 {
@@ -260,24 +285,28 @@ void PlayerComponent::CalculateRenderingParameters()
         m_Offset = glm::vec3(m_RenderPackage.cardSpacing, 0, 0);
         m_Rotation = 0.0f;
         m_CardPickupDirection = { 0,-1 };
+        m_LightPosition = { m_StartPosition.x - m_LightSize.x * 1.5, m_StartPosition.y + (cardHeight * m_RenderPackage.cardScale) / 2 - m_LightSize.y / 2};
         break;
     case 1: // Left
-        m_StartPosition = glm::vec3(15.f, m_ScreenHeight / 2 - stackWidth / 2, 0);
+        m_StartPosition = glm::vec3(15.f, (m_ScreenHeight + m_RenderPackage.pointDisplayHeight) / 2 - stackWidth / 2 - 35.f, 0);
         m_Offset = glm::vec3(0, m_RenderPackage.cardSpacing, 0);
         m_Rotation = 90.0f;
         m_CardPickupDirection = { 1,0};
+        m_LightPosition = { (cardHeight * m_RenderPackage.cardScale) / 2 - m_LightSize.x / 2, m_StartPosition.y - m_LightSize.y };
         break;
     case 2: // Top
-        m_StartPosition = glm::vec3(m_ScreenWidth / 2 - stackWidth / 2, 0, 0);
+        m_StartPosition = glm::vec3(m_ScreenWidth / 2 - stackWidth / 2, m_RenderPackage.pointDisplayHeight, 0);
         m_Offset = glm::vec3(m_RenderPackage.cardSpacing, 0, 0);
         m_Rotation = 180.0f;
         m_CardPickupDirection = { 0,1 };
+		m_LightPosition = { m_StartPosition.x + m_LightSize.x / 2 + stackWidth, m_StartPosition.y + (cardHeight * m_RenderPackage.cardScale) / 2 - m_LightSize.y / 2 };
         break;
     case 3: // Right
-        m_StartPosition = glm::vec3(m_ScreenWidth - m_RenderPackage.cardScale * cardHeight + 20.f, m_ScreenHeight / 2 - stackWidth / 2, 0); //Multiply by 1.5 because we're scaling it by 1.5
+        m_StartPosition = glm::vec3(m_ScreenWidth - m_RenderPackage.cardScale * cardHeight + 20.f, (m_ScreenHeight + m_RenderPackage.pointDisplayHeight) / 2 - stackWidth / 2 - 35.f, 0);
         m_Offset = glm::vec3(0, m_RenderPackage.cardSpacing, 0);
         m_Rotation = 270.0f;
         m_CardPickupDirection = { -1,0 };
+		m_LightPosition = { m_StartPosition.x + m_LightSize.x / 2, m_StartPosition.y + stackWidth + m_LightSize.y };
         break;
     default: ;
     }

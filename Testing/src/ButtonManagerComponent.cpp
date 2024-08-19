@@ -56,7 +56,7 @@ void ButtonManagerComponent::OnMouseClick(const glm::vec2& mousePos)
 
 Button* ButtonManagerComponent::AddButton(const std::string& imagePath, std::function<void()> callback, glm::vec2 screenPosition)
 {
-	std::shared_ptr<ody::Texture2D> texture = ody::ResourceManager::GetInstance().LoadTexture(imagePath);
+	const std::shared_ptr<ody::Texture2D> texture = ody::ResourceManager::GetInstance().LoadTexture(imagePath);
 
     auto dimensions = texture->GetSize();
 

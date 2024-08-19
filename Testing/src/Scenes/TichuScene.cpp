@@ -14,9 +14,13 @@
 
 void TichuScene::Initialize()
 {
-	const auto gameObject = CreateGameObject();
-	gameObject->AddComponent<ody::TextureComponent>("cloth.png");
-	m_pButtonManager = gameObject->AddComponent<ButtonManagerComponent>();
+	const auto pBackGround = CreateGameObject();
+	pBackGround->AddComponent<ody::TextureComponent>("cloth.png");
+	m_pButtonManager = pBackGround->AddComponent<ButtonManagerComponent>();
+
+	const auto pPointDisplay = CreateGameObject();
+	pPointDisplay->AddComponent<ody::TextureComponent>("PointDisplay.png");
+
 	
 	CreateCardRenderPackage();
 	CreateDeck();
@@ -29,9 +33,11 @@ void TichuScene::Initialize()
 	ody::InputManager::GetInstance().AddMouseCommand<ButtonPressed>(SDL_BUTTON_LEFT, ody::InputManager::InputType::OnMouseButtonDown, m_pButtonManager);
 
 
-	m_pPassButton = m_pButtonManager->AddButton("PassButton.png", [&]() { Pass(); } , { 185, 400 });
+	m_pPassButton = m_pButtonManager->AddButton("PassButton.png", [&]() { Pass(); } , { 185, 660 });
 	m_pPassButton->SetEnabled(false); //We start on an empty table so you can't say pass
-	m_pButtonManager->AddButton("PlayButton.png", [&]() { CheckSubmittedHand(); } , { 530, 400 });
+	m_pButtonManager->AddButton("PlayButton.png", [&]() { CheckSubmittedHand(); } , { 530, 660 });
+
+	UpdateLights();
 }
 
 void TichuScene::PostRender() 
@@ -165,6 +171,7 @@ void TichuScene::CheckSubmittedHand()
 
 		m_pPlayers[previousPlayer]->PlayedSelectedCards();
 		m_CurrentCards = submittedHand;
+		UpdateLights();
 	}
 }
 
@@ -180,7 +187,19 @@ void TichuScene::Pass()
 		}
 
 		m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()]->Pass();
+		UpdateLights();
 	}
+
+}
+
+void TichuScene::UpdateLights() const
+{
+	for (const auto& player : m_pPlayers)
+	{
+		player->SetPlaying(false);
+	}
+
+	m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()]->SetPlaying(true);
 }
 
 void TichuScene::OnGUI()

@@ -85,7 +85,7 @@ ody::Odyssey::Odyssey(const std::string &dataPath,
 	}
 
 	g_window = SDL_CreateWindow(
-		"Odyssey Engine",
+		"Odyssey Engine - Tichu Recreation",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		constants::g_ScreenWidth,

@@ -15,11 +15,11 @@ namespace ody
 	public:
 		WebAudioSystemImpl()
 		{
-			printf("WebAudioSystemImpl created\n");
+			/*printf("WebAudioSystemImpl created\n");
 			Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096);
 			m_pSoundEffect = Mix_LoadWAV("test.wav");
 			if (m_pSoundEffect == nullptr)
-				throw std::runtime_error(std::string("Failed to load sound: ") + Mix_GetError());
+				throw std::runtime_error(std::string("Failed to load sound: ") + Mix_GetError());*/
 		}
 
 		~WebAudioSystemImpl()
