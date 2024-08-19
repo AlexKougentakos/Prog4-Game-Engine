@@ -91,6 +91,7 @@ public:
 
 	//ImGui Relative Items
 	void ShowCardHitBoxes(const bool show) { m_ShowCardHitboxes = show; }
+	void ShowCardBacks(const bool show) { m_ShowCardBacks = show; }
 private:
 	int m_PlayerID{};
 	std::vector<Card> m_Cards{};
@@ -119,6 +120,7 @@ private:
 
 	//On Gui Bindings
 	bool m_ShowCardHitboxes{ false };
+	bool m_ShowCardBacks{ true };
 
 	void CalculateRenderingParameters();
 	CardHitbox CalculateRotatedHitbox(float centerX, float centerY, float width, float height, float rotation, bool manualCorrection);

@@ -51,7 +51,22 @@ void PlayerComponent::Render() const
         
         // Calculate the name of the card texture
         const size_t textureIndex = m_Cards[i].colour * 13 + m_Cards[i].power - 2;
-        
+#ifdef _DEBUG
+		if (m_ShowCardBacks && m_PlayerID != 0)
+		{
+			ody::Renderer::GetInstance().RenderTexture(
+				*m_RenderPackage.cardBack,
+				cardPosition.x,
+				cardPosition.y,
+				cardWidth,
+				cardHeight,
+                m_Rotation,
+				m_RenderPackage.cardScale,
+				SDL_FLIP_NONE
+			);
+		}
+		else
+#endif
         // Render the texture with rotation
         ody::Renderer::GetInstance().RenderTexture(
             *m_RenderPackage.cardTextures[textureIndex],
@@ -314,5 +329,5 @@ void PlayerComponent::CalculateRenderingParameters()
 
 void PlayerComponent::OnGui()
 {
-
+    
 }

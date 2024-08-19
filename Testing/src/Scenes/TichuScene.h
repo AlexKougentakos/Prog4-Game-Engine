@@ -48,7 +48,7 @@ private:
 	std::vector<PlayerComponent*> m_pPlayers{};
 	std::vector<Card> m_Cards{};
 	std::vector<Card> m_CurrentCards{};
-	CardRenderPackage renderPackage{};
+	CardRenderPackage m_RenderPackage{};
 	std::unique_ptr<Tichu> m_pTichuGame{};
 
 	ButtonManagerComponent* m_pButtonManager{};
@@ -56,4 +56,5 @@ private:
 
 	//ImGui
 	bool m_ShowCardHitboxes{false};
+	bool m_ShowCardBacks{true};
 };

@@ -42,27 +42,27 @@ void TichuScene::Initialize()
 
 void TichuScene::PostRender() 
 {
-	const float cardHeight = static_cast<float>(renderPackage.cardTextures[0]->GetSize().y);
-	const float cardWidth = static_cast<float>(renderPackage.cardTextures[0]->GetSize().x);
-	const float stackWidth = renderPackage.cardSpacing * (m_CurrentCards.size() - 1) + cardWidth * renderPackage.cardScale;
-	const auto startPosition = glm::vec3(ody::constants::g_ScreenWidth / 2.f - stackWidth / 2, ody::constants::g_ScreenHeight / 2.f - (cardHeight * renderPackage.cardScale) / 2.f, 0);
+	const float cardHeight = static_cast<float>(m_RenderPackage.cardTextures[0]->GetSize().y);
+	const float cardWidth = static_cast<float>(m_RenderPackage.cardTextures[0]->GetSize().x);
+	const float stackWidth = m_RenderPackage.cardSpacing * (m_CurrentCards.size() - 1) + cardWidth * m_RenderPackage.cardScale;
+	const auto startPosition = glm::vec3(ody::constants::g_ScreenWidth / 2.f - stackWidth / 2, ody::constants::g_ScreenHeight / 2.f - (cardHeight * m_RenderPackage.cardScale) / 2.f, 0);
 
 	for (size_t i = 0; i < m_CurrentCards.size(); ++i)
 	{
 		//Move them to the side slightly, so you can see all the cards
-		const glm::vec3 cardPosition = startPosition + glm::vec3{ renderPackage.cardSpacing, 0, 0 } *static_cast<float>(i);
+		const glm::vec3 cardPosition = startPosition + glm::vec3{ m_RenderPackage.cardSpacing, 0, 0 } *static_cast<float>(i);
 
 		// Calculate the name of the card texture
 		const size_t textureIndex = m_CurrentCards[i].colour * 13 + m_CurrentCards[i].power - 2;
 
 		// Render the texture with rotation
 		ody::Renderer::GetInstance().RenderTexture(
-			*renderPackage.cardTextures[textureIndex],
+			*m_RenderPackage.cardTextures[textureIndex],
 			cardPosition.x,
 			cardPosition.y,
 			cardWidth,
 			cardHeight,
-			renderPackage.cardScale
+			m_RenderPackage.cardScale
 		);
 	}
 }
@@ -111,7 +111,7 @@ void TichuScene::CreatePlayers()
 	{
 		const auto player = CreateGameObject();
 
-		const auto playerComponent = player->AddComponent<PlayerComponent>(i, renderPackage);
+		const auto playerComponent = player->AddComponent<PlayerComponent>(i, m_RenderPackage);
 		m_pPlayers.emplace_back(playerComponent);
 	}
 }
@@ -119,9 +119,9 @@ void TichuScene::CreatePlayers()
 
 void TichuScene::CreateCardRenderPackage()
 {
-	renderPackage.cardTextures.clear();
-	renderPackage.cardScale = 1.5f;
-	renderPackage.cardSpacing = 25.f;
+	m_RenderPackage.cardTextures.clear();
+	m_RenderPackage.cardScale = 1.5f;
+	m_RenderPackage.cardSpacing = 25.f;
 
 	for (int i = 0; i < 52; ++i) //todo: make this 56 cards later
 	{
@@ -130,8 +130,10 @@ void TichuScene::CreateCardRenderPackage()
 		std::string completePath = "Cards/tile" + paddedCardName + ".png";
 
 		auto texture = ody::ResourceManager::GetInstance().LoadTexture(completePath);
-		renderPackage.cardTextures.emplace_back(texture);
+		m_RenderPackage.cardTextures.emplace_back(texture);
 	}
+
+	m_RenderPackage.cardBack = ody::ResourceManager::GetInstance().LoadTexture("Cards/back.png");
 }
 
 void TichuScene::DealCards()
@@ -211,6 +213,13 @@ void TichuScene::OnGUI()
 		for (const auto& player : m_pPlayers)
 		{
 			player->ShowCardHitBoxes(m_ShowCardHitboxes);
+		}
+
+		ImGui::Checkbox("Show card backs", &m_ShowCardBacks);
+
+		for (const auto& player : m_pPlayers)
+		{
+			player->ShowCardBacks(m_ShowCardBacks);
 		}
 
 		if (ImGui::Button("Deal Cards", { 90, 25 }))
