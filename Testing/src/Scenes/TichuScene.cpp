@@ -92,23 +92,54 @@ void TichuScene::PostRender()
 			m_RenderPackage.cardScale
 		);
 	}
-
-	for (const auto& player : m_pPlayers)
-	{
-		if (player->GetShowMahjongSelectionTable())
-		{
-
-		}
-	}
 }
 
 
 void TichuScene::Update()
 {
+	bool showMahjongSelectionTable = false;
+
+	for (const auto& player : m_pPlayers)
+	{
+		if (player->GetShowMahjongSelectionTable())
+		{
+			showMahjongSelectionTable = true;
+			break;
+		}
+	}
+
+	if (showMahjongSelectionTable && !m_IsMahjongSelectionTableVisible)
+	{
+		m_IsMahjongSelectionTableVisible = true;
+		for (const auto textComponent : m_pTextComponents)
+		{
+			textComponent->SetVisible(true);
+		}
+
+		for (auto button : m_pMahjongButtons)
+		{
+			button->SetVisible(true);
+		}
+	}
+	else if (!showMahjongSelectionTable && m_IsMahjongSelectionTableVisible)
+	{
+		m_IsMahjongSelectionTableVisible = false;
+		for (const auto textComponent : m_pTextComponents)
+		{
+			textComponent->SetVisible(false);
+		}
+
+		for (auto button : m_pMahjongButtons)
+		{
+			button->SetVisible(false);
+		}
+	}
+
+
 	//todo: add a dirty flag for this
 	std::vector<PlayerState> playerStates{};
 
-	for (const auto player : m_pPlayers)
+	for (const auto& player : m_pPlayers)
 	{
 		PlayerState playerState{};
 		playerState.isOut = player->IsOut();
@@ -278,16 +309,11 @@ void TichuScene::CreateMahjongSelectionTable()
 	constexpr float startingPosition = (ody::constants::g_ScreenWidth - (13 * buttonSize.x)) / 2.f;
 	for (int i{ 0 }; i < 13; ++i)
 	{
-		m_pButtonManager->AddButton("Button.png", []() {}, { startingPosition + buttonSize.x * i, 600 }, buttonSize);
+		m_pMahjongButtons.emplace_back(m_pButtonManager->AddButton("Button.png", []() {}, { startingPosition + buttonSize.x * i, 600 }, buttonSize));
 	}
 
 	for (int i{ 2 }; i < 11; ++i)
 	{
-		//const auto gameObject = CreateGameObject();
-		//const auto textComponent = gameObject->AddComponent<ody::TextComponent>(std::to_string(i), "bonzai.ttf", 40);
-		//const float textWidth = textComponent->GetTextSize().x;
-		//const float textOffset = (buttonSize.x - textWidth) / 2.f;
-		//textComponent->SetPosition(startingPosition + buttonSize.x * (i - 2) + textOffset, 600);
 		CreateButtonTextAtPosition(std::to_string(i), { startingPosition + buttonSize.x * (i - 2), 600 }, buttonSize);
 	}
 
@@ -295,6 +321,16 @@ void TichuScene::CreateMahjongSelectionTable()
 	CreateButtonTextAtPosition("Q", { startingPosition + buttonSize.x * 10, 600 }, buttonSize);
 	CreateButtonTextAtPosition("K", { startingPosition + buttonSize.x * 11, 600 }, buttonSize);
 	CreateButtonTextAtPosition("A", { startingPosition + buttonSize.x * 12, 600 }, buttonSize);
+
+	for (const auto textComponent : m_pTextComponents)
+	{
+		textComponent->SetVisible(false);
+	}
+
+	for (const auto button : m_pMahjongButtons)
+	{
+		button->SetVisible(false);
+	}
 
 }
 
@@ -305,6 +341,8 @@ void TichuScene::CreateButtonTextAtPosition(const std::string& text, const glm::
 	const float textWidth = textComponent->GetTextSize().x;
 	const float textOffset = (buttonSize.x - textWidth) / 2.f;
 	textComponent->SetPosition(position.x + textOffset, position.y);
+
+	m_pTextComponents.emplace_back(textComponent);
 }
 
 void TichuScene::OnGUI()

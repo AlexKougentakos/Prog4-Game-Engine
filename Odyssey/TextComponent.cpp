@@ -32,7 +32,7 @@ void ody::TextComponent::Update()
 
 void ody::TextComponent::Render() const 
 {
-	if (m_TextTexture != nullptr)
+	if (m_TextTexture != nullptr && m_IsVisible)
 	{
 		const auto pTransformComponent{ GetOwner()->GetComponent<TransformComponent>() };
 		glm::vec3 renderPosition{ pTransformComponent->GetWorldPosition() };

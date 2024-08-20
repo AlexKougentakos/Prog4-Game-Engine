@@ -53,6 +53,8 @@ namespace ody
 			return m_TextTexture->GetSize();
 		}
 
+		void SetVisible(const bool isVisible) { m_IsVisible = isVisible; }
+
 		virtual void Update() override;
 		virtual void Render() const override;
 
@@ -61,6 +63,8 @@ namespace ody
 		std::string m_Text{};
 
 		void UpdateText();
+
+		bool m_IsVisible{ true };
 
 		std::shared_ptr<ody::Font> m_Font;
 		std::shared_ptr<ody::Texture2D> m_TextTexture;

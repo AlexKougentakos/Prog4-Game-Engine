@@ -73,6 +73,7 @@ set(ODYSSEY_ENGINECOMPONENTS
   Odyssey/Component.cpp
   Odyssey/Component.h
   Odyssey/RenderComponent.h
+  Odyssey/TextComponent.cpp
   Odyssey/TextComponent.h
   Odyssey/TransformComponent.cpp
   Odyssey/TransformComponent.h

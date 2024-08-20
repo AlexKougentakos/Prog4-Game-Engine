@@ -8,6 +8,9 @@ void ButtonManagerComponent::Render() const
 { 
 	for (const auto& button : m_pButtons)
 	{
+		if (!button->m_IsVisible)
+			continue;
+
         ody::Renderer::GetInstance().RenderTexture(
             *button->texture,
             button->screenPosition.x,

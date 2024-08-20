@@ -58,8 +58,12 @@ private:
 	std::unique_ptr<Tichu> m_pTichuGame{};
 
 	std::vector<ody::TextComponent*> m_pTextComponents{};
+	std::vector<Button*> m_pMahjongButtons{};
 
 	void CreateButtonTextAtPosition(const std::string& text, const glm::vec2& position, const glm::vec2& buttonSize);
+
+	bool m_ShouldShowMahjongSelectionTable{ false };
+	bool m_IsMahjongSelectionTableVisible{ false };
 
 	ButtonManagerComponent* m_pButtonManager{};
 	Button* m_pPassButton{};

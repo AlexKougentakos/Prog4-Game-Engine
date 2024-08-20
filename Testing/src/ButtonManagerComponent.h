@@ -12,6 +12,7 @@ class Button
 {
 public:
 	void SetEnabled(const bool isEnabled) { m_IsEnabled = isEnabled; }
+	void SetVisible(const bool isVisible) { m_IsVisible = isVisible; }
 
 private:
 	friend class ButtonManagerComponent;
