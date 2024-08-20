@@ -15,13 +15,12 @@
 #include "TransformComponent.h"
 #include "glm/gtx/rotate_vector.hpp"
 
-PlayerComponent::PlayerComponent(const int playerID, CardRenderPackage renderPackage):
+PlayerComponent::PlayerComponent(const int playerID, const CardRenderPackage& renderPackage):
 	m_PlayerID(playerID),
     m_RenderPackage{ renderPackage }
 {
 
 }
-
 
 void PlayerComponent::Initialize()
 {
@@ -50,7 +49,27 @@ void PlayerComponent::Render() const
         const glm::vec3 cardPosition = m_StartPosition + m_Offset * static_cast<float>(i) + glm::vec3{ m_CardPickupDirection, 0.f } * m_CardPickupAmount * static_cast<float>(isSelected);
         
         // Calculate the name of the card texture
-        const size_t textureIndex = m_Cards[i].colour * 13 + m_Cards[i].power - 2;
+        //const size_t textureIndex = m_Cards[i].colour * 13 + m_Cards[i].power - 2;
+
+        const size_t textureIndex = [&]() -> size_t
+            {                
+				//This is the order in which they are added inside the CreateDeck() function in the TichuScene
+                switch (m_Cards[i].colour)
+                {
+                case CC_Dog:
+					return 52;
+                case CC_Dragon:
+					return 53;
+                case CC_Phoenix:
+					return 54;
+                case CC_Mahjong:
+					return 55;
+                default:
+                    return m_Cards[i].colour * 13 + m_Cards[i].power - 2; //Calculate the texture index using the colour to find the right tile image
+                }
+            }();
+
+
 #ifdef _DEBUG
 		if (m_ShowCardBacks && m_PlayerID != 0)
 		{

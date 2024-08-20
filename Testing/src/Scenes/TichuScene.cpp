@@ -21,6 +21,8 @@ void TichuScene::Initialize()
 	const auto pPointDisplay = CreateGameObject();
 	pPointDisplay->AddComponent<ody::TextureComponent>("PointDisplay.png");
 
+	m_RenderPackage.pointDisplayHeight = pPointDisplay->GetComponent<ody::TextureComponent>()->GetTextureSize().y;
+
 	
 	CreateCardRenderPackage();
 	CreateDeck();
@@ -53,7 +55,24 @@ void TichuScene::PostRender()
 		const glm::vec3 cardPosition = startPosition + glm::vec3{ m_RenderPackage.cardSpacing, 0, 0 } *static_cast<float>(i);
 
 		// Calculate the name of the card texture
-		const size_t textureIndex = m_CurrentCards[i].colour * 13 + m_CurrentCards[i].power - 2;
+		const size_t textureIndex = [&]() -> size_t
+			{
+				//This is the order in which they are added inside the CreateDeck() function in the TichuScene
+				switch (m_CurrentCards[i].colour)
+				{
+				case CC_Dog:
+					return 52;
+				case CC_Dragon:
+					return 53;
+				case CC_Phoenix:
+					return 54;
+				case CC_Mahjong:
+					return 55;
+				default:
+					return m_CurrentCards[i].colour * 13 + m_CurrentCards[i].power - 2; //Calculate the texture index using the colour to find the right tile image
+				}
+			}();
+
 
 		// Render the texture with rotation
 		ody::Renderer::GetInstance().RenderTexture(
@@ -94,6 +113,12 @@ void TichuScene::CreateDeck()
 		m_Cards.emplace_back(Card{ colour, cardValue });
 	}
 
+	m_Cards.emplace_back(Card{ CardColour::CC_Dog, 0 });
+	m_Cards.emplace_back(Card{ CardColour::CC_Dragon, 20 });
+	m_Cards.emplace_back(Card{ CardColour::CC_Phoenix, 0 });
+	m_Cards.emplace_back(Card{ CardColour::CC_Mahjong, 1 });
+
+
 	// Shuffle the deck before distributing
 	std::random_device rd;
 	std::mt19937 g(rd());
@@ -123,15 +148,36 @@ void TichuScene::CreateCardRenderPackage()
 	m_RenderPackage.cardScale = 1.5f;
 	m_RenderPackage.cardSpacing = 25.f;
 
-	for (int i = 0; i < 52; ++i) //todo: make this 56 cards later
+	for (int i = 0; i < 52; ++i)
 	{
-		std::string cardName = std::to_string(i);
-		std::string paddedCardName = std::string(3 - cardName.length(), '0') + cardName;
-		std::string completePath = "Cards/tile" + paddedCardName + ".png";
+		const std::string cardName = std::to_string(i);
+		const std::string paddedCardName = std::string(3 - cardName.length(), '0') + cardName;
+		const std::string completePath = "Cards/tile" + paddedCardName + ".png";
 
 		auto texture = ody::ResourceManager::GetInstance().LoadTexture(completePath);
 		m_RenderPackage.cardTextures.emplace_back(texture);
 	}
+
+	//Dogs
+	std::string completePath = "Cards/Dogs.png";
+	auto texture = ody::ResourceManager::GetInstance().LoadTexture(completePath);
+	m_RenderPackage.cardTextures.emplace_back(texture);
+
+	//Dragon
+	completePath = "Cards/Dragon.png";
+	texture = ody::ResourceManager::GetInstance().LoadTexture(completePath);
+	m_RenderPackage.cardTextures.emplace_back(texture);
+
+	//Phoenix
+	completePath = "Cards/Phoenix.png";
+	texture = ody::ResourceManager::GetInstance().LoadTexture(completePath);
+	m_RenderPackage.cardTextures.emplace_back(texture);
+
+	//Mahjong
+	completePath = "Cards/Mahjong.png";
+	texture = ody::ResourceManager::GetInstance().LoadTexture(completePath);
+	m_RenderPackage.cardTextures.emplace_back(texture);
+
 
 	m_RenderPackage.cardBack = ody::ResourceManager::GetInstance().LoadTexture("Cards/back.png");
 }
@@ -144,7 +190,7 @@ void TichuScene::DealCards()
 
 	for (const auto& player : m_pPlayers)
 	{
-		constexpr int numberOfCards = 13;
+		constexpr int numberOfCards = 14;
 		// Calculate the start and end indices for this player's cards
 		const int startIndex = player->GetPlayerID() * numberOfCards;
 		const int endIndex = startIndex + numberOfCards;

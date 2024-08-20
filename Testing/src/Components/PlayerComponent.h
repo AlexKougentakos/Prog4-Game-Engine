@@ -24,6 +24,12 @@ enum CardColour : uint8_t
 	CC_Green = 1,
 	CC_Blue = 2,
 	CC_Red = 3,
+
+	//Store them in the colour so that we don't have to add another variable
+	CC_Mahjong = 4,
+	CC_Dragon = 5,
+	CC_Phoenix = 6,
+	CC_Dog = 7
 };
 
 struct Card
@@ -63,7 +69,7 @@ struct CardMapComparator
 class PlayerComponent final : public ody::Component
 {
 public:
-	explicit PlayerComponent(const int playerID, CardRenderPackage renderPackage);
+	explicit PlayerComponent(const int playerID, const CardRenderPackage& renderPackage);
 	
 	~PlayerComponent() override = default;
 	PlayerComponent(const PlayerComponent& other) = delete;
