@@ -16,7 +16,7 @@ public:
 private:
 	friend class ButtonManagerComponent;
 	Button(std::shared_ptr<ody::Texture2D> texture, std::function<void()>&& callback,
-		glm::vec2& screenPosition, glm::ivec2& dimensions) :
+		const glm::vec2& screenPosition, const glm::vec2& dimensions) :
 		texture(texture), callback(std::move(callback)),
 		screenPosition(screenPosition), dimensions(dimensions)
 	{}
@@ -24,7 +24,7 @@ private:
 	std::shared_ptr<ody::Texture2D> texture{};
 	std::function<void()> callback{};
 	glm::vec2 screenPosition{};
-	glm::ivec2 dimensions{};
+	glm::vec2 dimensions{};
 
 	glm::vec4 hoveredTint{0.5f, 0.5f, 0.5f, 1.f};
 	glm::vec4 pressedTint{0.3f, 0.3f, 0.3f, 1.f};
@@ -49,8 +49,8 @@ public:
 	virtual void Render() const override;
 	virtual void Update() override;
 
-
-	Button* AddButton(const std::string& imagePath, std::function<void()> callback, glm::vec2 screenPosition);
+	//The source rect gets defaulted to the size of the texture
+	Button* AddButton(const std::string& imagePath, std::function<void()> callback, const glm::vec2& screenPosition, const glm::vec2& sourceRect = {0,0});
 
 private:
 	friend class ButtonPressed;
@@ -59,4 +59,5 @@ private:
 	bool IsPointInsideButton(const glm::vec2& point, const Button& pButton) const;
 
 	std::vector<std::unique_ptr<Button>> m_pButtons{};
+	std::vector<std::shared_ptr<ody::Texture2D>> m_pTextTextures{};
 };

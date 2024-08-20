@@ -9,6 +9,8 @@
 #include "Texture2D.h"
 #include "imgui.h"
 #include "ImGuiManager.h"
+#include "ResourceManager.h"
+#include "TextComponent.h"
 #include "backends/imgui_impl_opengl3.h"
 
 int GetOpenGLDriverIndex()
@@ -59,6 +61,8 @@ void ody::Renderer::Render() const
 	auto& sceneManager = SceneManager::GetInstance();
 
 	sceneManager.Render();
+
+	SDL_RenderFlush(m_renderer);
 
 //#ifdef _DEBUG
 	ImGui_ImplOpenGL3_NewFrame();

@@ -10,6 +10,7 @@
 #include "Commands/ButtonPressed.h"
 #include "Commands/CardSelectCommand.h"
 #include "ButtonManagerComponent.h"
+#include "TextComponent.h"
 
 void TichuScene::Initialize()
 {
@@ -36,7 +37,17 @@ void TichuScene::Initialize()
 	m_pPassButton->SetEnabled(false); //We start on an empty table so you can't say pass
 	m_pButtonManager->AddButton("PlayButton.png", [&]() { CheckSubmittedHand(); } , { 530, 660 });
 
+	CreateMahjongSelectionTable();
+
 	UpdateLights();
+
+	//Temp:
+	m_ShowCardBacks = false;
+	for (const auto& player : m_pPlayers)
+	{
+		player->ShowCardBacks(m_ShowCardBacks);
+	}
+	
 }
 
 void TichuScene::PostRender() 
@@ -81,6 +92,14 @@ void TichuScene::PostRender()
 			m_RenderPackage.cardScale
 		);
 	}
+
+	for (const auto& player : m_pPlayers)
+	{
+		if (player->GetShowMahjongSelectionTable())
+		{
+
+		}
+	}
 }
 
 
@@ -114,7 +133,6 @@ void TichuScene::CreateDeck()
 	m_Cards.emplace_back(Card{ CardColour::CC_Dragon, 20 });
 	m_Cards.emplace_back(Card{ CardColour::CC_Phoenix, 0 });
 	m_Cards.emplace_back(Card{ CardColour::CC_Mahjong, 1 });
-
 
 	// Shuffle the deck before distributing
 	std::random_device rd;
@@ -251,6 +269,42 @@ void TichuScene::UpdateLights() const
 	}
 
 	m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()]->SetPlaying(true);
+}
+
+
+void TichuScene::CreateMahjongSelectionTable()
+{
+	constexpr glm::vec2 buttonSize{ 37, 55 };
+	constexpr float startingPosition = (ody::constants::g_ScreenWidth - (13 * buttonSize.x)) / 2.f;
+	for (int i{ 0 }; i < 13; ++i)
+	{
+		m_pButtonManager->AddButton("Button.png", []() {}, { startingPosition + buttonSize.x * i, 600 }, buttonSize);
+	}
+
+	for (int i{ 2 }; i < 11; ++i)
+	{
+		//const auto gameObject = CreateGameObject();
+		//const auto textComponent = gameObject->AddComponent<ody::TextComponent>(std::to_string(i), "bonzai.ttf", 40);
+		//const float textWidth = textComponent->GetTextSize().x;
+		//const float textOffset = (buttonSize.x - textWidth) / 2.f;
+		//textComponent->SetPosition(startingPosition + buttonSize.x * (i - 2) + textOffset, 600);
+		CreateButtonTextAtPosition(std::to_string(i), { startingPosition + buttonSize.x * (i - 2), 600 }, buttonSize);
+	}
+
+	CreateButtonTextAtPosition("J", { startingPosition + buttonSize.x * 9, 600 }, buttonSize);
+	CreateButtonTextAtPosition("Q", { startingPosition + buttonSize.x * 10, 600 }, buttonSize);
+	CreateButtonTextAtPosition("K", { startingPosition + buttonSize.x * 11, 600 }, buttonSize);
+	CreateButtonTextAtPosition("A", { startingPosition + buttonSize.x * 12, 600 }, buttonSize);
+
+}
+
+void TichuScene::CreateButtonTextAtPosition(const std::string& text, const glm::vec2& position, const glm::vec2& buttonSize)
+{
+	const auto gameObject = CreateGameObject();
+	const auto textComponent = gameObject->AddComponent<ody::TextComponent>(text, "bonzai.ttf", 40);
+	const float textWidth = textComponent->GetTextSize().x;
+	const float textOffset = (buttonSize.x - textWidth) / 2.f;
+	textComponent->SetPosition(position.x + textOffset, position.y);
 }
 
 void TichuScene::OnGUI()

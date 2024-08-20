@@ -222,7 +222,7 @@ void PlayerComponent::SelectCardAtMousePosition(const glm::vec2& mousePosition)
             if (cardIt == m_SelectedCards.end())
             {
                 if (card.colour == CC_Mahjong)
-				    ShowMahjongSelectionTable(true);
+				    m_ShowMahjongSelectionTable = true;
 
                 m_SelectedCards.emplace_back(card);
             }
@@ -230,7 +230,7 @@ void PlayerComponent::SelectCardAtMousePosition(const glm::vec2& mousePosition)
             else
             {
                 if (card.colour == CC_Mahjong)
-                    ShowMahjongSelectionTable(false);
+                    m_ShowMahjongSelectionTable = false;
 
                 m_SelectedCards.erase(cardIt);
             }
@@ -324,11 +324,6 @@ void PlayerComponent::Pass()
     m_SelectedCards.clear();
     m_HitBoxesDirty = true;
     CalculateRenderingParameters();
-}
-
-void PlayerComponent::ShowMahjongSelectionTable(const bool show)
-{
-    m_ShowMahjongSelectionTable = show;
 }
 
 void PlayerComponent::CalculateRenderingParameters()

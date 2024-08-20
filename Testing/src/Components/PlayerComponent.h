@@ -94,6 +94,7 @@ public:
 	const std::vector<Card>& GetCards() const { return m_Cards; }
 	const std::vector<Card>& GetHand() { return m_SelectedCards; }
 	bool IsOut() const { return m_IsOut; }
+	bool GetShowMahjongSelectionTable() const { return m_ShowMahjongSelectionTable; }
 
 	//ImGui Relative Items
 	void ShowCardHitBoxes(const bool show) { m_ShowCardHitboxes = show; }
@@ -125,7 +126,6 @@ private:
 	glm::vec2 m_LightPosition{};
 
 	bool m_ShowMahjongSelectionTable{ false };
-	void ShowMahjongSelectionTable(const bool show);
 
 	//On Gui Bindings
 	bool m_ShowCardHitboxes{ false };

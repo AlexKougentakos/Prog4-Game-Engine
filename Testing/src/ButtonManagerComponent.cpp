@@ -11,7 +11,9 @@ void ButtonManagerComponent::Render() const
         ody::Renderer::GetInstance().RenderTexture(
             *button->texture,
             button->screenPosition.x,
-            button->screenPosition.y
+            button->screenPosition.y,
+			button->dimensions.x,
+			button->dimensions.y
         );
 	}
 }
@@ -57,11 +59,16 @@ void ButtonManagerComponent::OnMouseClick(const glm::vec2& mousePos)
     
 }
 
-Button* ButtonManagerComponent::AddButton(const std::string& imagePath, std::function<void()> callback, glm::vec2 screenPosition)
+Button* ButtonManagerComponent::AddButton(const std::string& imagePath, std::function<void()> callback, const glm::vec2& screenPosition, const glm::vec2& sourceRect)
 {
 	const std::shared_ptr<ody::Texture2D> texture = ody::ResourceManager::GetInstance().LoadTexture(imagePath);
 
-    auto dimensions = texture->GetSize();
+	glm::vec2 dimensions = sourceRect;
+
+    if (sourceRect == glm::vec2{0.f, 0.f})
+    {
+        dimensions = texture->GetSize();
+    }
 
     //Using new here instead of make_unique because the constructor of Button is private
     const auto pButton = new Button(texture, std::move(callback), screenPosition, dimensions);

@@ -6,6 +6,11 @@
 #include "Tichu.h"
 #include "CardRenderPackage.h"
 
+namespace ody
+{
+	class TextComponent;
+}
+
 class Button;
 class ButtonManagerComponent;
 class CardComponent;
@@ -21,6 +26,7 @@ public:
 	TichuScene& operator=(TichuScene&& other) noexcept = delete;
 
 protected:
+	void CreateMahjongSelectionTable();
 	void Initialize() override;
 	void PostRender() override;
 	void Update() override;
@@ -50,6 +56,10 @@ private:
 	std::vector<Card> m_CurrentCards{};
 	CardRenderPackage m_RenderPackage{};
 	std::unique_ptr<Tichu> m_pTichuGame{};
+
+	std::vector<ody::TextComponent*> m_pTextComponents{};
+
+	void CreateButtonTextAtPosition(const std::string& text, const glm::vec2& position, const glm::vec2& buttonSize);
 
 	ButtonManagerComponent* m_pButtonManager{};
 	Button* m_pPassButton{};
