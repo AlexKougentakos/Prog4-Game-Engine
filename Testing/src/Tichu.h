@@ -12,7 +12,9 @@ enum class CombinationType : uint8_t
 	CT_Triples = 3,
 	CT_Straight = 4,
 	CT_Steps = 5,
-	CT_FullHouse = 6
+	CT_FullHouse = 6,
+
+	CT_Dogs = 7,
 
 	//TODO: Add bombs later
 };

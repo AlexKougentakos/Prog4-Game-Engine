@@ -14,7 +14,11 @@ Combination Tichu::CreateCombination(const std::vector<Card>& cards)
 	//A single card would always be valid
 	if (numberOfCards == 1)
 	{
-		combination.combinationType = CombinationType::CT_Single;
+		if (cards[0].colour == CardColour::CC_Dog)
+			combination.combinationType = CombinationType::CT_Dogs;
+		else 
+			combination.combinationType = CombinationType::CT_Single;
+
 		combination.power = cards[0].power;
 		return combination;
 	}
@@ -105,6 +109,17 @@ Combination Tichu::CreateCombination(const std::vector<Card>& cards)
 
 bool Tichu::PlayHand(const Combination combination)
 {
+	if (combination.combinationType == CombinationType::CT_Dogs)
+	{
+		if (m_CurrentStrongestCombination.combinationType == CombinationType::CT_Invalid)
+		{
+			m_CurrentPlayerIndex = (m_CurrentPlayerIndex + 2) % 4;
+			return true;
+		}
+		
+		return false;
+	}
+
 	//The table is empty and your combination is valid
 	if (m_CurrentStrongestCombination.numberOfCards == 0 && combination.combinationType != CombinationType::CT_Invalid)
 	{
@@ -123,7 +138,6 @@ bool Tichu::PlayHand(const Combination combination)
 		return true;
 	}
 
-	
 	//The combination cannot beat the one that is already present
 	return false;
 }
