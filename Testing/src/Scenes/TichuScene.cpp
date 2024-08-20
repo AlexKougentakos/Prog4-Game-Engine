@@ -310,6 +310,7 @@ void TichuScene::OnGUI()
 		case CombinationType::CT_Steps: comboTypeStr = "Steps"; break;
 		case CombinationType::CT_FullHouse: comboTypeStr = "Full House"; break;
 		case CombinationType::CT_Invalid:comboTypeStr = "Invalid"; break;
+		case CombinationType::CT_Dogs: comboTypeStr = "Dogs"; break;
 		}
 		ImGui::Text("Combination Type: %s", comboTypeStr);
 
