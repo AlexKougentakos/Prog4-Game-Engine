@@ -29,6 +29,7 @@ protected:
 	void CreateMahjongSelectionTable();
 	void Initialize() override;
 	void PostRender() override;
+	void HandleMahjongTable();
 	void Update() override;
 	void OnGUI() override;
 
@@ -44,12 +45,13 @@ private:
 	void CreateDeck();
 	void CreatePlayers();
 	void DealCards();
-	void CreateCardRenderPackage();
-
 	void CheckSubmittedHand();
+
+	void CreateCardRenderPackage();
 	void Pass();
 	
 	void UpdateLights() const;
+	void ShowMahjongSelectionTable(const bool show);
 
 	std::vector<PlayerComponent*> m_pPlayers{};
 	std::vector<Card> m_Cards{};
@@ -62,8 +64,8 @@ private:
 
 	void CreateButtonTextAtPosition(const std::string& text, const glm::vec2& position, const glm::vec2& buttonSize);
 
-	bool m_ShouldShowMahjongSelectionTable{ false };
 	bool m_IsMahjongSelectionTableVisible{ false };
+	int m_CurrentMahjongWishPower{0};
 
 	ButtonManagerComponent* m_pButtonManager{};
 	Button* m_pPassButton{};

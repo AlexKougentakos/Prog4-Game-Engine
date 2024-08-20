@@ -94,46 +94,9 @@ void TichuScene::PostRender()
 	}
 }
 
-
 void TichuScene::Update()
 {
-	bool showMahjongSelectionTable = false;
-
-	for (const auto& player : m_pPlayers)
-	{
-		if (player->GetShowMahjongSelectionTable())
-		{
-			showMahjongSelectionTable = true;
-			break;
-		}
-	}
-
-	if (showMahjongSelectionTable && !m_IsMahjongSelectionTableVisible)
-	{
-		m_IsMahjongSelectionTableVisible = true;
-		for (const auto textComponent : m_pTextComponents)
-		{
-			textComponent->SetVisible(true);
-		}
-
-		for (auto button : m_pMahjongButtons)
-		{
-			button->SetVisible(true);
-		}
-	}
-	else if (!showMahjongSelectionTable && m_IsMahjongSelectionTableVisible)
-	{
-		m_IsMahjongSelectionTableVisible = false;
-		for (const auto textComponent : m_pTextComponents)
-		{
-			textComponent->SetVisible(false);
-		}
-
-		for (auto button : m_pMahjongButtons)
-		{
-			button->SetVisible(false);
-		}
-	}
+	HandleMahjongTable();
 
 
 	//todo: add a dirty flag for this
@@ -259,6 +222,8 @@ void TichuScene::CheckSubmittedHand()
 	std::vector<Card> submittedHand = m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()]->GetHand();
 	std::sort(submittedHand.begin(), submittedHand.end());
 
+	//todo: Check HERE to see if the player needs to follow the mahjong wish
+
 	const Combination combination = Tichu::CreateCombination(submittedHand);
 
 	if (m_pTichuGame->PlayHand(combination))
@@ -272,6 +237,7 @@ void TichuScene::CheckSubmittedHand()
 		m_pPlayers[previousPlayer]->PlayedSelectedCards();
 		m_CurrentCards = submittedHand;
 		UpdateLights();
+		ShowMahjongSelectionTable(false);
 	}
 }
 
@@ -303,13 +269,72 @@ void TichuScene::UpdateLights() const
 }
 
 
+void TichuScene::HandleMahjongTable()
+{
+	bool showMahjongSelectionTable = false;
+
+	for (const auto& player : m_pPlayers)
+	{
+		if (player->GetShowMahjongSelectionTable())
+		{
+			showMahjongSelectionTable = true;
+			break;
+		}
+	}
+
+	if (showMahjongSelectionTable && !m_IsMahjongSelectionTableVisible)
+	{
+		ShowMahjongSelectionTable(true);
+	}
+	else if (!showMahjongSelectionTable && m_IsMahjongSelectionTableVisible)
+	{
+		ShowMahjongSelectionTable(false);
+		for (const auto& button : m_pMahjongButtons)
+		{
+			button->SetEnabled(true);
+		}
+		m_CurrentMahjongWishPower = 0;
+	}
+}
+
+
+void TichuScene::ShowMahjongSelectionTable(const bool show)
+{
+	m_IsMahjongSelectionTableVisible = show;
+	for (const auto textComponent : m_pTextComponents)
+	{
+		textComponent->SetVisible(show);
+	}
+
+	for (auto button : m_pMahjongButtons)
+	{
+		button->SetVisible(show);
+	}
+}
+
 void TichuScene::CreateMahjongSelectionTable()
 {
 	constexpr glm::vec2 buttonSize{ 37, 55 };
 	constexpr float startingPosition = (ody::constants::g_ScreenWidth - (13 * buttonSize.x)) / 2.f;
 	for (int i{ 0 }; i < 13; ++i)
 	{
-		m_pMahjongButtons.emplace_back(m_pButtonManager->AddButton("Button.png", []() {}, { startingPosition + buttonSize.x * i, 600 }, buttonSize));
+		auto createButtonCallback = [this](int buttonIndex) {
+			return [this, buttonIndex]() {
+				for (const auto& button : m_pMahjongButtons)
+				{
+					button->SetEnabled(true);
+				}
+				m_CurrentMahjongWishPower = buttonIndex + 2;
+				m_pMahjongButtons[buttonIndex]->SetEnabled(false);
+				};
+			};
+
+		m_pMahjongButtons.emplace_back(m_pButtonManager->AddButton(
+			"Button.png",
+			createButtonCallback(i),
+			{ startingPosition + buttonSize.x * i, 600 },
+			buttonSize
+		));
 	}
 
 	for (int i{ 2 }; i < 11; ++i)
@@ -331,7 +356,6 @@ void TichuScene::CreateMahjongSelectionTable()
 	{
 		button->SetVisible(false);
 	}
-
 }
 
 void TichuScene::CreateButtonTextAtPosition(const std::string& text, const glm::vec2& position, const glm::vec2& buttonSize)
