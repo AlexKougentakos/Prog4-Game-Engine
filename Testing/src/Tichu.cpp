@@ -147,6 +147,11 @@ void Tichu::UpdatePlayerStates(const std::vector<PlayerState>& playerStates)
 	m_PlayerStates = playerStates;
 }
 
+void Tichu::SetStartingPlayer(const int startingPlayerIndex)
+{
+	m_CurrentPlayerIndex = startingPlayerIndex;
+}
+
 std::pair<bool, bool> Tichu::Pass()
 {
 	//If the current highest combination is invalid this means that the table is empty

@@ -10,7 +10,6 @@
 #include "Commands/ButtonPressed.h"
 #include "Commands/CardSelectCommand.h"
 #include "ButtonManagerComponent.h"
-#include "DebugDrawer.h"
 
 void TichuScene::Initialize()
 {
@@ -23,17 +22,15 @@ void TichuScene::Initialize()
 
 	m_RenderPackage.pointDisplayHeight = pPointDisplay->GetComponent<ody::TextureComponent>()->GetTextureSize().y;
 
+	m_pTichuGame = std::make_unique<Tichu>();
 	
 	CreateCardRenderPackage();
 	CreateDeck();
 	CreatePlayers();
 	DealCards();
 
-	m_pTichuGame = std::make_unique<Tichu>();
-
 	ody::InputManager::GetInstance().AddMouseCommand<CardSelectCommand>(SDL_BUTTON_LEFT, ody::InputManager::InputType::OnMouseButtonDown, m_pPlayers, m_pTichuGame->GetCurrentPlayerIndex());
 	ody::InputManager::GetInstance().AddMouseCommand<ButtonPressed>(SDL_BUTTON_LEFT, ody::InputManager::InputType::OnMouseButtonDown, m_pButtonManager);
-
 
 	m_pPassButton = m_pButtonManager->AddButton("PassButton.png", [&]() { Pass(); } , { 185, 660 });
 	m_pPassButton->SetEnabled(false); //We start on an empty table so you can't say pass
@@ -197,6 +194,12 @@ void TichuScene::DealCards()
 
 		// Create a vector of cards for this player
 		std::vector<Card> playerCards(m_Cards.begin() + startIndex, m_Cards.begin() + endIndex);
+		if (std::find(playerCards.begin(), playerCards.end(), Card{ CardColour::CC_Mahjong, 1 }) != playerCards.end())
+		{
+			player->SetPlaying(true);
+			m_pTichuGame->SetStartingPlayer(player->GetPlayerID());
+		}
+			
 		std::sort(playerCards.begin(), playerCards.end());
 		player->SetCards(playerCards);
 	}

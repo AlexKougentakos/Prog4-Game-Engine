@@ -60,7 +60,7 @@ void ody::Renderer::Render() const
 
 	sceneManager.Render();
 
-#ifdef _DEBUG
+//#ifdef _DEBUG
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
@@ -74,7 +74,7 @@ void ody::Renderer::Render() const
 	DebugDrawer::GetInstance().Render(m_renderer);
 	DebugDrawer::GetInstance().Clear(); // Clear after rendering so that the shapes don't persist
 
-#endif
+//#endif
 	
 	SDL_RenderPresent(m_renderer);
 }

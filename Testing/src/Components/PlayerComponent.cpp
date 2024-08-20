@@ -32,84 +32,19 @@ void PlayerComponent::Initialize()
     m_LightSize = { 40.f, 40.f };
 }
 
-void PlayerComponent::Render() const
+void PlayerComponent::RenderLights() const
 {
-    if (m_RenderPackage.cardTextures.empty()) return;
-
-    if (m_IsOut) return;
-
-    const float cardWidth = static_cast<float>(m_RenderPackage.cardTextures[0]->GetSize().x);
-    const float cardHeight = static_cast<float>(m_RenderPackage.cardTextures[0]->GetSize().y);
-
-    for (size_t i = 0; i < m_Cards.size(); ++i)
-    {
-        const bool isSelected = std::find(m_SelectedCards.begin(), m_SelectedCards.end(), m_Cards[i]) != m_SelectedCards.end();
-
-        //Move them to the side slightly, so you can see all the cards
-        const glm::vec3 cardPosition = m_StartPosition + m_Offset * static_cast<float>(i) + glm::vec3{ m_CardPickupDirection, 0.f } * m_CardPickupAmount * static_cast<float>(isSelected);
-        
-        // Calculate the name of the card texture
-        //const size_t textureIndex = m_Cards[i].colour * 13 + m_Cards[i].power - 2;
-
-        const size_t textureIndex = [&]() -> size_t
-            {                
-				//This is the order in which they are added inside the CreateDeck() function in the TichuScene
-                switch (m_Cards[i].colour)
-                {
-                case CC_Dog:
-					return 52;
-                case CC_Dragon:
-					return 53;
-                case CC_Phoenix:
-					return 54;
-                case CC_Mahjong:
-					return 55;
-                default:
-                    return m_Cards[i].colour * 13 + m_Cards[i].power - 2; //Calculate the texture index using the colour to find the right tile image
-                }
-            }();
-
-
-#ifdef _DEBUG
-		if (m_ShowCardBacks && m_PlayerID != 0)
-		{
-			ody::Renderer::GetInstance().RenderTexture(
-				*m_RenderPackage.cardBack,
-				cardPosition.x,
-				cardPosition.y,
-				cardWidth,
-				cardHeight,
-                m_Rotation,
-				m_RenderPackage.cardScale,
-				SDL_FLIP_NONE
-			);
-		}
-		else
-#endif
-        // Render the texture with rotation
-        ody::Renderer::GetInstance().RenderTexture(
-            *m_RenderPackage.cardTextures[textureIndex],
-            cardPosition.x,
-            cardPosition.y,
-            cardWidth,
-            cardHeight,
-            m_Rotation,
-            m_RenderPackage.cardScale,
-            SDL_FLIP_NONE
-        );
-    }
-
-    if (m_IsPlaying)
+	if (m_IsPlaying)
 	{
 		ody::Renderer::GetInstance().RenderTexture(
 			*m_pGreenLightTexture,
-            m_LightPosition.x,
-            m_LightPosition.y,
-            40.f,
-            40.f
+			m_LightPosition.x,
+			m_LightPosition.y,
+			40.f,
+			40.f
 		);
 	}
-    else
+	else
 	{
 		ody::Renderer::GetInstance().RenderTexture(
 			*m_pRedLightTexture,
@@ -119,6 +54,22 @@ void PlayerComponent::Render() const
 			40.f
 		);
 	}
+}
+
+void PlayerComponent::Render() const
+{
+    if (m_RenderPackage.cardTextures.empty()) return;
+
+    if (m_IsOut) return;
+
+    RenderCards();
+
+    RenderLights();
+
+    if (m_ShowMahjongSelectionTable)
+    {
+		
+    }
 
     if (!m_ShowCardHitboxes) return;
 
@@ -135,6 +86,70 @@ void PlayerComponent::Render() const
 void PlayerComponent::Update() 
 {
     CalculateHitBoxes(); //This has a dirty check so it's not expensive
+}
+
+void PlayerComponent::RenderCards() const
+{
+    const float cardWidth = static_cast<float>(m_RenderPackage.cardTextures[0]->GetSize().x);
+    const float cardHeight = static_cast<float>(m_RenderPackage.cardTextures[0]->GetSize().y);
+
+    for (size_t i = 0; i < m_Cards.size(); ++i)
+    {
+        const bool isSelected = std::find(m_SelectedCards.begin(), m_SelectedCards.end(), m_Cards[i]) != m_SelectedCards.end();
+
+        //Move them to the side slightly, so you can see all the cards
+        const glm::vec3 cardPosition = m_StartPosition + m_Offset * static_cast<float>(i) + glm::vec3{ m_CardPickupDirection, 0.f } *m_CardPickupAmount * static_cast<float>(isSelected);
+
+        // Calculate the name of the card texture
+        //const size_t textureIndex = m_Cards[i].colour * 13 + m_Cards[i].power - 2;
+
+        const size_t textureIndex = [&]() -> size_t
+            {
+                //This is the order in which they are added inside the CreateDeck() function in the TichuScene
+                switch (m_Cards[i].colour)
+                {
+                case CC_Dog:
+                    return 52;
+                case CC_Dragon:
+                    return 53;
+                case CC_Phoenix:
+                    return 54;
+                case CC_Mahjong:
+                    return 55;
+                default:
+                    return m_Cards[i].colour * 13 + m_Cards[i].power - 2; //Calculate the texture index using the colour to find the right tile image
+                }
+            }();
+
+
+#ifdef _DEBUG
+            if (m_ShowCardBacks && m_PlayerID != 0)
+            {
+                ody::Renderer::GetInstance().RenderTexture(
+                    *m_RenderPackage.cardBack,
+                    cardPosition.x,
+                    cardPosition.y,
+                    cardWidth,
+                    cardHeight,
+                    m_Rotation,
+                    m_RenderPackage.cardScale,
+                    SDL_FLIP_NONE
+                );
+            }
+            else
+#endif
+                // Render the texture with rotation
+                ody::Renderer::GetInstance().RenderTexture(
+                    *m_RenderPackage.cardTextures[textureIndex],
+                    cardPosition.x,
+                    cardPosition.y,
+                    cardWidth,
+                    cardHeight,
+                    m_Rotation,
+                    m_RenderPackage.cardScale,
+                    SDL_FLIP_NONE
+                );
+    }
 }
 
 void PlayerComponent::CalculateHitBoxes()
@@ -206,10 +221,19 @@ void PlayerComponent::SelectCardAtMousePosition(const glm::vec2& mousePosition)
             const auto cardIt = std::find(m_SelectedCards.begin(), m_SelectedCards.end(), card);
             if (cardIt == m_SelectedCards.end())
             {
+                if (card.colour == CC_Mahjong)
+				    ShowMahjongSelectionTable(true);
+
                 m_SelectedCards.emplace_back(card);
             }
             //Otherwise remove it
-            else m_SelectedCards.erase(cardIt);
+            else
+            {
+                if (card.colour == CC_Mahjong)
+                    ShowMahjongSelectionTable(false);
+
+                m_SelectedCards.erase(cardIt);
+            }
 
             m_HitBoxesDirty = true;
             return;
@@ -300,6 +324,11 @@ void PlayerComponent::Pass()
     m_SelectedCards.clear();
     m_HitBoxesDirty = true;
     CalculateRenderingParameters();
+}
+
+void PlayerComponent::ShowMahjongSelectionTable(const bool show)
+{
+    m_ShowMahjongSelectionTable = show;
 }
 
 void PlayerComponent::CalculateRenderingParameters()

@@ -52,6 +52,8 @@ public:
 
 	void UpdatePlayerStates(const std::vector<PlayerState>& playerStates);
 
+	void SetStartingPlayer(const int startingPlayerIndex);
+
 	//First bool is if the pass is valid, second is if it's a round reset, meaning 3 players passed in a row
 	std::pair<bool, bool> Pass();
 	const int& GetCurrentPlayerIndex() const { return m_CurrentPlayerIndex; }

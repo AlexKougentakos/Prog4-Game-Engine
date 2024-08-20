@@ -124,6 +124,9 @@ private:
 	glm::vec2 m_LightSize{};
 	glm::vec2 m_LightPosition{};
 
+	bool m_ShowMahjongSelectionTable{ false };
+	void ShowMahjongSelectionTable(const bool show);
+
 	//On Gui Bindings
 	bool m_ShowCardHitboxes{ false };
 	bool m_ShowCardBacks{ true };
@@ -131,4 +134,7 @@ private:
 	void CalculateRenderingParameters();
 	CardHitbox CalculateRotatedHitbox(float centerX, float centerY, float width, float height, float rotation, bool manualCorrection);
 	void CalculateHitBoxes();
+
+	void RenderLights() const;
+	void RenderCards() const;
 };

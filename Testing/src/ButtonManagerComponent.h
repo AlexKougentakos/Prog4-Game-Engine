@@ -32,6 +32,7 @@ private:
 
 	//Interfacing
 	bool m_IsEnabled{ true };
+	bool m_IsVisible{ true };
 };
 
 class ButtonManagerComponent final : public ody::Component

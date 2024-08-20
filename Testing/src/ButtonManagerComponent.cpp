@@ -23,6 +23,9 @@ void ButtonManagerComponent::Update()
     const glm::vec2 mousePos = inputManager.GetMousePosition();
     for (const auto& button : m_pButtons)
     {
+		if (!button->m_IsVisible)
+			continue;
+
         if (!button->m_IsEnabled)
         {
             button->texture->Tint(button->disabledTint);
@@ -69,6 +72,9 @@ Button* ButtonManagerComponent::AddButton(const std::string& imagePath, std::fun
 
 bool ButtonManagerComponent::IsPointInsideButton(const glm::vec2& point, const Button& pButton) const
 {
+	if (pButton.m_IsVisible == false)
+		return false;
+
     const glm::vec2 buttonPos = pButton.screenPosition;
     const glm::vec2 buttonDimensions = pButton.dimensions;
 
