@@ -46,6 +46,7 @@ public:
 	Tichu() = default;
 	//Expects the array is sorted by power level
 	static Combination CreateCombination(const std::vector<Card>& cards);
+	bool CanFulfillWish(const uint8_t wishPower, const std::vector<Card>& cards);
 
 	//Returns if the combination was accepted and taken in as the highest combination played
 	bool PlayHand(const Combination combination);

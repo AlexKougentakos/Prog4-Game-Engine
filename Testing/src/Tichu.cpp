@@ -1,6 +1,8 @@
 #include "Tichu.h"
 
+#include <algorithm>
 #include <iostream>
+#include <unordered_map>
 
 Combination Tichu::CreateCombination(const std::vector<Card>& cards)
 {
@@ -107,6 +109,76 @@ Combination Tichu::CreateCombination(const std::vector<Card>& cards)
 	return combination;
 }
 
+bool Tichu::CanFulfillWish(const uint8_t wishPower, const std::vector<Card>& cards)
+{
+	if (m_CurrentStrongestCombination.combinationType == CombinationType::CT_Single)
+	{
+		//You can't legally play a card of equal or lower power so you can't fulfill the wish
+		if (m_CurrentStrongestCombination.power >= wishPower)
+			return false;
+
+		for (const Card& card : cards)
+		{
+			if (card.power == wishPower)
+				return true;
+		}
+	}
+
+	//For the straight I am not accounting for power, since in order to beat it you need to beat the lowest card.
+	//If you are forming a straight with a mahjong the lowest card will always be a 1 and so any other legal straight will beat it
+	else if (m_CurrentStrongestCombination.combinationType == CombinationType::CT_Straight)
+	{
+		//Create a map of the cards and their count
+		//This is so that we can easily create a vector of just the powers without duplicates
+		std::unordered_map<uint8_t, int> cardCount;
+		for (const Card& card : cards)
+		{
+			cardCount[card.power]++;
+		}
+
+		//Create a vector of the unique duplicates
+		std::vector<uint8_t> uniquePowers{};
+		uniquePowers.reserve(cardCount.size());
+
+		for (const auto& entry : cardCount)
+		{
+			uniquePowers.emplace_back(entry.first);
+		}
+
+		//Sort the array so the powers are in order
+		std::sort(uniquePowers.begin(), uniquePowers.end());
+
+		//For every element in the array, start moving forward
+		// and see if we can for an array as well as keep track of if it contains the wish
+		// if both conditions are true then we are able to fulfill the wish
+		for (size_t i = 0; i < uniquePowers.size(); ++i)
+		{
+			int length = 0;
+			bool containsWish = false;
+
+			for (size_t j = i; j < uniquePowers.size(); ++j)
+			{
+				if (j > i && uniquePowers[j] != uniquePowers[j - 1] + 1)
+					break;
+
+				length++;
+				if (uniquePowers[j] == wishPower)
+				{
+					containsWish = true;
+				}
+
+				// Check if the current sequence can form a valid straight
+				if (containsWish && length >= m_CurrentStrongestCombination.numberOfCards)
+				{
+					return true;
+				}
+			}
+		}
+	}
+
+	return false;
+}
+
 bool Tichu::PlayHand(const Combination combination)
 {
 	if (combination.combinationType == CombinationType::CT_Dogs)
@@ -130,7 +202,9 @@ bool Tichu::PlayHand(const Combination combination)
 	}
 
 	//The combinations are the same but the one thrown is of higher power
-	if (m_CurrentStrongestCombination.combinationType == combination.combinationType && combination.power > m_CurrentStrongestCombination.power)
+	if (m_CurrentStrongestCombination.combinationType == combination.combinationType && 
+		combination.numberOfCards == m_CurrentStrongestCombination.numberOfCards &&
+		combination.power > m_CurrentStrongestCombination.power )
 	{
 		m_CurrentStrongestCombination = combination;
 		m_PassesInARow = 0;

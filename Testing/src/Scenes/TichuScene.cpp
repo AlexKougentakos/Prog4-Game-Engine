@@ -219,10 +219,30 @@ void TichuScene::DealCards()
 
 void TichuScene::CheckSubmittedHand()
 {
-	std::vector<Card> submittedHand = m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()]->GetHand();
+	const auto player = m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()];
+
+	std::vector<Card> submittedHand = player->GetHand();
 	std::sort(submittedHand.begin(), submittedHand.end());
 
 	//todo: Check HERE to see if the player needs to follow the mahjong wish
+	if (m_CurrentMahjongWishPower != 0 &&
+		m_pTichuGame->CanFulfillWish(static_cast<uint8_t>(m_CurrentMahjongWishPower), player->GetCards()))
+	{
+		//If we enter here this means that there IS a wish and the player CAN fulfill it
+		if (std::find_if(submittedHand.begin(), submittedHand.end(),
+			[this](const Card& card)
+			{
+				return card.power == m_CurrentMahjongWishPower;
+			}) == submittedHand.end())
+		{
+			//If we enter here the player didn't fulfill the wish
+			return;
+		}
+		else 
+		{
+			m_CurrentMahjongWishPower = 0;
+		}
+	}
 
 	const Combination combination = Tichu::CreateCombination(submittedHand);
 
@@ -243,6 +263,14 @@ void TichuScene::CheckSubmittedHand()
 
 void TichuScene::Pass()
 {
+	const auto player = m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()];
+	if (m_CurrentMahjongWishPower != 0 &&
+		m_pTichuGame->CanFulfillWish(static_cast<uint8_t>(m_CurrentMahjongWishPower), player->GetCards()))
+	{
+		//The player CAN fulfill the wish, so he's not allowed to pass
+		return;
+	}
+
 	const std::pair<bool, bool> booleanInfo = m_pTichuGame->Pass();
 	if (booleanInfo.first)
 	{
@@ -252,7 +280,7 @@ void TichuScene::Pass()
 			m_pPassButton->SetEnabled(false);
 		}
 
-		m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()]->Pass();
+		player->Pass();
 		UpdateLights();
 	}
 
