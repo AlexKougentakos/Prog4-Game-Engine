@@ -4,7 +4,7 @@
 #include <iostream>
 #include <unordered_map>
 
-Combination Tichu::CreateCombination(const std::vector<Card>& cards)
+Combination Tichu::CreateCombination(const std::vector<Card>& cards) const
 {
 	const size_t numberOfCards = cards.size();
 
@@ -13,15 +13,34 @@ Combination Tichu::CreateCombination(const std::vector<Card>& cards)
 	combination.combinationType = CombinationType::CT_Invalid;
 	combination.numberOfCards = static_cast<uint8_t>(numberOfCards);
 
+	//Find if the hand contains a phoenix card
+	bool hasPhoenix = false;
+	//bool usedPhoenix = false;
+	for (const Card& card : cards)
+	{
+		if (card.colour == CardColour::CC_Phoenix)
+		{
+			hasPhoenix = true;
+			break;
+		}
+	}
+
 	//A single card would always be valid
 	if (numberOfCards == 1)
 	{
 		if (cards[0].colour == CardColour::CC_Dog)
 			combination.combinationType = CombinationType::CT_Dogs;
-		else 
+		else
 			combination.combinationType = CombinationType::CT_Single;
 
-		combination.power = cards[0].power;
+		if (hasPhoenix)
+		{
+			combination.combinationType = CombinationType::CT_SinglePhoenix;
+			combination.power = m_CurrentStrongestCombination.power + 1;
+		}
+		else
+			combination.power = cards[0].power;
+
 		return combination;
 	}
 	//Doubles need to be the same
@@ -190,6 +209,31 @@ bool Tichu::PlayHand(const Combination combination)
 		}
 		
 		return false;
+	}
+
+	if (combination.combinationType == CombinationType::CT_SinglePhoenix)
+	{
+		//Less than 18 so that it can't beat the dragon
+		if (m_CurrentStrongestCombination.combinationType == CombinationType::CT_Single && combination.power < 18)
+		{
+				m_CurrentStrongestCombination = combination;
+				NextPlayer();
+				m_PassesInARow = 0;
+				return true;
+		}
+		return false;
+	}
+
+	if (m_CurrentStrongestCombination.combinationType == CombinationType::CT_SinglePhoenix)
+	{
+		//>= because the phoenix normally adds +0.5 to the power of the card it was laid on, but I don't use floats
+		if (combination.combinationType == CombinationType::CT_Single && combination.power >= m_CurrentStrongestCombination.power)
+		{
+			m_CurrentStrongestCombination = combination;
+			NextPlayer();
+			m_PassesInARow = 0;
+			return true;
+		}
 	}
 
 	//The table is empty and your combination is valid

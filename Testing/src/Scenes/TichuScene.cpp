@@ -244,7 +244,7 @@ void TichuScene::CheckSubmittedHand()
 		}
 	}
 
-	const Combination combination = Tichu::CreateCombination(submittedHand);
+	const Combination combination = m_pTichuGame->CreateCombination(submittedHand);
 
 	if (m_pTichuGame->PlayHand(combination))
 	{
@@ -441,7 +441,7 @@ void TichuScene::OnGUI()
 		auto cards = m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()]->GetHand();
 		std::sort(cards.begin(), cards.end());
 
-		const Combination combo = Tichu::CreateCombination(cards);
+		const Combination combo = m_pTichuGame->CreateCombination(cards);
 
 		// Display combination type
 		const char* comboTypeStr = "Invalid";

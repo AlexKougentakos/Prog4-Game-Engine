@@ -15,6 +15,7 @@ enum class CombinationType : uint8_t
 	CT_FullHouse = 6,
 
 	CT_Dogs = 7,
+	CT_SinglePhoenix = 8,
 
 	//TODO: Add bombs later
 };
@@ -45,7 +46,7 @@ class Tichu final
 public:
 	Tichu() = default;
 	//Expects the array is sorted by power level
-	static Combination CreateCombination(const std::vector<Card>& cards);
+	Combination CreateCombination(const std::vector<Card>& cards) const;
 	bool CanFulfillWish(const uint8_t wishPower, const std::vector<Card>& cards);
 
 	//Returns if the combination was accepted and taken in as the highest combination played
