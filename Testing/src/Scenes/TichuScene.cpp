@@ -249,7 +249,7 @@ void TichuScene::CheckSubmittedHand()
 	if (m_pTichuGame->PlayHand(combination))
 	{
 		m_pPassButton->SetEnabled(true);
-		int previousPlayer = m_pTichuGame->GetCurrentPlayerIndex() - 1;
+		int previousPlayer = combination.combinationType == CombinationType::CT_Dogs ? m_pTichuGame->GetCurrentPlayerIndex() - 2 : m_pTichuGame->GetCurrentPlayerIndex() - 1;
 		if (previousPlayer < 0) previousPlayer = 3;
 
 		//Previous player because the current player index gets incremented inside PlayHand()
