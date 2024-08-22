@@ -47,7 +47,7 @@ public:
 	Tichu() = default;
 	//Expects the array is sorted by power level
 	Combination CreateCombination(const std::vector<Card>& cards) const;
-	bool CanFulfillWish(const uint8_t wishPower, const std::vector<Card>& cards);
+	bool CanFulfillWish(const uint8_t wishPower, const std::vector<Card>& cards) const;
 
 	//Returns if the combination was accepted and taken in as the highest combination played
 	bool PlayHand(const Combination combination);
@@ -56,15 +56,21 @@ public:
 
 	void SetStartingPlayer(const int startingPlayerIndex);
 
+	int CountPoints(const std::vector<Card>& cards) const;
+
 	//First bool is if the pass is valid, second is if it's a round reset, meaning 3 players passed in a row
 	std::pair<bool, bool> Pass();
 	const int& GetCurrentPlayerIndex() const { return m_CurrentPlayerIndex; }
+	int GetPreviousPlayerIndex() const;
+	int GetPlayersLeftWhenLastHandPlayed() const { return m_PlayersLeftWhenLastHandPlayed; }
 
 private:
 	Combination m_CurrentStrongestCombination{};
 
 	void NextPlayer();
+	void CountPlayersLeft();
 
+	int m_PlayersLeftWhenLastHandPlayed{ 4 };
 	int m_PassesInARow{0};
 
 	int m_CurrentPlayerIndex{};

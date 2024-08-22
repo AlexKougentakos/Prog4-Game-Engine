@@ -49,13 +49,16 @@ private:
 
 	void CreateCardRenderPackage();
 	void Pass();
+
+	void NewRound();
 	
 	void UpdateLights() const;
 	void ShowMahjongSelectionTable(const bool show);
 
 	std::vector<PlayerComponent*> m_pPlayers{};
 	std::vector<Card> m_Cards{};
-	std::vector<Card> m_CurrentCards{};
+	std::vector<Card> m_CardsOnTop{};
+	std::vector<Card> m_PlayedCards{};
 	CardRenderPackage m_RenderPackage{};
 	std::unique_ptr<Tichu> m_pTichuGame{};
 
@@ -63,6 +66,13 @@ private:
 	std::vector<Button*> m_pMahjongButtons{};
 
 	void CreateButtonTextAtPosition(const std::string& text, const glm::vec2& position, const glm::vec2& buttonSize);
+
+	int m_NumberOfPlayersOut{0};
+	int m_IndexOfFirstPlayerOut{0};
+	int m_PlayerWhoThrewDogsIndex{ 0 };
+
+	int m_Team0Points{ 0 }; //Player 0 and 2 
+	int m_Team1Points{ 0 }; //Player 1 and 3
 
 	bool m_IsMahjongSelectionTableVisible{ false };
 	int m_CurrentMahjongWishPower{0};

@@ -54,10 +54,10 @@ void TichuScene::PostRender()
 {
 	const float cardHeight = static_cast<float>(m_RenderPackage.cardTextures[0]->GetSize().y);
 	const float cardWidth = static_cast<float>(m_RenderPackage.cardTextures[0]->GetSize().x);
-	const float stackWidth = m_RenderPackage.cardSpacing * (m_CurrentCards.size() - 1) + cardWidth * m_RenderPackage.cardScale;
+	const float stackWidth = m_RenderPackage.cardSpacing * (m_CardsOnTop.size() - 1) + cardWidth * m_RenderPackage.cardScale;
 	const auto startPosition = glm::vec3(ody::constants::g_ScreenWidth / 2.f - stackWidth / 2, ody::constants::g_ScreenHeight / 2.f - (cardHeight * m_RenderPackage.cardScale) / 2.f, 0);
 
-	for (size_t i = 0; i < m_CurrentCards.size(); ++i)
+	for (size_t i = 0; i < m_CardsOnTop.size(); ++i)
 	{
 		//Move them to the side slightly, so you can see all the cards
 		const glm::vec3 cardPosition = startPosition + glm::vec3{ m_RenderPackage.cardSpacing, 0, 0 } *static_cast<float>(i);
@@ -66,7 +66,7 @@ void TichuScene::PostRender()
 		const size_t textureIndex = [&]() -> size_t
 			{
 				//This is the order in which they are added inside the CreateDeck() function in the TichuScene
-				switch (m_CurrentCards[i].colour)
+				switch (m_CardsOnTop[i].colour)
 				{
 				case CC_Dog:
 					return 52;
@@ -77,7 +77,7 @@ void TichuScene::PostRender()
 				case CC_Mahjong:
 					return 55;
 				default:
-					return m_CurrentCards[i].colour * 13 + m_CurrentCards[i].power - 2; //Calculate the texture index using the colour to find the right tile image
+					return m_CardsOnTop[i].colour * 13 + m_CardsOnTop[i].power - 2; //Calculate the texture index using the colour to find the right tile image
 				}
 			}();
 
@@ -97,7 +97,6 @@ void TichuScene::PostRender()
 void TichuScene::Update()
 {
 	HandleMahjongTable();
-
 
 	//todo: add a dirty flag for this
 	std::vector<PlayerState> playerStates{};
@@ -245,17 +244,37 @@ void TichuScene::CheckSubmittedHand()
 	}
 
 	const Combination combination = m_pTichuGame->CreateCombination(submittedHand);
+	if (combination.combinationType == CombinationType::CT_Dogs)
+		m_PlayerWhoThrewDogsIndex = m_pTichuGame->GetCurrentPlayerIndex();
 
 	if (m_pTichuGame->PlayHand(combination))
 	{
 		m_pPassButton->SetEnabled(true);
-		int previousPlayer = combination.combinationType == CombinationType::CT_Dogs ? m_pTichuGame->GetCurrentPlayerIndex() - 2 : m_pTichuGame->GetCurrentPlayerIndex() - 1;
-		if (previousPlayer < 0) previousPlayer = 3;
-
+		const int previousPlayerIndex = combination.combinationType == CombinationType::CT_Dogs ? m_PlayerWhoThrewDogsIndex : m_pTichuGame->GetPreviousPlayerIndex();
+		
 		//Previous player because the current player index gets incremented inside PlayHand()
+		m_pPlayers[previousPlayerIndex]->PlayedSelectedCards();
 
-		m_pPlayers[previousPlayer]->PlayedSelectedCards();
-		m_CurrentCards = submittedHand;
+		if (m_pPlayers[previousPlayerIndex]->IsOut())
+		{
+			++m_NumberOfPlayersOut;
+			//todo: check for tichu/grand tichu
+
+			if (m_NumberOfPlayersOut == 1)
+			{
+				m_IndexOfFirstPlayerOut = previousPlayerIndex;
+			}
+
+			else if (m_NumberOfPlayersOut == 3)
+			{
+				NewRound();
+				return;
+			}
+		}
+
+		m_CardsOnTop = submittedHand;
+		m_PlayedCards.insert(m_PlayedCards.end(), submittedHand.begin(), submittedHand.end());
+
 		UpdateLights();
 		ShowMahjongSelectionTable(false);
 	}
@@ -263,9 +282,9 @@ void TichuScene::CheckSubmittedHand()
 
 void TichuScene::Pass()
 {
-	const auto player = m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()];
+	const auto playerWhoPassed = m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()];
 	if (m_CurrentMahjongWishPower != 0 &&
-		m_pTichuGame->CanFulfillWish(static_cast<uint8_t>(m_CurrentMahjongWishPower), player->GetCards()))
+		m_pTichuGame->CanFulfillWish(static_cast<uint8_t>(m_CurrentMahjongWishPower), playerWhoPassed->GetCards()))
 	{
 		//The player CAN fulfill the wish, so he's not allowed to pass
 		return;
@@ -276,14 +295,62 @@ void TichuScene::Pass()
 	{
 		if (booleanInfo.second)
 		{
-			m_CurrentCards.clear();
+			const int points = m_pTichuGame->CountPoints(m_PlayedCards);
+			if (m_CardsOnTop.size() == 1 && m_CardsOnTop[0].colour == CC_Dragon)
+				playerWhoPassed->GivePoints(points);
+			else
+				m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()]->GivePoints(points); //This is the current player because the index gets incremented inside Pass()
+
+			m_CardsOnTop.clear();
+			m_PlayedCards.clear();
 			m_pPassButton->SetEnabled(false);
 		}
 
-		player->Pass();
+		playerWhoPassed->Pass();
 		UpdateLights();
 	}
 
+}
+
+void TichuScene::NewRound()
+{
+	m_NumberOfPlayersOut = 0;
+	m_CurrentMahjongWishPower = 0;
+
+	int indexOfPlayerNotOut = 0;
+	for (const auto& player : m_pPlayers)
+	{
+		if (!player->IsOut())
+		{
+			indexOfPlayerNotOut = player->GetPlayerID();
+		}
+		
+		player->SetOut(false);
+		player->SetPlaying(false);
+		ShowMahjongSelectionTable(false);
+	}
+
+	//The player who didn't go out has to give his points to the player who went out first
+	m_pPlayers[m_IndexOfFirstPlayerOut]->GivePoints(m_pPlayers[indexOfPlayerNotOut]->GetPoints());
+	m_pPlayers[indexOfPlayerNotOut]->ResetPoints();
+
+	//Any points on the player's hand who didn't go out go to the opposite team
+	const int pointsOnHand =m_pTichuGame->CountPoints(m_pPlayers[indexOfPlayerNotOut]->GetCards());
+	const int oppositePlayerIndex = indexOfPlayerNotOut + 1 > 3 ? 0 : indexOfPlayerNotOut + 1;
+	m_pPlayers[oppositePlayerIndex]->GivePoints(pointsOnHand);
+
+	m_Team0Points += m_pPlayers[0]->GetPoints() + m_pPlayers[2]->GetPoints();
+	m_Team1Points += m_pPlayers[1]->GetPoints() + m_pPlayers[3]->GetPoints();
+
+	for (const auto& player : m_pPlayers)
+		player->ResetPoints();
+
+
+	DealCards();
+	UpdateLights();
+
+	m_CardsOnTop.clear();
+	m_PlayedCards.clear();
 }
 
 void TichuScene::UpdateLights() const

@@ -306,16 +306,32 @@ void PlayerComponent::SetCards(const std::vector<Card>& newCards)
 
 void PlayerComponent::PlayedSelectedCards()
 {
+	const size_t cardsSizeBefore = m_Cards.size();
+
     // Remove selected cards from m_Cards
-    std::erase_if(m_Cards, [this](const Card& card) 
+	for (int i = 0; i < m_SelectedCards.size(); ++i)
+    {
+		const auto cardIt = std::find(m_Cards.begin(), m_Cards.end(), m_SelectedCards[i]);
+        if (cardIt != m_Cards.end())
+        {
+			m_Cards.erase(cardIt);
+		}
+	}
+
+    if (m_Cards.size() != cardsSizeBefore - m_SelectedCards.size())
+    {
+        __debugbreak();
+    }
+
+    /*std::erase_if(m_Cards, [this](const Card& card) 
                 {
 	                return std::find(m_SelectedCards.begin(), m_SelectedCards.end(), card) != m_SelectedCards.end();
-                });
+                });*/
 
     // Clear the selected cards
     m_SelectedCards.clear();
     m_HitBoxesDirty = true;
-    if (m_Cards.size() == 0) m_IsOut = true;
+    if (m_Cards.empty()) m_IsOut = true;
     CalculateRenderingParameters();
 }
 
@@ -372,5 +388,13 @@ void PlayerComponent::CalculateRenderingParameters()
 
 void PlayerComponent::OnGui()
 {
-    
+    const std::string uniqueID = "IndentedBox_" + std::to_string(m_PlayerID);
+    ImGui::BeginChild(uniqueID.c_str(), ImVec2(0, 60), true, ImGuiWindowFlags_None);
+    ImGui::Text(std::string("Player " + std::to_string(m_PlayerID)).c_str());
+    ImGui::Separator();
+
+    ImGui::Text(std::string("Points Held: " + std::to_string(m_HoldingPoints)).c_str());
+
+    ImGui::EndChild();
+
 }

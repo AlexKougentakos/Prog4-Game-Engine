@@ -88,11 +88,17 @@ public:
 	void PlayedSelectedCards();
 	void Pass();
 
+	void GivePoints(const int points) { m_HoldingPoints += points; }
+	int GetPoints() const { return m_HoldingPoints; }
+	void ResetPoints() { m_HoldingPoints = 0; }
+
+
 	void SetPlaying(const bool playing) { m_IsPlaying = playing; }
 
 	int GetPlayerID() const { return m_PlayerID; }
 	const std::vector<Card>& GetCards() const { return m_Cards; }
 	const std::vector<Card>& GetHand() { return m_SelectedCards; }
+	void SetOut(const bool out) { m_IsOut = out; }
 	bool IsOut() const { return m_IsOut; }
 	bool GetShowMahjongSelectionTable() const { return m_ShowMahjongSelectionTable; }
 
@@ -104,6 +110,8 @@ private:
 	std::vector<Card> m_Cards{};
 	std::vector<Card> m_SelectedCards{};
 	CardRenderPackage m_RenderPackage{};
+
+	int m_HoldingPoints{0};
 
 	// Cache these values
 	float m_ScreenWidth{};

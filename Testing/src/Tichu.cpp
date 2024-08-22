@@ -180,7 +180,7 @@ Combination Tichu::CreateCombination(const std::vector<Card>& cards) const
 	return combination;
 }
 
-bool Tichu::CanFulfillWish(const uint8_t wishPower, const std::vector<Card>& cards)
+bool Tichu::CanFulfillWish(const uint8_t wishPower, const std::vector<Card>& cards) const
 {
 	if (m_CurrentStrongestCombination.combinationType == CombinationType::CT_Single || m_CurrentStrongestCombination.combinationType == CombinationType::CT_Invalid)
 	{
@@ -220,7 +220,7 @@ bool Tichu::CanFulfillWish(const uint8_t wishPower, const std::vector<Card>& car
 		std::sort(uniquePowers.begin(), uniquePowers.end());
 
 		//For every element in the array, start moving forward
-		// and see if we can for an array as well as keep track of if it contains the wish
+		// and see if we can form a straight and also keep track of if it contains the wish
 		// if both conditions are true then we are able to fulfill the wish
 		for (size_t i = 0; i < uniquePowers.size(); ++i)
 		{
@@ -257,6 +257,11 @@ bool Tichu::PlayHand(const Combination combination)
 		if (m_CurrentStrongestCombination.combinationType == CombinationType::CT_Invalid)
 		{
 			m_CurrentPlayerIndex = (m_CurrentPlayerIndex + 2) % 4;
+
+			if (m_PlayerStates[m_CurrentPlayerIndex].isOut)
+				NextPlayer();
+
+			CountPlayersLeft();
 			return true;
 		}
 		
@@ -266,11 +271,12 @@ bool Tichu::PlayHand(const Combination combination)
 	if (combination.combinationType == CombinationType::CT_SinglePhoenix)
 	{
 		//Less than 18 so that it can't beat the dragon
-		if (m_CurrentStrongestCombination.combinationType == CombinationType::CT_Single && combination.power < 18)
+		if ((m_CurrentStrongestCombination.combinationType == CombinationType::CT_Single && combination.power < 18) || m_CurrentStrongestCombination.combinationType == CombinationType::CT_Invalid)
 		{
 				m_CurrentStrongestCombination = combination;
 				NextPlayer();
 				m_PassesInARow = 0;
+				CountPlayersLeft();
 				return true;
 		}
 		return false;
@@ -284,6 +290,7 @@ bool Tichu::PlayHand(const Combination combination)
 			m_CurrentStrongestCombination = combination;
 			NextPlayer();
 			m_PassesInARow = 0;
+			CountPlayersLeft();
 			return true;
 		}
 	}
@@ -294,6 +301,7 @@ bool Tichu::PlayHand(const Combination combination)
 		m_CurrentStrongestCombination = combination;
 		NextPlayer();
 		m_PassesInARow = 0;
+		CountPlayersLeft();
 		return true;
 	}
 
@@ -305,6 +313,7 @@ bool Tichu::PlayHand(const Combination combination)
 		m_CurrentStrongestCombination = combination;
 		m_PassesInARow = 0;
 		NextPlayer();
+		CountPlayersLeft();
 		return true;
 	}
 
@@ -322,6 +331,21 @@ void Tichu::SetStartingPlayer(const int startingPlayerIndex)
 	m_CurrentPlayerIndex = startingPlayerIndex;
 }
 
+int Tichu::CountPoints(const std::vector<Card>& cards) const
+{
+	int points = 0;
+	for (const Card& card : cards)
+	{
+		if (card.power == 5) points += 5;
+		if (card.power == 10) points += 10;
+		if (card.power == 13) points += 10;
+		if (card.colour == CardColour::CC_Phoenix) points -= 25;
+		if (card.colour == CardColour::CC_Dragon) points += 25;
+	}
+
+	return points;
+}
+
 std::pair<bool, bool> Tichu::Pass()
 {
 	//If the current highest combination is invalid this means that the table is empty
@@ -330,18 +354,27 @@ std::pair<bool, bool> Tichu::Pass()
 		return {false, false};
 
 	++m_PassesInARow;
-	bool threePassesInRow = false;
-	if (m_PassesInARow >= 3)
+	bool everyonePassed = false;
+	if (m_PassesInARow >= m_PlayersLeftWhenLastHandPlayed - 1)
 	{
 		m_PassesInARow = 0;
-		threePassesInRow = true;
+		everyonePassed = true;
 		m_CurrentStrongestCombination = Combination{};
 	}
 
 	NextPlayer();
-	return { true, threePassesInRow};
+	return { true, everyonePassed};
 }
 
+int Tichu::GetPreviousPlayerIndex() const
+{
+	int potentialPlayerIndex = m_CurrentPlayerIndex;
+	do
+	{
+		potentialPlayerIndex = (potentialPlayerIndex + 3) % 4;
+	} while (m_PlayerStates[potentialPlayerIndex].isOut);
+	return potentialPlayerIndex;
+}
 
 void Tichu::NextPlayer()
 {
@@ -352,4 +385,14 @@ void Tichu::NextPlayer()
 	} while (m_PlayerStates[m_CurrentPlayerIndex].isOut);
 
 	//Keep incrementing until you reach the player's ID who is not out
+}
+
+void Tichu::CountPlayersLeft()
+{
+	m_PlayersLeftWhenLastHandPlayed = 0;
+	for (const auto& playerState : m_PlayerStates)
+	{
+		if (!playerState.isOut)
+			++m_PlayersLeftWhenLastHandPlayed;
+	}
 }
