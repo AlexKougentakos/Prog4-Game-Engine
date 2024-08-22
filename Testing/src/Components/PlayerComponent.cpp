@@ -306,31 +306,16 @@ void PlayerComponent::SetCards(const std::vector<Card>& newCards)
 
 void PlayerComponent::PlayedSelectedCards()
 {
-	const size_t cardsSizeBefore = m_Cards.size();
-
     // Remove selected cards from m_Cards
-	for (int i = 0; i < m_SelectedCards.size(); ++i)
-    {
-		const auto cardIt = std::find(m_Cards.begin(), m_Cards.end(), m_SelectedCards[i]);
-        if (cardIt != m_Cards.end())
-        {
-			m_Cards.erase(cardIt);
-		}
-	}
-
-    if (m_Cards.size() != cardsSizeBefore - m_SelectedCards.size())
-    {
-        __debugbreak();
-    }
-
-    /*std::erase_if(m_Cards, [this](const Card& card) 
+    std::erase_if(m_Cards, [this](const Card& card) 
                 {
 	                return std::find(m_SelectedCards.begin(), m_SelectedCards.end(), card) != m_SelectedCards.end();
-                });*/
+                });
 
     // Clear the selected cards
     m_SelectedCards.clear();
     m_HitBoxesDirty = true;
+    m_ShowMahjongSelectionTable = false;
     if (m_Cards.empty()) m_IsOut = true;
     CalculateRenderingParameters();
 }

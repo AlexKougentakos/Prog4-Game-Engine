@@ -182,6 +182,11 @@ Combination Tichu::CreateCombination(const std::vector<Card>& cards) const
 
 bool Tichu::CanFulfillWish(const uint8_t wishPower, const std::vector<Card>& cards) const
 {
+	//If you have the mahjong in the cards, you're the person who threw it so you don't need to fulfill the wish
+	//in the turn in which you threw it.
+	if (std::find(cards.begin(), cards.end(), Card{ CC_Mahjong, 1 }) != cards.end())
+		return false;
+
 	if (m_CurrentStrongestCombination.combinationType == CombinationType::CT_Single || m_CurrentStrongestCombination.combinationType == CombinationType::CT_Invalid)
 	{
 		//You can't legally play a card of equal or lower power so you can't fulfill the wish
