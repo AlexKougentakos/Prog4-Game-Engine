@@ -26,10 +26,8 @@ public:
 	TichuScene& operator=(TichuScene&& other) noexcept = delete;
 
 protected:
-	void CreateMahjongSelectionTable();
 	void Initialize() override;
 	void PostRender() override;
-	void HandleMahjongTable();
 	void Update() override;
 	void OnGUI() override;
 
@@ -47,6 +45,10 @@ private:
 	void DealCards();
 	void CheckSubmittedHand();
 
+	void CreateMahjongSelectionTable();
+	void CreatePointDisplay();
+	void HandleMahjongTable();
+
 	void CreateCardRenderPackage();
 	void Pass();
 
@@ -62,7 +64,9 @@ private:
 	CardRenderPackage m_RenderPackage{};
 	std::unique_ptr<Tichu> m_pTichuGame{};
 
-	std::vector<ody::TextComponent*> m_pTextComponents{};
+	std::vector<ody::TextComponent*> m_pMahjongButtonTextComponents{};
+	ody::TextComponent* m_Team0PointsText{};
+	ody::TextComponent* m_Team1PointsText{};
 	std::vector<Button*> m_pMahjongButtons{};
 
 	void CreateButtonTextAtPosition(const std::string& text, const glm::vec2& position, const glm::vec2& buttonSize);

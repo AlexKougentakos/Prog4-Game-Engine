@@ -18,10 +18,7 @@ void TichuScene::Initialize()
 	pBackGround->AddComponent<ody::TextureComponent>("cloth.png");
 	m_pButtonManager = pBackGround->AddComponent<ButtonManagerComponent>();
 
-	const auto pPointDisplay = CreateGameObject();
-	pPointDisplay->AddComponent<ody::TextureComponent>("PointDisplay.png");
-
-	m_RenderPackage.pointDisplayHeight = pPointDisplay->GetComponent<ody::TextureComponent>()->GetTextureSize().y;
+	CreatePointDisplay();
 
 	m_pTichuGame = std::make_unique<Tichu>();
 	
@@ -40,6 +37,7 @@ void TichuScene::Initialize()
 	CreateMahjongSelectionTable();
 
 	UpdateLights();
+
 
 	//Temp:
 	m_ShowCardBacks = false;
@@ -188,6 +186,34 @@ void TichuScene::CreateCardRenderPackage()
 
 
 	m_RenderPackage.cardBack = ody::ResourceManager::GetInstance().LoadTexture("Cards/back.png");
+}
+
+
+void TichuScene::CreatePointDisplay()
+{
+	const auto pPointDisplay = CreateGameObject();
+	pPointDisplay->AddComponent<ody::TextureComponent>("PointDisplay.png");
+
+	constexpr float pointTextOffsetX = 120.f;
+	constexpr float pointTextOffsetY = 15.f;
+
+	auto pPointCounterTextHolder = CreateGameObject();
+	m_Team0PointsText = pPointCounterTextHolder->AddComponent<ody::TextComponent>("0", "bonzai.ttf", 50);
+	m_Team0PointsText->SetPosition(pointTextOffsetX, pointTextOffsetY);
+
+	const auto pTeam0ScoreTextHolder = CreateGameObject();
+	const auto pTeam0ScoreTextComponent = pTeam0ScoreTextHolder->AddComponent<ody::TextComponent>("Team 0 Score:", "bonzai.ttf", 30);
+	pTeam0ScoreTextComponent->SetPosition(pointTextOffsetX - pTeam0ScoreTextComponent->GetTextSize().x / 2 + m_Team0PointsText->GetTextSize().x / 2, 0);
+
+	pPointCounterTextHolder = CreateGameObject();
+	m_Team1PointsText = pPointCounterTextHolder->AddComponent<ody::TextComponent>("0", "bonzai.ttf", 50);
+	m_Team1PointsText->SetPosition(ody::constants::g_ScreenWidth - pointTextOffsetX - m_Team1PointsText->GetTextSize().x, pointTextOffsetY);
+
+	const auto pTeam1ScoreTextHolder = CreateGameObject();
+	const auto pTeam1ScoreTextComponent = pTeam1ScoreTextHolder->AddComponent<ody::TextComponent>("Team 1 Score:", "bonzai.ttf", 30);
+	pTeam1ScoreTextComponent->SetPosition(ody::constants::g_ScreenWidth - pointTextOffsetX - pTeam1ScoreTextComponent->GetTextSize().x / 2 - m_Team1PointsText->GetTextSize().x / 2, 0);
+
+	m_RenderPackage.pointDisplayHeight = pPointDisplay->GetComponent<ody::TextureComponent>()->GetTextureSize().y;
 }
 
 void TichuScene::DealCards()
@@ -342,9 +368,11 @@ void TichuScene::NewRound()
 	m_Team0Points += m_pPlayers[0]->GetPoints() + m_pPlayers[2]->GetPoints();
 	m_Team1Points += m_pPlayers[1]->GetPoints() + m_pPlayers[3]->GetPoints();
 
+	m_Team0PointsText->SetText(std::to_string(m_Team0Points));
+	m_Team1PointsText->SetText(std::to_string(m_Team1Points));
+
 	for (const auto& player : m_pPlayers)
 		player->ResetPoints();
-
 
 	DealCards();
 	UpdateLights();
@@ -396,7 +424,7 @@ void TichuScene::HandleMahjongTable()
 void TichuScene::ShowMahjongSelectionTable(const bool show)
 {
 	m_IsMahjongSelectionTableVisible = show;
-	for (const auto textComponent : m_pTextComponents)
+	for (const auto textComponent : m_pMahjongButtonTextComponents)
 	{
 		textComponent->SetVisible(show);
 	}
@@ -442,7 +470,7 @@ void TichuScene::CreateMahjongSelectionTable()
 	CreateButtonTextAtPosition("K", { startingPosition + buttonSize.x * 11, 600 }, buttonSize);
 	CreateButtonTextAtPosition("A", { startingPosition + buttonSize.x * 12, 600 }, buttonSize);
 
-	for (const auto textComponent : m_pTextComponents)
+	for (const auto textComponent : m_pMahjongButtonTextComponents)
 	{
 		textComponent->SetVisible(false);
 	}
@@ -461,7 +489,7 @@ void TichuScene::CreateButtonTextAtPosition(const std::string& text, const glm::
 	const float textOffset = (buttonSize.x - textWidth) / 2.f;
 	textComponent->SetPosition(position.x + textOffset, position.y);
 
-	m_pTextComponents.emplace_back(textComponent);
+	m_pMahjongButtonTextComponents.emplace_back(textComponent);
 }
 
 void TichuScene::OnGUI()
