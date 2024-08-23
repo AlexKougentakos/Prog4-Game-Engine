@@ -120,6 +120,7 @@ private:
 	bool m_DeclaredTichu{ false };
 	bool m_DeclaredGrandTichu{ false };
 
+
 	// Cache these values
 	float m_ScreenWidth{};
 	float m_ScreenHeight{};

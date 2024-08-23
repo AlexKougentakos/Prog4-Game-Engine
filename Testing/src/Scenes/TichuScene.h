@@ -11,6 +11,13 @@ namespace ody
 	class TextComponent;
 }
 
+enum class GamePhase
+{
+	GrandTichu,
+	DealCards, //todo
+	Playing
+};
+
 class Button;
 class ButtonManagerComponent;
 class CardComponent;
@@ -33,7 +40,8 @@ protected:
 private:
 	void CreateDeck();
 	void CreatePlayers();
-	void DealCards();
+	void DealInitialCards();
+	void DealRestOfCards();
 	void UpdateTichuButton() const;
 	void CheckSubmittedHand();
 
@@ -45,6 +53,8 @@ private:
 	void Pass();
 	void UpdatePlayerPoints(int indexOfPlayerNotOut);
 	void DeclareTichu() const;
+	void DeclareGrandTichu();
+	void DeclineGrandTichu();
 
 	//One-Two (1-2) is a special case where the two players from each team go out one after the other leaving the other two still in the game.
 	//In that case no points are counted and you start a new round. The team who went out gain 200 points.
@@ -65,11 +75,14 @@ private:
 	ody::TextComponent* m_Team1PointsText{};
 	std::vector<Button*> m_pMahjongButtons{};
 
+	GamePhase m_GamePhase{ GamePhase::GrandTichu };
+
 	void CreateButtonTextAtPosition(const std::string& text, const glm::vec2& position, const glm::vec2& buttonSize);
 
 	int m_NumberOfPlayersOut{0};
 	int m_IndexOfFirstPlayerOut{0};
 	int m_PlayerWhoThrewDogsIndex{ 0 };
+	int m_PlayersAskedForGrandTichu{ 0 };
 
 	int m_Team0Points{ 0 }; //Player 0 and 2 
 	int m_Team1Points{ 0 }; //Player 1 and 3
@@ -78,9 +91,12 @@ private:
 	int m_CurrentMahjongWishPower{0};
 
 	ButtonManagerComponent* m_pButtonManager{};
+	Button* m_pPlayButton{};
 	Button* m_pPassButton{};
 	Button* m_pTichuButton{};
 	Button* m_pGrandTichuButton{};
+	Button* m_pDealCardsButton{};
+
 
 	//ImGui
 	bool m_ShowCardHitboxes{false};

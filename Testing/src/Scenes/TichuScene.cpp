@@ -25,16 +25,23 @@ void TichuScene::Initialize()
 	CreateCardRenderPackage();
 	CreateDeck();
 	CreatePlayers();
-	DealCards();
+
+	DealInitialCards();
 
 	ody::InputManager::GetInstance().AddMouseCommand<CardSelectCommand>(SDL_BUTTON_LEFT, ody::InputManager::InputType::OnMouseButtonDown, m_pPlayers, m_pTichuGame->GetCurrentPlayerIndex());
 	ody::InputManager::GetInstance().AddMouseCommand<ButtonPressed>(SDL_BUTTON_LEFT, ody::InputManager::InputType::OnMouseButtonDown, m_pButtonManager);
 
 	m_pPassButton = m_pButtonManager->AddButton("PassButton.png", [&]() { Pass(); } , { 400, 660 });
 	m_pPassButton->SetEnabled(false); //We start on an empty table so you can't say pass
-	m_pButtonManager->AddButton("PlayButton.png", [&]() { CheckSubmittedHand(); } , { 530, 660 });
+	m_pPlayButton = m_pButtonManager->AddButton("PlayButton.png", [&]() { CheckSubmittedHand(); } , { 530, 660 });
+	m_pPlayButton->SetEnabled(false); //We will first ask everyone for grand tichu, then you can play
+	
 
 	m_pTichuButton = m_pButtonManager->AddButton("TichuButton.png", [&]() { DeclareTichu(); }, { 185, 660 });
+	m_pTichuButton->SetVisible(false);
+
+	m_pGrandTichuButton = m_pButtonManager->AddButton("GrandTichuButton.png", [&]() { DeclareGrandTichu(); }, { 185, 660 });
+	m_pDealCardsButton = m_pButtonManager->AddButton("DealButton.png", [&]() { DeclineGrandTichu(); }, { 45, 660 });
 
 	CreateMahjongSelectionTable();
 
@@ -95,6 +102,15 @@ void TichuScene::PostRender()
 void TichuScene::Update()
 {
 	HandleMahjongTable();
+
+	if (m_GamePhase == GamePhase::GrandTichu && m_PlayersAskedForGrandTichu >= 4)
+	{
+		m_GamePhase = GamePhase::Playing;
+		UpdateTichuButton();
+		m_pGrandTichuButton->SetVisible(false);
+		m_pDealCardsButton->SetVisible(false);
+		m_pPlayButton->SetEnabled(true);
+	}
 
 	//todo: add a dirty flag for this
 	std::vector<PlayerState> playerStates{};
@@ -216,7 +232,7 @@ void TichuScene::CreatePointDisplay()
 	m_RenderPackage.pointDisplayHeight = pPointDisplay->GetComponent<ody::TextureComponent>()->GetTextureSize().y;
 }
 
-void TichuScene::DealCards()
+void TichuScene::DealInitialCards()
 {
 	//Deletes the old cards and creates new ones
 	//You can just shuffle the current ones but it's done once per round only
@@ -224,22 +240,52 @@ void TichuScene::DealCards()
 
 	for (const auto& player : m_pPlayers)
 	{
-		constexpr int numberOfCards = 14;
+		constexpr int numberOfCards = 8;
 		// Calculate the start and end indices for this player's cards
 		const int startIndex = player->GetPlayerID() * numberOfCards;
 		const int endIndex = startIndex + numberOfCards;
 
 		// Create a vector of cards for this player
 		std::vector<Card> playerCards(m_Cards.begin() + startIndex, m_Cards.begin() + endIndex);
-		if (std::find(playerCards.begin(), playerCards.end(), Card{ CardColour::CC_Mahjong, 1 }) != playerCards.end())
-		{
-			player->SetPlaying(true);
-			m_pTichuGame->SetStartingPlayer(player->GetPlayerID());
-		}
 			
 		std::sort(playerCards.begin(), playerCards.end());
 		player->SetCards(playerCards);
 	}
+}
+
+void TichuScene::DealRestOfCards()
+{
+	if (m_PlayersAskedForGrandTichu >= m_pPlayers.size())
+	{
+		// All players have been dealt their remaining cards
+		return;
+	}
+
+	constexpr int totalCards = 14;
+	constexpr int initialCards = 8;
+	constexpr int remainingCards = totalCards - initialCards;
+
+	const auto& player = m_pPlayers[m_PlayersAskedForGrandTichu];
+	const int startIndex = initialCards * 4 + remainingCards * m_PlayersAskedForGrandTichu;
+	const int endIndex = startIndex + remainingCards;
+
+	// Get the remaining cards for this player
+	std::vector<Card> newCards(m_Cards.begin() + startIndex, m_Cards.begin() + endIndex);
+
+	// Add the new cards to the player's existing hand
+	auto playerCards = player->GetCards();
+	playerCards.insert(playerCards.end(), newCards.begin(), newCards.end());
+
+	// Check for Mahjong card
+	if (std::find(playerCards.begin(), playerCards.end(), Card{ CardColour::CC_Mahjong, 1 }) != playerCards.end())
+	{
+		player->SetPlaying(true);
+		m_pTichuGame->SetStartingPlayer(player->GetPlayerID());
+	}
+
+	// Sort the entire hand
+	std::sort(playerCards.begin(), playerCards.end());
+	player->SetCards(playerCards);
 }
 
 void TichuScene::CheckSubmittedHand()
@@ -396,7 +442,10 @@ void TichuScene::NewRound(bool isOneTwo)
 	m_Team0PointsText->SetText(std::to_string(m_Team0Points));
 	m_Team1PointsText->SetText(std::to_string(m_Team1Points));
 
-	DealCards();
+
+	m_PlayersAskedForGrandTichu = 0;
+
+	DealInitialCards();
 	UpdateLights();
 
 	m_CardsOnTop.clear();
@@ -410,7 +459,12 @@ void TichuScene::UpdateLights() const
 		player->SetPlaying(false);
 	}
 
-	m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()]->SetPlaying(true);
+	if (m_GamePhase == GamePhase::GrandTichu)
+	{
+		m_pPlayers[m_PlayersAskedForGrandTichu]->SetPlaying(true);
+	}
+	else
+		m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()]->SetPlaying(true);
 }
 
 void TichuScene::UpdatePlayerPoints(int indexOfPlayerNotOut)
@@ -438,10 +492,29 @@ void TichuScene::DeclareTichu() const
 	m_pTichuButton->SetVisible(false);
 }
 
+void TichuScene::DeclareGrandTichu()
+{
+	const auto player = m_pPlayers[m_PlayersAskedForGrandTichu];
+	player->DeclareGrandTichu();
+	DealRestOfCards();
+	++m_PlayersAskedForGrandTichu;
+	if (m_PlayersAskedForGrandTichu < 4)
+		UpdateLights();
+}
+
+void TichuScene::DeclineGrandTichu()
+{
+	DealRestOfCards();
+	++m_PlayersAskedForGrandTichu;
+	if (m_PlayersAskedForGrandTichu < 4)
+		UpdateLights();
+}
+
 void TichuScene::UpdateTichuButton() const
 {
+	const auto player = m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()];
 	//You can only call tichu when you have 14 cards
-	if (m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()]->GetCards().size() == 14)
+	if (player->GetCards().size() == 14 && !player->HasDeclaredGrandTichu())
 	{
 		m_pTichuButton->SetVisible(true);
 	}
@@ -571,7 +644,7 @@ void TichuScene::OnGUI()
 
 		if (ImGui::Button("Deal Cards", { 90, 25 }))
 		{
-			DealCards();
+			DealInitialCards();
 		}
 	}
 

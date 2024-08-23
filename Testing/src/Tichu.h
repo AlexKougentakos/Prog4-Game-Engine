@@ -56,6 +56,7 @@ public:
 
 	void SetStartingPlayer(const int startingPlayerIndex);
 
+
 	int CountPoints(const std::vector<Card>& cards) const;
 
 	//First bool is if the pass is valid, second is if it's a round reset, meaning all players left passed in a row
