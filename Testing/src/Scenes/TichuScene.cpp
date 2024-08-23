@@ -14,9 +14,9 @@
 
 void TichuScene::Initialize()
 {
-	const auto pBackGround = CreateGameObject();
-	pBackGround->AddComponent<ody::TextureComponent>("cloth.png");
-	m_pButtonManager = pBackGround->AddComponent<ButtonManagerComponent>();
+	const auto pLevel = CreateGameObject();
+	pLevel->AddComponent<ody::TextureComponent>("cloth.png");
+	m_pButtonManager = pLevel->AddComponent<ButtonManagerComponent>();
 
 	CreatePointDisplay();
 
@@ -30,14 +30,15 @@ void TichuScene::Initialize()
 	ody::InputManager::GetInstance().AddMouseCommand<CardSelectCommand>(SDL_BUTTON_LEFT, ody::InputManager::InputType::OnMouseButtonDown, m_pPlayers, m_pTichuGame->GetCurrentPlayerIndex());
 	ody::InputManager::GetInstance().AddMouseCommand<ButtonPressed>(SDL_BUTTON_LEFT, ody::InputManager::InputType::OnMouseButtonDown, m_pButtonManager);
 
-	m_pPassButton = m_pButtonManager->AddButton("PassButton.png", [&]() { Pass(); } , { 185, 660 });
+	m_pPassButton = m_pButtonManager->AddButton("PassButton.png", [&]() { Pass(); } , { 400, 660 });
 	m_pPassButton->SetEnabled(false); //We start on an empty table so you can't say pass
 	m_pButtonManager->AddButton("PlayButton.png", [&]() { CheckSubmittedHand(); } , { 530, 660 });
+
+	m_pTichuButton = m_pButtonManager->AddButton("TichuButton.png", [&]() { DeclareTichu(); }, { 185, 660 });
 
 	CreateMahjongSelectionTable();
 
 	UpdateLights();
-
 
 	//Temp:
 	m_ShowCardBacks = false;
@@ -45,7 +46,6 @@ void TichuScene::Initialize()
 	{
 		player->ShowCardBacks(m_ShowCardBacks);
 	}
-	
 }
 
 void TichuScene::PostRender() 
@@ -275,6 +275,8 @@ void TichuScene::CheckSubmittedHand()
 
 	if (m_pTichuGame->PlayHand(combination))
 	{
+		UpdateTichuButton();
+
 		m_pPassButton->SetEnabled(true);
 		const int previousPlayerIndex = combination.combinationType == CombinationType::CT_Dogs ? m_PlayerWhoThrewDogsIndex : m_pTichuGame->GetPreviousPlayerIndex();
 		
@@ -289,6 +291,14 @@ void TichuScene::CheckSubmittedHand()
 			if (m_NumberOfPlayersOut == 1)
 			{
 				m_IndexOfFirstPlayerOut = previousPlayerIndex;
+			}
+			else if (m_NumberOfPlayersOut == 2)
+			{
+				if (m_pPlayers[0]->IsOut() && m_pPlayers[2]->IsOut() ||
+					m_pPlayers[1]->IsOut() && m_pPlayers[3]->IsOut())
+				NewRound(true);
+
+				return;
 			}
 
 			else if (m_NumberOfPlayersOut == 3)
@@ -333,12 +343,13 @@ void TichuScene::Pass()
 		}
 
 		playerWhoPassed->Pass();
+		UpdateTichuButton();
 		UpdateLights();
 	}
 
 }
 
-void TichuScene::NewRound()
+void TichuScene::NewRound(bool isOneTwo)
 {
 	m_NumberOfPlayersOut = 0;
 	m_CurrentMahjongWishPower = 0;
@@ -346,6 +357,22 @@ void TichuScene::NewRound()
 	int indexOfPlayerNotOut = 0;
 	for (const auto& player : m_pPlayers)
 	{
+		//Handle tichu / grand tichu
+		if (player->HasDeclaredTichu() || player->HasDeclaredGrandTichu())
+		{
+			//Get the ID of the player
+			const int playerID = player->GetPlayerID();
+			int pointGain = player->HasDeclaredTichu() ? 100 : 200;
+			if (playerID != m_IndexOfFirstPlayerOut) //Compare it to the ID of the player who went out first
+			{
+				pointGain *= -1; //If they are not the same, the team loses the points
+			}
+
+			//Apply the points to the correct team
+			if (playerID == 0 || playerID == 2) m_Team0Points += pointGain;
+			else m_Team1Points += pointGain;
+		}
+
 		if (!player->IsOut())
 		{
 			indexOfPlayerNotOut = player->GetPlayerID();
@@ -353,26 +380,21 @@ void TichuScene::NewRound()
 		
 		player->SetOut(false);
 		player->SetPlaying(false);
-		ShowMahjongSelectionTable(false);
+		player->RemoveDeclarations();
 	}
 
-	//The player who didn't go out has to give his points to the player who went out first
-	m_pPlayers[m_IndexOfFirstPlayerOut]->GivePoints(m_pPlayers[indexOfPlayerNotOut]->GetPoints());
-	m_pPlayers[indexOfPlayerNotOut]->ResetPoints();
-
-	//Any points on the player's hand who didn't go out go to the opposite team
-	const int pointsOnHand =m_pTichuGame->CountPoints(m_pPlayers[indexOfPlayerNotOut]->GetCards());
-	const int oppositePlayerIndex = indexOfPlayerNotOut + 1 > 3 ? 0 : indexOfPlayerNotOut + 1;
-	m_pPlayers[oppositePlayerIndex]->GivePoints(pointsOnHand);
-
-	m_Team0Points += m_pPlayers[0]->GetPoints() + m_pPlayers[2]->GetPoints();
-	m_Team1Points += m_pPlayers[1]->GetPoints() + m_pPlayers[3]->GetPoints();
+	//Account for the 1-2 rule
+	if (isOneTwo)
+	{
+		if (m_IndexOfFirstPlayerOut == 0 || m_IndexOfFirstPlayerOut == 2)
+			m_Team0Points += 200;
+		else
+			m_Team1Points += 200;
+	}
+	else UpdatePlayerPoints(indexOfPlayerNotOut);
 
 	m_Team0PointsText->SetText(std::to_string(m_Team0Points));
 	m_Team1PointsText->SetText(std::to_string(m_Team1Points));
-
-	for (const auto& player : m_pPlayers)
-		player->ResetPoints();
 
 	DealCards();
 	UpdateLights();
@@ -391,6 +413,43 @@ void TichuScene::UpdateLights() const
 	m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()]->SetPlaying(true);
 }
 
+void TichuScene::UpdatePlayerPoints(int indexOfPlayerNotOut)
+{
+	//The player who didn't go out has to give his points to the player who went out first
+	m_pPlayers[m_IndexOfFirstPlayerOut]->GivePoints(m_pPlayers[indexOfPlayerNotOut]->GetPoints());
+	m_pPlayers[indexOfPlayerNotOut]->ResetPoints();
+
+	//Any points on the player's hand who didn't go out go to the opposite team
+	const int pointsOnHand = m_pTichuGame->CountPoints(m_pPlayers[indexOfPlayerNotOut]->GetCards());
+	const int oppositePlayerIndex = indexOfPlayerNotOut + 1 > 3 ? 0 : indexOfPlayerNotOut + 1;
+	m_pPlayers[oppositePlayerIndex]->GivePoints(pointsOnHand);
+
+	m_Team0Points += m_pPlayers[0]->GetPoints() + m_pPlayers[2]->GetPoints();
+	m_Team1Points += m_pPlayers[1]->GetPoints() + m_pPlayers[3]->GetPoints();
+
+	for (const auto& player : m_pPlayers)
+		player->ResetPoints();
+}
+
+void TichuScene::DeclareTichu() const
+{
+	const auto player = m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()];
+	player->DeclareTichu();
+	m_pTichuButton->SetVisible(false);
+}
+
+void TichuScene::UpdateTichuButton() const
+{
+	//You can only call tichu when you have 14 cards
+	if (m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()]->GetCards().size() == 14)
+	{
+		m_pTichuButton->SetVisible(true);
+	}
+	else
+	{
+		m_pTichuButton->SetVisible(false);
+	}
+}
 
 void TichuScene::HandleMahjongTable()
 {

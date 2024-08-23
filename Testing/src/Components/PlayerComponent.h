@@ -92,6 +92,11 @@ public:
 	int GetPoints() const { return m_HoldingPoints; }
 	void ResetPoints() { m_HoldingPoints = 0; }
 
+	bool HasDeclaredTichu() const { return m_DeclaredTichu; }
+	bool HasDeclaredGrandTichu() const { return m_DeclaredGrandTichu; }
+	void DeclareTichu() { m_DeclaredTichu = true; }
+	void DeclareGrandTichu() { m_DeclaredGrandTichu = true; }
+	void RemoveDeclarations() { m_DeclaredTichu = false; m_DeclaredGrandTichu = false; }
 
 	void SetPlaying(const bool playing) { m_IsPlaying = playing; }
 
@@ -112,6 +117,8 @@ private:
 	CardRenderPackage m_RenderPackage{};
 
 	int m_HoldingPoints{0};
+	bool m_DeclaredTichu{ false };
+	bool m_DeclaredGrandTichu{ false };
 
 	// Cache these values
 	float m_ScreenWidth{};
@@ -130,6 +137,8 @@ private:
 
 	std::shared_ptr<ody::Texture2D> m_pRedLightTexture{};
 	std::shared_ptr<ody::Texture2D> m_pGreenLightTexture{};
+	std::shared_ptr<ody::Texture2D> m_pTichuTokenTexture{};
+	std::shared_ptr<ody::Texture2D> m_pGrandTichuTokenTexture{};
 	glm::vec2 m_LightSize{};
 	glm::vec2 m_LightPosition{};
 

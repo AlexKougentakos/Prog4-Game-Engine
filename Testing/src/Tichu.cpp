@@ -368,6 +368,7 @@ std::pair<bool, bool> Tichu::Pass()
 	}
 
 	NextPlayer();
+
 	return { true, everyonePassed};
 }
 

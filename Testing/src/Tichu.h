@@ -58,7 +58,7 @@ public:
 
 	int CountPoints(const std::vector<Card>& cards) const;
 
-	//First bool is if the pass is valid, second is if it's a round reset, meaning 3 players passed in a row
+	//First bool is if the pass is valid, second is if it's a round reset, meaning all players left passed in a row
 	std::pair<bool, bool> Pass();
 	const int& GetCurrentPlayerIndex() const { return m_CurrentPlayerIndex; }
 	int GetPreviousPlayerIndex() const;

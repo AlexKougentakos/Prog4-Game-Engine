@@ -29,32 +29,12 @@ void PlayerComponent::Initialize()
 	m_pRedLightTexture = ody::ResourceManager::GetInstance().LoadTexture("RedLight.png");
 	m_pGreenLightTexture = ody::ResourceManager::GetInstance().LoadTexture("GreenLight.png");
 
+	m_pTichuTokenTexture = ody::ResourceManager::GetInstance().LoadTexture("TichuLight.png");
+	m_pGrandTichuTokenTexture = ody::ResourceManager::GetInstance().LoadTexture("GrandTichuLight.png");
+
     m_LightSize = { 40.f, 40.f };
 }
 
-void PlayerComponent::RenderLights() const
-{
-	if (m_IsPlaying)
-	{
-		ody::Renderer::GetInstance().RenderTexture(
-			*m_pGreenLightTexture,
-			m_LightPosition.x,
-			m_LightPosition.y,
-			40.f,
-			40.f
-		);
-	}
-	else
-	{
-		ody::Renderer::GetInstance().RenderTexture(
-			*m_pRedLightTexture,
-			m_LightPosition.x,
-			m_LightPosition.y,
-			40.f,
-			40.f
-		);
-	}
-}
 
 void PlayerComponent::Render() const
 {
@@ -66,10 +46,28 @@ void PlayerComponent::Render() const
 
     RenderLights();
 
-    if (m_ShowMahjongSelectionTable)
+    if (m_DeclaredTichu)
     {
-		
+        const auto offset = m_CardPickupDirection * glm::vec2{ -40.f, -40.f };
+        ody::Renderer::GetInstance().RenderTexture(
+            *m_pTichuTokenTexture,
+            m_LightPosition.x + offset.x,
+            m_LightPosition.y + offset.y,
+            40.f,
+            40.f
+        );
     }
+	else if (m_DeclaredGrandTichu)
+	{
+		const auto offset = m_CardPickupDirection * glm::vec2{ -40.f, -40.f };
+		ody::Renderer::GetInstance().RenderTexture(
+			*m_pGrandTichuTokenTexture,
+			m_LightPosition.x + offset.x,
+			m_LightPosition.y + offset.y,
+			40.f,
+			40.f
+		);
+	}
 
     if (!m_ShowCardHitboxes) return;
 
@@ -150,6 +148,30 @@ void PlayerComponent::RenderCards() const
                     SDL_FLIP_NONE
                 );
     }
+}
+
+void PlayerComponent::RenderLights() const
+{
+	if (m_IsPlaying)
+	{
+		ody::Renderer::GetInstance().RenderTexture(
+			*m_pGreenLightTexture,
+			m_LightPosition.x,
+			m_LightPosition.y,
+			40.f,
+			40.f
+		);
+	}
+	else
+	{
+		ody::Renderer::GetInstance().RenderTexture(
+			*m_pRedLightTexture,
+			m_LightPosition.x,
+			m_LightPosition.y,
+			40.f,
+			40.f
+		);
+	}
 }
 
 void PlayerComponent::CalculateHitBoxes()

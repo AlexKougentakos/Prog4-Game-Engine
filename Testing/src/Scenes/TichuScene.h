@@ -30,19 +30,11 @@ protected:
 	void PostRender() override;
 	void Update() override;
 	void OnGUI() override;
-
-	virtual void OnSceneActivated() override
-	{
-		std::cout << "Scene Activated" << std::endl;
-	}
-	virtual void OnSceneDeactivated() override
-	{
-		std::cout << "Scene Deactivated" << std::endl;
-	}
 private:
 	void CreateDeck();
 	void CreatePlayers();
 	void DealCards();
+	void UpdateTichuButton() const;
 	void CheckSubmittedHand();
 
 	void CreateMahjongSelectionTable();
@@ -51,8 +43,12 @@ private:
 
 	void CreateCardRenderPackage();
 	void Pass();
+	void UpdatePlayerPoints(int indexOfPlayerNotOut);
+	void DeclareTichu() const;
 
-	void NewRound();
+	//One-Two (1-2) is a special case where the two players from each team go out one after the other leaving the other two still in the game.
+	//In that case no points are counted and you start a new round. The team who went out gain 200 points.
+	void NewRound(bool isOneTwo = false);
 	
 	void UpdateLights() const;
 	void ShowMahjongSelectionTable(const bool show);
@@ -83,6 +79,8 @@ private:
 
 	ButtonManagerComponent* m_pButtonManager{};
 	Button* m_pPassButton{};
+	Button* m_pTichuButton{};
+	Button* m_pGrandTichuButton{};
 
 	//ImGui
 	bool m_ShowCardHitboxes{false};
