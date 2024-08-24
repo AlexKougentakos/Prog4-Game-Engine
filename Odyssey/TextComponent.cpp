@@ -21,15 +21,6 @@ ody::TextComponent::TextComponent(const std::string& text, std::shared_ptr<ody::
 
 	UpdateText();
 }
-
-void ody::TextComponent::Update() 
-{
-	if (m_NeedsUpdate)
-	{
-		UpdateText();
-	}
-}
-
 void ody::TextComponent::Render() const 
 {
 	if (m_TextTexture != nullptr && m_IsVisible)
@@ -57,5 +48,4 @@ void ody::TextComponent::UpdateText()
 	}
 	SDL_FreeSurface(surf);
 	m_TextTexture = std::make_shared<ody::Texture2D>(texture);
-	m_NeedsUpdate = false;
 }

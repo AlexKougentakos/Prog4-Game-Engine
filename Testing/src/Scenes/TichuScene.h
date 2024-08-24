@@ -50,12 +50,15 @@ private:
 	void CreatePointDisplay();
 	void HandleMahjongTable();
 
+	void GameOver();
 	void CreateCardRenderPackage();
 	void Pass();
 	void UpdatePlayerPoints(int indexOfPlayerNotOut);
 	void DeclareTichu() const;
 	void DeclareGrandTichu();
 	void DeclineGrandTichu();
+
+	void AddAnnouncementText(const std::string& text) const;
 
 	//One-Two (1-2) is a special case where the two players from each team go out one after the other leaving the other two still in the game.
 	//In that case no points are counted and you start a new round. The team who went out gain 200 points.
@@ -74,11 +77,14 @@ private:
 	std::vector<ody::TextComponent*> m_pMahjongButtonTextComponents{};
 	ody::TextComponent* m_Team0PointsText{};
 	ody::TextComponent* m_Team1PointsText{};
+	ody::TextComponent* m_GamesWonCounter{};
+	ody::TextComponent* m_pAnnouncementText{};
 	std::vector<Button*> m_pMahjongButtons{};
 	std::vector<Button*> m_pDragonButtons{};
 
 
 	GamePhase m_GamePhase{ GamePhase::GrandTichu };
+	int m_MaxPoints{ 500 };
 
 	void CreateButtonTextAtPosition(const std::string& text, const glm::vec2& position, const glm::vec2& buttonSize);
 
@@ -89,6 +95,8 @@ private:
 
 	int m_Team0Points{ 0 }; //Player 0 and 2 
 	int m_Team1Points{ 0 }; //Player 1 and 3
+	int m_Team0GamesWon{ 0 };
+	int m_Team1GamesWon{ 0 };
 
 	bool m_IsMahjongSelectionTableVisible{ false };
 	int m_CurrentMahjongWishPower{0};
@@ -99,7 +107,6 @@ private:
 	Button* m_pTichuButton{};
 	Button* m_pGrandTichuButton{};
 	Button* m_pDealCardsButton{};
-
 
 	//ImGui
 	bool m_ShowCardHitboxes{false};

@@ -42,6 +42,10 @@ void TichuScene::Initialize()
 	m_pGrandTichuButton = m_pButtonManager->AddButton("GrandTichuButton.png", [&]() { DeclareGrandTichu(); }, { 185, 660 });
 	m_pDealCardsButton = m_pButtonManager->AddButton("DealButton.png", [&]() { DeclineGrandTichu(); }, { 45, 660 });
 
+	const auto scoreCounter = CreateGameObject();
+	m_GamesWonCounter = scoreCounter->AddComponent<ody::TextComponent>("0 - 0", "bonzai.ttf", 40);
+	m_GamesWonCounter->SetPosition(ody::constants::g_ScreenWidth / 2 - scoreCounter->GetComponent<ody::TextComponent>()->GetTextSize().x / 2, -5);
+
 	CreateMahjongSelectionTable();
 
 	constexpr int screenWidth = ody::constants::g_ScreenWidth;
@@ -61,6 +65,10 @@ void TichuScene::Initialize()
 	button = m_pButtonManager->AddButton("Button.png", [&]() {GiveDragonToPlayer(3); }, { screenWidth - offsetFromEdge - buttonSize, screenHeight / 2 - buttonSize / 2 + m_RenderPackage.pointDisplayHeight / 2 }, { buttonSize, buttonSize });
 	button->SetVisible(false);
 	m_pDragonButtons.emplace_back(button);
+
+	const auto pAnnouncementText = CreateGameObject();
+	m_pAnnouncementText = pAnnouncementText->AddComponent<ody::TextComponent>("begin", "bonzai.ttf", 30);
+	m_pAnnouncementText->SetVisible(false);
 
 	UpdateLights();
 
@@ -325,6 +333,7 @@ void TichuScene::CheckSubmittedHand()
 			}) == submittedHand.end())
 		{
 			//If we enter here the player didn't fulfill the wish
+			AddAnnouncementText("You have to fulfill the wish of the card: " + std::to_string(m_CurrentMahjongWishPower));
 			return;
 		}
 		else 
@@ -343,6 +352,7 @@ void TichuScene::CheckSubmittedHand()
 
 		m_pPassButton->SetEnabled(true);
 		const int previousPlayerIndex = combination.combinationType == CombinationType::CT_Dogs ? m_PlayerWhoThrewDogsIndex : m_pTichuGame->GetPreviousPlayerIndex();
+		AddAnnouncementText("Player " + std::to_string(previousPlayerIndex) + " played a hand!");
 		
 		//Previous player because the current player index gets incremented inside PlayHand()
 		m_pPlayers[previousPlayerIndex]->PlayedSelectedCards();
@@ -405,6 +415,8 @@ void TichuScene::Pass()
 	{
 		if (booleanInfo.second) // Did all the players pass
 		{
+			m_pAnnouncementText->SetVisible(false);
+
 			const int points = m_pTichuGame->CountPoints(m_PlayedCards);
 			if (m_CardsOnTop.size() == 1 && m_CardsOnTop[0].colour == CC_Dragon)
 			{
@@ -482,9 +494,20 @@ void TichuScene::NewRound(bool isOneTwo)
 	}
 	else UpdatePlayerPoints(indexOfPlayerNotOut);
 
+	if (m_Team0Points >= m_MaxPoints || m_Team1Points >= m_MaxPoints)
+	{
+		if (m_Team0Points >= m_MaxPoints)
+			++m_Team0GamesWon;
+		else
+			++m_Team1GamesWon;
+
+		GameOver();
+		m_Team0Points = 0;
+		m_Team1Points = 0;
+	}
+
 	m_Team0PointsText->SetText(std::to_string(m_Team0Points));
 	m_Team1PointsText->SetText(std::to_string(m_Team1Points));
-
 
 	m_PlayersAskedForGrandTichu = 0;
 	m_GamePhase = GamePhase::GrandTichu;
@@ -559,6 +582,13 @@ void TichuScene::DeclineGrandTichu()
 		UpdateLights();
 }
 
+void TichuScene::AddAnnouncementText(const std::string& text) const
+{
+	m_pAnnouncementText->SetText(text);
+	m_pAnnouncementText->SetPosition(ody::constants::g_ScreenWidth / 2 - m_pAnnouncementText->GetTextSize().x / 2, 300);
+	m_pAnnouncementText->SetVisible(true);
+}
+
 void TichuScene::UpdateTichuButton() const
 {
 	const auto player = m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()];
@@ -601,6 +631,10 @@ void TichuScene::HandleMahjongTable()
 	}
 }
 
+void TichuScene::GameOver()
+{
+	m_GamesWonCounter->SetText(std::to_string(m_Team0GamesWon) + " - " + std::to_string(m_Team1GamesWon));
+}
 
 void TichuScene::ShowMahjongSelectionTable(const bool show)
 {

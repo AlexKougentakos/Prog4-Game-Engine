@@ -41,7 +41,7 @@ namespace ody
 		void SetText(const std::string& text)
 		{
 			m_Text = text;
-			m_NeedsUpdate = true;
+			UpdateText();
 		}
 
 		glm::vec2 GetTextSize() const
@@ -55,7 +55,6 @@ namespace ody
 
 		void SetVisible(const bool isVisible) { m_IsVisible = isVisible; }
 
-		virtual void Update() override;
 		virtual void Render() const override;
 
 	private:
@@ -68,8 +67,6 @@ namespace ody
 
 		std::shared_ptr<ody::Font> m_Font;
 		std::shared_ptr<ody::Texture2D> m_TextTexture;
-
-		bool m_NeedsUpdate{true};
 
 	};
 }
