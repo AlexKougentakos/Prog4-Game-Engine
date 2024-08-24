@@ -35,7 +35,6 @@ void TichuScene::Initialize()
 	m_pPassButton->SetEnabled(false); //We start on an empty table so you can't say pass
 	m_pPlayButton = m_pButtonManager->AddButton("PlayButton.png", [&]() { CheckSubmittedHand(); } , { 530, 660 });
 	m_pPlayButton->SetEnabled(false); //We will first ask everyone for grand tichu, then you can play
-	
 
 	m_pTichuButton = m_pButtonManager->AddButton("TichuButton.png", [&]() { DeclareTichu(); }, { 185, 660 });
 	m_pTichuButton->SetVisible(false);
@@ -44,6 +43,24 @@ void TichuScene::Initialize()
 	m_pDealCardsButton = m_pButtonManager->AddButton("DealButton.png", [&]() { DeclineGrandTichu(); }, { 45, 660 });
 
 	CreateMahjongSelectionTable();
+
+	constexpr int screenWidth = ody::constants::g_ScreenWidth;
+	constexpr int screenHeight = ody::constants::g_ScreenHeight;
+	constexpr int offsetFromEdge = 190;
+	constexpr int buttonSize = 40;
+
+	auto button = m_pButtonManager->AddButton("Button.png", [&]() {GiveDragonToPlayer(0); }, { screenWidth / 2 - buttonSize / 2, screenHeight - offsetFromEdge - buttonSize }, { buttonSize, buttonSize });
+	button->SetVisible(false);
+	m_pDragonButtons.emplace_back(button);
+	button = m_pButtonManager->AddButton("Button.png", [&]() {GiveDragonToPlayer(1); }, { offsetFromEdge, screenHeight / 2 - buttonSize / 2 + m_RenderPackage.pointDisplayHeight / 2 }, { buttonSize, buttonSize });
+	button->SetVisible(false);
+	m_pDragonButtons.emplace_back(button);
+	button = m_pButtonManager->AddButton("Button.png", [&]() {GiveDragonToPlayer(2); }, { screenWidth / 2 - buttonSize / 2, offsetFromEdge + m_RenderPackage.pointDisplayHeight }, { buttonSize, buttonSize });
+	button->SetVisible(false);
+	m_pDragonButtons.emplace_back(button);
+	button = m_pButtonManager->AddButton("Button.png", [&]() {GiveDragonToPlayer(3); }, { screenWidth - offsetFromEdge - buttonSize, screenHeight / 2 - buttonSize / 2 + m_RenderPackage.pointDisplayHeight / 2 }, { buttonSize, buttonSize });
+	button->SetVisible(false);
+	m_pDragonButtons.emplace_back(button);
 
 	UpdateLights();
 
@@ -107,6 +124,7 @@ void TichuScene::Update()
 	{
 		m_GamePhase = GamePhase::Playing;
 		UpdateTichuButton();
+		UpdateLights();
 		m_pGrandTichuButton->SetVisible(false);
 		m_pDealCardsButton->SetVisible(false);
 		m_pPlayButton->SetEnabled(true);
@@ -332,7 +350,6 @@ void TichuScene::CheckSubmittedHand()
 		if (m_pPlayers[previousPlayerIndex]->IsOut())
 		{
 			++m_NumberOfPlayersOut;
-			//todo: check for tichu/grand tichu
 
 			if (m_NumberOfPlayersOut == 1)
 			{
@@ -362,6 +379,17 @@ void TichuScene::CheckSubmittedHand()
 	}
 }
 
+void TichuScene::GiveDragonToPlayer(const int playerID) const
+{
+	m_pPlayers[playerID]->GivePoints(25);
+	m_pPlayButton->SetEnabled(true);
+
+	for (const auto& button : m_pDragonButtons)
+	{
+		button->SetVisible(false);
+	}
+}
+
 void TichuScene::Pass()
 {
 	const auto playerWhoPassed = m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()];
@@ -373,13 +401,28 @@ void TichuScene::Pass()
 	}
 
 	const std::pair<bool, bool> booleanInfo = m_pTichuGame->Pass();
-	if (booleanInfo.first)
+	if (booleanInfo.first) //Did the player pass?
 	{
-		if (booleanInfo.second)
+		if (booleanInfo.second) // Did all the players pass
 		{
 			const int points = m_pTichuGame->CountPoints(m_PlayedCards);
 			if (m_CardsOnTop.size() == 1 && m_CardsOnTop[0].colour == CC_Dragon)
-				playerWhoPassed->GivePoints(points);
+			{
+
+				const int teamWhoGotTheHand = m_pTichuGame->GetCurrentPlayerIndex() == 0 || m_pTichuGame->GetCurrentPlayerIndex() == 2 ? 0 : 1;
+				if (teamWhoGotTheHand == 0)
+				{
+					m_pDragonButtons[1]->SetVisible(true);
+					m_pDragonButtons[3]->SetVisible(true);
+				}
+				else
+				{
+					m_pDragonButtons[0]->SetVisible(true);
+					m_pDragonButtons[2]->SetVisible(true);
+				}
+				m_pPassButton->SetEnabled(false);
+				m_pPlayButton->SetEnabled(false);
+			}
 			else
 				m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()]->GivePoints(points); //This is the current player because the index gets incremented inside Pass()
 
@@ -444,6 +487,12 @@ void TichuScene::NewRound(bool isOneTwo)
 
 
 	m_PlayersAskedForGrandTichu = 0;
+	m_GamePhase = GamePhase::GrandTichu;
+	m_pGrandTichuButton->SetVisible(true);
+	m_pDealCardsButton->SetVisible(true);
+	m_pPlayButton->SetEnabled(false);
+	m_pPassButton->SetEnabled(false);
+	m_pTichuButton->SetVisible(false);
 
 	DealInitialCards();
 	UpdateLights();
@@ -696,7 +745,4 @@ void TichuScene::OnGUI()
 		ImGui::TextColored(isValid ? ImVec4(0, 1, 0, 1) : ImVec4(1, 0, 0, 1),
 			isValid ? "Valid Combination" : "Invalid Combination");
 	}
-
-
-
 }

@@ -44,6 +44,7 @@ private:
 	void DealRestOfCards();
 	void UpdateTichuButton() const;
 	void CheckSubmittedHand();
+	void GiveDragonToPlayer(const int playerID) const;
 
 	void CreateMahjongSelectionTable();
 	void CreatePointDisplay();
@@ -74,6 +75,8 @@ private:
 	ody::TextComponent* m_Team0PointsText{};
 	ody::TextComponent* m_Team1PointsText{};
 	std::vector<Button*> m_pMahjongButtons{};
+	std::vector<Button*> m_pDragonButtons{};
+
 
 	GamePhase m_GamePhase{ GamePhase::GrandTichu };
 

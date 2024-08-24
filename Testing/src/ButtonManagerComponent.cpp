@@ -52,6 +52,9 @@ void ButtonManagerComponent::OnMouseClick(const glm::vec2& mousePos)
 {
     for (const auto& button : m_pButtons)
     {
+		if (!button->m_IsEnabled)
+			continue;
+
         if (IsPointInsideButton(mousePos, *button))
         {
             //todo: add clicked tint
