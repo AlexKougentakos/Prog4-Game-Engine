@@ -3,6 +3,7 @@
 #include "InputManager2.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
+#include "ServiceLocator.h"
 
 void ButtonManagerComponent::Render() const 
 { 
@@ -57,7 +58,7 @@ void ButtonManagerComponent::OnMouseClick(const glm::vec2& mousePos)
 
         if (IsPointInsideButton(mousePos, *button))
         {
-            //todo: add clicked tint
+            //todo: add clicked 
             button->callback();
             return;
         }

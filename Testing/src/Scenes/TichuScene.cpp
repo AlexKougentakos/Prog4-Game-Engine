@@ -10,6 +10,7 @@
 #include "Commands/ButtonPressed.h"
 #include "Commands/CardSelectCommand.h"
 #include "ButtonManagerComponent.h"
+#include "ServiceLocator.h"
 #include "TextComponent.h"
 
 void TichuScene::Initialize()
@@ -31,20 +32,41 @@ void TichuScene::Initialize()
 	ody::InputManager::GetInstance().AddMouseCommand<CardSelectCommand>(SDL_BUTTON_LEFT, ody::InputManager::InputType::OnMouseButtonDown, m_pPlayers, m_pTichuGame->GetCurrentPlayerIndex());
 	ody::InputManager::GetInstance().AddMouseCommand<ButtonPressed>(SDL_BUTTON_LEFT, ody::InputManager::InputType::OnMouseButtonDown, m_pButtonManager);
 
-	m_pPassButton = m_pButtonManager->AddButton("PassButton.png", [&]() { Pass(); } , { 400, 660 });
+	m_pPassButton = m_pButtonManager->AddButton("PassButton.png", [&]() 
+		{ 
+		Pass();
+		ody::ServiceLocator::GetSoundSystem().PlaySound(8);
+		} , { 400, 660 });
 	m_pPassButton->SetEnabled(false); //We start on an empty table so you can't say pass
-	m_pPlayButton = m_pButtonManager->AddButton("PlayButton.png", [&]() { CheckSubmittedHand(); } , { 530, 660 });
+
+	m_pPlayButton = m_pButtonManager->AddButton("PlayButton.png", [&]() 
+		{
+			CheckSubmittedHand();
+			ody::ServiceLocator::GetSoundSystem().PlaySound(0);
+		} , { 530, 660 });
 	m_pPlayButton->SetEnabled(false); //We will first ask everyone for grand tichu, then you can play
 
-	m_pTichuButton = m_pButtonManager->AddButton("TichuButton.png", [&]() { DeclareTichu(); }, { 185, 660 });
+	m_pTichuButton = m_pButtonManager->AddButton("TichuButton.png", [&]() 
+		{
+			DeclareTichu(); 
+			ody::ServiceLocator::GetSoundSystem().PlaySound(11);
+		}, { 185, 660 });
 	m_pTichuButton->SetVisible(false);
 
-	m_pGrandTichuButton = m_pButtonManager->AddButton("GrandTichuButton.png", [&]() { DeclareGrandTichu(); }, { 185, 660 });
-	m_pDealCardsButton = m_pButtonManager->AddButton("DealButton.png", [&]() { DeclineGrandTichu(); }, { 45, 660 });
+	m_pGrandTichuButton = m_pButtonManager->AddButton("GrandTichuButton.png", [&]() 
+		{
+			DeclareGrandTichu(); 
+			ody::ServiceLocator::GetSoundSystem().PlaySound(11);
+		}, { 185, 660 });
+	m_pDealCardsButton = m_pButtonManager->AddButton("DealButton.png", [&]() 
+		{ 
+			DeclineGrandTichu();
+			ody::ServiceLocator::GetSoundSystem().PlaySound(0);
+		}, { 45, 660 });
 
 	const auto scoreCounter = CreateGameObject();
 	m_GamesWonCounter = scoreCounter->AddComponent<ody::TextComponent>("0 - 0", "bonzai.ttf", 40);
-	m_GamesWonCounter->SetPosition(ody::constants::g_ScreenWidth / 2 - scoreCounter->GetComponent<ody::TextComponent>()->GetTextSize().x / 2, -5);
+	m_GamesWonCounter->SetPosition(static_cast<float>(ody::constants::g_ScreenWidth / 2) - scoreCounter->GetComponent<ody::TextComponent>()->GetTextSize().x / 2, -5);
 
 	CreateMahjongSelectionTable();
 
@@ -348,10 +370,25 @@ void TichuScene::CheckSubmittedHand()
 
 	if (m_pTichuGame->PlayHand(combination))
 	{
+		if (combination.numberOfCards == 1 &&
+			std::find(submittedHand.begin(), submittedHand.end(), Card{ CC_Dragon, 20 }) != submittedHand.end())
+		{
+			ody::ServiceLocator::GetSoundSystem().PlaySound(7);
+		}
+		else if (std::find(submittedHand.begin(), submittedHand.end(), Card{ CC_Phoenix, 0 }) != submittedHand.end())
+		{
+			ody::ServiceLocator::GetSoundSystem().PlaySound(9);
+		}
+		else
+		{
+			const int randomNum = rand() % 6 + 1;
+			ody::ServiceLocator::GetSoundSystem().PlaySound(randomNum);
+		}
 		UpdateTichuButton();
 
 		m_pPassButton->SetEnabled(true);
 		const int previousPlayerIndex = combination.combinationType == CombinationType::CT_Dogs ? m_PlayerWhoThrewDogsIndex : m_pTichuGame->GetPreviousPlayerIndex();
+
 		AddAnnouncementText("Player " + std::to_string(previousPlayerIndex) + " played a hand!");
 		
 		//Previous player because the current player index gets incremented inside PlayHand()
@@ -413,6 +450,8 @@ void TichuScene::Pass()
 	const std::pair<bool, bool> booleanInfo = m_pTichuGame->Pass();
 	if (booleanInfo.first) //Did the player pass?
 	{
+		ody::ServiceLocator::GetSoundSystem().PlaySound(8);
+
 		if (booleanInfo.second) // Did all the players pass
 		{
 			m_pAnnouncementText->SetVisible(false);
@@ -634,6 +673,7 @@ void TichuScene::HandleMahjongTable()
 void TichuScene::GameOver()
 {
 	m_GamesWonCounter->SetText(std::to_string(m_Team0GamesWon) + " - " + std::to_string(m_Team1GamesWon));
+	ody::ServiceLocator::GetSoundSystem().PlaySound(10);
 }
 
 void TichuScene::ShowMahjongSelectionTable(const bool show)
@@ -662,6 +702,7 @@ void TichuScene::CreateMahjongSelectionTable()
 				{
 					button->SetEnabled(true);
 				}
+				ody::ServiceLocator::GetSoundSystem().PlaySound(0);
 				m_CurrentMahjongWishPower = buttonIndex + 2;
 				m_pMahjongButtons[buttonIndex]->SetEnabled(false);
 				};
