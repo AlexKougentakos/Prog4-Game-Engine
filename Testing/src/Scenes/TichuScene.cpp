@@ -32,37 +32,7 @@ void TichuScene::Initialize()
 	ody::InputManager::GetInstance().AddMouseCommand<CardSelectCommand>(SDL_BUTTON_LEFT, ody::InputManager::InputType::OnMouseButtonDown, m_pPlayers, m_pTichuGame->GetCurrentPlayerIndex());
 	ody::InputManager::GetInstance().AddMouseCommand<ButtonPressed>(SDL_BUTTON_LEFT, ody::InputManager::InputType::OnMouseButtonDown, m_pButtonManager);
 
-	m_pPassButton = m_pButtonManager->AddButton("PassButton.png", [&]() 
-		{ 
-		Pass();
-		ody::ServiceLocator::GetSoundSystem().PlaySound(8);
-		} , { 400, 660 });
-	m_pPassButton->SetEnabled(false); //We start on an empty table so you can't say pass
-
-	m_pPlayButton = m_pButtonManager->AddButton("PlayButton.png", [&]() 
-		{
-			CheckSubmittedHand();
-			ody::ServiceLocator::GetSoundSystem().PlaySound(0);
-		} , { 530, 660 });
-	m_pPlayButton->SetEnabled(false); //We will first ask everyone for grand tichu, then you can play
-
-	m_pTichuButton = m_pButtonManager->AddButton("TichuButton.png", [&]() 
-		{
-			DeclareTichu(); 
-			ody::ServiceLocator::GetSoundSystem().PlaySound(11);
-		}, { 185, 660 });
-	m_pTichuButton->SetVisible(false);
-
-	m_pGrandTichuButton = m_pButtonManager->AddButton("GrandTichuButton.png", [&]() 
-		{
-			DeclareGrandTichu(); 
-			ody::ServiceLocator::GetSoundSystem().PlaySound(11);
-		}, { 185, 660 });
-	m_pDealCardsButton = m_pButtonManager->AddButton("DealButton.png", [&]() 
-		{ 
-			DeclineGrandTichu();
-			ody::ServiceLocator::GetSoundSystem().PlaySound(0);
-		}, { 45, 660 });
+	CreateActionButtons();
 
 	const auto scoreCounter = CreateGameObject();
 	m_GamesWonCounter = scoreCounter->AddComponent<ody::TextComponent>("0 - 0", "bonzai.ttf", 40);
@@ -70,23 +40,7 @@ void TichuScene::Initialize()
 
 	CreateMahjongSelectionTable();
 
-	constexpr int screenWidth = ody::constants::g_ScreenWidth;
-	constexpr int screenHeight = ody::constants::g_ScreenHeight;
-	constexpr int offsetFromEdge = 190;
-	constexpr int buttonSize = 40;
-
-	auto button = m_pButtonManager->AddButton("Button.png", [&]() {GiveDragonToPlayer(0); }, { screenWidth / 2 - buttonSize / 2, screenHeight - offsetFromEdge - buttonSize }, { buttonSize, buttonSize });
-	button->SetVisible(false);
-	m_pDragonButtons.emplace_back(button);
-	button = m_pButtonManager->AddButton("Button.png", [&]() {GiveDragonToPlayer(1); }, { offsetFromEdge, screenHeight / 2 - buttonSize / 2 + m_RenderPackage.pointDisplayHeight / 2 }, { buttonSize, buttonSize });
-	button->SetVisible(false);
-	m_pDragonButtons.emplace_back(button);
-	button = m_pButtonManager->AddButton("Button.png", [&]() {GiveDragonToPlayer(2); }, { screenWidth / 2 - buttonSize / 2, offsetFromEdge + m_RenderPackage.pointDisplayHeight }, { buttonSize, buttonSize });
-	button->SetVisible(false);
-	m_pDragonButtons.emplace_back(button);
-	button = m_pButtonManager->AddButton("Button.png", [&]() {GiveDragonToPlayer(3); }, { screenWidth - offsetFromEdge - buttonSize, screenHeight / 2 - buttonSize / 2 + m_RenderPackage.pointDisplayHeight / 2 }, { buttonSize, buttonSize });
-	button->SetVisible(false);
-	m_pDragonButtons.emplace_back(button);
+	CreateDragonButtons();
 
 	const auto pAnnouncementText = CreateGameObject();
 	m_pAnnouncementText = pAnnouncementText->AddComponent<ody::TextComponent>("begin", "bonzai.ttf", 30);
@@ -333,6 +287,8 @@ void TichuScene::DealRestOfCards()
 	// Sort the entire hand
 	std::sort(playerCards.begin(), playerCards.end());
 	player->SetCards(playerCards);
+
+	CreateTradeTable();
 }
 
 void TichuScene::CheckSubmittedHand()
@@ -747,6 +703,134 @@ void TichuScene::CreateButtonTextAtPosition(const std::string& text, const glm::
 	m_pMahjongButtonTextComponents.emplace_back(textComponent);
 }
 
+void TichuScene::CreateTradeTable()
+{
+	m_pTradeTableSelections.clear();
+	m_pCardsForTrade.resize(12);
+
+	glm::vec2 buttonSize{ 90, 120 };
+	constexpr float gap = 10.f;
+	float startingPosition = (ody::constants::g_ScreenWidth - (3 * buttonSize.x)) / 2.f;
+
+	auto callBack = [this](int buttonIndex)
+	{
+		return [this, buttonIndex]() -> void
+			{
+				m_CurrentSelectedTradingSlotIndex = buttonIndex;
+			};
+	};
+
+	for (int i{}; i < 3; ++i)
+	{
+		m_pTradeTableSelections.emplace_back(m_pButtonManager->AddButton("Cards/back.png", callBack(i),
+			{ startingPosition + (buttonSize.x + gap) * i, 400 }, buttonSize));
+	}
+
+
+	m_pTradeTableButtons.clear();
+
+	buttonSize = { 50, 80 };
+	startingPosition = (ody::constants::g_ScreenWidth - (14 * buttonSize.x)) / 2.f;
+	const auto cards = m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()]->GetCards();
+	for (int i{ 0 }; i < 14; ++i)
+	{
+		// Calculate the name of the card texture
+		const size_t textureIndex = [&]() -> size_t
+			{
+				//This is the order in which they are added inside the CreateDeck() function in the TichuScene
+				switch (cards[i].colour)
+				{
+				case CC_Dog:
+					return 52;
+				case CC_Dragon:
+					return 53;
+				case CC_Phoenix:
+					return 54;
+				case CC_Mahjong:
+					return 55;
+				default:
+					return cards[i].colour * 13 + cards[i].power - 2; //Calculate the texture index using the colour to find the right tile image
+				}
+			}();
+
+		auto createButtonCallback = [this, textureIndex](int buttonIndex)
+			{
+			return [this, buttonIndex, textureIndex]()
+				{
+					//Disable the current button
+					m_pTradeTableButtons[buttonIndex]->SetEnabled(false);
+					ody::ServiceLocator::GetSoundSystem().PlaySound(0);
+					m_pTradeTableSelections[m_CurrentSelectedTradingSlotIndex]->SetTexture(m_RenderPackage.cardTextures[textureIndex]);
+					m_pCardsForTrade[m_PlayersWhoTradedCards * 3 + m_CurrentSelectedTradingSlotIndex] = m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()]->GetCards()[buttonIndex];
+				};
+			};
+
+		m_pTradeTableButtons.emplace_back(m_pButtonManager->AddButton(
+			m_RenderPackage.cardTextures[textureIndex],
+			createButtonCallback(i),
+			{ startingPosition + buttonSize.x * i, 600 },
+			buttonSize
+		));
+	}
+}
+
+void TichuScene::CreateDragonButtons()
+{
+	constexpr int screenWidth = ody::constants::g_ScreenWidth;
+	constexpr int screenHeight = ody::constants::g_ScreenHeight;
+	constexpr int offsetFromEdge = 190;
+	constexpr int buttonSize = 40;
+
+	auto button = m_pButtonManager->AddButton("Button.png", [&]() {GiveDragonToPlayer(0); }, { screenWidth / 2 - buttonSize / 2, screenHeight - offsetFromEdge - buttonSize }, { buttonSize, buttonSize });
+	button->SetVisible(false);
+	m_pDragonButtons.emplace_back(button);
+	button = m_pButtonManager->AddButton("Button.png", [&]() {GiveDragonToPlayer(1); }, { offsetFromEdge, screenHeight / 2 - buttonSize / 2 + m_RenderPackage.pointDisplayHeight / 2 }, { buttonSize, buttonSize });
+	button->SetVisible(false);
+	m_pDragonButtons.emplace_back(button);
+	button = m_pButtonManager->AddButton("Button.png", [&]() {GiveDragonToPlayer(2); }, { screenWidth / 2 - buttonSize / 2, offsetFromEdge + m_RenderPackage.pointDisplayHeight }, { buttonSize, buttonSize });
+	button->SetVisible(false);
+	m_pDragonButtons.emplace_back(button);
+	button = m_pButtonManager->AddButton("Button.png", [&]() {GiveDragonToPlayer(3); }, { screenWidth - offsetFromEdge - buttonSize, screenHeight / 2 - buttonSize / 2 + m_RenderPackage.pointDisplayHeight / 2 }, { buttonSize, buttonSize });
+	button->SetVisible(false);
+	m_pDragonButtons.emplace_back(button);
+}
+
+void TichuScene::CreateActionButtons()
+{
+	m_pPassButton = m_pButtonManager->AddButton("PassButton.png", [&]()
+		{
+			Pass();
+			ody::ServiceLocator::GetSoundSystem().PlaySound(8);
+		}, { 400, 660 });
+	m_pPassButton->SetEnabled(false); //We start on an empty table so you can't say pass
+
+	m_pPlayButton = m_pButtonManager->AddButton("PlayButton.png", [&]()
+		{
+			CheckSubmittedHand();
+			ody::ServiceLocator::GetSoundSystem().PlaySound(0);
+		}, { 530, 660 });
+	m_pPlayButton->SetEnabled(false); //We will first ask everyone for grand tichu, then you can play
+
+	m_pTichuButton = m_pButtonManager->AddButton("TichuButton.png", [&]()
+		{
+			DeclareTichu();
+			ody::ServiceLocator::GetSoundSystem().PlaySound(11);
+		}, { 185, 660 });
+	m_pTichuButton->SetVisible(false);
+
+	m_pGrandTichuButton = m_pButtonManager->AddButton("GrandTichuButton.png", [&]()
+		{
+			DeclareGrandTichu();
+			ody::ServiceLocator::GetSoundSystem().PlaySound(11);
+		}, { 185, 660 });
+	m_pDealCardsButton = m_pButtonManager->AddButton("DealButton.png", [&]()
+		{
+			DeclineGrandTichu();
+			ody::ServiceLocator::GetSoundSystem().PlaySound(0);
+		}, { 45, 660 });
+}
+
+
 void TichuScene::OnGUI()
 {
 	if (ImGui::CollapsingHeader("Debug"))
@@ -771,7 +855,7 @@ void TichuScene::OnGUI()
 		}
 	}
 
-	if (ImGui::CollapsingHeader("Game Moves"), ImGuiTreeNodeFlags_DefaultOpen)
+	if (ImGui::CollapsingHeader("Game Moves", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		if (ImGui::Button("Play Cards", { 90, 25 }))
 		{
@@ -785,7 +869,7 @@ void TichuScene::OnGUI()
 		}
 	}
 
-	if (ImGui::CollapsingHeader("Selected Combination"), ImGuiTreeNodeFlags_DefaultOpen)
+	if (ImGui::CollapsingHeader("Selected Combination", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		//Not very efficient but it's debug only
 		auto cards = m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()]->GetHand();

@@ -13,6 +13,7 @@ class Button
 public:
 	void SetEnabled(const bool isEnabled) { m_IsEnabled = isEnabled; }
 	void SetVisible(const bool isVisible) { m_IsVisible = isVisible; }
+	void SetTexture(const std::shared_ptr<ody::Texture2D>& _texture) { texture = _texture; }
 
 private:
 	friend class ButtonManagerComponent;
@@ -52,6 +53,7 @@ public:
 
 	//The source rect gets defaulted to the size of the texture
 	Button* AddButton(const std::string& imagePath, std::function<void()> callback, const glm::vec2& screenPosition, const glm::vec2& sourceRect = {0,0});
+	Button* AddButton(const std::shared_ptr<ody::Texture2D>& texture, std::function<void()> callback, const glm::vec2& screenPosition, const glm::vec2& sourceRect = {0,0});
 
 private:
 	friend class ButtonPressed;

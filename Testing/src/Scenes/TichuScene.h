@@ -22,7 +22,7 @@ class Button;
 class ButtonManagerComponent;
 class CardComponent;
 
-class TichuScene : public ody::GameScene
+class TichuScene final : public ody::GameScene
 {
 public:
 	TichuScene() : ody::GameScene(L"Tichu Scene") { Initialize(); }
@@ -40,32 +40,35 @@ protected:
 private:
 	void CreateDeck();
 	void CreatePlayers();
-	//The parameter is only used for debugging purposes
-	void DealInitialCards(const int numberOfCards = 8);
-	void DealRestOfCards();
-	void UpdateTichuButton() const;
-	void CheckSubmittedHand();
-	void GiveDragonToPlayer(const int playerID) const;
-
+	void CreateTradeTable();
+	void CreateDragonButtons();
+	void CreateActionButtons();
 	void CreateMahjongSelectionTable();
 	void CreatePointDisplay();
-	void HandleMahjongTable();
-
-	void GameOver();
 	void CreateCardRenderPackage();
-	void Pass();
-	void UpdatePlayerPoints(int indexOfPlayerNotOut);
-	void DeclareTichu() const;
-	void DeclareGrandTichu();
-	void DeclineGrandTichu();
-
-	void AddAnnouncementText(const std::string& text) const;
 
 	//One-Two (1-2) is a special case where the two players from each team go out one after the other leaving the other two still in the game.
 	//In that case no points are counted and you start a new round. The team who went out gain 200 points.
 	void NewRound(bool isOneTwo = false);
-	
+	void Pass();
+	void CheckSubmittedHand();
+	void GiveDragonToPlayer(const int playerID) const;
+	void GameOver();
+
+	void HandleMahjongTable();
+	void UpdateTichuButton() const;
+	void UpdatePlayerPoints(int indexOfPlayerNotOut);
 	void UpdateLights() const;
+
+	
+	void DeclareTichu() const;
+	void DeclareGrandTichu();
+	void DeclineGrandTichu();
+	//The parameter is only used for debugging purposes
+	void DealInitialCards(const int numberOfCards = 8);
+	void DealRestOfCards();
+
+	void AddAnnouncementText(const std::string& text) const;
 	void ShowMahjongSelectionTable(const bool show);
 
 	std::vector<PlayerComponent*> m_pPlayers{};
@@ -82,6 +85,13 @@ private:
 	ody::TextComponent* m_pAnnouncementText{};
 	std::vector<Button*> m_pMahjongButtons{};
 	std::vector<Button*> m_pDragonButtons{};
+	std::vector<Button*> m_pTradeTableButtons{};
+	std::vector<Button*> m_pTradeTableSelections{};
+
+	std::vector<Card> m_pCardsForTrade{};
+
+	int m_PlayersWhoTradedCards{ 0 };
+	int m_CurrentSelectedTradingSlotIndex{0};
 
 
 	GamePhase m_GamePhase{ GamePhase::GrandTichu };
