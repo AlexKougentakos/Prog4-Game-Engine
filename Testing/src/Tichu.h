@@ -17,6 +17,9 @@ enum class CombinationType : uint8_t
 	CT_Dogs = 7,
 	CT_SinglePhoenix = 8,
 
+	CT_FourOfAKindBomb = 9,
+	CT_StraightBomb = 10,
+
 	//TODO: Add bombs later
 };
 
@@ -48,6 +51,7 @@ public:
 	//Expects the array is sorted by power level
 	Combination CreateCombination(const std::vector<Card>& cards) const;
 	bool CanFulfillWish(const uint8_t wishPower, const std::vector<Card>& cards) const;
+	void AcceptCombination(Combination combination);
 
 	//Returns if the combination was accepted and taken in as the highest combination played
 	bool PlayHand(const Combination combination);

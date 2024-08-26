@@ -78,6 +78,14 @@ Combination Tichu::CreateCombination(const std::vector<Card>& cards) const
 		return combination;
 	}
 
+	//Four of a kind bomb
+	if (numberOfCards == 4 && cards[0].power == cards[1].power && cards[0].power == cards[2].power && cards[0].power == cards[3].power)
+	{
+		combination.combinationType = CombinationType::CT_FourOfAKindBomb;
+		combination.power = cards[0].power;
+		return combination;
+	}
+
 	//Full House
 	if (numberOfCards == 5 )
 	{
@@ -115,9 +123,14 @@ Combination Tichu::CreateCombination(const std::vector<Card>& cards) const
 	if (numberOfCards >= 5)
 	{
 		bool isStraight = true;
+		bool isBomb = true;
 		for (size_t i{}; i < cards.size(); ++i)
 		{
-			if (hasPhoenix) continue;
+			if (hasPhoenix)
+			{
+				isBomb = false;
+				continue;
+			}
 
 			//We reached the final card of the hand
 			if (i + 1 >= cards.size())
@@ -134,11 +147,18 @@ Combination Tichu::CreateCombination(const std::vector<Card>& cards) const
 				isStraight = false;
 				break;
 			}
+
+			if (cards[i].colour != cards[i + 1].colour)
+				isBomb = false;
 		}
 
 		if (isStraight)
 		{
-			combination.combinationType = CombinationType::CT_Straight;
+			if (isBomb)
+				combination.combinationType = CombinationType::CT_StraightBomb;
+			else
+				combination.combinationType = CombinationType::CT_Straight;
+
 			combination.power = hasPhoenix ? cards[1].power : cards[0].power;
 			return combination;
 		}
@@ -172,7 +192,7 @@ Combination Tichu::CreateCombination(const std::vector<Card>& cards) const
 		if (isSteps)
 		{
 			combination.combinationType = CombinationType::CT_Steps;
-			combination.power = cards[0].power;
+			combination.power = cards[1].power;
 			return combination;
 		}
 	}
@@ -255,6 +275,7 @@ bool Tichu::CanFulfillWish(const uint8_t wishPower, const std::vector<Card>& car
 	return false;
 }
 
+
 bool Tichu::PlayHand(const Combination combination)
 {
 	if (combination.combinationType == CombinationType::CT_Dogs)
@@ -273,16 +294,48 @@ bool Tichu::PlayHand(const Combination combination)
 		return false;
 	}
 
+	if (combination.combinationType == CombinationType::CT_FourOfAKindBomb)
+	{
+		//A 4 of a kind bomb cannot beat a straight bomb
+		if (combination.combinationType == CombinationType::CT_StraightBomb) return false;
+
+		//If the current combination is a four of a kind bomb, the new one must be higher
+		if (m_CurrentStrongestCombination.combinationType == CombinationType::CT_FourOfAKindBomb)
+		{
+			if (combination.power <= m_CurrentStrongestCombination.power) return false;
+
+			AcceptCombination(combination);
+			return true;
+		}
+
+		//If it's not any of the above then you can beat it no matter what
+		AcceptCombination(combination);
+		return true;
+	}
+
+	if (combination.combinationType == CombinationType::CT_StraightBomb)
+	{
+		//If the current combination is a straight bomb, the new one must be higher
+		if (m_CurrentStrongestCombination.combinationType == CombinationType::CT_StraightBomb)
+		{
+			if (combination.power <= m_CurrentStrongestCombination.power) return false;
+			
+			AcceptCombination(combination);
+			return true;
+		}
+
+		//If it's not any of the above then you can beat it no matter what
+		AcceptCombination(combination);
+		return true;
+	}
+
 	if (combination.combinationType == CombinationType::CT_SinglePhoenix)
 	{
 		//Less than 18 so that it can't beat the dragon
 		if ((m_CurrentStrongestCombination.combinationType == CombinationType::CT_Single && combination.power < 18) || m_CurrentStrongestCombination.combinationType == CombinationType::CT_Invalid)
 		{
-				m_CurrentStrongestCombination = combination;
-				NextPlayer();
-				m_PassesInARow = 0;
-				CountPlayersLeft();
-				return true;
+			AcceptCombination(combination);
+			return true;
 		}
 		return false;
 	}
@@ -292,10 +345,7 @@ bool Tichu::PlayHand(const Combination combination)
 		//>= because the phoenix normally adds +0.5 to the power of the card it was laid on, but I don't use floats
 		if (combination.combinationType == CombinationType::CT_Single && combination.power >= m_CurrentStrongestCombination.power)
 		{
-			m_CurrentStrongestCombination = combination;
-			NextPlayer();
-			m_PassesInARow = 0;
-			CountPlayersLeft();
+			AcceptCombination(combination);
 			return true;
 		}
 	}
@@ -303,10 +353,7 @@ bool Tichu::PlayHand(const Combination combination)
 	//The table is empty and your combination is valid
 	if (m_CurrentStrongestCombination.numberOfCards == 0 && combination.combinationType != CombinationType::CT_Invalid)
 	{
-		m_CurrentStrongestCombination = combination;
-		NextPlayer();
-		m_PassesInARow = 0;
-		CountPlayersLeft();
+		AcceptCombination(combination);
 		return true;
 	}
 
@@ -315,15 +362,21 @@ bool Tichu::PlayHand(const Combination combination)
 		combination.numberOfCards == m_CurrentStrongestCombination.numberOfCards &&
 		combination.power > m_CurrentStrongestCombination.power )
 	{
-		m_CurrentStrongestCombination = combination;
-		m_PassesInARow = 0;
-		NextPlayer();
-		CountPlayersLeft();
+		AcceptCombination(combination);
 		return true;
 	}
 
 	//The combination cannot beat the one that is already present
 	return false;
+}
+
+
+void Tichu::AcceptCombination(const Combination combination)
+{
+	m_CurrentStrongestCombination = combination;
+	NextPlayer();
+	m_PassesInARow = 0;
+	CountPlayersLeft();
 }
 
 void Tichu::UpdatePlayerStates(const std::vector<PlayerState>& playerStates)

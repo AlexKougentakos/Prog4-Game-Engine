@@ -40,7 +40,8 @@ protected:
 private:
 	void CreateDeck();
 	void CreatePlayers();
-	void DealInitialCards();
+	//The parameter is only used for debugging purposes
+	void DealInitialCards(const int numberOfCards = 8);
 	void DealRestOfCards();
 	void UpdateTichuButton() const;
 	void CheckSubmittedHand();

@@ -280,7 +280,7 @@ void TichuScene::CreatePointDisplay()
 	m_RenderPackage.pointDisplayHeight = pPointDisplay->GetComponent<ody::TextureComponent>()->GetTextureSize().y;
 }
 
-void TichuScene::DealInitialCards()
+void TichuScene::DealInitialCards(const int numberOfCards)
 {
 	//Deletes the old cards and creates new ones
 	//You can just shuffle the current ones but it's done once per round only
@@ -288,7 +288,6 @@ void TichuScene::DealInitialCards()
 
 	for (const auto& player : m_pPlayers)
 	{
-		constexpr int numberOfCards = 8;
 		// Calculate the start and end indices for this player's cards
 		const int startIndex = player->GetPlayerID() * numberOfCards;
 		const int endIndex = startIndex + numberOfCards;
@@ -768,7 +767,7 @@ void TichuScene::OnGUI()
 
 		if (ImGui::Button("Deal Cards", { 90, 25 }))
 		{
-			DealInitialCards();
+			DealInitialCards(14);
 		}
 	}
 
@@ -806,6 +805,9 @@ void TichuScene::OnGUI()
 		case CombinationType::CT_FullHouse: comboTypeStr = "Full House"; break;
 		case CombinationType::CT_Invalid:comboTypeStr = "Invalid"; break;
 		case CombinationType::CT_Dogs: comboTypeStr = "Dogs"; break;
+		case CombinationType::CT_SinglePhoenix: comboTypeStr = "Single"; break;
+		case CombinationType::CT_FourOfAKindBomb: comboTypeStr = "Four of a Kind Bomb"; break;
+		case CombinationType::CT_StraightBomb: comboTypeStr = "Straight Bomb"; break;
 		}
 		ImGui::Text("Combination Type: %s", comboTypeStr);
 
