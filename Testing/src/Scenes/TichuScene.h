@@ -14,7 +14,7 @@ namespace ody
 enum class GamePhase
 {
 	GrandTichu,
-	DealCards, //todo
+	TradeCards, //todo
 	Playing
 };
 
@@ -70,6 +70,7 @@ private:
 
 	void AddAnnouncementText(const std::string& text) const;
 	void ShowMahjongSelectionTable(const bool show);
+	void ConfirmCardTrades();
 
 	std::vector<PlayerComponent*> m_pPlayers{};
 	std::vector<Card> m_Cards{};
@@ -118,6 +119,7 @@ private:
 	Button* m_pTichuButton{};
 	Button* m_pGrandTichuButton{};
 	Button* m_pDealCardsButton{};
+	Button* m_pConfirmTradesButton{};
 
 	//ImGui
 	bool m_ShowCardHitboxes{false};
