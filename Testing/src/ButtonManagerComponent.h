@@ -15,6 +15,14 @@ public:
 	void SetVisible(const bool isVisible) { m_IsVisible = isVisible; }
 	void SetTexture(const std::shared_ptr<ody::Texture2D>& _texture) { texture = _texture; }
 
+	void SetNormalTint(const glm::vec4& tint) { normalTint = tint; }
+	void SetHoveredTint(const glm::vec4& tint) { hoveredTint = tint; }
+	void SetPressedTint(const glm::vec4& tint) { pressedTint = tint; }
+	void SetDisabledTint(const glm::vec4& tint) { disabledTint = tint; }
+
+	void SetPosition(const glm::vec2& position) { screenPosition = position; }
+	const glm::vec2& GetPosition() const { return screenPosition; }
+
 private:
 	friend class ButtonManagerComponent;
 	Button(std::shared_ptr<ody::Texture2D> texture, std::function<void()>&& callback,
@@ -28,6 +36,8 @@ private:
 	glm::vec2 screenPosition{};
 	glm::vec2 dimensions{};
 
+	//Tints
+	glm::vec4 normalTint{ 1.f, 1.f, 1.f, 1.f };
 	glm::vec4 hoveredTint{0.5f, 0.5f, 0.5f, 1.f};
 	glm::vec4 pressedTint{0.3f, 0.3f, 0.3f, 1.f};
 	glm::vec4 disabledTint{0.4f, 0.4f, 0.4f, 1.f};

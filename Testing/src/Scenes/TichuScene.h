@@ -53,7 +53,7 @@ private:
 	void Pass();
 	void CheckSubmittedHand();
 	void GiveDragonToPlayer(const int playerID) const;
-	void GameOver();
+	void GameOver() const;
 
 	void HandleMahjongTable();
 	void UpdateTichuButton() const;
@@ -68,9 +68,11 @@ private:
 	void DealInitialCards(const int numberOfCards = 8);
 	void DealRestOfCards();
 
-	void AddAnnouncementText(const std::string& text) const;
+	void SetAnnouncementText(const std::string& text) const;
 	void ShowMahjongSelectionTable(const bool show);
 	void ConfirmCardTrades();
+
+	int GetCardTextureIndex(const Card& card) const;
 
 	std::vector<PlayerComponent*> m_pPlayers{};
 	std::vector<Card> m_Cards{};
@@ -89,10 +91,13 @@ private:
 	std::vector<Button*> m_pTradeTableButtons{};
 	std::vector<Button*> m_pTradeTableSelections{};
 
-	std::vector<Card> m_pCardsForTrade{};
+
+	std::vector<bool> m_CardsSelectedForTrade{};
+	std::vector<int> m_CardsSelectedForTradeIndex{};
+	std::vector<Card> m_CardsForTrade{};
 
 	int m_PlayersWhoTradedCards{ 0 };
-	int m_CurrentSelectedTradingSlotIndex{0};
+	int m_CurrentSelectedTradingSlotIndex{-1};
 
 
 	GamePhase m_GamePhase{ GamePhase::GrandTichu };

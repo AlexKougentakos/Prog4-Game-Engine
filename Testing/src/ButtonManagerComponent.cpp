@@ -44,7 +44,7 @@ void ButtonManagerComponent::Update()
         }
         else 
         {
-            button->texture->Tint({ 1.f, 1.f, 1.f, 1.f });
+            button->texture->Tint(button->normalTint);
         }
     }
 }

@@ -112,14 +112,22 @@ void TichuScene::Update()
 		CreateTradeTable();
 		m_pGrandTichuButton->SetVisible(false);
 		m_pDealCardsButton->SetVisible(false);
+		m_pConfirmTradesButton->SetVisible(true);
+
+		//This is just to get out of the way of the selection card table, since it would overlap with the normal cards
+		m_pTichuButton->SetPosition({ m_pTichuButton->GetPosition().x, m_pTichuButton->GetPosition().y - 60 });
+		m_pPlayButton->SetPosition({ m_pPlayButton->GetPosition().x, m_pPlayButton->GetPosition().y - 60 });
+		m_pPassButton->SetPosition({ m_pPassButton->GetPosition().x, m_pPassButton->GetPosition().y - 60 });
 	}
 	if (m_GamePhase == GamePhase::TradeCards && m_PlayersWhoTradedCards >= 4)
 	{
+		m_pTichuButton->SetPosition({ m_pTichuButton->GetPosition().x, m_pTichuButton->GetPosition().y + 60 });
+		m_pPlayButton->SetPosition({ m_pPlayButton->GetPosition().x, m_pPlayButton->GetPosition().y + 60 });
+		m_pPassButton->SetPosition({ m_pPassButton->GetPosition().x, m_pPassButton->GetPosition().y + 60 });
+
 		m_GamePhase = GamePhase::Playing;
 		UpdateTichuButton();
-		UpdateLights();
 		m_pPlayButton->SetEnabled(true);
-
 
 		const std::vector<int> cardTradeOrder = { 1, 2, 3, 2, 3, 0, 3, 0, 1, 0, 1, 2 };
 
@@ -136,9 +144,9 @@ void TichuScene::Update()
 				[this, cardsToDeleteStartIndex](const Card& card) -> bool
 				{
 					// Check if the current card is one of the cards to be deleted
-					return (card == m_pCardsForTrade[cardsToDeleteStartIndex] ||
-						card == m_pCardsForTrade[cardsToDeleteStartIndex + 1] ||
-						card == m_pCardsForTrade[cardsToDeleteStartIndex + 2]);
+					return (card == m_CardsForTrade[cardsToDeleteStartIndex] ||
+						card == m_CardsForTrade[cardsToDeleteStartIndex + 1] ||
+						card == m_CardsForTrade[cardsToDeleteStartIndex + 2]);
 				}), playerCards.end());
 
 
@@ -148,9 +156,12 @@ void TichuScene::Update()
 				if (cardTradeOrder[i] == playerID)
 				{
 					// Give the card to the player
-					playerCards.emplace_back(m_pCardsForTrade[i]);
+					playerCards.emplace_back(m_CardsForTrade[i]);
 				}
 			}
+
+			std::sort(playerCards.begin(), playerCards.end());
+			player->SetCards(playerCards);
 
 			// Update player's card collection with the new cards
 			player->SetCards(playerCards);
@@ -161,21 +172,39 @@ void TichuScene::Update()
 				player->SetPlaying(true);
 				m_pTichuGame->SetStartingPlayer(player->GetPlayerID());
 			}
+
+			UpdateLights();
 		}
 
+		m_pConfirmTradesButton->SetVisible(false);
+		for (const auto& button : m_pTradeTableButtons)
+		{
+			button->SetVisible(false);
+		}
+
+		for (const auto& button : m_pTradeTableSelections)
+		{
+			button->SetVisible(false);
+		}
+
+		//Reset the tint that was given for illustration during the trading phase
+		for (const auto& texture : m_RenderPackage.cardTextures)
+		{
+			texture->Tint({ 1.f, 1.f, 1.f, 1.f });
+		}
+
+		//todo: add a dirty flag for this
+		std::vector<PlayerState> playerStates{};
+
+		for (const auto& player : m_pPlayers)
+		{
+			PlayerState playerState{};
+			playerState.isOut = player->IsOut();
+			playerStates.emplace_back(playerState);
+		}
+
+		m_pTichuGame->UpdatePlayerStates(playerStates);
 	}
-
-	//todo: add a dirty flag for this
-	std::vector<PlayerState> playerStates{};
-
-	for (const auto& player : m_pPlayers)
-	{
-		PlayerState playerState{};
-		playerState.isOut = player->IsOut();
-		playerStates.emplace_back(playerState);
-	}
-
-	m_pTichuGame->UpdatePlayerStates(playerStates);
 }
 
 void TichuScene::CreateDeck()
@@ -216,7 +245,6 @@ void TichuScene::CreatePlayers()
 	}
 }
 
-
 void TichuScene::CreateCardRenderPackage()
 {
 	m_RenderPackage.cardTextures.clear();
@@ -231,32 +259,36 @@ void TichuScene::CreateCardRenderPackage()
 
 		auto texture = ody::ResourceManager::GetInstance().LoadTexture(completePath);
 		m_RenderPackage.cardTextures.emplace_back(texture);
+		m_RenderPackage.cardTexturePaths.emplace_back(completePath);
 	}
 
 	//Dogs
 	std::string completePath = "Cards/Dogs.png";
 	auto texture = ody::ResourceManager::GetInstance().LoadTexture(completePath);
 	m_RenderPackage.cardTextures.emplace_back(texture);
+	m_RenderPackage.cardTexturePaths.emplace_back(completePath);
 
 	//Dragon
 	completePath = "Cards/Dragon.png";
 	texture = ody::ResourceManager::GetInstance().LoadTexture(completePath);
 	m_RenderPackage.cardTextures.emplace_back(texture);
+	m_RenderPackage.cardTexturePaths.emplace_back(completePath);
 
 	//Phoenix
 	completePath = "Cards/Phoenix.png";
 	texture = ody::ResourceManager::GetInstance().LoadTexture(completePath);
 	m_RenderPackage.cardTextures.emplace_back(texture);
+	m_RenderPackage.cardTexturePaths.emplace_back(completePath);
 
 	//Mahjong
 	completePath = "Cards/Mahjong.png";
 	texture = ody::ResourceManager::GetInstance().LoadTexture(completePath);
 	m_RenderPackage.cardTextures.emplace_back(texture);
+	m_RenderPackage.cardTexturePaths.emplace_back(completePath);
 
 
 	m_RenderPackage.cardBack = ody::ResourceManager::GetInstance().LoadTexture("Cards/back.png");
 }
-
 
 void TichuScene::CreatePointDisplay()
 {
@@ -352,7 +384,7 @@ void TichuScene::CheckSubmittedHand()
 			}) == submittedHand.end())
 		{
 			//If we enter here the player didn't fulfill the wish
-			AddAnnouncementText("You have to fulfill the wish of the card: " + std::to_string(m_CurrentMahjongWishPower));
+			SetAnnouncementText("You have to fulfill the wish of the card: " + std::to_string(m_CurrentMahjongWishPower));
 			return;
 		}
 		else 
@@ -386,7 +418,7 @@ void TichuScene::CheckSubmittedHand()
 		m_pPassButton->SetEnabled(true);
 		const int previousPlayerIndex = combination.combinationType == CombinationType::CT_Dogs ? m_PlayerWhoThrewDogsIndex : m_pTichuGame->GetPreviousPlayerIndex();
 
-		AddAnnouncementText("Player " + std::to_string(previousPlayerIndex) + " played a hand!");
+		SetAnnouncementText("Player " + std::to_string(previousPlayerIndex) + " played a hand!");
 		
 		//Previous player because the current player index gets incremented inside PlayHand()
 		m_pPlayers[previousPlayerIndex]->PlayedSelectedCards();
@@ -425,7 +457,7 @@ void TichuScene::CheckSubmittedHand()
 
 void TichuScene::GiveDragonToPlayer(const int playerID) const
 {
-	m_pPlayers[playerID]->GivePoints(25);
+	m_pPlayers[playerID]->GivePoints(600);
 	m_pPlayButton->SetEnabled(true);
 
 	for (const auto& button : m_pDragonButtons)
@@ -546,6 +578,7 @@ void TichuScene::NewRound(bool isOneTwo)
 	m_Team1PointsText->SetText(std::to_string(m_Team1Points));
 
 	m_PlayersAskedForGrandTichu = 0;
+	m_PlayersWhoTradedCards = 0;
 	m_GamePhase = GamePhase::GrandTichu;
 	m_pGrandTichuButton->SetVisible(true);
 	m_pDealCardsButton->SetVisible(true);
@@ -622,7 +655,7 @@ void TichuScene::DeclineGrandTichu()
 		UpdateLights();
 }
 
-void TichuScene::AddAnnouncementText(const std::string& text) const
+void TichuScene::SetAnnouncementText(const std::string& text) const
 {
 	m_pAnnouncementText->SetText(text);
 	m_pAnnouncementText->SetPosition(ody::constants::g_ScreenWidth / 2 - m_pAnnouncementText->GetTextSize().x / 2, 300);
@@ -671,7 +704,7 @@ void TichuScene::HandleMahjongTable()
 	}
 }
 
-void TichuScene::GameOver()
+void TichuScene::GameOver() const
 {
 	m_GamesWonCounter->SetText(std::to_string(m_Team0GamesWon) + " - " + std::to_string(m_Team1GamesWon));
 	ody::ServiceLocator::GetSoundSystem().PlaySound(10);
@@ -685,7 +718,7 @@ void TichuScene::ShowMahjongSelectionTable(const bool show)
 		textComponent->SetVisible(show);
 	}
 
-	for (auto button : m_pMahjongButtons)
+	for (const auto button : m_pMahjongButtons)
 	{
 		button->SetVisible(show);
 	}
@@ -693,6 +726,19 @@ void TichuScene::ShowMahjongSelectionTable(const bool show)
 
 void TichuScene::ConfirmCardTrades()
 {
+	//Check that all cards have been selected
+	for (const bool cardSelected : m_CardsSelectedForTrade)
+	{
+		if (!cardSelected)
+		{
+			SetAnnouncementText("You have to select 3 cards to trade!");
+			return;
+		}
+	}
+
+	//Reset the array
+	std::fill(m_CardsSelectedForTrade.begin(), m_CardsSelectedForTrade.end(), false);
+
 	++m_PlayersWhoTradedCards;
 
 	for (const auto button : m_pTradeTableSelections)
@@ -708,24 +754,8 @@ void TichuScene::ConfirmCardTrades()
 		//Remove the effect the buttons had on them
 		m_pTradeTableButtons[i]->SetEnabled(true);
 
-		const size_t textureIndex = [&]() -> size_t
-			{
-				//This is the order in which they are added inside the CreateDeck() function in the TichuScene
-				switch (cards[i].colour)
-				{
-				case CC_Dog:
-					return 52;
-				case CC_Dragon:
-					return 53;
-				case CC_Phoenix:
-					return 54;
-				case CC_Mahjong:
-					return 55;
-				default:
-					return cards[i].colour * 13 + cards[i].power - 2; //Calculate the texture index using the colour to find the right tile image
-				}
-			}();
-			m_pTradeTableButtons[i]->SetTexture(m_RenderPackage.cardTextures[textureIndex]);
+		const size_t textureIndex = GetCardTextureIndex(cards[i]);
+		m_pTradeTableButtons[i]->SetTexture(m_RenderPackage.cardTextures[textureIndex]);
 	}
 
 	UpdateLights();
@@ -788,26 +818,52 @@ void TichuScene::CreateButtonTextAtPosition(const std::string& text, const glm::
 
 	m_pMahjongButtonTextComponents.emplace_back(textComponent);
 }
+
 void TichuScene::CreateTradeTable()
 {
-	m_pCardsForTrade.resize(12);
+	m_CardsSelectedForTrade.resize(3);
+	m_CardsSelectedForTradeIndex.resize(3);
+	m_CardsForTrade.resize(12);
 
 	glm::vec2 buttonSize{ 90, 120 };
 	constexpr float gap = 10.f;
 	float startingPosition = (ody::constants::g_ScreenWidth - (3 * buttonSize.x)) / 2.f;
 
-	auto callBack = [this](int buttonIndex)
+	auto cardDestinationButtonCallback = [this](int buttonIndex)
 		{
 			// Capture buttonIndex by value to ensure it's the correct value when the lambda is executed
 			return [this, buttonIndex]() -> void
 				{
 					m_CurrentSelectedTradingSlotIndex = buttonIndex;
+					//Give it a light gray tint
+					constexpr glm::vec4 selectedTint = { 0.65f, 0.65f, 0.65f, 1.f };
+					constexpr glm::vec4 notSelectedTint = { 0.5f, 0.5f, 0.5f, 1.f };
+					m_pTradeTableSelections[buttonIndex]->SetHoveredTint(selectedTint);
+					m_pTradeTableSelections[buttonIndex]->SetNormalTint(selectedTint);
+
+					//Reset the other buttons
+					for (int i{}; i < 3; ++i)
+					{
+						if (i != buttonIndex)
+						{
+							m_pTradeTableSelections[i]->SetHoveredTint(notSelectedTint);
+							m_pTradeTableSelections[i]->SetNormalTint({ 1.f, 1.f, 1.f, 1.f });
+						}
+					}
+
+					if (m_CardsSelectedForTrade[buttonIndex])
+					{
+						m_CardsSelectedForTrade[buttonIndex] = false;
+						m_pTradeTableSelections[buttonIndex]->SetTexture(ody::ResourceManager::GetInstance().LoadTexture("Cards/back.png"));
+						m_CardsForTrade[m_PlayersWhoTradedCards * 3 + m_CurrentSelectedTradingSlotIndex] = Card{};
+						m_pTradeTableButtons[m_CardsSelectedForTradeIndex[buttonIndex]]->SetEnabled(true);
+					}
 				};
 		};
 
 	for (int i{}; i < 3; ++i)
 	{
-		m_pTradeTableSelections.emplace_back(m_pButtonManager->AddButton("Cards/back.png", callBack(i),
+		m_pTradeTableSelections.emplace_back(m_pButtonManager->AddButton("Cards/back.png", cardDestinationButtonCallback(i),
 			{ startingPosition + (buttonSize.x + gap) * i, 400 }, buttonSize));
 	}
 
@@ -817,66 +873,45 @@ void TichuScene::CreateTradeTable()
 	for (int i{ 0 }; i < 14; ++i)
 	{
 		// Calculate the name of the card texture
-		const size_t textureIndex = [&]() -> size_t
-			{
-				switch (cards[i].colour)
-				{
-				case CC_Dog:
-					return 52;
-				case CC_Dragon:
-					return 53;
-				case CC_Phoenix:
-					return 54;
-				case CC_Mahjong:
-					return 55;
-				default:
-					return cards[i].colour * 13 + cards[i].power - 2;
-				}
-			}();
+		const size_t textureIndex = GetCardTextureIndex(cards[i]);
 
-			auto createButtonCallback = [this, i]() // Capture index by value
+			auto cardSelectionButtonCallback = [this, i]()
 				{
 					return [this, i]()
 						{
+							if (m_CurrentSelectedTradingSlotIndex == -1) return;
+
 							const auto playerCards = m_pPlayers[m_PlayersWhoTradedCards]->GetCards();
 							// Calculate the name of the card texture
-							const size_t buttonTextureIndex = [&]() -> size_t
-								{
-									switch (playerCards[i].colour)
-									{
-									case CC_Dog:
-										return 52;
-									case CC_Dragon:
-										return 53;
-									case CC_Phoenix:
-										return 54;
-									case CC_Mahjong:
-										return 55;
-									default:
-										return playerCards[i].colour * 13 + playerCards[i].power - 2;
-									}
-								}();
+							const size_t buttonTextureIndex = GetCardTextureIndex(playerCards[i]);
 
-								// Disable the current button
-								m_pTradeTableButtons[i]->SetEnabled(false);
-								ody::ServiceLocator::GetSoundSystem().PlaySound(0);
-								m_pTradeTableSelections[m_CurrentSelectedTradingSlotIndex]->SetTexture(m_RenderPackage.cardTextures[buttonTextureIndex]);
+							// Disable the current button
+							m_pTradeTableButtons[i]->SetEnabled(false);
+							ody::ServiceLocator::GetSoundSystem().PlaySound(0);
 
-								// Access member variables directly to ensure current state
-								m_pCardsForTrade[m_PlayersWhoTradedCards * 3 + m_CurrentSelectedTradingSlotIndex] =
-									m_pPlayers[m_PlayersWhoTradedCards]->GetCards()[i];
+							// Load a new texture because the previous one has been Tinted from the button
+							const auto texture = ody::ResourceManager::GetInstance().LoadTexture(m_RenderPackage.cardTexturePaths[buttonTextureIndex]);
+							m_pTradeTableSelections[m_CurrentSelectedTradingSlotIndex]->SetTexture(texture);
+							m_pTradeTableSelections[m_CurrentSelectedTradingSlotIndex]->SetNormalTint({ 1.f, 1.f, 1.f, 1.f });
+							m_pTradeTableSelections[m_CurrentSelectedTradingSlotIndex]->SetHoveredTint({ 0.5f, 0.5f, 0.5f, 1.f });
+							m_CardsSelectedForTrade[m_CurrentSelectedTradingSlotIndex] = true;
+							m_CardsSelectedForTradeIndex[m_CurrentSelectedTradingSlotIndex] = i;
+
+							// Access member variables directly to ensure current state
+							m_CardsForTrade[m_PlayersWhoTradedCards * 3 + m_CurrentSelectedTradingSlotIndex] = m_pPlayers[m_PlayersWhoTradedCards]->GetCards()[i];
+
+							m_CurrentSelectedTradingSlotIndex = -1;
 						};
 				};
 
 			m_pTradeTableButtons.emplace_back(m_pButtonManager->AddButton(
 				m_RenderPackage.cardTextures[textureIndex],
-				createButtonCallback(),
-				{ startingPosition + buttonSize.x * i, 600 },
+				cardSelectionButtonCallback(),
+				{ startingPosition + buttonSize.x * i, 695 },
 				buttonSize
 			));
 	}
 }
-
 
 void TichuScene::CreateDragonButtons()
 {
@@ -905,40 +940,57 @@ void TichuScene::CreateActionButtons()
 		{
 			Pass();
 			ody::ServiceLocator::GetSoundSystem().PlaySound(8);
-		}, { 400, 660 });
+		}, { 507, 695 });
 	m_pPassButton->SetEnabled(false); //We start on an empty table so you can't say pass
 
 	m_pPlayButton = m_pButtonManager->AddButton("PlayButton.png", [&]()
 		{
 			CheckSubmittedHand();
 			ody::ServiceLocator::GetSoundSystem().PlaySound(0);
-		}, { 530, 660 });
+		}, { 637, 695 });
 	m_pPlayButton->SetEnabled(false); //We will first ask everyone for grand tichu, then you can play
 
 	m_pTichuButton = m_pButtonManager->AddButton("TichuButton.png", [&]()
 		{
 			DeclareTichu();
 			ody::ServiceLocator::GetSoundSystem().PlaySound(11);
-		}, { 185, 660 });
+		}, { 293, 695 });
 	m_pTichuButton->SetVisible(false);
 
 	m_pGrandTichuButton = m_pButtonManager->AddButton("GrandTichuButton.png", [&]()
 		{
 			DeclareGrandTichu();
 			ody::ServiceLocator::GetSoundSystem().PlaySound(11);
-		}, { 185, 660 });
+		}, { 293, 695 });
 	m_pDealCardsButton = m_pButtonManager->AddButton("DealButton.png", [&]()
 		{
 			DeclineGrandTichu();
 			ody::ServiceLocator::GetSoundSystem().PlaySound(0);
-		}, { 45, 660 });
-	m_pConfirmTradesButton = m_pButtonManager->AddButton("DealButton.png", [&]()
+		}, { 152, 695 });
+	m_pConfirmTradesButton = m_pButtonManager->AddButton("ConfirmButton.png", [&]()
 		{
 			ConfirmCardTrades();
 			ody::ServiceLocator::GetSoundSystem().PlaySound(0);
-		}, { 350, 590 });
+		}, { 392, 575 });
+	m_pConfirmTradesButton->SetVisible(false);
 }
 
+int TichuScene::GetCardTextureIndex(const Card& card) const
+{
+	switch (card.colour)
+	{
+	case CC_Dog:
+		return 52;
+	case CC_Dragon:
+		return 53;
+	case CC_Phoenix:
+		return 54;
+	case CC_Mahjong:
+		return 55;
+	default:
+		return card.colour * 13 + card.power - 2;
+	}
+}
 
 void TichuScene::OnGUI()
 {
