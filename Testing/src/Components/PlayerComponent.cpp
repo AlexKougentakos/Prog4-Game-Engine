@@ -397,10 +397,10 @@ void PlayerComponent::OnGui()
 {
     const std::string uniqueID = "IndentedBox_" + std::to_string(m_PlayerID);
     ImGui::BeginChild(uniqueID.c_str(), ImVec2(0, 60), true, ImGuiWindowFlags_None);
-    ImGui::Text(std::string("Player " + std::to_string(m_PlayerID)).c_str());
+    ImGui::Text("%s", std::string("Player " + std::to_string(m_PlayerID)).c_str());
     ImGui::Separator();
 
-    ImGui::Text(std::string("Points Held: " + std::to_string(m_HoldingPoints)).c_str());
+    ImGui::Text("%s", std::string("Points Held: " + std::to_string(m_HoldingPoints)).c_str());
 
     ImGui::EndChild();
 

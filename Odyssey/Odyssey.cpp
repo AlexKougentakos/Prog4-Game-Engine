@@ -72,14 +72,14 @@ void LoopCallback(void* arg)
 }
 #endif
 
-ody::Odyssey::Odyssey(const std::string &dataPath, 
-	std::map<unsigned int, std::pair<std::string, bool>> sfxLocationMap)
+ody::Odyssey::Odyssey(const std::string& dataPath,
+	std::map<unsigned int, std::pair<std::string, bool>> sfxLocationMap, const std::string& windowIconName)
 {
 
 	m_SfxLocationMap = sfxLocationMap;
 	PrintSDLVersion();
-	
-	if (SDL_Init(SDL_INIT_VIDEO) != 0) 
+
+	if (SDL_Init(SDL_INIT_VIDEO) != 0)
 	{
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
 	}
@@ -92,6 +92,14 @@ ody::Odyssey::Odyssey(const std::string &dataPath,
 		constants::g_ScreenHeight,
 		SDL_WINDOW_OPENGL
 	);
+
+	SDL_Surface* icon = IMG_Load((dataPath + windowIconName).c_str());
+	if (icon != NULL)
+	{
+		SDL_SetWindowIcon(g_window, icon);
+		SDL_FreeSurface(icon);
+	}
+
 	if (g_window == nullptr)
 	{
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
@@ -104,16 +112,22 @@ ody::Odyssey::Odyssey(const std::string &dataPath,
 
 #ifndef __EMSCRIPTEN__
 	m_pAudioSystem = std::make_unique<ody::AudioSystem>(sfxLocationMap);
+
+	// Setup for resources and initial state
+	std::vector<std::string> paths;
+	for (const auto& audioFile : m_SfxLocationMap)
+	{
+		//If pre-loading is enabled
+		if (audioFile.second.second)
+			paths.emplace_back(audioFile.second.first);
+
+		ResourceManager::GetInstance().PreLoad(paths);
+	}
 #else
 	m_pAudioSystem = std::make_unique<ody::WebAudioSystem>(sfxLocationMap);
 #endif
 	ody::ServiceLocator::Provide(m_pAudioSystem.get());
 
-	// Setup for resources and initial state
-	std::vector<std::string> paths;
-	for (const auto& audioFile : m_SfxLocationMap)
-		paths.emplace_back(audioFile.second.first);
-	ResourceManager::GetInstance().PreLoad(paths);
 
 	m_pRenderer = &Renderer::GetInstance();
 	m_pSceneManager = &SceneManager::GetInstance();

@@ -37,22 +37,22 @@ int main(int, char* [])
     //Here we define the sound effects that we want to use in our game
     const std::map<unsigned int, std::pair<std::string, bool>> SfxLocationMap = 
     {
-        {0, {"Sounds/ButtonClick.mp3", true}},
-        {1, {"Sounds/CardThrow1.mp3", true}},
-        {2, {"Sounds/CardThrow2.mp3", true}},
-        {3, {"Sounds/CardThrow3.mp3", true}},
-        {4, {"Sounds/CardThrow4.mp3", true}},
-        {5, {"Sounds/CardThrow5.mp3", true}},
-        {6, {"Sounds/CardThrow6.mp3", true}},
-        {7, {"Sounds/Dragon.mp3", true}},
-        {8, {"Sounds/Pass.mp3", true}},
-        {9, {"Sounds/Phoenix.mp3", true}},
-        {10, {"Sounds/RoundStart.mp3", true}},
-        {11, {"Sounds/Tichu.mp3", true}},
-        {12, {"Sounds/YourTurn.mp3", true}}
+        {0, {"Sounds/ButtonClick.wav", false}},
+        {1, {"Sounds/CardThrow1.wav", false}},
+        {2, {"Sounds/CardThrow2.wav", false}},
+        {3, {"Sounds/CardThrow3.wav", false}},
+        {4, {"Sounds/CardThrow4.wav", false}},
+        {5, {"Sounds/CardThrow5.wav", false}},
+        {6, {"Sounds/CardThrow6.wav", false}},
+        {7, {"Sounds/Dragon.wav", false}},
+        {8, {"Sounds/Pass.wav", false}},
+        {9, {"Sounds/Phoenix.wav", false}},
+        {10, {"Sounds/RoundStart.wav", false}},
+        {11, {"Sounds/Tichu.wav", false}},
+        {12, {"Sounds/YourTurn.wav", true}}
     };
 
-    ody::Odyssey engine(data_location.string(), SfxLocationMap);
+    ody::Odyssey engine(data_location.string(), SfxLocationMap, "Icon.png");
     engine.Run(load);
     return 0;
 }

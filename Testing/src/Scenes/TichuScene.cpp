@@ -151,7 +151,7 @@ void TichuScene::Update()
 
 
 			// Go through each card that should belong to this player
-			for (int i = 0; i < cardTradeOrder.size(); ++i)
+			for (size_t i = 0; i < cardTradeOrder.size(); ++i)
 			{
 				if (cardTradeOrder[i] == playerID)
 				{
@@ -339,7 +339,7 @@ void TichuScene::DealInitialCards(const int numberOfCards)
 
 void TichuScene::DealRestOfCards()
 {
-	if (m_PlayersAskedForGrandTichu >= m_pPlayers.size())
+	if (m_PlayersAskedForGrandTichu >= static_cast<int>(m_pPlayers.size()))
 	{
 		// All players have been dealt their remaining cards
 		return;
@@ -433,8 +433,8 @@ void TichuScene::CheckSubmittedHand()
 			}
 			else if (m_NumberOfPlayersOut == 2)
 			{
-				if (m_pPlayers[0]->IsOut() && m_pPlayers[2]->IsOut() ||
-					m_pPlayers[1]->IsOut() && m_pPlayers[3]->IsOut())
+				if ((m_pPlayers[0]->IsOut() && m_pPlayers[2]->IsOut()) ||
+					(m_pPlayers[1]->IsOut() && m_pPlayers[3]->IsOut()))
 				NewRound(true);
 
 				return;

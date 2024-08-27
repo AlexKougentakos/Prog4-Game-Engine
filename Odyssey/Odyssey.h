@@ -22,7 +22,7 @@ namespace ody
 		 * \param SfxLocationMap Map which contains the ID, location and if the sound should be pre-loaded and kept in memory
 		 */
 		explicit Odyssey(const std::string& dataPath, 
-		                 std::map<unsigned int, std::pair<std::string, bool>> SfxLocationMap);
+		                 std::map<unsigned int, std::pair<std::string, bool>> SfxLocationMap, const std::string& windowIconName = "");
 		~Odyssey();
 		void Run(const std::function<void()>& load);
 		void RunOneFrame();
