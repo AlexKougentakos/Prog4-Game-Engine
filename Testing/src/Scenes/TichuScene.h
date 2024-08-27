@@ -66,7 +66,7 @@ private:
 	void DeclineGrandTichu();
 	//The parameter is only used for debugging purposes
 	void DealInitialCards(const int numberOfCards = 8);
-	void DealRestOfCards();
+	void DealRestOfCards() const;
 
 	void SetAnnouncementText(const std::string& text) const;
 	void ShowMahjongSelectionTable(const bool show);

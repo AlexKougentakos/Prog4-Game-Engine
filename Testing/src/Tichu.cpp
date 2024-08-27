@@ -4,7 +4,7 @@
 #include <iostream>
 #include <unordered_map>
 
-Combination Tichu::CreateCombination(const std::vector<Card>& cards) const
+Combination Tichu::CreateCombination(std::vector<Card>& cards) const
 {
 	const size_t numberOfCards = cards.size();
 
@@ -126,7 +126,7 @@ Combination Tichu::CreateCombination(const std::vector<Card>& cards) const
 		bool isBomb = true;
 		for (size_t i{}; i < cards.size(); ++i)
 		{
-			if (hasPhoenix)
+			if (hasPhoenix && i == 0)
 			{
 				isBomb = false;
 				continue;
@@ -142,6 +142,8 @@ Combination Tichu::CreateCombination(const std::vector<Card>& cards) const
 				{
 					i += 1;
 					usedPhoenix = true;
+					//Make the phoenix take the power of the missing card
+					cards[0].power = cards[i].power;
 					continue;
 				}
 				isStraight = false;

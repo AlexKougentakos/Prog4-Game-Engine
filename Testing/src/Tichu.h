@@ -49,7 +49,7 @@ class Tichu final
 public:
 	Tichu() = default;
 	//Expects the array is sorted by power level
-	Combination CreateCombination(const std::vector<Card>& cards) const;
+	Combination CreateCombination(std::vector<Card>& cards) const;
 	bool CanFulfillWish(const uint8_t wishPower, const std::vector<Card>& cards) const;
 	void AcceptCombination(Combination combination);
 

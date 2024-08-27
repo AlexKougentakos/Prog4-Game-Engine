@@ -337,7 +337,7 @@ void TichuScene::DealInitialCards(const int numberOfCards)
 	}
 }
 
-void TichuScene::DealRestOfCards()
+void TichuScene::DealRestOfCards() const
 {
 	if (m_PlayersAskedForGrandTichu >= static_cast<int>(m_pPlayers.size()))
 	{
@@ -394,6 +394,7 @@ void TichuScene::CheckSubmittedHand()
 	}
 
 	const Combination combination = m_pTichuGame->CreateCombination(submittedHand);
+	std::sort(submittedHand.begin(), submittedHand.end());
 	if (combination.combinationType == CombinationType::CT_Dogs)
 		m_PlayerWhoThrewDogsIndex = m_pTichuGame->GetCurrentPlayerIndex();
 
