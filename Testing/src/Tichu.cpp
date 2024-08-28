@@ -175,7 +175,7 @@ Combination Tichu::CreateCombination(std::vector<Card>& cards) const
 		{
 			if (hasPhoenix && i == 0)
 			{
-				continue;
+				i = 1;
 			}
 			//We reached the final steps
 			if (i + 2 >= cards.size())
@@ -186,10 +186,13 @@ Combination Tichu::CreateCombination(std::vector<Card>& cards) const
 				if (!hasPhoenix || usedPhoenix)
 					isSteps = false;
 				else
+				{
 					usedPhoenix = true;
+					cards[0].power = cards[i].power;
+				}
 			}
 
-			if (cards[i + 1].power + 1 != cards[i + 3].power)
+			if (cards[i].power + 1 != cards[i + 2].power)
 			{
 				isSteps = false;
 			}
