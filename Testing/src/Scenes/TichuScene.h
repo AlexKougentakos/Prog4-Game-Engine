@@ -109,6 +109,7 @@ private:
 	int m_IndexOfFirstPlayerOut{0};
 	int m_PlayerWhoThrewDogsIndex{ 0 };
 	int m_PlayersAskedForGrandTichu{ 0 };
+	int m_PlayerWhoThrewLastCombinationIndex{ 0 };
 
 	int m_Team0Points{ 0 }; //Player 0 and 2 
 	int m_Team1Points{ 0 }; //Player 1 and 3

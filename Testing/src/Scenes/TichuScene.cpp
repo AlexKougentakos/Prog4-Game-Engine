@@ -103,6 +103,16 @@ void TichuScene::PostRender()
 void TichuScene::Update()
 {
 	HandleMahjongTable();
+	//todo: add a dirty flag for this
+	std::vector<PlayerState> playerStates{};
+
+	for (const auto& player : m_pPlayers)
+	{
+		PlayerState playerState{};
+		playerState.isOut = player->IsOut();
+		playerStates.emplace_back(playerState);
+	}
+	m_pTichuGame->UpdatePlayerStates(playerStates);
 
 	if (m_GamePhase == GamePhase::GrandTichu && m_PlayersAskedForGrandTichu >= 4)
 	{
@@ -192,18 +202,6 @@ void TichuScene::Update()
 		{
 			texture->Tint({ 1.f, 1.f, 1.f, 1.f });
 		}
-
-		//todo: add a dirty flag for this
-		std::vector<PlayerState> playerStates{};
-
-		for (const auto& player : m_pPlayers)
-		{
-			PlayerState playerState{};
-			playerState.isOut = player->IsOut();
-			playerStates.emplace_back(playerState);
-		}
-
-		m_pTichuGame->UpdatePlayerStates(playerStates);
 	}
 }
 
@@ -400,6 +398,7 @@ void TichuScene::CheckSubmittedHand()
 
 	if (m_pTichuGame->PlayHand(combination))
 	{
+		m_PlayerWhoThrewLastCombinationIndex = player->GetPlayerID();
 		if (combination.numberOfCards == 1 &&
 			std::find(submittedHand.begin(), submittedHand.end(), Card{ CC_Dragon, 20 }) != submittedHand.end())
 		{
@@ -436,9 +435,11 @@ void TichuScene::CheckSubmittedHand()
 			{
 				if ((m_pPlayers[0]->IsOut() && m_pPlayers[2]->IsOut()) ||
 					(m_pPlayers[1]->IsOut() && m_pPlayers[3]->IsOut()))
-				NewRound(true);
+				{
+					NewRound(true);
+					return;
+				}
 
-				return;
 			}
 
 			else if (m_NumberOfPlayersOut == 3)
@@ -490,7 +491,7 @@ void TichuScene::Pass()
 			if (m_CardsOnTop.size() == 1 && m_CardsOnTop[0].colour == CC_Dragon)
 			{
 
-				const int teamWhoGotTheHand = m_pTichuGame->GetCurrentPlayerIndex() == 0 || m_pTichuGame->GetCurrentPlayerIndex() == 2 ? 0 : 1;
+				const int teamWhoGotTheHand = m_PlayerWhoThrewLastCombinationIndex == 0 || m_PlayerWhoThrewLastCombinationIndex == 2 ? 0 : 1;
 				if (teamWhoGotTheHand == 0)
 				{
 					m_pDragonButtons[1]->SetVisible(true);

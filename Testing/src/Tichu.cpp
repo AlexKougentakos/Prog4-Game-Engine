@@ -173,6 +173,10 @@ Combination Tichu::CreateCombination(std::vector<Card>& cards) const
 		usedPhoenix = false;
 		for (size_t i{}; i < cards.size(); i += 2)
 		{
+			if (hasPhoenix && i == 0)
+			{
+				continue;
+			}
 			//We reached the final steps
 			if (i + 2 >= cards.size())
 				break;
