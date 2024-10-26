@@ -1,4 +1,4 @@
-#if _DEBUG
+#ifdef NDEBUG
     #if __has_include(<vld.h>)
     #include <vld.h>
     #endif

@@ -224,12 +224,8 @@ void TichuScene::CreateDeck()
 	// Shuffle the deck before distributing
 	std::random_device rd;
 	std::mt19937 g(rd());
-	//Emscripten doesn't have support for ranges yet
-#ifndef __EMSCRIPTEN__
-	std::ranges::shuffle(m_Cards, g);
-#else
+
 	std::shuffle(m_Cards.begin(), m_Cards.end(), g);
-#endif
 }
 
 void TichuScene::CreatePlayers()

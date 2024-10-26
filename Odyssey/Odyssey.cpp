@@ -154,14 +154,14 @@ void ody::Odyssey::Run(const std::function<void()>& load)
 	printf("Emscripten main loop set\n");
 #else
 	// Traditional loop for non-Emscripten (desktop) builds
-	m_LastTime = std::chrono::high_resolution_clock::now();
+	m_LastTime = std::chrono::steady_clock::now();
 	constexpr int FPSLimit = 60;
 	m_MaxWaitingTimeMs = 1000 / FPSLimit;
 	while (m_DoContinue)
 	{
 		RunOneFrame();
 
-		auto currentTime = std::chrono::high_resolution_clock::now();
+		auto currentTime = std::chrono::steady_clock::now();
 		auto frameEndTime = m_LastTime + std::chrono::milliseconds(m_MaxWaitingTimeMs);
 		if (currentTime < frameEndTime)
 		{
@@ -174,17 +174,15 @@ void ody::Odyssey::Run(const std::function<void()>& load)
 
 void ody::Odyssey::RunOneFrame()
 {
-	const auto currentTime = std::chrono::high_resolution_clock::now();
+	const auto currentTime = std::chrono::steady_clock::now();
 	const float deltaTime = std::chrono::duration<float>(currentTime - m_LastTime).count();
 
 	m_pTime->SetDeltaTime(deltaTime);
 	m_DoContinue = m_pInputManager->ProcessInput();
-	//m_pTime->SetDeltaTime(deltaTime);
 
 	lag += deltaTime;
 	while (lag >= m_PhysicsTimeStep)
 	{
-		// First time, lastTime is 0, which means deltaTime is very high, which messes this loop up
 		if (deltaTime >= 1000.0f) lag = m_PhysicsTimeStep;
 		m_pSceneManager->FixedUpdate();
 		lag -= m_PhysicsTimeStep;
@@ -195,9 +193,8 @@ void ody::Odyssey::RunOneFrame()
 
 	m_LastTime = currentTime;
 
-	//Reset at the end of the frame
 	m_pInputManager->ResetMouseMotion();
 
-	const auto sleepTime{ currentTime + std::chrono::milliseconds(m_MaxWaitingTimeMs) - std::chrono::high_resolution_clock::now() };
+	const auto sleepTime{ currentTime + std::chrono::milliseconds(m_MaxWaitingTimeMs) - std::chrono::steady_clock::now() };
 	std::this_thread::sleep_for(sleepTime);
 }

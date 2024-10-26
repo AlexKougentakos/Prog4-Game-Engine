@@ -7,13 +7,6 @@
 namespace ody
 {
 
-#pragma region Forward Declarations
-
-#pragma endregion Forward Declarations
-
-/**
- * \brief Here you can place any helper functions you might need
- */
 class Utils final
 {
 public:

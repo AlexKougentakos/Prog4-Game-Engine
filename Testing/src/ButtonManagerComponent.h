@@ -67,7 +67,7 @@ public:
 
 private:
 	friend class ButtonPressed;
-	friend class ButtonManagerComponent;
+	//friend class ButtonManagerComponent;
 	void OnMouseClick(const glm::vec2& mousePos);
 	bool IsPointInsideButton(const glm::vec2& point, const Button& pButton) const;
 

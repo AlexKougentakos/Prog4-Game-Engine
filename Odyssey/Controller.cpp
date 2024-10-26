@@ -5,8 +5,7 @@
 
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
-#include <XInput.h>
-#pragma comment(lib, "xinput.lib")
+#include <Xinput.h>
 namespace ody
 {
     class Controller::ControllerImplementation
@@ -49,7 +48,7 @@ namespace ody
                 : (left ? m_CurrentState.Gamepad.sThumbLY : m_CurrentState.Gamepad.sThumbRY)
             };
 
-            const SHORT sign{ axisValue == 0 ? 0 : static_cast<SHORT>(abs(axisValue) / axisValue) };
+            const SHORT sign = axisValue == 0 ? 0 : (axisValue > 0 ? 1 : -1);
             const SHORT deadZoneValue{ static_cast<SHORT>(m_DeadZone * MAXSHORT) };
 
             const SHORT clamped{ std::clamp(static_cast<SHORT>(abs(axisValue - sign)), deadZoneValue, ceilValue) };

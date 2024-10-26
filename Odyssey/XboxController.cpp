@@ -2,7 +2,7 @@
 	#define WIN32_LEAN_AND_MEAN
 	#include <windows.h>
 	#include <XInput.h>
-	#pragma comment(lib, "xinput.lib")
+	// Remove: #pragma comment(lib, "xinput.lib")
 
 
 
@@ -77,12 +77,12 @@ public:
 		return false;
 	}
 
-	glm::vec2* const GetLeftThumbStickPosRef() const
+	glm::vec2* GetLeftThumbStickPosRef() const
 	{
 		return m_pLastThumbstickPosLeft.get();
 	}
 
-	glm::vec2* const GetRightThumbStickPosRef() const
+	glm::vec2* GetRightThumbStickPosRef() const
 	{
 		return m_pLastThumbstickPosRight.get();
 	}

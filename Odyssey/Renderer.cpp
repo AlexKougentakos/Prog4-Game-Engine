@@ -64,7 +64,7 @@ void ody::Renderer::Render() const
 
 	SDL_RenderFlush(m_renderer);
 
-#ifdef _DEBUG
+#ifndef NDEBUG  // This means "if not defined NDEBUG" (i.e., in debug mode)
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
@@ -76,8 +76,7 @@ void ody::Renderer::Render() const
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 	DebugDrawer::GetInstance().Render(m_renderer);
-	DebugDrawer::GetInstance().Clear(); // Clear after rendering so that the shapes don't persist
-
+	DebugDrawer::GetInstance().Clear();
 #endif
 	
 	SDL_RenderPresent(m_renderer);
