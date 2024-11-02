@@ -27,7 +27,9 @@ void TichuScene::Initialize()
 	CreateDeck();
 	CreatePlayers();
 
-	DealInitialCards();
+	//todo: put this back to 8
+	DealInitialCards(14);
+
 
 	ody::InputManager::GetInstance().AddMouseCommand<CardSelectCommand>(SDL_BUTTON_LEFT, ody::InputManager::InputType::OnMouseButtonDown, m_pPlayers, m_pTichuGame->GetCurrentPlayerIndex());
 	ody::InputManager::GetInstance().AddMouseCommand<ButtonPressed>(SDL_BUTTON_LEFT, ody::InputManager::InputType::OnMouseButtonDown, m_pButtonManager);
@@ -37,7 +39,7 @@ void TichuScene::Initialize()
 	const auto scoreCounter = CreateGameObject();
 	m_GamesWonCounter = scoreCounter->AddComponent<ody::TextComponent>("0 - 0", "bonzai.ttf", 40);
 	m_GamesWonCounter->SetPosition(static_cast<float>(ody::constants::g_ScreenWidth / 2) - scoreCounter->GetComponent<ody::TextComponent>()->GetTextSize().x / 2, -5);
-
+	
 	CreateMahjongSelectionTable();
 
 	CreateDragonButtons();
@@ -54,6 +56,26 @@ void TichuScene::Initialize()
 	{
 		player->ShowCardBacks(m_ShowCardBacks);
 	}
+
+	//Todo: remove this, this is just debugging stuff to skip the trading phase
+	m_GamePhase = GamePhase::Playing;
+	// Check for Mahjong card
+	for (const auto& player : m_pPlayers)
+	{
+		if (std::find(player->GetCards().begin(), player->GetCards().end(), Card{ CardColour::CC_Mahjong, 1 }) != player->GetCards().end())
+		{
+			player->SetPlaying(true);
+			m_pTichuGame->SetStartingPlayer(player->GetPlayerID());
+		}
+	}
+	UpdateLights();
+
+	m_pTichuButton->SetPosition({ m_pTichuButton->GetPosition().x, m_pTichuButton->GetPosition().y + 60 });
+	m_pPlayButton->SetPosition({ m_pPlayButton->GetPosition().x, m_pPlayButton->GetPosition().y + 60 });
+	m_pPassButton->SetPosition({ m_pPassButton->GetPosition().x, m_pPassButton->GetPosition().y + 60 });
+
+	UpdateTichuButton();
+	m_pPlayButton->SetEnabled(true);
 }
 
 void TichuScene::PostRender() 
@@ -116,22 +138,17 @@ void TichuScene::Update()
 
 	if (m_GamePhase == GamePhase::GrandTichu && m_PlayersAskedForGrandTichu >= 4)
 	{
-		m_GamePhase = GamePhase::TradeCards;
-		UpdateTichuButton();
-		UpdateLights();
-		CreateTradeTable();
-		m_pGrandTichuButton->SetVisible(false);
-		m_pDealCardsButton->SetVisible(false);
-		m_pConfirmTradesButton->SetVisible(true);
-
-		//This is just to get out of the way of the selection card table, since it would overlap with the normal cards
-		m_pTichuButton->SetPosition({ m_pTichuButton->GetPosition().x, m_pTichuButton->GetPosition().y - 60 });
-		m_pPlayButton->SetPosition({ m_pPlayButton->GetPosition().x, m_pPlayButton->GetPosition().y - 60 });
-		m_pPassButton->SetPosition({ m_pPassButton->GetPosition().x, m_pPassButton->GetPosition().y - 60 });
-	}
+        SetPhaseToTradeCards();
+    }
 	if (m_GamePhase == GamePhase::TradeCards && m_PlayersWhoTradedCards >= 4)
 	{
-		m_pTichuButton->SetPosition({ m_pTichuButton->GetPosition().x, m_pTichuButton->GetPosition().y + 60 });
+		SetPhaseToPlaying();
+	}
+}
+
+void TichuScene::SetPhaseToPlaying()
+{
+	m_pTichuButton->SetPosition({ m_pTichuButton->GetPosition().x, m_pTichuButton->GetPosition().y + 60 });
 		m_pPlayButton->SetPosition({ m_pPlayButton->GetPosition().x, m_pPlayButton->GetPosition().y + 60 });
 		m_pPassButton->SetPosition({ m_pPassButton->GetPosition().x, m_pPassButton->GetPosition().y + 60 });
 
@@ -202,7 +219,22 @@ void TichuScene::Update()
 		{
 			texture->Tint({ 1.f, 1.f, 1.f, 1.f });
 		}
-	}
+}
+
+void TichuScene::SetPhaseToTradeCards()
+{
+    m_GamePhase = GamePhase::TradeCards;
+    UpdateTichuButton();
+    UpdateLights();
+    CreateTradeTable();
+    m_pGrandTichuButton->SetVisible(false);
+    m_pDealCardsButton->SetVisible(false);
+    m_pConfirmTradesButton->SetVisible(true);
+
+    // This is just to get out of the way of the selection card table, since it would overlap with the normal cards
+    m_pTichuButton->SetPosition({m_pTichuButton->GetPosition().x, m_pTichuButton->GetPosition().y - 60});
+    m_pPlayButton->SetPosition({m_pPlayButton->GetPosition().x, m_pPlayButton->GetPosition().y - 60});
+    m_pPassButton->SetPosition({m_pPassButton->GetPosition().x, m_pPassButton->GetPosition().y - 60});
 }
 
 void TichuScene::CreateDeck()

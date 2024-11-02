@@ -14,7 +14,7 @@ namespace ody
 enum class GamePhase
 {
 	GrandTichu,
-	TradeCards, //todo
+	TradeCards,
 	Playing
 };
 
@@ -35,8 +35,8 @@ public:
 protected:
 	void Initialize() override;
 	void PostRender() override;
-	void Update() override;
-	void OnGUI() override;
+    void Update() override;
+    void OnGUI() override;
 private:
 	void CreateDeck();
 	void CreatePlayers();
@@ -46,6 +46,9 @@ private:
 	void CreateMahjongSelectionTable();
 	void CreatePointDisplay();
 	void CreateCardRenderPackage();
+
+	void SetPhaseToTradeCards();
+	void SetPhaseToPlaying();
 
 	//One-Two (1-2) is a special case where the two players from each team go out one after the other leaving the other two still in the game.
 	//In that case no points are counted and you start a new round. The team who went out gain 200 points.
@@ -98,7 +101,6 @@ private:
 
 	int m_PlayersWhoTradedCards{ 0 };
 	int m_CurrentSelectedTradingSlotIndex{-1};
-
 
 	GamePhase m_GamePhase{ GamePhase::GrandTichu };
 	int m_MaxPoints{ 500 };
