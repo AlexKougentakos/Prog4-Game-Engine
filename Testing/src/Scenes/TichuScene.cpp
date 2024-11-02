@@ -265,8 +265,13 @@ void TichuScene::CreatePlayers()
 	for (int i = 0; i < 4; ++i)
 	{
 		const auto player = CreateGameObject();
-
-		const auto playerComponent = player->AddComponent<PlayerComponent>(i, m_RenderPackage);
+		const auto playerComponent = player->AddComponent<PlayerComponent>(i, m_RenderPackage, !(i == 0));
+		
+		// Give the AI players access to game state
+		playerComponent->SetGameReference(m_pTichuGame.get());
+		playerComponent->SetCardsOnTopReference(&m_CardsOnTop);
+		playerComponent->SetSceneReference(this);
+		
 		m_pPlayers.emplace_back(playerComponent);
 	}
 }

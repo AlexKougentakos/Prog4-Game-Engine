@@ -53,8 +53,13 @@ private:
 	//One-Two (1-2) is a special case where the two players from each team go out one after the other leaving the other two still in the game.
 	//In that case no points are counted and you start a new round. The team who went out gain 200 points.
 	void NewRound(bool isOneTwo = false);
+
+	//todo: Temporary hotfix for the AI
+public:
 	void Pass();
 	void CheckSubmittedHand();
+private:
+
 	void GiveDragonToPlayer(const int playerID) const;
 	void GameOver() const;
 

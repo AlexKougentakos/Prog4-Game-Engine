@@ -9,6 +9,9 @@
 
 #include "Component.h"
 
+class Tichu;
+class TichuScene;
+
 
 struct CardHitbox
 {
@@ -69,7 +72,7 @@ struct CardMapComparator
 class PlayerComponent final : public ody::Component
 {
 public:
-	explicit PlayerComponent(const int playerID, const CardRenderPackage& renderPackage);
+	explicit PlayerComponent(const int playerID, const CardRenderPackage& renderPackage, const bool isAI);
 	
 	~PlayerComponent() override = default;
 	PlayerComponent(const PlayerComponent& other) = delete;
@@ -110,6 +113,10 @@ public:
 	//ImGui Relative Items
 	void ShowCardHitBoxes(const bool show) { m_ShowCardHitboxes = show; }
 	void ShowCardBacks(const bool show) { m_ShowCardBacks = show; }
+
+	void SetGameReference(Tichu* game) { m_pTichuGame = game; }
+	void SetCardsOnTopReference(const std::vector<Card>* cards) { m_CardsOnTop = *cards; }
+	void SetSceneReference(TichuScene* scene) { m_pScene = scene; }
 private:
 	int m_PlayerID{};
 	std::vector<Card> m_Cards{};
@@ -155,4 +162,11 @@ private:
 
 	void RenderLights() const;
 	void RenderCards() const;
+
+	bool m_IsAI{ false };
+
+	void MakeRandomMove();
+	std::vector<Card> m_CardsOnTop; // Reference to cards on top
+	Tichu* m_pTichuGame{}; // Pointer to game logic
+	TichuScene* m_pScene{}; // Reference to scene
 };
