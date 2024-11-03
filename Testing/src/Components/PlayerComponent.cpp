@@ -18,18 +18,16 @@
 #include <Tichu.h>
 #include "../Scenes/TichuScene.h"
 
-PlayerComponent::PlayerComponent(const int playerID, const CardRenderPackage& renderPackage, const bool isAI):
+PlayerComponent::PlayerComponent(const int playerID, const CardRenderPackage& renderPackage):
 	m_PlayerID(playerID),
-    m_RenderPackage{ renderPackage },
-	m_IsAI{ isAI }
+    m_RenderPackage{ renderPackage }
+
 {
 
 }
 
 void PlayerComponent::Initialize()
 {
-    CalculateHitBoxes();
-
 	m_pRedLightTexture = ody::ResourceManager::GetInstance().LoadTexture("RedLight.png");
 	m_pGreenLightTexture = ody::ResourceManager::GetInstance().LoadTexture("GreenLight.png");
 
@@ -87,21 +85,7 @@ void PlayerComponent::Render() const
 
 void PlayerComponent::Update() 
 {
-    CalculateHitBoxes(); //This has a dirty check so it's not expensive
 
-    if (m_IsAI && m_IsPlaying)
-    {
-        // Add a small delay before AI makes a move (optional)
-        static float aiDelay = 1.0f;
-        static float currentDelay = 0.0f;
-        currentDelay += 0.016f; // Assuming 60 FPS
-
-        if (currentDelay >= aiDelay)
-        {
-            currentDelay = 0.0f;
-            MakeRandomMove();
-        }
-    }
 }
 
 void PlayerComponent::RenderCards() const
@@ -138,7 +122,7 @@ void PlayerComponent::RenderCards() const
             }();
 
 
-#ifdef _DEBUG
+#ifdef NDEBUG
             if (m_ShowCardBacks && m_PlayerID != 0)
             {
                 ody::Renderer::GetInstance().RenderTexture(
@@ -192,145 +176,6 @@ void PlayerComponent::RenderLights() const
 	}
 }
 
-void PlayerComponent::CalculateHitBoxes()
-{
-    if (!m_HitBoxesDirty || m_Cards.empty()) return;
-
-    m_CardHitBoxMap.clear();
-
-    const float cardWidth = static_cast<float>(m_RenderPackage.cardTextures[0]->GetSize().x);
-    const float cardHeight = static_cast<float>(m_RenderPackage.cardTextures[0]->GetSize().y);
-
-    // Add hitboxes for partially visible cards
-    for (size_t i = 0; i < m_Cards.size() - 1; ++i)
-    {
-        const bool isSelected = std::find(m_SelectedCards.begin(), m_SelectedCards.end(), m_Cards[i]) != m_SelectedCards.end();
-        //Move them to the side slightly, so you can see all the cards
-        const glm::vec3 cardPosition = m_StartPosition + m_Offset * static_cast<float>(i) + glm::vec3{ m_CardPickupDirection, 0.f } * m_CardPickupAmount * static_cast<float>(isSelected);
-
-
-        // For partially visible cards, use m_CardSpacing as width
-        const float centerX = cardPosition.x + (m_RenderPackage.cardSpacing) / 2.0f;
-        const float centerY = cardPosition.y + (cardHeight * m_RenderPackage.cardScale) / 2.0f;
-
-        CardHitbox cardHitBox = CalculateRotatedHitbox(
-            centerX,
-            centerY,
-            m_RenderPackage.cardSpacing, // Use m_CardSpacing for width
-            cardHeight * m_RenderPackage.cardScale,
-            m_Rotation,
-            true
-        );
-
-        m_CardHitBoxMap.emplace(m_Cards[i], cardHitBox);
-    }
-
-    // Add hitbox for the last, fully visible card
-    if (!m_Cards.empty())
-    {
-        const size_t lastIndex = m_Cards.size() - 1;
-        const bool isSelected = std::find(m_SelectedCards.begin(), m_SelectedCards.end(), m_Cards[lastIndex]) != m_SelectedCards.end();
-        const glm::vec3 lastCardPosition = m_StartPosition + m_Offset * static_cast<float>(lastIndex) + glm::vec3{ m_CardPickupDirection, 0.f } * m_CardPickupAmount * static_cast<float>(isSelected);
-
-        const float centerX = lastCardPosition.x + (cardWidth * m_RenderPackage.cardScale) / 2.0f;
-        const float centerY = lastCardPosition.y + (cardHeight * m_RenderPackage.cardScale) / 2.0f;
-
-        CardHitbox lastCardHitBox = CalculateRotatedHitbox(
-            centerX,
-            centerY,
-            cardWidth * m_RenderPackage.cardScale,
-            cardHeight * m_RenderPackage.cardScale,
-            m_Rotation,
-            false
-        );
-
-        m_CardHitBoxMap.emplace(m_Cards[lastIndex], lastCardHitBox);
-    }
-
-    m_HitBoxesDirty = false;
-}
-
-void PlayerComponent::SelectCardAtMousePosition(const glm::vec2& mousePosition)
-{
-    for (const auto& [card, hitbox] : m_CardHitBoxMap)
-    {
-        if (mousePosition.x >= hitbox.x && mousePosition.x <= hitbox.x + hitbox.width &&
-            mousePosition.y >= hitbox.y && mousePosition.y <= hitbox.y + hitbox.height)
-        {
-            //If if it doesn't exist, add it to the selected ones
-            const auto cardIt = std::find(m_SelectedCards.begin(), m_SelectedCards.end(), card);
-            if (cardIt == m_SelectedCards.end())
-            {
-                if (card.colour == CC_Mahjong)
-				    m_ShowMahjongSelectionTable = true;
-
-                m_SelectedCards.emplace_back(card);
-            }
-            //Otherwise remove it
-            else
-            {
-                if (card.colour == CC_Mahjong)
-                    m_ShowMahjongSelectionTable = false;
-
-                m_SelectedCards.erase(cardIt);
-            }
-
-            m_HitBoxesDirty = true;
-            return;
-        }
-    }
-
-    // If we reach here, no card was selected
-}
-
-CardHitbox PlayerComponent::CalculateRotatedHitbox(float centerX, float centerY, float width, float height, float rotation, bool manualCorrection)
-{
-    // Convert rotation to radians
-    const float rotationRad = glm::radians(rotation);
-
-    // Calculate the four corners of the original rectangle
-    glm::vec2 topLeft(-width / 2, -height / 2);
-    glm::vec2 topRight(width / 2, -height / 2);
-    glm::vec2 bottomLeft(-width / 2, height / 2);
-    glm::vec2 bottomRight(width / 2, height / 2);
-
-    // Rotate each corner
-    topLeft = glm::rotate(topLeft, rotationRad);
-    topRight = glm::rotate(topRight, rotationRad);
-    bottomLeft = glm::rotate(bottomLeft, rotationRad);
-    bottomRight = glm::rotate(bottomRight, rotationRad);
-
-
-    // Find the extremes
-    const float minX = std::min({ topLeft.x, topRight.x, bottomLeft.x, bottomRight.x });
-    const float maxX = std::max({ topLeft.x, topRight.x, bottomLeft.x, bottomRight.x });
-    const float minY = std::min({ topLeft.y, topRight.y, bottomLeft.y, bottomRight.y });
-    const float maxY = std::max({ topLeft.y, topRight.y, bottomLeft.y, bottomRight.y });
-
-    // Calculate the dimensions of the rotated hitbox
-    const float rotatedWidth = maxX - minX;
-    const float rotatedHeight = maxY - minY;
-
-    // Calculate the position of the top-left corner
-    float rotatedX = centerX + minX;
-    float rotatedY = centerY + minY;
-
-    if (rotation == 90.f && manualCorrection)
-    {
-        rotatedY -= (m_RenderPackage.cardSpacing + 2.f);
-        rotatedX += m_RenderPackage.cardSpacing;
-    }
-
-    if (rotation == 270.f && manualCorrection)
-    {
-        rotatedY -= (m_RenderPackage.cardSpacing + 2.f);
-        rotatedX += m_RenderPackage.cardSpacing;
-    }
-
-
-    return CardHitbox{ rotatedX, rotatedY, rotatedWidth, rotatedHeight };
-}
-
 void PlayerComponent::SetCards(const std::vector<Card>& newCards)
 {
 
@@ -346,10 +191,13 @@ void PlayerComponent::SetCards(const std::vector<Card>& newCards)
 
 void PlayerComponent::PlayedSelectedCards()
 {
+    // Create event data with selected cards
+    ody::CardEventData eventData(m_SelectedCards);
+    
     // Remove selected cards from m_Cards
     std::erase_if(m_Cards, [this](const Card& card) 
                 {
-	                return std::find(m_SelectedCards.begin(), m_SelectedCards.end(), card) != m_SelectedCards.end();
+                    return std::find(m_SelectedCards.begin(), m_SelectedCards.end(), card) != m_SelectedCards.end();
                 });
 
     // Clear the selected cards
@@ -358,6 +206,8 @@ void PlayerComponent::PlayedSelectedCards()
     m_ShowMahjongSelectionTable = false;
     if (m_Cards.empty()) m_IsOut = true;
     CalculateRenderingParameters();
+
+    m_PlayerSubject.EventTriggered(ody::GameEvent::PlayCards, eventData);
 }
 
 void PlayerComponent::Pass()
@@ -365,6 +215,14 @@ void PlayerComponent::Pass()
     m_SelectedCards.clear();
     m_HitBoxesDirty = true;
     CalculateRenderingParameters();
+
+    m_PlayerSubject.EventTriggered(ody::GameEvent::Pass);
+}
+
+void PlayerComponent::SetSceneReference(TichuScene* scene)
+{
+	m_pScene = scene;
+	m_PlayerSubject.AddObserver(m_pScene);
 }
 
 void PlayerComponent::CalculateRenderingParameters()
@@ -422,57 +280,4 @@ void PlayerComponent::OnGui()
 
     ImGui::EndChild();
 
-}
-
-void PlayerComponent::MakeRandomMove()
-{
-    // 30% chance to pass if there are cards on the table
-    if (!m_CardsOnTop.empty() && (rand() % 100) < 30)
-    {
-        m_SelectedCards.clear();
-        if (m_pScene)
-            m_pScene->Pass();
-        return;
-    }
-
-    // Clear previous selection
-    m_SelectedCards.clear();
-
-    // Try to make a valid move up to 10 times
-    for (int attempt = 0; attempt < 10; ++attempt)
-    {
-        // Randomly select 1-5 cards
-        int numCards = (rand() % 5) + 1;
-        numCards = std::min(numCards, static_cast<int>(m_Cards.size()));
-
-        // Randomly select cards
-        std::vector<size_t> indices;
-        for (size_t i = 0; i < m_Cards.size(); ++i)
-            indices.push_back(i);
-        
-        std::random_shuffle(indices.begin(), indices.end());
-
-        for (int i = 0; i < numCards; ++i)
-        {
-            m_SelectedCards.push_back(m_Cards[indices[i]]);
-        }
-
-        // If we found a valid combination, try to play it
-        std::sort(m_SelectedCards.begin(), m_SelectedCards.end());
-        if (m_pTichuGame->CreateCombination(m_SelectedCards).combinationType != CombinationType::CT_Invalid)
-        {
-            if (m_pScene)
-            {
-                m_pScene->CheckSubmittedHand();
-                return;
-            }
-        }
-
-        // If not valid or couldn't play, clear and try again
-        m_SelectedCards.clear();
-    }
-
-    // If we couldn't find a valid play after all attempts, pass
-    if (m_pScene)
-        m_pScene->Pass();
 }

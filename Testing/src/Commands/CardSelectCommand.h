@@ -1,11 +1,12 @@
 ﻿#pragma once
 #include "Command.h"
-#include "Components/PlayerComponent.h"
+
+class HumanPlayer;
 
 class CardSelectCommand : public ody::Command
 {
 public:
-	CardSelectCommand(const std::vector<PlayerComponent*>& pPlayerComponents, const int& currentPlayerIndex);
+	CardSelectCommand(HumanPlayer* pHumanPlayer);
 
 	virtual ~CardSelectCommand() override = default;
 	CardSelectCommand(const CardSelectCommand& other) = delete;
@@ -15,6 +16,5 @@ public:
 
 	virtual void Execute() override;
 private:
-	std::vector<PlayerComponent*> m_pPlayerComponents{};	
-	const int& m_CurrentPlayerIndex;
+	HumanPlayer* m_pHumanPlayer{};	
 };

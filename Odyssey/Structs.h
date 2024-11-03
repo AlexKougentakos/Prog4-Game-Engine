@@ -17,7 +17,11 @@ namespace ody
 #pragma region SCENE_STRUCTS
 	
 	enum class GameEvent
-	{};
+	{
+		PlayCards,
+		Pass,
+		DeclareTichu
+	};
 
 #pragma endregion
 }

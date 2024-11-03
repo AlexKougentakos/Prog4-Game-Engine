@@ -8,6 +8,7 @@
 #include <glm/vec3.hpp>
 
 #include "Component.h"
+#include "Subject.h"
 
 class Tichu;
 class TichuScene;
@@ -69,10 +70,10 @@ struct CardMapComparator
 	}
 };
 
-class PlayerComponent final : public ody::Component
+class PlayerComponent : public ody::Component
 {
 public:
-	explicit PlayerComponent(const int playerID, const CardRenderPackage& renderPackage, const bool isAI);
+	explicit PlayerComponent(const int playerID, const CardRenderPackage& renderPackage);
 	
 	~PlayerComponent() override = default;
 	PlayerComponent(const PlayerComponent& other) = delete;
@@ -85,7 +86,6 @@ public:
 	void Update() override;
 	void OnGui() override;
 
-	void SelectCardAtMousePosition(const glm::vec2& mousePos);
 	void SetCards(const std::vector<Card>& newCards);
 
 	void PlayedSelectedCards();
@@ -116,17 +116,27 @@ public:
 
 	void SetGameReference(Tichu* game) { m_pTichuGame = game; }
 	void SetCardsOnTopReference(const std::vector<Card>* cards) { m_CardsOnTop = *cards; }
-	void SetSceneReference(TichuScene* scene) { m_pScene = scene; }
-private:
+	void SetSceneReference(TichuScene* scene);
+
+protected:
+	Tichu* m_pTichuGame{};
+	TichuScene* m_pScene{};
+
 	int m_PlayerID{};
 	std::vector<Card> m_Cards{};
 	std::vector<Card> m_SelectedCards{};
-	CardRenderPackage m_RenderPackage{};
 
 	int m_HoldingPoints{0};
 	bool m_DeclaredTichu{ false };
 	bool m_DeclaredGrandTichu{ false };
 
+	//todo: try to move this to the human player
+	bool m_HitBoxesDirty{ false };
+	std::map<Card, CardHitbox, CardMapComparator> m_CardHitBoxMap{};
+
+		CardRenderPackage m_RenderPackage{};
+
+	bool m_ShowMahjongSelectionTable{ false };
 
 	// Cache these values
 	float m_ScreenWidth{};
@@ -137,11 +147,12 @@ private:
 	glm::vec2 m_CardPickupDirection{ 0,0 };
 	const float m_CardPickupAmount{ 20.f };
 
-	std::map<Card, CardHitbox, CardMapComparator> m_CardHitBoxMap{};
-	bool m_HitBoxesDirty{ false };
-
 	bool m_IsPlaying{ false };
 	bool m_IsOut{false};
+
+	//todo: temporary for the AI testing
+	std::vector<Card> m_CardsOnTop; // Reference to cards on top
+private:
 
 	std::shared_ptr<ody::Texture2D> m_pRedLightTexture{};
 	std::shared_ptr<ody::Texture2D> m_pGreenLightTexture{};
@@ -150,23 +161,16 @@ private:
 	glm::vec2 m_LightSize{};
 	glm::vec2 m_LightPosition{};
 
-	bool m_ShowMahjongSelectionTable{ false };
 
 	//On Gui Bindings
 	bool m_ShowCardHitboxes{ false };
 	bool m_ShowCardBacks{ true };
 
 	void CalculateRenderingParameters();
-	CardHitbox CalculateRotatedHitbox(float centerX, float centerY, float width, float height, float rotation, bool manualCorrection);
-	void CalculateHitBoxes();
 
 	void RenderLights() const;
 	void RenderCards() const;
 
-	bool m_IsAI{ false };
 
-	void MakeRandomMove();
-	std::vector<Card> m_CardsOnTop; // Reference to cards on top
-	Tichu* m_pTichuGame{}; // Pointer to game logic
-	TichuScene* m_pScene{}; // Reference to scene
+	ody::Subject m_PlayerSubject{};
 };

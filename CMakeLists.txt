@@ -382,10 +382,15 @@ add_executable(Game
     Testing/src/Components/CardComponent.h
     Testing/src/Components/PlayerComponent.cpp
     Testing/src/Components/PlayerComponent.h
+    Testing/src/Components/Players/HumanPlayer.cpp
+    Testing/src/Components/Players/HumanPlayer.h
+    Testing/src/Components/Players/AIPlayer.cpp
+    Testing/src/Components/Players/AIPlayer.h
     Testing/src/Commands/CardSelectCommand.cpp
     Testing/src/Commands/CardSelectCommand.h
     Testing/src/Commands/ButtonPressed.cpp
     Testing/src/Commands/ButtonPressed.h
+    Testing/src/EventData.h
 
   ${IMGUI_SOURCES}
 )
@@ -395,6 +400,8 @@ target_link_libraries(Game PRIVATE OdysseyLib ${IMGUI_LIBRARIES})
 target_include_directories(Game PRIVATE
   ${CMAKE_SOURCE_DIR}/Odyssey/
   ${CMAKE_SOURCE_DIR}/Testing/src
+  ${CMAKE_SOURCE_DIR}/Testing/src/Components
+  ${CMAKE_SOURCE_DIR}/Testing/src/Components/Players
   ${imgui_SOURCE_DIR}
   ${imgui_SOURCE_DIR}/backends
   ${glm_SOURCE_DIR}

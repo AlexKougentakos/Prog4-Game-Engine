@@ -6,6 +6,8 @@
 #include "Tichu.h"
 #include "CardRenderPackage.h"
 
+#include "Observer.h"
+
 namespace ody
 {
 	class TextComponent;
@@ -22,7 +24,7 @@ class Button;
 class ButtonManagerComponent;
 class CardComponent;
 
-class TichuScene final : public ody::GameScene
+class TichuScene final : public ody::GameScene, public ody::IObserver
 {
 public:
 	TichuScene() : ody::GameScene(L"Tichu Scene") { Initialize(); }
@@ -42,13 +44,14 @@ private:
 	void CreatePlayers();
 	void CreateTradeTable();
 	void CreateDragonButtons();
-	void CreateActionButtons();
 	void CreateMahjongSelectionTable();
 	void CreatePointDisplay();
 	void CreateCardRenderPackage();
 
 	void SetPhaseToTradeCards();
 	void SetPhaseToPlaying();
+
+	void OnNotify(ody::GameEvent event, const ody::EventData& data) override;
 
 	//One-Two (1-2) is a special case where the two players from each team go out one after the other leaving the other two still in the game.
 	//In that case no points are counted and you start a new round. The team who went out gain 200 points.
@@ -57,14 +60,13 @@ private:
 	//todo: Temporary hotfix for the AI
 public:
 	void Pass();
-	void CheckSubmittedHand();
+	void CheckSubmittedHand(const std::vector<Card>& hand);
 private:
 
 	void GiveDragonToPlayer(const int playerID) const;
 	void GameOver() const;
 
 	void HandleMahjongTable();
-	void UpdateTichuButton() const;
 	void UpdatePlayerPoints(int indexOfPlayerNotOut);
 	void UpdateLights() const;
 
@@ -126,13 +128,6 @@ private:
 	bool m_IsMahjongSelectionTableVisible{ false };
 	int m_CurrentMahjongWishPower{0};
 
-	ButtonManagerComponent* m_pButtonManager{};
-	Button* m_pPlayButton{};
-	Button* m_pPassButton{};
-	Button* m_pTichuButton{};
-	Button* m_pGrandTichuButton{};
-	Button* m_pDealCardsButton{};
-	Button* m_pConfirmTradesButton{};
 
 	//ImGui
 	bool m_ShowCardHitboxes{false};

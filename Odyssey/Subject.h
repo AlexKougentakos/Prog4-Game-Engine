@@ -1,8 +1,7 @@
 #pragma once
 #include "Observer.h"
+#include "EventData.h"
 #include <vector>
-
-
 
 namespace ody
 {
@@ -17,7 +16,6 @@ namespace ody
 		Subject& operator=(const Subject& other) = delete;
 		Subject& operator=(Subject&& other) = delete;
 
-
 		void AddObserver(IObserver* observer)
 		{
 			m_pObservers.emplace_back(observer);
@@ -28,17 +26,18 @@ namespace ody
 			std::erase(m_pObservers, observer);
 		}
 
-		void EventTriggered(const GameEvent event)
+		void EventTriggered(const GameEvent event, const EventData& data = EventData{})
 		{
-			NotifyAll(event);
+			NotifyAll(event, data);
 		}
+
 	private:
 		std::vector<IObserver*> m_pObservers{};
 
-		void NotifyAll(GameEvent event) const
+		void NotifyAll(GameEvent event, const EventData& data) const
 		{
 			for (const auto& observer : m_pObservers)
-				observer->OnNotify(event);
+				observer->OnNotify(event, data);
 		}
 	};
 }

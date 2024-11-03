@@ -1,9 +1,10 @@
 ﻿#pragma once
 
+#include "EventData.h"
+
 namespace ody
 {
 	enum class GameEvent;
-	class GameObject;
 
 	class IObserver
 	{
@@ -15,6 +16,6 @@ namespace ody
 		IObserver& operator=(const IObserver& other) = delete;
 		IObserver& operator=(IObserver&& other) = delete;
 
-		virtual void OnNotify(GameEvent event) = 0;
+		virtual void OnNotify(GameEvent event, const EventData& data = EventData{}) = 0;
 	};
 }
