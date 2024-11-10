@@ -1,5 +1,6 @@
 #include "AIPlayer.h"
 #include "Tichu.h"
+#include "Scenes/TichuScene.h"
 
 AIPlayer::AIPlayer(const int playerID, const CardRenderPackage &renderPackage) :
 	PlayerComponent(playerID, renderPackage)
@@ -31,18 +32,55 @@ void AIPlayer::Update()
     }
 }
 
+void AIPlayer::AskForDragon()
+{
+    // Determine valid opponent IDs based on this AI's player ID
+    int targetPlayer;
+    if (m_PlayerID == 1 || m_PlayerID == 3)
+    {
+        // Players 1 and 3 can give to players 0 or 2
+        targetPlayer = (rand() % 2) * 2; // This will give either 0 or 2
+    }
+    else // m_PlayerID is 2
+    {
+        // Player 2 can give to players 1 or 3
+        targetPlayer = ((rand() % 2) * 2) + 1; // This will give either 1 or 3
+    }
+
+    ody::DragonEventData eventData{targetPlayer};
+    m_PlayerSubject.EventTriggered(ody::GameEvent::AskForDragon, eventData);
+}
+
+
 void AIPlayer::MakeRandomMove()
 {
-    // 30% chance to pass if there are cards on the table
-    if (!m_CardsOnTop.empty() && (rand() % 100) < 30)
+    // Clear previous selection
+    m_SelectedCards.clear();
+
+    // First check if we have the dragon and can play it
+    auto dragonIt = std::find_if(m_Cards.begin(), m_Cards.end(), 
+        [](const Card& card) { return card.colour == CardColour::CC_Dragon; });
+
+    if (dragonIt != m_Cards.end())
     {
+        m_SelectedCards.push_back(*dragonIt);
+        Combination combination = m_pTichuGame->CreateCombination(m_SelectedCards);
+        if (combination.combinationType != CombinationType::CT_Invalid &&
+            m_pTichuGame->GetCurrentStrongestCombination().power < combination.power)
+        {
+            PlayedSelectedCards();
+            return;
+        }
         m_SelectedCards.clear();
+    }
+
+    // 30% chance to pass if you are allowed to
+    if (m_pTichuGame->GetCurrentStrongestCombination().combinationType != CombinationType::CT_Invalid 
+        && (rand() % 100) < 30)
+    {
         Pass();
         return;
     }
-
-    // Clear previous selection
-    m_SelectedCards.clear();
 
     // Try to make a valid move up to 10 times
     for (int attempt = 0; attempt < 10; ++attempt)
@@ -65,9 +103,10 @@ void AIPlayer::MakeRandomMove()
 
         // If we found a valid combination, try to play it
         std::sort(m_SelectedCards.begin(), m_SelectedCards.end());
-        if (m_pTichuGame->CreateCombination(m_SelectedCards).combinationType != CombinationType::CT_Invalid)
+        Combination combination = m_pTichuGame->CreateCombination(m_SelectedCards);
+        if (combination.combinationType != CombinationType::CT_Invalid)
         {
-            if (m_pScene)
+            if (m_pScene && m_pTichuGame->GetCurrentStrongestCombination().power < combination.power)
             {
                 PlayedSelectedCards();
                 return;
@@ -77,6 +116,6 @@ void AIPlayer::MakeRandomMove()
         // If not valid or couldn't play, clear and try again
         m_SelectedCards.clear();
     }
-
-        Pass();
+    
+    Pass();
 }

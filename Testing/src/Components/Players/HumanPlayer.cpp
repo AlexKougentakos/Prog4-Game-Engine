@@ -6,9 +6,11 @@
 #include <Commands/CardSelectCommand.h>
 #include "../Commands/ButtonPressed.h"
 #include "InputManager2.h"
+#include "Tichu.h"
 
 #include "glm/glm.hpp"
 #include "glm/gtx/rotate_vector.hpp"
+#include <Structs.h>
 
 HumanPlayer::HumanPlayer(const int playerID, const CardRenderPackage& renderPackage)
     : PlayerComponent(playerID, renderPackage)
@@ -37,7 +39,28 @@ void HumanPlayer::Initialize()
 
 void HumanPlayer::Update()
 {
-	CalculateHitBoxes();
+    PlayerComponent::Update();
+    CalculateHitBoxes();
+
+    // Update button states based on if it's this player's turn
+    if (m_IsPlaying)
+    {
+        m_pPlayButton->SetVisible(true);
+        m_pPassButton->SetVisible(true);
+
+        // Can't pass if table is empty and it's your turn
+        const bool canPass = 
+        m_pTichuGame->GetCurrentStrongestCombination().combinationType != CombinationType::CT_Invalid;
+        m_pPassButton->SetEnabled(canPass);
+
+        // Play button is enabled if cards are selected
+        m_pPlayButton->SetEnabled(!m_SelectedCards.empty());
+    }
+    else
+    {
+        m_pPlayButton->SetVisible(false);
+        m_pPassButton->SetVisible(false);
+    }
 }
 
 void HumanPlayer::CreateActionButtons()
@@ -46,22 +69,41 @@ void HumanPlayer::CreateActionButtons()
 		{
 			Pass();
 			ody::ServiceLocator::GetSoundSystem().PlaySound(8);
-		}, { 507, 695 });
+		}, { 507, 570 });
 	m_pPassButton->SetEnabled(false); //We start on an empty table so you can't say pass
 
 	m_pPlayButton = m_pButtonManager->AddButton("PlayButton.png", [&]()
 		{
 			PlayedSelectedCards();
 			ody::ServiceLocator::GetSoundSystem().PlaySound(0);
-		}, { 637, 695 });
+		}, { 637, 570 });
 	m_pPlayButton->SetEnabled(false); //We will first ask everyone for grand tichu, then you can play
 
 	m_pTichuButton = m_pButtonManager->AddButton("TichuButton.png", [&]()
 		{
 			DeclareTichu();
 			ody::ServiceLocator::GetSoundSystem().PlaySound(11);
-		}, { 293, 695 });
+		}, { 293, 570 });
 	m_pTichuButton->SetVisible(false);
+
+    constexpr int screenWidth = ody::constants::g_ScreenWidth;
+	constexpr int screenHeight = ody::constants::g_ScreenHeight;
+	constexpr int offsetFromEdge = 190;
+	constexpr int buttonSize = 40;
+
+	m_pGiveDragonButtonLeft = m_pButtonManager->AddButton("Button.png", [&]()
+		{
+			GiveDragonToPlayer(1);
+		}, { offsetFromEdge, screenHeight / 2 - buttonSize / 2 + m_RenderPackage.pointDisplayHeight / 2  }, 
+        { buttonSize, buttonSize });
+	m_pGiveDragonButtonLeft->SetVisible(false);
+
+	m_pGiveDragonButtonRight = m_pButtonManager->AddButton("Button.png", [&]()
+		{
+			GiveDragonToPlayer(3);
+		}, { screenWidth - offsetFromEdge - buttonSize, screenHeight / 2 - buttonSize / 2 + m_RenderPackage.pointDisplayHeight / 2 }, 
+        { buttonSize, buttonSize });
+	m_pGiveDragonButtonRight->SetVisible(false);
 
 /*
 * REMOVED FOR THE AI TESTING PART
@@ -173,6 +215,28 @@ void HumanPlayer::SelectCardAtMousePosition(const glm::vec2& mousePosition)
     }
 
     // If we reach here, no card was selected
+}
+
+void HumanPlayer::AskForDragon()
+{
+    // Disable play and pass buttons while asking for dragon
+    m_pPlayButton->SetEnabled(false);
+    m_pPassButton->SetEnabled(false);
+
+    m_pGiveDragonButtonLeft->SetVisible(true);
+    m_pGiveDragonButtonRight->SetVisible(true);
+}
+
+void HumanPlayer::GiveDragonToPlayer(const int playerID)
+{
+    m_pGiveDragonButtonLeft->SetVisible(false);
+    m_pGiveDragonButtonRight->SetVisible(false);
+
+    m_pPlayButton->SetEnabled(true);
+    m_pPassButton->SetEnabled(true);
+
+    ody::DragonEventData eventData{playerID};
+    m_PlayerSubject.EventTriggered(ody::GameEvent::AskForDragon, eventData);
 }
 
 CardHitbox HumanPlayer::CalculateRotatedHitbox(float centerX, float centerY, float width, float height, float rotation, bool manualCorrection)

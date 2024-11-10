@@ -22,11 +22,14 @@ public:
 	void Update() override;
 
 
-void SelectCardAtMousePosition(const glm::vec2& mousePosition);
+	void SelectCardAtMousePosition(const glm::vec2& mousePosition);
+
+	void AskForDragon() override;
 private:
 	void CalculateHitBoxes();
 	void CreateActionButtons();
 
+	void GiveDragonToPlayer(const int playerID);
 	CardHitbox CalculateRotatedHitbox(float centerX, float centerY, float width, float height, float rotation, bool manualCorrection);
 
 	ButtonManagerComponent* m_pButtonManager{};
@@ -36,4 +39,6 @@ private:
 	Button* m_pGrandTichuButton{};
 	Button* m_pDealCardsButton{};
 	Button* m_pConfirmTradesButton{};
+	Button* m_pGiveDragonButtonLeft{};
+	Button* m_pGiveDragonButtonRight{};
 };

@@ -59,12 +59,15 @@ public:
 	void UpdatePlayerStates(const std::vector<PlayerState>& playerStates);
 
 	void SetStartingPlayer(const int startingPlayerIndex);
-
+	
+	Combination GetCurrentStrongestCombination() const { return m_CurrentStrongestCombination; }
 
 	int CountPoints(const std::vector<Card>& cards) const;
 
 	//First bool is if the pass is valid, second is if it's a round reset, meaning all players left passed in a row
 	std::pair<bool, bool> Pass();
+	void NextPlayer();
+
 	const int& GetCurrentPlayerIndex() const { return m_CurrentPlayerIndex; }
 	int GetPreviousPlayerIndex() const;
 	int GetPlayersLeftWhenLastHandPlayed() const { return m_PlayersLeftWhenLastHandPlayed; }
@@ -72,7 +75,6 @@ public:
 private:
 	Combination m_CurrentStrongestCombination{};
 
-	void NextPlayer();
 	void CountPlayersLeft();
 
 	int m_PlayersLeftWhenLastHandPlayed{ 4 };

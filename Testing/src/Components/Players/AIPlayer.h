@@ -20,6 +20,8 @@ public:
 
 	void Initialize() override;
 	void Update() override;
+
+	virtual void AskForDragon() override;
 private:
     void MakeRandomMove();
 };

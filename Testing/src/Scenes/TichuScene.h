@@ -43,7 +43,6 @@ private:
 	void CreateDeck();
 	void CreatePlayers();
 	void CreateTradeTable();
-	void CreateDragonButtons();
 	void CreateMahjongSelectionTable();
 	void CreatePointDisplay();
 	void CreateCardRenderPackage();
@@ -62,8 +61,6 @@ public:
 	void Pass();
 	void CheckSubmittedHand(const std::vector<Card>& hand);
 private:
-
-	void GiveDragonToPlayer(const int playerID) const;
 	void GameOver() const;
 
 	void HandleMahjongTable();

@@ -20,7 +20,8 @@ namespace ody
 	{
 		PlayCards,
 		Pass,
-		DeclareTichu
+		DeclareTichu,
+		AskForDragon
 	};
 
 #pragma endregion

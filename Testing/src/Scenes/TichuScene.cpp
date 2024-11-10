@@ -38,8 +38,6 @@ void TichuScene::Initialize()
 	
 	CreateMahjongSelectionTable();
 
-	CreateDragonButtons();
-
 	const auto pAnnouncementText = CreateGameObject();
 	m_pAnnouncementText = pAnnouncementText->AddComponent<ody::TextComponent>("begin", "bonzai.ttf", 30);
 	m_pAnnouncementText->SetVisible(false);
@@ -219,6 +217,19 @@ void TichuScene::OnNotify(ody::GameEvent event, const ody::EventData& data)
 		break;
 	case ody::GameEvent::DeclareTichu:
 		DeclareTichu();
+		break;
+	case ody::GameEvent::AskForDragon:
+		if (const auto* dragonData = dynamic_cast<const ody::DragonEventData*>(&data))
+		{
+			const int totalPoints = m_pTichuGame->CountPoints(m_PlayedCards);
+			m_pPlayers[dragonData->recipientPlayerID]->GiveDragon(totalPoints);
+
+			m_CardsOnTop.clear();
+			m_PlayedCards.clear();
+
+/* 			UpdateLights();
+			m_pTichuGame->NextPlayer(); */
+		}
 		break;
 	}
 }
@@ -497,18 +508,6 @@ void TichuScene::CheckSubmittedHand(const std::vector<Card>& hand)
 	}
 }
 
-void TichuScene::GiveDragonToPlayer([[maybe_unused]]const int playerID) const
-{
-	//todo: move this to the human player
-/* 	m_pPlayers[playerID]->GivePoints(600);
-	m_pPlayButton->SetEnabled(true);
-
-	for (const auto& button : m_pDragonButtons)
-	{
-		button->SetVisible(false);
-	} */
-}
-
 void TichuScene::Pass()
 {
 	const auto playerWhoPassed = m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()];
@@ -531,31 +530,21 @@ void TichuScene::Pass()
 			const int points = m_pTichuGame->CountPoints(m_PlayedCards);
 			if (m_CardsOnTop.size() == 1 && m_CardsOnTop[0].colour == CC_Dragon)
 			{
-
-				const int teamWhoGotTheHand = m_PlayerWhoThrewLastCombinationIndex == 0 || m_PlayerWhoThrewLastCombinationIndex == 2 ? 0 : 1;
-				if (teamWhoGotTheHand == 0)
-				{
-					m_pDragonButtons[1]->SetVisible(true);
-					m_pDragonButtons[3]->SetVisible(true);
-				}
-				else
-				{
-					m_pDragonButtons[0]->SetVisible(true);
-					m_pDragonButtons[2]->SetVisible(true);
-				}
-/* 				m_pPassButton->SetEnabled(false);
-				m_pPlayButton->SetEnabled(false); */
+				m_pPlayers[m_PlayerWhoThrewLastCombinationIndex]->AskForDragon();
 			}
 			else
+			{
+				m_pTichuGame->NextPlayer();
+				UpdateLights();
 				m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()]->GivePoints(points); //This is the current player because the index gets incremented inside Pass()
 
-			m_CardsOnTop.clear();
-			m_PlayedCards.clear();
-			//todo: disable the buttons in the player component
-			//m_pPassButton->SetEnabled(false);
+				m_CardsOnTop.clear();
+				m_PlayedCards.clear();
+				return;
+			}
 		}
 
-		playerWhoPassed->Pass();
+		m_pTichuGame->NextPlayer();
 		UpdateLights();
 	}
 }
@@ -933,28 +922,6 @@ void TichuScene::CreateTradeTable()
 				buttonSize
 			));
 	} */
-}
-
-void TichuScene::CreateDragonButtons()
-{
-	//todo: move this to the human player
-/* 	constexpr int screenWidth = ody::constants::g_ScreenWidth;
-	constexpr int screenHeight = ody::constants::g_ScreenHeight;
-	constexpr int offsetFromEdge = 190;
-	constexpr int buttonSize = 40;
-
-	auto button = m_pButtonManager->AddButton("Button.png", [&]() {GiveDragonToPlayer(0); }, { screenWidth / 2 - buttonSize / 2, screenHeight - offsetFromEdge - buttonSize }, { buttonSize, buttonSize });
-	button->SetVisible(false);
-	m_pDragonButtons.emplace_back(button);
-	button = m_pButtonManager->AddButton("Button.png", [&]() {GiveDragonToPlayer(1); }, { offsetFromEdge, screenHeight / 2 - buttonSize / 2 + m_RenderPackage.pointDisplayHeight / 2 }, { buttonSize, buttonSize });
-	button->SetVisible(false);
-	m_pDragonButtons.emplace_back(button);
-	button = m_pButtonManager->AddButton("Button.png", [&]() {GiveDragonToPlayer(2); }, { screenWidth / 2 - buttonSize / 2, offsetFromEdge + m_RenderPackage.pointDisplayHeight }, { buttonSize, buttonSize });
-	button->SetVisible(false);
-	m_pDragonButtons.emplace_back(button);
-	button = m_pButtonManager->AddButton("Button.png", [&]() {GiveDragonToPlayer(3); }, { screenWidth - offsetFromEdge - buttonSize, screenHeight / 2 - buttonSize / 2 + m_RenderPackage.pointDisplayHeight / 2 }, { buttonSize, buttonSize });
-	button->SetVisible(false);
-	m_pDragonButtons.emplace_back(button); */
 }
 
 int TichuScene::GetCardTextureIndex(const Card& card) const

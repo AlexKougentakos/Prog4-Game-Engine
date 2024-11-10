@@ -88,8 +88,12 @@ public:
 
 	void SetCards(const std::vector<Card>& newCards);
 
+	virtual void AskForDragon() {}
+
 	void PlayedSelectedCards();
 	void Pass();
+
+	void GiveDragon(const int points) { m_HoldingPoints += points; }
 
 	void GivePoints(const int points) { m_HoldingPoints += points; }
 	int GetPoints() const { return m_HoldingPoints; }
@@ -121,6 +125,8 @@ public:
 protected:
 	Tichu* m_pTichuGame{};
 	TichuScene* m_pScene{};
+
+	ody::Subject m_PlayerSubject{};
 
 	int m_PlayerID{};
 	std::vector<Card> m_Cards{};
@@ -171,6 +177,4 @@ private:
 	void RenderLights() const;
 	void RenderCards() const;
 
-
-	ody::Subject m_PlayerSubject{};
 };

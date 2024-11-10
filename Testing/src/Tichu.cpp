@@ -177,9 +177,6 @@ Combination Tichu::CreateCombination(std::vector<Card>& cards) const
 			{
 				i = 1;
 			}
-			//We reached the final steps
-			if (i + 2 >= cards.size())
-				break;
 
 			if (cards[i].power != cards[i + 1].power)
 			{
@@ -190,6 +187,12 @@ Combination Tichu::CreateCombination(std::vector<Card>& cards) const
 					usedPhoenix = true;
 					cards[0].power = cards[i].power;
 				}
+			}
+
+			//We reached the final steps
+			if (i + 2 >= cards.size())
+			{	
+				break;
 			}
 
 			if (cards[i].power + 1 != cards[i + 2].power)
@@ -428,8 +431,6 @@ std::pair<bool, bool> Tichu::Pass()
 		everyonePassed = true;
 		m_CurrentStrongestCombination = Combination{};
 	}
-
-	NextPlayer();
 
 	return { true, everyonePassed};
 }

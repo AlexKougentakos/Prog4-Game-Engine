@@ -277,6 +277,9 @@ void PlayerComponent::OnGui()
     ImGui::Separator();
 
     ImGui::Text("%s", std::string("Points Held: " + std::to_string(m_HoldingPoints)).c_str());
+    ImGui::Text("In Turn: ");
+    ImGui::SameLine();
+    ImGui::TextColored(m_IsPlaying ? ImVec4(0.0f, 1.0f, 0.0f, 1.0f) : ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "%s", m_IsPlaying ? "Yes" : "No");
 
     ImGui::EndChild();
 
