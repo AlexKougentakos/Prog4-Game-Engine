@@ -14,7 +14,39 @@
 
 #include "Components/Players/AIPlayer.h"
 #include "Components/Players/HumanPlayer.h"
+#include <AIPlayer_MCTS.h>
+#include "Helpers/MCTS.h"
 
+void TichuScene::FillGameState(MCTS::GameState &state) const
+{
+	//Fill in the player hands
+    for (int i = 0; i < 4; ++i)
+    {
+        state.playerHands[i] = m_pPlayers[i]->GetCards();
+    }
+
+	//Fill in the team scores
+	if (state.currentPlayerIndex == 1 || state.currentPlayerIndex == 3)
+	{
+		state.teamScore = m_Team0Points;
+		state.opponentTeamScore = m_Team1Points;
+	}
+	else
+	{
+		state.teamScore = m_Team1Points;
+		state.opponentTeamScore = m_Team0Points;
+	}
+
+	//Fill in the scores of the cards that each player has collected
+	for (int i = 0; i < 4; ++i)
+	{
+		state.scores[i] = m_pPlayers[i]->GetPoints();
+	}
+
+
+	state.currentCombination = m_pTichuGame->GetCurrentStrongestCombination();
+	//todo: fill in the tichu and grand tichu booleans
+}
 
 void TichuScene::Initialize()
 {
@@ -286,7 +318,7 @@ void TichuScene::CreatePlayers()
 		}
 		else
 		{
-			playerComponent = player->AddComponent<AIPlayer>(i, m_RenderPackage);
+			playerComponent = player->AddComponent<AIPlayer_MCTS>(i, m_RenderPackage);
 		}
 		
 		// Give the AI players access to game state

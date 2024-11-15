@@ -382,10 +382,14 @@ add_executable(Game
     Testing/src/Components/CardComponent.h
     Testing/src/Components/PlayerComponent.cpp
     Testing/src/Components/PlayerComponent.h
+    Testing/src/Helpers/MCTS.h
+    Testing/src/Helpers/MCTS.cpp
     Testing/src/Components/Players/HumanPlayer.cpp
     Testing/src/Components/Players/HumanPlayer.h
     Testing/src/Components/Players/AIPlayer.cpp
     Testing/src/Components/Players/AIPlayer.h
+    Testing/src/Components/Players/AIPlayer_MCTS.cpp
+    Testing/src/Components/Players/AIPlayer_MCTS.h
     Testing/src/Commands/CardSelectCommand.cpp
     Testing/src/Commands/CardSelectCommand.h
     Testing/src/Commands/ButtonPressed.cpp

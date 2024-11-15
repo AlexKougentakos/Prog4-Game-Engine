@@ -23,6 +23,10 @@ enum class GamePhase
 class Button;
 class ButtonManagerComponent;
 class CardComponent;
+namespace MCTS
+{
+	class GameState;
+}
 
 class TichuScene final : public ody::GameScene, public ody::IObserver
 {
@@ -33,6 +37,8 @@ public:
 	TichuScene(TichuScene&& other) noexcept = delete;
 	TichuScene& operator=(const TichuScene& other) = delete;
 	TichuScene& operator=(TichuScene&& other) noexcept = delete;
+
+	void FillGameState(MCTS::GameState& state) const;
 
 protected:
 	void Initialize() override;

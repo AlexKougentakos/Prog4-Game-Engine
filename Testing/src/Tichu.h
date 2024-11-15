@@ -32,14 +32,12 @@ struct PlayerState
 
 struct Combination
 {
+	Combination() = default;
+
 	uint8_t numberOfCards{};
 	uint8_t power{};
 
 	CombinationType combinationType{CombinationType::CT_Invalid};
-
-private:
-	Combination() = default;
-	friend class Tichu;
 };
 
 struct Card;
