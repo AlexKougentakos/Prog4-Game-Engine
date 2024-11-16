@@ -95,7 +95,6 @@ GameState SimulateGame(GameState state)
     constexpr int MAX_MOVES = 100;
     int moveCount = 0;
     
-    std::cout << "Simulating game started\n";
     while (!state.IsTerminal() && moveCount < MAX_MOVES) 
     {
         std::vector<GameState> moves;
@@ -155,8 +154,6 @@ GameState SimulateGame(GameState state)
             DebugLogger::Log("WARNING: Reached maximum move limit in simulation!\n");
         }
     }
-
-    std::cout << "Simulating game finished\n";
     
     DebugLogger::Log("Simulation complete after %d moves\n", moveCount);
     if (state.IsTerminal()) {
@@ -167,11 +164,9 @@ GameState SimulateGame(GameState state)
 
 void Backpropagate(Node* node, double reward) 
 {
-    std::cout << "Backpropagate started\n";
     int depth = 0;
     while (node) 
     {
-        std::cout << "Backpropagate at depth " << depth << "\n";
 
         node->visitCount++;
         node->totalValue += reward;
@@ -179,7 +174,6 @@ void Backpropagate(Node* node, double reward)
         node = node->parent;
         depth++;
     }
-    std::cout << "Backpropagate finished\n";
 
     DebugLogger::Log("Backpropagated through %d nodes\n", depth);
 }
@@ -187,9 +181,7 @@ void Backpropagate(Node* node, double reward)
 Node* TreePolicy(Node* node) 
 {
     int depth = 0;
-    /* constexpr int MAX_DEPTH = 100; */
-    
-    while (!node->state.IsTerminal() /* && depth < MAX_DEPTH */) 
+    while (!node->state.IsTerminal()) 
     {
         DebugLogger::Log("Tree policy at depth %d\n", depth++);
         
@@ -218,7 +210,7 @@ Node* TreePolicy(Node* node)
                 if (!alreadyExpanded) 
                 {
                     DebugLogger::Log("Adding new child node\n");
-                    return node->AddChild(move, (node->player + 1) % 4);
+                    return node->AddChild(move, (node->player + 1) % 4); // Use modulo 4 for player rotation
                 }
             }
         }
@@ -231,27 +223,26 @@ Node* TreePolicy(Node* node)
         node = nextNode;
     }
     
-    DebugLogger::Log("Reached terminal state or max depth\n");
+    DebugLogger::Log("Reached terminal state or error condition\n");
     return node;
 }
 
 GameState MonteCarloTreeSearch(const GameState& rootState, int iterations) 
 {
     DebugLogger::Log("\n=== Starting Monte Carlo Tree Search with %d iterations ===\n", iterations);
-    Node root(rootState, rootState.currentPlayerIndex);
+    Node root(rootState, rootState.GetCurrentPlayer());
 
     for (int i = 0; i < iterations; ++i) 
     {
         DebugLogger::Log("\nIteration %d/%d:\n", i + 1, iterations);
-        
+        DebugLogger::Log("Selection phase - Finding node to expand...\n");
         Node* node = TreePolicy(&root);
-        if (!node) {
-            DebugLogger::Log("ERROR: TreePolicy returned nullptr!\n");
-            continue;
-        }
         
+        DebugLogger::Log("Simulation phase - Running random playout...\n");
         GameState finalState = SimulateGame(node->state);
+        
         double reward = finalState.GetReward(node->player);
+        DebugLogger::Log("Backpropagation phase - Reward: %.2f\n", reward);
         
         Backpropagate(node, reward);
     }
@@ -262,6 +253,7 @@ GameState MonteCarloTreeSearch(const GameState& rootState, int iterations)
         return rootState;
     }
     
+    DebugLogger::Log("=== MCTS Complete ===\n\n");
     return bestNode->state;
 }
 
@@ -683,37 +675,54 @@ double GameState::GetReward(int player) const
 
 bool GameState::IsTerminal() const 
 {
+    DebugLogger::Log("==================================\n");
+    DebugLogger::Log("Checking if game state is terminal: \n\n");
     // Count how many players are out
     int playersOut = 0;
     int indexOfFirstPlayerOut = -1;
-    std::vector<int> outPlayerIndices;
 
     for (int i = 0; i < 4; i++) 
     {
         if (playerHands[i].empty()) 
         {
+            bool is1_2Finish = false;
             playersOut++;
             if (indexOfFirstPlayerOut == -1)
                 indexOfFirstPlayerOut = i;
-            outPlayerIndices.push_back(i);
+
+            DebugLogger::Log("First player out: %d\n", indexOfFirstPlayerOut);
+            DebugLogger::Log("Player %d is out\n", i);
+            DebugLogger::Log("Players out: %d\n", playersOut);
+
+            //Check if it's a 1-2 finish, meaning two players from the same team are out one after the other
+            if (playersOut == 2)
+            {
+                if ((indexOfFirstPlayerOut == 0 || indexOfFirstPlayerOut == 2) && (i == 0 || i == 2))
+                    is1_2Finish = true;
+                if ((indexOfFirstPlayerOut == 1 || indexOfFirstPlayerOut == 3) && (i == 1 || i == 3))
+                    is1_2Finish = true;
+
+                if (is1_2Finish)
+                {
+                    DebugLogger::Log("1-2 finish detected\n");
+                    DebugLogger::Log("Game state is terminal: true\n");
+                    DebugLogger::Log("==================================\n");
+                    return true;
+                }
+            }
         }
     }
+    
+    bool isTerminal = playersOut >= 3;
+    DebugLogger::Log("Game state is terminal: %s\n", isTerminal ? "true" : "false");
+    DebugLogger::Log("==================================\n");
 
-    // Check for 1-2 finish (two players from same team out)
-    if (playersOut == 2) 
+    if (isTerminal)
     {
-        bool isTeam1Out = (outPlayerIndices[0] == 0 && outPlayerIndices[1] == 2) || 
-                         (outPlayerIndices[0] == 2 && outPlayerIndices[1] == 0);
-        bool isTeam2Out = (outPlayerIndices[0] == 1 && outPlayerIndices[1] == 3) || 
-                         (outPlayerIndices[0] == 3 && outPlayerIndices[1] == 1);
-        
-        if (isTeam1Out || isTeam2Out) {
-            return true;
-        }
+        DebugLogger::Log("Game state is terminal: true\n");
+        DebugLogger::Log("==================================\n");
     }
-
-    // Game is terminal if 3 or more players are out
-    return playersOut >= 3;
+    return isTerminal;
 }
 
 #pragma endregion
