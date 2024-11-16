@@ -86,6 +86,8 @@ public:
 	void Update() override;
 	void OnGui() override;
 
+	virtual void OnGuiMCTS() {}
+
 	void SetCards(const std::vector<Card>& newCards);
 
 	virtual void AskForDragon() {}
@@ -121,6 +123,9 @@ public:
 	void SetGameReference(Tichu* game) { m_pTichuGame = game; }
 	void SetCardsOnTopReference(const std::vector<Card>* cards) { m_CardsOnTop = *cards; }
 	void SetSceneReference(TichuScene* scene);
+
+	virtual float GetDesiredGuiHeight() const { return 120.f; }  // Default height
+	virtual bool IsAIPlayer() const { return false; }  // Base class returns false
 
 protected:
 	Tichu* m_pTichuGame{};

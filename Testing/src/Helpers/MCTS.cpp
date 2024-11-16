@@ -8,31 +8,6 @@
 #include <unordered_map>
 #include "Tichu.h"
 
-std::string GetCardColourString(CardColour colour)
-{
-    switch (colour)
-    {
-    case CC_Black:
-        return "Black";
-    case CC_Green:
-        return "Green";
-    case CC_Blue:
-        return "Blue";
-    case CC_Red:
-        return "Red";
-    case CC_Mahjong:
-        return "Mahjong";
-    case CC_Dragon:
-        return "Dragon";
-    case CC_Phoenix:
-        return "Phoenix";
-    case CC_Dog:
-        return "Dog";
-    }
-
-    //Never reached
-    return "Unknown";
-}
 
 
 namespace MCTS
@@ -227,10 +202,14 @@ Node* TreePolicy(Node* node)
     return node;
 }
 
-GameState MonteCarloTreeSearch(const GameState& rootState, int iterations) 
+GameState MonteCarloTreeSearch(const GameState& rootState, int iterations, 
+    const ProgressCallback& progressCallback) 
 {
     DebugLogger::Log("\n=== Starting Monte Carlo Tree Search with %d iterations ===\n", iterations);
     Node root(rootState, rootState.GetCurrentPlayer());
+
+    MCTSProgress progress{};
+    progress.currentIteration = 0;
 
     for (int i = 0; i < iterations; ++i) 
     {
@@ -245,6 +224,34 @@ GameState MonteCarloTreeSearch(const GameState& rootState, int iterations)
         DebugLogger::Log("Backpropagation phase - Reward: %.2f\n", reward);
         
         Backpropagate(node, reward);
+
+        // Update progress
+        progress.currentIteration = i + 1;
+        Node* bestChild = root.BestChild(0.0);
+        if (bestChild)
+        {
+            // Calculate the cards that would be played
+            auto currentCards = rootState.playerHands[rootState.currentPlayerIndex];
+            auto bestPlay = bestChild->state.playerHands[rootState.currentPlayerIndex];
+            progress.bestMove.clear();
+            
+            for (const auto& card : currentCards)
+            {
+                if (std::find(bestPlay.begin(), bestPlay.end(), card) == bestPlay.end())
+                {
+                    progress.bestMove.push_back(card);
+                }
+            }
+            
+            progress.bestMoveScore = bestChild->totalValue / 
+                                   static_cast<double>(bestChild->visitCount);
+            progress.visitCount = bestChild->visitCount;
+        }
+
+        if (progressCallback)
+        {
+            progressCallback(progress);
+        }
     }
 
     Node* bestNode = root.BestChild(0.0);
@@ -497,6 +504,35 @@ void GeneratePossiblePlays(const std::vector<Card>& hand, const Combination& cur
         GenerateFullHousePlays(hand, currentCombination, possiblePlays);
         GenerateStraightPlays(hand, currentCombination, possiblePlays);
         GenerateStepPlays(hand, currentCombination, possiblePlays);
+        break;
+    case CombinationType::CT_Dogs:
+        // Dogs can only be played when no other cards are on the table
+        if (currentCombination.combinationType == CombinationType::CT_Invalid)
+        {
+            for (const auto& card : hand)
+            {
+                if (card.colour == CC_Dog)
+                {
+                    possiblePlays.push_back({card});
+                }
+            }
+        }
+        break;
+    case CombinationType::CT_SinglePhoenix:
+        // Phoenix can be played as any single card
+        for (const auto& card : hand)
+        {
+            if (card.colour == CC_Phoenix)
+            {
+                possiblePlays.push_back({card});
+            }
+        }
+        break;
+    case CombinationType::CT_FourOfAKindBomb:
+        GenerateBombPlays(hand, currentCombination, possiblePlays);
+        break;
+    case CombinationType::CT_StraightBomb:
+        // Handle straight bombs if needed
         break;
     }
 }

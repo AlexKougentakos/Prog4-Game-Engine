@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <memory>
+#include <functional>
 
 #include "PlayerComponent.h" // For the card structs
 #include "Tichu.h"
@@ -90,6 +91,45 @@ public:
     Node* AddChild(const GameState& childState, int childPlayer);
 };
 
-GameState MonteCarloTreeSearch(const GameState& rootState, int iterations);
+// Add this struct to track MCTS progress
+struct MCTSProgress {
+    int currentIteration{0};
+    std::vector<Card> bestMove{};
+    double bestMoveScore{0.0};
+    int visitCount{0};
+};
+
+inline std::string GetCardColourString(CardColour colour)
+{
+    switch (colour)
+    {
+    case CC_Black:
+        return "Black";
+    case CC_Green:
+        return "Green";
+    case CC_Blue:
+        return "Blue";
+    case CC_Red:
+        return "Red";
+    case CC_Mahjong:
+        return "Mahjong";
+    case CC_Dragon:
+        return "Dragon";
+    case CC_Phoenix:
+        return "Phoenix";
+    case CC_Dog:
+        return "Dog";
+    }
+
+    //Never reached
+    return "Unknown";
+}
+
+// Add a progress callback type
+using ProgressCallback = std::function<void(const MCTSProgress&)>;
+
+// Modify the MonteCarloTreeSearch declaration
+GameState MonteCarloTreeSearch(const GameState& rootState, int iterations, 
+    const ProgressCallback& progressCallback = nullptr);
 
 }

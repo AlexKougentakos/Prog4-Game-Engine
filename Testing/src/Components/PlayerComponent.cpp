@@ -271,16 +271,35 @@ void PlayerComponent::CalculateRenderingParameters()
 
 void PlayerComponent::OnGui()
 {
-    const std::string uniqueID = "IndentedBox_" + std::to_string(m_PlayerID);
-    ImGui::BeginChild(uniqueID.c_str(), ImVec2(0, 60), true, ImGuiWindowFlags_None);
+    const float availableWidth = ImGui::GetContentRegionAvail().x;
+    const float desiredHeight = GetDesiredGuiHeight();
+    
+    // If this is an AI player, we want to size it to fit horizontally with other AI players
+    float boxWidth = IsAIPlayer() ? (availableWidth / 3.0f) - 10.0f : availableWidth;
+    
+    const std::string uniqueID = "PlayerBox_" + std::to_string(m_PlayerID);
+    
+    if (IsAIPlayer())
+    {
+        // Keep AI players on the same line
+        if (m_PlayerID > 1)  // For players 2 and 3
+        {
+            ImGui::SameLine();
+        }
+    }
+
+    ImGui::BeginChild(uniqueID.c_str(), ImVec2(boxWidth, desiredHeight), true, ImGuiWindowFlags_None);
+    
     ImGui::Text("%s", std::string("Player " + std::to_string(m_PlayerID)).c_str());
     ImGui::Separator();
 
     ImGui::Text("%s", std::string("Points Held: " + std::to_string(m_HoldingPoints)).c_str());
     ImGui::Text("In Turn: ");
     ImGui::SameLine();
-    ImGui::TextColored(m_IsPlaying ? ImVec4(0.0f, 1.0f, 0.0f, 1.0f) : ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "%s", m_IsPlaying ? "Yes" : "No");
+    ImGui::TextColored(m_IsPlaying ? ImVec4(0.0f, 1.0f, 0.0f, 1.0f) : ImVec4(1.0f, 0.0f, 0.0f, 1.0f), 
+        "%s", m_IsPlaying ? "Yes" : "No");
+
+    OnGuiMCTS();
 
     ImGui::EndChild();
-
 }
