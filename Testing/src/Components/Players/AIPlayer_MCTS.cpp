@@ -55,7 +55,7 @@ void AIPlayer_MCTS::MakeMove()
     
     // Time how long it takes to run the MCTS
     auto startTime = std::chrono::high_resolution_clock::now();
-    auto bestState = MCTS::MonteCarloTreeSearch(rootState, 10);
+    auto bestState = MCTS::MonteCarloTreeSearch(rootState, 100);
     auto endTime = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
     std::cout << "MCTS took " << duration.count() << " milliseconds to run." << std::endl;
@@ -63,12 +63,20 @@ void AIPlayer_MCTS::MakeMove()
     auto currentCards = rootState.playerHands[m_PlayerID];
     auto bestPlay = bestState.playerHands[m_PlayerID];
     std::vector<Card> cardsToPlay{};
-    for (const auto& card : bestPlay)
+
+    //Get the difference between the two vectors
+    for (const auto& card : currentCards)
     {
-        if (std::find(currentCards.begin(), currentCards.end(), card) != currentCards.end())
+        if (std::find(bestPlay.begin(), bestPlay.end(), card) == bestPlay.end())
         {
             cardsToPlay.push_back(card);
         }
+    }
+
+    if (cardsToPlay.empty())
+    {
+        Pass();
+        return;
     }
 
     m_SelectedCards = cardsToPlay;

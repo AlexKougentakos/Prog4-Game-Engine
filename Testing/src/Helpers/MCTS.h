@@ -30,11 +30,15 @@ struct GameState
     std::array<std::vector<Card>, 4> playerHands{};         // Each player's hand
     int16_t teamScore{};                                    // The score of the team that the current player is on
     int16_t opponentTeamScore{};                            // The score of the opposing team
-    Combination currentCombination{};                      // The current strongest combination
+    Combination currentCombination{};                       // The current strongest combination
     std::array<int8_t, 4> scores{};                         // The score, of the cards that each player has collected
     uint8_t currentPlayerIndex{};                           // Current player's index
     bool tichuCalled[4] = {false};                          // Whether each player called Tichu
     bool grandTichuCalled[4] = {false};                     // Whether each player called Grand Tichu
+    uint8_t passesInARow = 0;                               // Number of passes in a row
+    std::vector<Card> cardsOnTable{};                       // Cards currently on the table
+    int lastPlayerIndex{-1};                                // Index of the last player who played cards
+    Tichu* pTichuGame{};                                    // Pointer to the Tichu game instance
 
     // Constructor to initialize the game state
     GameState() : currentPlayerIndex(0) 
@@ -43,19 +47,12 @@ struct GameState
     }
 
     bool IsTerminal() const;
-/*     bool IsTerminal() const 
-    {
-        // Game ends when a team reaches a specific score or all tricks are completed
-        return std::any_of(scores.begin(), scores.end(), [](int score) { return score >= 500; });
-    } */
 
     double GetReward(int player) const;
 
     void GetPossibleGameStates(const GameState& currentState, std::vector<GameState>& moves) const;
 
     int GetCurrentPlayer() const { return currentPlayerIndex; }
-
-    void PrintState() const;
 
     bool operator==(const GameState& other) const
     {
@@ -64,6 +61,14 @@ struct GameState
                opponentTeamScore == other.opponentTeamScore &&
                scores == other.scores &&
                currentPlayerIndex == other.currentPlayerIndex;
+    }
+
+    int GetActivePlayers() const {
+        int count = 0;
+        for (const auto& hand : playerHands) {
+            if (!hand.empty()) count++;
+        }
+        return count;
     }
 };
 

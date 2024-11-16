@@ -70,6 +70,8 @@ public:
 	int GetPreviousPlayerIndex() const;
 	int GetPlayersLeftWhenLastHandPlayed() const { return m_PlayersLeftWhenLastHandPlayed; }
 
+	int GetPassesInARow() const { return m_PassesInARow; }
+
 private:
 	Combination m_CurrentStrongestCombination{};
 

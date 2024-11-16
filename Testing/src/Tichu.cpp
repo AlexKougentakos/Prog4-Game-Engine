@@ -33,7 +33,7 @@ Combination Tichu::CreateCombination(std::vector<Card>& cards) const
 		else
 			combination.combinationType = CombinationType::CT_Single;
 
-		if (hasPhoenix)
+		if (hasPhoenix && m_CurrentStrongestCombination.power <= 20) //Phoenix can't be used to beat the dragon
 		{
 			combination.combinationType = CombinationType::CT_SinglePhoenix;
 			combination.power = m_CurrentStrongestCombination.power + 1;

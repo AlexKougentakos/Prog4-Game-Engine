@@ -17,37 +17,6 @@
 #include <AIPlayer_MCTS.h>
 #include "Helpers/MCTS.h"
 
-void TichuScene::FillGameState(MCTS::GameState &state) const
-{
-	//Fill in the player hands
-    for (int i = 0; i < 4; ++i)
-    {
-        state.playerHands[i] = m_pPlayers[i]->GetCards();
-    }
-
-	//Fill in the team scores
-	if (state.currentPlayerIndex == 1 || state.currentPlayerIndex == 3)
-	{
-		state.teamScore = m_Team0Points;
-		state.opponentTeamScore = m_Team1Points;
-	}
-	else
-	{
-		state.teamScore = m_Team1Points;
-		state.opponentTeamScore = m_Team0Points;
-	}
-
-	//Fill in the scores of the cards that each player has collected
-	for (int i = 0; i < 4; ++i)
-	{
-		state.scores[i] = m_pPlayers[i]->GetPoints();
-	}
-
-
-	state.currentCombination = m_pTichuGame->GetCurrentStrongestCombination();
-	//todo: fill in the tichu and grand tichu booleans
-}
-
 void TichuScene::Initialize()
 {
 	const auto pLevel = CreateGameObject();
@@ -293,7 +262,7 @@ void TichuScene::CreateDeck()
 		m_Cards.emplace_back(Card{ colour, cardValue });
 	}
 
-	m_Cards.emplace_back(Card{ CardColour::CC_Dog, 0 });
+ 	m_Cards.emplace_back(Card{ CardColour::CC_Dog, 0 });
 	m_Cards.emplace_back(Card{ CardColour::CC_Dragon, 20 });
 	m_Cards.emplace_back(Card{ CardColour::CC_Phoenix, 0 });
 	m_Cards.emplace_back(Card{ CardColour::CC_Mahjong, 1 });
@@ -347,7 +316,7 @@ void TichuScene::CreateCardRenderPackage()
 		m_RenderPackage.cardTexturePaths.emplace_back(completePath);
 	}
 
-	//Dogs
+ 	//Dogs
 	std::string completePath = "Cards/Dogs.png";
 	auto texture = ody::ResourceManager::GetInstance().LoadTexture(completePath);
 	m_RenderPackage.cardTextures.emplace_back(texture);
@@ -370,7 +339,6 @@ void TichuScene::CreateCardRenderPackage()
 	texture = ody::ResourceManager::GetInstance().LoadTexture(completePath);
 	m_RenderPackage.cardTextures.emplace_back(texture);
 	m_RenderPackage.cardTexturePaths.emplace_back(completePath);
-
 
 	m_RenderPackage.cardBack = ody::ResourceManager::GetInstance().LoadTexture("Cards/back.png");
 }
@@ -973,6 +941,42 @@ int TichuScene::GetCardTextureIndex(const Card& card) const
 	}
 }
 
+void TichuScene::FillGameState(MCTS::GameState &state) const
+{
+	//Fill in the player hands
+    for (int i = 0; i < 4; ++i)
+    {
+        state.playerHands[i] = m_pPlayers[i]->GetCards();
+    }
+
+	//Fill in the team scores
+	if (state.currentPlayerIndex == 1 || state.currentPlayerIndex == 3)
+	{
+		state.teamScore = m_Team0Points;
+		state.opponentTeamScore = m_Team1Points;
+	}
+	else
+	{
+		state.teamScore = m_Team1Points;
+		state.opponentTeamScore = m_Team0Points;
+	}
+
+	//Fill in the scores of the cards that each player has collected
+	for (int i = 0; i < 4; ++i)
+	{
+		state.scores[i] = m_pPlayers[i]->GetPoints();
+	}
+
+	state.passesInARow = m_pTichuGame->GetPassesInARow();
+	state.currentCombination = m_pTichuGame->GetCurrentStrongestCombination();
+	state.lastPlayerIndex = m_PlayerWhoThrewLastCombinationIndex;
+	state.pTichuGame = m_pTichuGame.get();
+	state.cardsOnTable = m_PlayedCards;
+
+	//todo: fill in the tichu and grand tichu booleans
+}
+
+
 void TichuScene::OnGUI()
 {
 	if (ImGui::CollapsingHeader("Debug"))
@@ -993,7 +997,7 @@ void TichuScene::OnGUI()
 
 		if (ImGui::Button("Deal Cards", { 90, 25 }))
 		{
-			DealInitialCards(14);
+			DealInitialCards(13);
 		}
 	}
 
