@@ -24,11 +24,9 @@ set(IMGUI_SOURCES
 )
 
 if (WIN32)
-    if (MSVC)
-        #Ignore compiler warnings for imgui_impl_opengl3.cpp
-        set_source_files_properties("${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp"
-                               PROPERTIES COMPILE_FLAGS "/wd4701")
-    endif()
+# Ignore compiler warnings for imgui_impl_opengl3.cpp
+set_source_files_properties("${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp"
+                           PROPERTIES COMPILE_FLAGS "/wd4701")
 endif()
 
 # Fetch GLM
@@ -172,7 +170,6 @@ target_include_directories(OdysseyLib PUBLIC
   ${glm_SOURCE_DIR}
 )
 
-
 # Add SDL2 dependencies for the Odyssey library
 if(EMSCRIPTEN)
   # Declare the SDL_AudioPlayer for Emscripten builds
@@ -188,128 +185,115 @@ if(EMSCRIPTEN)
   target_include_directories(OdysseyLib PUBLIC ${sdl_audioplayer_SOURCE_DIR})
 
 elseif(WIN32)
-  if(MSVC)
-    # ... existing MSVC-specific SDL2 setup ...
-  else() # MinGW
-    # SDL2
-    FetchContent_Declare(
-      SDL2
-      URL https://github.com/libsdl-org/SDL/releases/download/release-2.28.5/SDL2-devel-2.28.5-mingw.zip
-      DOWNLOAD_NO_PROGRESS ON
-      DOWNLOAD_DIR ${CMAKE_BINARY_DIR}/downloads
-    )
-    FetchContent_GetProperties(SDL2)
-    if(NOT SDL2_POPULATED)
-      FetchContent_Populate(SDL2)
-      if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-        set(SDL2_PATH "${sdl2_SOURCE_DIR}/x86_64-w64-mingw32")
-      else()
-        set(SDL2_PATH "${sdl2_SOURCE_DIR}/i686-w64-mingw32")
-      endif()
-      set(SDL2_INCLUDE_DIR "${SDL2_PATH}/include/SDL2")
-      set(SDL2_LIB_DIR "${SDL2_PATH}/lib")
-    endif()
-
-    # SDL2_image
-    FetchContent_Declare(
-      SDL2_image
-      URL https://github.com/libsdl-org/SDL_image/releases/download/release-2.8.2/SDL2_image-devel-2.8.2-mingw.zip
-      DOWNLOAD_NO_PROGRESS ON
-      DOWNLOAD_DIR ${CMAKE_BINARY_DIR}/downloads
-    )
-    FetchContent_GetProperties(SDL2_image)
-    if(NOT SDL2_image_POPULATED)
-      FetchContent_Populate(SDL2_image)
-      if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-        set(SDL2_IMAGE_PATH "${sdl2_image_SOURCE_DIR}/x86_64-w64-mingw32")
-      else()
-        set(SDL2_IMAGE_PATH "${sdl2_image_SOURCE_DIR}/i686-w64-mingw32")
-      endif()
-      set(SDL2_IMAGE_INCLUDE_DIR "${SDL2_IMAGE_PATH}/include/SDL2")
-      set(SDL2_IMAGE_LIB_DIR "${SDL2_IMAGE_PATH}/lib")
-    endif()
-
-    # SDL2_ttf
-    FetchContent_Declare(
-      SDL2_ttf
-      URL https://github.com/libsdl-org/SDL_ttf/releases/download/release-2.20.2/SDL2_ttf-devel-2.20.2-mingw.zip
-      DOWNLOAD_NO_PROGRESS ON
-      DOWNLOAD_DIR ${CMAKE_BINARY_DIR}/downloads
-    )
-    FetchContent_GetProperties(SDL2_ttf)
-    if(NOT SDL2_ttf_POPULATED)
-      FetchContent_Populate(SDL2_ttf)
-      if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-        set(SDL2_TTF_PATH "${sdl2_ttf_SOURCE_DIR}/x86_64-w64-mingw32")
-      else()
-        set(SDL2_TTF_PATH "${sdl2_ttf_SOURCE_DIR}/i686-w64-mingw32")
-      endif()
-      set(SDL2_TTF_INCLUDE_DIR "${SDL2_TTF_PATH}/include/SDL2")
-      set(SDL2_TTF_LIB_DIR "${SDL2_TTF_PATH}/lib")
-    endif()
-
-    # SDL2_mixer
-    FetchContent_Declare(
-      SDL2_mixer
-      URL https://github.com/libsdl-org/SDL_mixer/releases/download/release-2.8.0/SDL2_mixer-devel-2.8.0-mingw.zip
-      DOWNLOAD_NO_PROGRESS ON
-      DOWNLOAD_DIR ${CMAKE_BINARY_DIR}/downloads
-    )
-    FetchContent_GetProperties(SDL2_mixer)
-    if(NOT SDL2_mixer_POPULATED)
-      FetchContent_Populate(SDL2_mixer)
-      if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-        set(SDL2_MIXER_PATH "${sdl2_mixer_SOURCE_DIR}/x86_64-w64-mingw32")
-      else()
-        set(SDL2_MIXER_PATH "${sdl2_mixer_SOURCE_DIR}/i686-w64-mingw32")
-      endif()
-      set(SDL2_MIXER_INCLUDE_DIR "${SDL2_MIXER_PATH}/include/SDL2")
-      set(SDL2_MIXER_LIB_DIR "${SDL2_MIXER_PATH}/lib")
-    endif()
-
-    # Set include directories
-    target_include_directories(OdysseyLib PUBLIC
-      ${SDL2_INCLUDE_DIR}
-      ${SDL2_IMAGE_INCLUDE_DIR}
-      ${SDL2_TTF_INCLUDE_DIR}
-      ${SDL2_MIXER_INCLUDE_DIR}
-    )
-
-    # Set link directories
-    target_link_directories(OdysseyLib PUBLIC
-      ${SDL2_LIB_DIR}
-      ${SDL2_IMAGE_LIB_DIR}
-      ${SDL2_TTF_LIB_DIR}
-      ${SDL2_MIXER_LIB_DIR}
-    )
-
-    # Link libraries
-    target_link_libraries(OdysseyLib PUBLIC
-      mingw32
-      SDL2main
-      SDL2
-      SDL2_image
-      SDL2_ttf
-      SDL2_mixer
-      -lOpenGL32
-    )
-
-    # Copy DLLs
-    if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-      set(SDL_ARCH_PATH "x86_64-w64-mingw32")
+  FetchContent_Declare(
+    SDL2
+    URL https://www.libsdl.org/release/SDL2-devel-2.28.5-VC.zip 
+    DOWNLOAD_NO_PROGRESS ON
+    DOWNLOAD_DIR ${CMAKE_BINARY_DIR}/downloads 
+  )
+  FetchContent_GetProperties(SDL2)
+  if(NOT SDL2_POPULATED)
+    FetchContent_Populate(SDL2)
+    set(SDL2_INCLUDE_DIR ${sdl2_SOURCE_DIR}/include)
+    if (${CMAKE_SIZEOF_VOID_P} MATCHES 8)
+      set(SDL2_LIBRARIES "${sdl2_SOURCE_DIR}/lib/x64/SDL2.lib;${sdl2_SOURCE_DIR}/lib/x64/SDL2main.lib")
+      set(SDL2_LIBRARY_DLL "${sdl2_SOURCE_DIR}/lib/x64/SDL2.dll")
     else()
-      set(SDL_ARCH_PATH "i686-w64-mingw32")
+      set(SDL2_LIBRARIES "${sdl2_SOURCE_DIR}/lib/x86/SDL2.lib;${sdl2_SOURCE_DIR}/lib/x86/SDL2main.lib")
+      set(SDL2_LIBRARY_DLL "${sdl2_SOURCE_DIR}/lib/x86/SDL2.dll")
     endif()
-
-    add_custom_command(TARGET OdysseyLib POST_BUILD
-      COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        "${SDL2_PATH}/bin/SDL2.dll"
-        "${SDL2_IMAGE_PATH}/bin/SDL2_image.dll"
-        "${SDL2_TTF_PATH}/bin/SDL2_ttf.dll"
-        "${SDL2_MIXER_PATH}/bin/SDL2_mixer.dll"
-        $<TARGET_FILE_DIR:OdysseyLib>
-    )
   endif()
+
+  # add SDL2_image
+  FetchContent_Declare(
+    SDL2_image
+    URL https://www.libsdl.org/projects/SDL_image/release/SDL2_image-devel-2.8.2-VC.zip 
+    DOWNLOAD_NO_PROGRESS ON
+    DOWNLOAD_DIR ${CMAKE_BINARY_DIR}/downloads
+  )
+  FetchContent_GetProperties(SDL2_image)
+  if(NOT SDL2_image_POPULATED)
+    FetchContent_Populate(SDL2_image)
+    set(SDL2_IMAGE_INCLUDE_DIR ${sdl2_image_SOURCE_DIR}/include)
+    if (${CMAKE_SIZEOF_VOID_P} MATCHES 8)
+      set(SDL2_IMAGE_LIBRARIES "${sdl2_image_SOURCE_DIR}/lib/x64/SDL2_image.lib")
+      set(SDL2_IMAGE_LIBRARY_DLL "${sdl2_image_SOURCE_DIR}/lib/x64/SDL2_image.dll")
+    else()
+      set(SDL2_IMAGE_LIBRARIES "${sdl2_image_SOURCE_DIR}/lib/x86/SDL2_image.lib")
+      set(SDL2_IMAGE_LIBRARY_DLL "${sdl2_image_SOURCE_DIR}/lib/x86/SDL2_image.dll")
+    endif()
+  endif()
+  
+  # add SDL2_Mixer
+  FetchContent_Declare(
+    SDL2_mixer
+    URL https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-devel-2.8.0-VC.zip
+    DOWNLOAD_NO_PROGRESS ON
+    DOWNLOAD_DIR ${CMAKE_BINARY_DIR}/downloads
+  )
+  FetchContent_GetProperties(SDL2_mixer)
+  if(NOT SDL2_mixer_POPULATED)
+    FetchContent_Populate(SDL2_mixer)
+    set(SDL2_MIXER_INCLUDE_DIR ${sdl2_mixer_SOURCE_DIR}/include)
+    if (${CMAKE_SIZEOF_VOID_P} MATCHES 8)
+      set(SDL2_MIXER_LIBRARIES "${sdl2_mixer_SOURCE_DIR}/lib/x64/SDL2_mixer.lib")
+      set(SDL2_MIXER_LIBRARY_DLL "${sdl2_mixer_SOURCE_DIR}/lib/x64/SDL2_mixer.dll")
+    else()
+      set(SDL2_MIXER_LIBRARIES "${sdl2_mixer_SOURCE_DIR}/lib/x86/SDL2_mixer.lib")
+      set(SDL2_MIXER_LIBRARY_DLL "${sdl2_mixer_SOURCE_DIR}/lib/x86/SDL2_mixer.dll")
+    endif()
+  endif()
+
+  # add SDL2_ttf
+  FetchContent_Declare(
+    SDL2_ttf
+    URL https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-devel-2.20.2-VC.zip
+    DOWNLOAD_NO_PROGRESS ON
+    DOWNLOAD_DIR ${CMAKE_BINARY_DIR}/downloads
+  )
+  FetchContent_GetProperties(SDL2_ttf)
+  if(NOT sdl2_ttf_POPULATED)
+    FetchContent_Populate(SDL2_ttf)
+    set(SDL2_TTF_INCLUDE_DIR ${sdl2_ttf_SOURCE_DIR}/include)
+    if (${CMAKE_SIZEOF_VOID_P} MATCHES 8)
+      set(SDL2_TTF_LIBRARIES ${sdl2_ttf_SOURCE_DIR}/lib/x64/SDL2_ttf.lib)
+      set(SDL2_TTF_LIBRARY_DLL "${sdl2_ttf_SOURCE_DIR}/lib/x64/SDL2_ttf.dll")
+    else()
+      set(SDL2_TTF_LIBRARIES ${sdl2_ttf_SOURCE_DIR}/lib/x86/SDL2_ttf.lib)
+      set(SDL2_TTF_LIBRARY_DLL "${sdl2_ttf_SOURCE_DIR}/lib/x86/SDL2_ttf.dll")
+    endif()
+  endif()
+
+  # set all include directories for the Odyssey library
+  target_include_directories(OdysseyLib PUBLIC
+    ${SDL2_INCLUDE_DIR}
+    ${SDL2_IMAGE_INCLUDE_DIR}
+    ${SDL2_TTF_INCLUDE_DIR}
+    ${SDL2_MIXER_INCLUDE_DIR}
+  )
+  
+  # set libraries to link with for the Odyssey library
+  target_link_libraries(OdysseyLib PUBLIC
+    ${SDL2_LIBRARIES}
+    ${SDL2_IMAGE_LIBRARIES}
+    ${SDL2_TTF_LIBRARIES}
+    ${SDL2_MIXER_LIBRARIES}
+    Xinput  # Added linkage to Xinput library
+  )
+
+  # add post build commands for the Odyssey library
+  add_custom_command(TARGET OdysseyLib POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E copy "${SDL2_LIBRARY_DLL}" "$<TARGET_FILE_DIR:OdysseyLib>"
+  )
+  add_custom_command(TARGET OdysseyLib POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E copy "${SDL2_IMAGE_LIBRARY_DLL}" "$<TARGET_FILE_DIR:OdysseyLib>"
+  )
+  add_custom_command(TARGET OdysseyLib POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E copy "${SDL2_TTF_LIBRARY_DLL}" "$<TARGET_FILE_DIR:OdysseyLib>"
+  )
+  add_custom_command(TARGET OdysseyLib POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E copy "${SDL2_MIXER_LIBRARY_DLL}" "$<TARGET_FILE_DIR:OdysseyLib>"
+  )
 
 else()
   FetchContent_Declare(
@@ -355,7 +339,7 @@ else()
     ${sdl2_SOURCE_DIR}/include
     ${sdl2_image_SOURCE_DIR}/include
     ${sdl2_ttf_SOURCE_DIR}
-	${sdl2_mixer_SOURCE_DIR}
+    ${sdl2_mixer_SOURCE_DIR}
   )
   target_link_libraries(OdysseyLib PUBLIC 
     SDL2::SDL2main SDL2::SDL2 SDL2_image::SDL2_image SDL2_ttf::SDL2_ttf SDL2_mixer::SDL2_mixer
@@ -374,28 +358,27 @@ add_executable(Game
     Testing/src/CardRenderPackage.h
     Testing/src/Tichu.cpp
     Testing/src/Tichu.h
-    Testing/src/ButtonManagerComponent.cpp
+    Testing/src/EventData.h
     Testing/src/ButtonManagerComponent.h
-    Testing/src/Scenes/TichuScene.cpp
+    Testing/src/ButtonManagerComponent.cpp
     Testing/src/Scenes/TichuScene.h
-    Testing/src/Components/CardComponent.cpp
-    Testing/src/Components/CardComponent.h
-    Testing/src/Components/PlayerComponent.cpp
-    Testing/src/Components/PlayerComponent.h
+    Testing/src/Scenes/TichuScene.cpp
     Testing/src/Helpers/MCTS.h
     Testing/src/Helpers/MCTS.cpp
-    Testing/src/Components/Players/HumanPlayer.cpp
-    Testing/src/Components/Players/HumanPlayer.h
-    Testing/src/Components/Players/AIPlayer.cpp
+    Testing/src/Components/PlayerComponent.h
+    Testing/src/Components/PlayerComponent.cpp
+    Testing/src/Components/CardComponent.h
+    Testing/src/Components/CardComponent.cpp
     Testing/src/Components/Players/AIPlayer.h
-    Testing/src/Components/Players/AIPlayer_MCTS.cpp
+    Testing/src/Components/Players/AIPlayer.cpp
     Testing/src/Components/Players/AIPlayer_MCTS.h
-    Testing/src/Commands/CardSelectCommand.cpp
-    Testing/src/Commands/CardSelectCommand.h
-    Testing/src/Commands/ButtonPressed.cpp
+    Testing/src/Components/Players/AIPlayer_MCTS.cpp
+    Testing/src/Components/Players/HumanPlayer.h
+    Testing/src/Components/Players/HumanPlayer.cpp
     Testing/src/Commands/ButtonPressed.h
-    Testing/src/EventData.h
-
+    Testing/src/Commands/ButtonPressed.cpp
+    Testing/src/Commands/CardSelectCommand.h
+    Testing/src/Commands/CardSelectCommand.cpp
   ${IMGUI_SOURCES}
 )
 
@@ -404,8 +387,6 @@ target_link_libraries(Game PRIVATE OdysseyLib ${IMGUI_LIBRARIES})
 target_include_directories(Game PRIVATE
   ${CMAKE_SOURCE_DIR}/Odyssey/
   ${CMAKE_SOURCE_DIR}/Testing/src
-  ${CMAKE_SOURCE_DIR}/Testing/src/Components
-  ${CMAKE_SOURCE_DIR}/Testing/src/Components/Players
   ${imgui_SOURCE_DIR}
   ${imgui_SOURCE_DIR}/backends
   ${glm_SOURCE_DIR}
@@ -418,25 +399,15 @@ set_target_properties(Game PROPERTIES
 )
 
 # Compile options for both targets
-if(MSVC)
-    target_compile_options(OdysseyLib PRIVATE /W4)
-    target_compile_options(Game PRIVATE /W4)
-else()
-    target_compile_options(OdysseyLib PRIVATE 
-        -Wall 
-        -Wextra 
-        -Wpedantic 
-        -Wno-volatile 
-        -Wno-unknown-pragmas
-    )
-    target_compile_options(Game PRIVATE 
-        -Wall 
-        -Wextra 
-        -Wpedantic 
-        -Wno-volatile 
-        -Wno-unknown-pragmas
-    )
-endif()
+target_compile_options(OdysseyLib PRIVATE
+  $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>
+  $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic -Werror>
+)
+
+target_compile_options(Game PRIVATE
+  $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>
+  $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic -Werror>
+)
 
 # EMSCRIPTEN-specific settings
 if(EMSCRIPTEN)
@@ -445,76 +416,36 @@ if(EMSCRIPTEN)
     # Note the correction in the placement of the quotation marks around the path for --preload-file
     set(EMSCRIPTEN_LINK_FLAGS "${EMSCRIPTEN_LINK_FLAGS} -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sUSE_SDL_MIXER=2 -g -sNO_DISABLE_EXCEPTION_CATCHING -sALLOW_MEMORY_GROWTH --preload-file ${CMAKE_SOURCE_DIR}/Data@/ -sSDL2_IMAGE_FORMATS=['tga','png']")
     
-    #Work around https://github.com/emscripten-core/emscripten/issues/11513
+    # Work around https://github.com/emscripten-core/emscripten/issues/11513
     set(EMSCRIPTEN_LINK_FLAGS "${EMSCRIPTEN_LINK_FLAGS} -fno-stack-protector")
     
-    #Use the Emscripten toolchain
+    # Use the Emscripten toolchain
     set(CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/EmscriptenToolchain.cmake)
     
-    #Additional settings for the Odyssey library
+    # Additional settings for the Odyssey library
     set_target_properties(OdysseyLib PROPERTIES
         COMPILE_FLAGS "${EMSCRIPTEN_COMPILE_FLAGS}"
         LINK_FLAGS "${EMSCRIPTEN_LINK_FLAGS}"
     )
     
-    #Additional settings for the Game executable
+    # Additional settings for the Game executable
     set_target_properties(Game PROPERTIES
         COMPILE_FLAGS "${EMSCRIPTEN_COMPILE_FLAGS}"
         LINK_FLAGS "${EMSCRIPTEN_LINK_FLAGS}"
     )
     
-    #Have Emscripten generate an HTML page for the Game executable
+    # Have Emscripten generate an HTML page for the Game executable
     set(CMAKE_EXECUTABLE_SUFFIX ".html")
 else()
-    #Set the startup project for Visual Studio
-
+    # Set the startup project for Visual Studio
     set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Game)
-    #Add post build commands for the Game executable
-
+    # Add post build commands for the Game executable
     get_target_property(GAME_OUTPUT_DIR Game RUNTIME_OUTPUT_DIRECTORY)
     if(NOT GAME_OUTPUT_DIR)
         set(GAME_OUTPUT_DIR ${CMAKE_BINARY_DIR})
     endif()
-
     message(STATUS "Game target output directory: ${GAME_OUTPUT_DIR}")
-
     add_custom_command(TARGET Game POST_BUILD
         COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/Data" "${GAME_OUTPUT_DIR}/Data"
     )
-
 endif()
-
-# Add this near the other compiler options:
-if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-    target_compile_options(OdysseyLib PRIVATE -Wno-volatile)
-    target_compile_options(Game PRIVATE -Wno-volatile)
-endif()
-
-# Add near the top of the file, after project(Odyssey)
-if(WIN32)
-    if(MINGW)
-        # Add XInput and other required Windows libraries for MinGW
-        set(PLATFORM_LIBS -lxinput -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer)
-    endif()
-endif()
-
-# Then modify the target_link_libraries sections to include these libraries:
-
-# For OdysseyLib
-target_link_libraries(OdysseyLib PUBLIC
-    ${SDL2_LIBRARIES}
-    ${SDL2_IMAGE_LIBRARIES}
-    ${SDL2_TTF_LIBRARIES}
-    ${SDL2_MIXER_LIBRARIES}
-    ${PLATFORM_LIBS}
-)
-
-# For Game
-target_link_libraries(Game PRIVATE 
-    OdysseyLib 
-    ${IMGUI_LIBRARIES}
-    ${PLATFORM_LIBS}
-)
-
-
-

@@ -14,7 +14,7 @@
 
 #include "Components/Players/AIPlayer.h"
 #include "Components/Players/HumanPlayer.h"
-#include <AIPlayer_MCTS.h>
+#include "Components/Players/AIPlayer_MCTS.h"
 #include "Helpers/MCTS.h"
 
 void TichuScene::Initialize()
@@ -952,22 +952,22 @@ void TichuScene::FillGameState(MCTS::GameState &state) const
 	//Fill in the team scores
 	if (state.currentPlayerIndex == 1 || state.currentPlayerIndex == 3)
 	{
-		state.teamScore = m_Team0Points;
-		state.opponentTeamScore = m_Team1Points;
+		state.teamScore = static_cast<int16_t>(m_Team0Points);
+		state.opponentTeamScore = static_cast<int16_t>(m_Team1Points);
 	}
 	else
 	{
-		state.teamScore = m_Team1Points;
-		state.opponentTeamScore = m_Team0Points;
+		state.teamScore = static_cast<int16_t>(m_Team1Points);
+		state.opponentTeamScore = static_cast<int16_t>(m_Team0Points);
 	}
 
 	//Fill in the scores of the cards that each player has collected
 	for (int i = 0; i < 4; ++i)
 	{
-		state.scores[i] = m_pPlayers[i]->GetPoints();
+		state.scores[i] = static_cast<int8_t>(m_pPlayers[i]->GetPoints());
 	}
 
-	state.passesInARow = m_pTichuGame->GetPassesInARow();
+	state.passesInARow = static_cast<int8_t>(m_pTichuGame->GetPassesInARow());
 	state.currentCombination = m_pTichuGame->GetCurrentStrongestCombination();
 	state.lastPlayerIndex = m_PlayerWhoThrewLastCombinationIndex;
 	state.pTichuGame = m_pTichuGame.get();

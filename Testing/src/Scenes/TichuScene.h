@@ -25,7 +25,7 @@ class ButtonManagerComponent;
 class CardComponent;
 namespace MCTS
 {
-	class GameState;
+	struct GameState;
 }
 
 class TichuScene final : public ody::GameScene, public ody::IObserver

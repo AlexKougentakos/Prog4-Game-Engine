@@ -2,9 +2,9 @@
 #include "ButtonManagerComponent.h"
 #include "ServiceLocator.h"
 #include "GameObject.h"
-#include "../ButtonManagerComponent.h"
+#include "Components/CardComponent.h"
 #include <Commands/CardSelectCommand.h>
-#include "../Commands/ButtonPressed.h"
+#include "Commands/ButtonPressed.h"
 #include "InputManager2.h"
 #include "Tichu.h"
 

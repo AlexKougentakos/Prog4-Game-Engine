@@ -1,13 +1,7 @@
 ﻿#pragma once
 #include "Component.h"
 
-enum CardColour : uint8_t
-{
-	CC_Blue = 0,
-	CC_Green = 1,
-	CC_Red = 2,
-	CC_Black = 3
-};
+enum CardColour : uint8_t;
 
 class CardComponent final : public ody::Component
 {

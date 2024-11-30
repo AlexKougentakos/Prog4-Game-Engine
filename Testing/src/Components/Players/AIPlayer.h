@@ -1,6 +1,6 @@
 #pragma once    
 
-#include "PlayerComponent.h"
+#include "Components/PlayerComponent.h"
 
 class Button;
 class ButtonManagerComponent;

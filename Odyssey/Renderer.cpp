@@ -64,7 +64,7 @@ void ody::Renderer::Render() const
 
 	SDL_RenderFlush(m_renderer);
 
-#ifndef NDEBUG  // This means "if not defined NDEBUG" (i.e., in debug mode)
+//#ifndef NDEBUG  // This means "if not defined NDEBUG" (i.e., in debug mode)
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
@@ -77,7 +77,7 @@ void ody::Renderer::Render() const
 
 	DebugDrawer::GetInstance().Render(m_renderer);
 	DebugDrawer::GetInstance().Clear();
-#endif
+//#endif
 	
 	SDL_RenderPresent(m_renderer);
 }

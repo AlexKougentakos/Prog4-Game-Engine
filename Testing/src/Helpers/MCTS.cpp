@@ -1,4 +1,7 @@
 #include "MCTS.h"
+
+#include <algorithm>
+#include <chrono>
 #include <cmath>
 #include <limits>
 #include <cstdlib>
@@ -67,10 +70,9 @@ Node* Node::AddChild(const GameState& childState, int childPlayer)
 
 GameState SimulateGame(GameState state) 
 {
-    constexpr int MAX_MOVES = 100;
     int moveCount = 0;
     
-    while (!state.IsTerminal() && moveCount < MAX_MOVES) 
+    while (!state.IsTerminal()) 
     {
         std::vector<GameState> moves;
         state.GetPossibleGameStates(state, moves);
@@ -125,9 +127,9 @@ GameState SimulateGame(GameState state)
             DebugLogger::Log("Simulation at move %d\n", moveCount);
         }
 
-        if (moveCount >= MAX_MOVES - 1) {
+/*         if (moveCount >= MAX_MOVES - 1) {
             DebugLogger::Log("WARNING: Reached maximum move limit in simulation!\n");
-        }
+        } */
     }
     
     DebugLogger::Log("Simulation complete after %d moves\n", moveCount);
@@ -190,7 +192,7 @@ Node* TreePolicy(Node* node)
             }
         }
         
-        Node* nextNode = node->BestChild(1.414);
+        Node* nextNode = node->BestChild(2.1);
         if (!nextNode) {
             DebugLogger::Log("No best child found, treating as terminal\n");
             return node;
@@ -203,7 +205,7 @@ Node* TreePolicy(Node* node)
 }
 
 GameState MonteCarloTreeSearch(const GameState& rootState, int iterations, 
-    const ProgressCallback& progressCallback) 
+    const ProgressCallback& progressCallback)
 {
     DebugLogger::Log("\n=== Starting Monte Carlo Tree Search with %d iterations ===\n", iterations);
     Node root(rootState, rootState.GetCurrentPlayer());
@@ -211,16 +213,29 @@ GameState MonteCarloTreeSearch(const GameState& rootState, int iterations,
     MCTSProgress progress{};
     progress.currentIteration = 0;
 
-    for (int i = 0; i < iterations; ++i) 
+    std::vector<GameState> possibleMoves;
+    rootState.GetPossibleGameStates(rootState, possibleMoves);
+    
+    if (possibleMoves.size() == 1)
     {
+        //If there is only one possible move, we don't need to run the MCTS, we can just do it
+        return possibleMoves[0];
+    }
+
+    //int totalDifferentNodesVisited = 0;
+    for (int i = 0; i < iterations; ++i) 
+    {        
+        //std::cout << "\nIteration " << i + 1 << "/" << iterations << ":\n";
+
         DebugLogger::Log("\nIteration %d/%d:\n", i + 1, iterations);
         DebugLogger::Log("Selection phase - Finding node to expand...\n");
         Node* node = TreePolicy(&root);
         
         DebugLogger::Log("Simulation phase - Running random playout...\n");
         GameState finalState = SimulateGame(node->state);
+
         
-        double reward = finalState.GetReward(node->player);
+        double reward = finalState.GetReward(rootState.GetCurrentPlayer());
         DebugLogger::Log("Backpropagation phase - Reward: %.2f\n", reward);
         
         Backpropagate(node, reward);
@@ -258,6 +273,11 @@ GameState MonteCarloTreeSearch(const GameState& rootState, int iterations,
     if (!bestNode) {
         DebugLogger::Log("ERROR: No best child found!\n");
         return rootState;
+    }
+
+    for (const auto& finalNode : root.children)
+    {
+        std::cout << "Child node: " << finalNode->visitCount << " visits, " << std::fixed << std::setprecision(2) << finalNode->totalValue << " value\n";
     }
     
     DebugLogger::Log("=== MCTS Complete ===\n\n");
@@ -664,7 +684,7 @@ void GameState::GetPossibleGameStates(const GameState& currentState, std::vector
             }
 
             // Add points to the last player who played
-            newState.scores[newState.lastPlayerIndex] += points;
+            newState.scores[newState.lastPlayerIndex] += static_cast<int8_t>(points);
 
             // Clear the table and reset combination
             newState.cardsOnTable.clear();
@@ -672,7 +692,7 @@ void GameState::GetPossibleGameStates(const GameState& currentState, std::vector
             newState.passesInARow = 0;
 
             // Set current player to the last player who made a play
-            newState.currentPlayerIndex = newState.lastPlayerIndex;
+            newState.currentPlayerIndex = static_cast<int8_t>(newState.lastPlayerIndex);
             while (newState.playerHands[newState.currentPlayerIndex].empty()) 
             {
                 newState.currentPlayerIndex = (newState.currentPlayerIndex + 1) % 4;
@@ -691,22 +711,44 @@ void GameState::GetPossibleGameStates(const GameState& currentState, std::vector
     DebugLogger::Log("Total moves (including pass if allowed): %zu\n", moves.size());
 }
 
-
-
-double GameState::GetReward(int player) const
+double GameState::GetReward(int playerPerspectiveIndex) const
 {
-    //todo: rework this
-    // Reward is based on the team score difference
-    int team1Score = scores[0] + scores[2];
-    int team2Score = scores[1] + scores[3];
-    if ((player % 2 == 0 && team1Score > team2Score) || (player % 2 == 1 && team2Score > team1Score)) 
+    int playersOut{};
+    for (int i = 0; i < 4; i++)
     {
-        return 1.0;
-    } else if (team1Score == team2Score) 
-    {
-        return 0.5;
+        if (playerHands[i].empty())
+        {
+            playersOut++;
+        }
     }
-    return 0.0;
+
+    //We don't need to check for indecies, since this will always be called when the state is terminal
+    //So if it's terminal, and we know there are two players out, we know it's a 1-2 finish
+    //We just need to know for which team
+    bool ourTeam1_2 = false;
+    if (playersOut == 2)
+    {
+        if ((playerPerspectiveIndex == 0 || playerPerspectiveIndex == 2) && (lastPlayerIndex == 0 || lastPlayerIndex == 2))
+            ourTeam1_2 = true;
+        if ((playerPerspectiveIndex == 1 || playerPerspectiveIndex == 3) && (lastPlayerIndex == 1 || lastPlayerIndex == 3))
+            ourTeam1_2 = true;
+
+        if (ourTeam1_2)
+        {
+            return 2.0;
+        }
+        else
+        {
+            return -2.0;
+        }
+    }
+
+    //If it's not a 1-2 finish, we need to calculate the reward based on the score difference between teams
+    const float ourTeamScore = static_cast<float>(scores[playerPerspectiveIndex] + scores[(playerPerspectiveIndex + 2) % 4]);
+    const float otherTeamScore = static_cast<float>(scores[(playerPerspectiveIndex + 1) % 4] + scores[(playerPerspectiveIndex + 3) % 4]);
+
+    //We divide by 100.0f to normalize the score difference
+    return (ourTeamScore - otherTeamScore) / 100.0f;
 }
 
 bool GameState::IsTerminal() const 
@@ -749,7 +791,7 @@ bool GameState::IsTerminal() const
         }
     }
     
-    bool isTerminal = playersOut >= 3;
+    const bool isTerminal = playersOut >= 3;
     DebugLogger::Log("Game state is terminal: %s\n", isTerminal ? "true" : "false");
     DebugLogger::Log("==================================\n");
 

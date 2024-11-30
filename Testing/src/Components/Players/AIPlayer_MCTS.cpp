@@ -44,20 +44,21 @@ void AIPlayer_MCTS::StartMoveCalculation()
     m_IsCalculatingMove = true;
     m_DebugInfo = MCTSDebugInfo{}; // Reset debug info
     m_DebugInfo.isThinking = true;
-    m_DebugInfo.totalIterations = 1000; // Update this based on your parameters
+    m_DebugInfo.totalIterations = 100000; // Update this based on your parameters
     
     // Launch the move calculation in a separate thread
     m_MoveFuture = std::async(std::launch::async, [this]() 
     {
         MCTS::GameState rootState{};
-        rootState.currentPlayerIndex = m_PlayerID;
+        rootState.currentPlayerIndex = static_cast<int8_t>(m_PlayerID);
         m_pScene->FillGameState(rootState);
         
         // Enable debug logging
         MCTS::DebugLogger::Enable(false);
         
-        auto bestState = MCTS::MonteCarloTreeSearch(rootState, 1000, 
-            [this](const MCTS::MCTSProgress& progress) {
+        auto bestState = MCTS::MonteCarloTreeSearch(rootState, 20000, 
+            [this](const MCTS::MCTSProgress& progress) 
+            {
                 // Update debug info
                 m_DebugInfo.currentIteration = progress.currentIteration;
                 m_DebugInfo.bestMove = progress.bestMove;
@@ -165,8 +166,8 @@ void AIPlayer_MCTS::OnGuiMCTS()
                 combo.power);
         }
 
-        static int iterations = 1000;
-        ImGui::SliderInt("Iterations", &iterations, 100, 5000);
+        static int iterations = 200000;
+        ImGui::SliderInt("Iterations", &iterations, static_cast<int>(iterations / 10), static_cast<int>(iterations * 10));
         if (ImGui::Button("Force Calc"))
         {
             if (!m_IsCalculatingMove)

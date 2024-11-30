@@ -1,6 +1,8 @@
 #include "AIPlayer.h"
 #include "Tichu.h"
 #include "Scenes/TichuScene.h"
+#include <algorithm>
+#include <random>
 
 AIPlayer::AIPlayer(const int playerID, const CardRenderPackage &renderPackage) :
 	PlayerComponent(playerID, renderPackage)
@@ -94,7 +96,10 @@ void AIPlayer::MakeRandomMove()
         for (size_t i = 0; i < m_Cards.size(); ++i)
             indices.push_back(i);
         
-        std::random_shuffle(indices.begin(), indices.end());
+        std::random_device rd;
+        std::mt19937 gen(rd());
+
+        std::shuffle(indices.begin(), indices.end(), gen);
 
         for (int i = 0; i < numCards; ++i)
         {

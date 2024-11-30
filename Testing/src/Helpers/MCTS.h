@@ -1,10 +1,11 @@
 #pragma once
 
+#include <array>
 #include <vector>
 #include <memory>
 #include <functional>
 
-#include "PlayerComponent.h" // For the card structs
+#include "Components/PlayerComponent.h" // For the card structs
 #include "Tichu.h"
 namespace MCTS
 {
@@ -49,7 +50,8 @@ struct GameState
 
     bool IsTerminal() const;
 
-    double GetReward(int player) const;
+    //The playerPerspectiveIndex is the index of the player that we want to get the reward for. We need to know this in order account for the score difference between teams
+    double GetReward(int playerPerspectiveIndex) const;
 
     void GetPossibleGameStates(const GameState& currentState, std::vector<GameState>& moves) const;
 
@@ -64,9 +66,11 @@ struct GameState
                currentPlayerIndex == other.currentPlayerIndex;
     }
 
-    int GetActivePlayers() const {
+    int GetActivePlayers() const 
+    {
         int count = 0;
-        for (const auto& hand : playerHands) {
+        for (const auto& hand : playerHands) 
+        {
             if (!hand.empty()) count++;
         }
         return count;
