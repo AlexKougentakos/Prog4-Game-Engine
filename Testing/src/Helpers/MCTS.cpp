@@ -1,289 +1,299 @@
 #include "MCTS.h"
 
 #include <algorithm>
-#include <chrono>
 #include <cmath>
 #include <limits>
 #include <cstdlib>
-#include <iostream>
 #include <set>
-#include <iomanip>
 #include <unordered_map>
-#include "Tichu.h"
+#include <atomic>
+#include <thread>
 
+namespace std
+{
+    template <>
+    struct hash<Card>
+    {
+        std::size_t operator()(const Card& card) const noexcept
+        {
+            std::size_t h1 = std::hash<uint8_t>{}(card.colour);
+            std::size_t h2 = std::hash<uint8_t>{}(card.power);
+            return h1 ^ (h2 << 1); // Combine hashes
+        }
+    };
+}
 
+namespace std
+{
+    template <>
+    struct hash<Combination>
+    {
+        std::size_t operator()(const Combination& combo) const noexcept
+        {
+            std::size_t h1 = std::hash<int>{}(static_cast<int>(combo.combinationType));
+            std::size_t h2 = std::hash<uint8_t>{}(combo.power);
+            return h1 ^ (h2 << 1); // Combine hashes
+        }
+    };
+}
+
+namespace std
+{
+    template <>
+    struct hash<MCTS::GameState>
+    {
+        std::size_t operator()(const MCTS::GameState& state) const noexcept
+        {
+            std::size_t seed = 0;
+            
+            // Hash playerHands
+            for (const auto& hand : state.playerHands)
+            {
+                for (const auto& card : hand)
+                {
+                    seed ^= std::hash<Card>{}(card) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+                }
+            }
+            
+            // Hash scores
+            for (const auto& score : state.scores)
+            {
+                seed ^= std::hash<int8_t>{}(score) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+            }
+            
+            // Hash currentPlayerIndex
+            seed ^= std::hash<uint8_t>{}(state.currentPlayerIndex) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+            
+            // Hash currentCombination
+            seed ^= std::hash<Combination>{}(state.currentCombination) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+            
+            // Hash passesInARow
+            seed ^= std::hash<uint8_t>{}(state.passesInARow) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+            
+            // Hash lastPlayerIndex
+            seed ^= std::hash<int>{}(state.lastPlayerIndex) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+            
+            // Optionally hash tichuCalled and grandTichuCalled arrays
+            for (bool called : state.tichuCalled)
+            {
+                seed ^= std::hash<bool>{}(called) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+            }
+            for (bool called : state.grandTichuCalled)
+            {
+                seed ^= std::hash<bool>{}(called) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+            }
+            
+            // Hash cardsOnTable
+            for (const auto& card : state.cardsOnTable)
+            {
+                seed ^= std::hash<Card>{}(card) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+            }
+            
+            // Note: We are not hashing pointers like pTichuGame.
+            // If needed, you can include teamScore and opponentTeamScore.
+
+            return seed;
+        }
+    };
+}
 
 namespace MCTS
 {
-    bool DebugLogger::s_Enabled = false;
-
-
-std::string CardToString(const Card& card) 
-{
-    std::string result = GetCardColourString(card.colour);
-    if (card.colour <= CC_Red) 
-    { // Normal cards
+    std::string CardToString(const Card& card) 
+    {
+        std::string result = GetCardColourString(card.colour);
+        if (card.colour <= CC_Red) 
+        { // Normal cards
             result += "-" + std::to_string(static_cast<int>(card.power));
         }
         return result;
     }
 
-Node::Node(const GameState& state, int player, Node* parent)
-: state(state), player(player), visitCount(0), totalValue(0.0), parent(parent) {}
+    Node::Node(const GameState& state, int player, Node* parent)
+        : state(state), player(player), visitCount(0), totalValue(0.0), parent(parent) {}
 
-bool Node::IsFullyExpanded() const 
-{
-    std::vector<GameState> moves;
-    state.GetPossibleGameStates(state, moves);
-
-    return children.size() == moves.size();
-}
-
-bool Node::IsLeaf() const 
-{
-    return children.empty();
-}
-
-Node* Node::BestChild(double explorationWeight) const 
-{
-    Node* bestNode = nullptr;
-    double bestValue = -std::numeric_limits<double>::infinity();
-
-    for (const auto& child : children) 
-    {
-        double ucbValue = (child->totalValue / (child->visitCount + 1e-6)) +
-                          explorationWeight * std::sqrt(std::log(visitCount + 1) / (child->visitCount + 1e-6));
-        if (ucbValue > bestValue) 
-        {
-            bestValue = ucbValue;
-            bestNode = child.get();
-        }
-    }
-    return bestNode;
-}
-
-Node* Node::AddChild(const GameState& childState, int childPlayer) 
-{
-    children.push_back(std::make_unique<Node>(childState, childPlayer, this));
-    return children.back().get();
-}
-
-GameState SimulateGame(GameState state) 
-{
-    int moveCount = 0;
-    
-    while (!state.IsTerminal()) 
+    bool Node::IsFullyExpanded() 
     {
         std::vector<GameState> moves;
         state.GetPossibleGameStates(state, moves);
-        
-        if (moves.empty()) 
-        {
-            DebugLogger::Log("WARNING: No possible moves in simulation!\n");
-            break;
-        }
 
-        // Debug current state
-        DebugLogger::Log("Current player: %d\n", state.currentPlayerIndex);
-        DebugLogger::Log("Available moves: %zu\n", moves.size());
-        
-        // Log current player's hand
-        DebugLogger::Log("Current player's hand: ");
-        for (const auto& card : state.playerHands[state.currentPlayerIndex]) 
-        {
-            DebugLogger::Log("%s, ", CardToString(card).c_str());
-        }
-        DebugLogger::Log("\n");
-        
-        // Select and apply random move
-        int moveIndex = rand() % moves.size();
-        
-        // Log the selected move
-        DebugLogger::Log("Selected move %d: ", moveIndex);
-        const auto& selectedMove = moves[moveIndex];
-        // Find the cards that were played by comparing hands
-        std::vector<Card> playedCards;
-        for (const auto& card : state.playerHands[state.currentPlayerIndex]) {
-            if (std::find_if(selectedMove.playerHands[state.currentPlayerIndex].begin(), 
-                           selectedMove.playerHands[state.currentPlayerIndex].end(),
-                           [&card](const Card& c) { return c.power == card.power && c.colour == card.colour; }) 
-                == selectedMove.playerHands[state.currentPlayerIndex].end()) {
-                playedCards.push_back(card);
-            }
-        }
-        if (playedCards.empty()) {
-            DebugLogger::Log("PASS\n");
-        } else {
-            for (const auto& card : playedCards) {
-                DebugLogger::Log("%s, ", CardToString(card).c_str());
-            }
-            DebugLogger::Log("\n");
-        }
-        
-        state = moves[moveIndex];
-        moveCount++;
-        
-        if (moveCount % 10 == 0) {
-            DebugLogger::Log("Simulation at move %d\n", moveCount);
-        }
-
-/*         if (moveCount >= MAX_MOVES - 1) {
-            DebugLogger::Log("WARNING: Reached maximum move limit in simulation!\n");
-        } */
+        return children.size() == moves.size();
     }
-    
-    DebugLogger::Log("Simulation complete after %d moves\n", moveCount);
-    if (state.IsTerminal()) {
-        DebugLogger::Log("Reached terminal state naturally\n");
-    }
-    return state;
-}
 
-void Backpropagate(Node* node, double reward) 
-{
-    int depth = 0;
-    while (node) 
+    bool Node::IsLeaf() 
     {
-
-        node->visitCount++;
-        node->totalValue += reward;
-        reward = 1 - reward;
-        node = node->parent;
-        depth++;
+        return children.empty();
     }
 
-    DebugLogger::Log("Backpropagated through %d nodes\n", depth);
-}
-
-Node* TreePolicy(Node* node) 
-{
-    int depth = 0;
-    while (!node->state.IsTerminal()) 
+    Node* Node::BestChild(double explorationWeight) 
     {
-        DebugLogger::Log("Tree policy at depth %d\n", depth++);
-        
-        if (!node->IsFullyExpanded()) 
+        Node* bestNode = nullptr;
+        double bestValue = -std::numeric_limits<double>::infinity();
+
+        for (const auto& child : children) 
         {
-            std::vector<GameState> possibleMoves{};
-            node->state.GetPossibleGameStates(node->state, possibleMoves);
-            
-            if (possibleMoves.empty()) {
-                DebugLogger::Log("No possible moves, treating as terminal\n");
-                return node;
-            }
-            
-            // Check for already expanded states
-            for (const auto& move : possibleMoves) 
+            double ucbValue = (child->totalValue / (child->visitCount + 1e-6)) +
+                              explorationWeight * std::sqrt(std::log(visitCount + 1) / (child->visitCount + 1e-6));
+            if (ucbValue > bestValue) 
             {
-                bool alreadyExpanded = false;
-                for (const auto& child : node->children) 
+                bestValue = ucbValue;
+                bestNode = child.get();
+            }
+        }
+        return bestNode;
+    }
+
+    Node* Node::AddChild(const GameState& childState, int childPlayer) 
+    {
+        children.push_back(std::make_unique<Node>(childState, childPlayer, this));
+        return children.back().get();
+    }
+
+    GameState SimulateGame(GameState state) 
+    {
+        while (!state.IsTerminal()) 
+        {
+            std::vector<GameState> moves;
+            state.GetPossibleGameStates(state, moves);
+
+            if (moves.empty()) 
+            {
+                break;
+            }
+
+            // Select and apply random move
+            int moveIndex = rand() % moves.size();
+            state = moves[moveIndex];
+        }
+        return state;
+    }
+
+    void Backpropagate(Node* node, double reward) 
+    {
+        while (node) 
+        {
+            node->visitCount++;
+            node->totalValue += reward;
+            reward = 1 - reward;
+            node = node->parent;
+        }
+    }
+
+    Node* TreePolicy(Node* node) 
+    {
+        while (!node->state.IsTerminal()) 
+        {
+            if (!node->IsFullyExpanded()) 
+            {
+                std::vector<GameState> possibleMoves{};
+                node->state.GetPossibleGameStates(node->state, possibleMoves);
+
+                if (possibleMoves.empty()) {
+                    return node;
+                }
+
+                // Check for already expanded states
+                for (const auto& move : possibleMoves) 
                 {
-                    if (child->state == move) 
+                    bool alreadyExpanded = false;
+                    for (const auto& child : node->children) 
                     {
-                        alreadyExpanded = true;
-                        break;
+                        if (child->state == move) 
+                        {
+                            alreadyExpanded = true;
+                            break;
+                        }
+                    }
+                    if (!alreadyExpanded) 
+                    {
+                        return node->AddChild(move, (node->player + 1) % 4); // Use modulo 4 for player rotation
                     }
                 }
-                if (!alreadyExpanded) 
-                {
-                    DebugLogger::Log("Adding new child node\n");
-                    return node->AddChild(move, (node->player + 1) % 4); // Use modulo 4 for player rotation
-                }
             }
+
+            Node* nextNode = node->BestChild(2.1);
+            if (!nextNode) {
+                return node;
+            }
+            node = nextNode;
         }
-        
-        Node* nextNode = node->BestChild(2.1);
-        if (!nextNode) {
-            DebugLogger::Log("No best child found, treating as terminal\n");
-            return node;
-        }
-        node = nextNode;
+        return node;
     }
+
     
-    DebugLogger::Log("Reached terminal state or error condition\n");
-    return node;
-}
 
-GameState MonteCarloTreeSearch(const GameState& rootState, int iterations, 
-    const ProgressCallback& progressCallback)
-{
-    DebugLogger::Log("\n=== Starting Monte Carlo Tree Search with %d iterations ===\n", iterations);
-    Node root(rootState, rootState.GetCurrentPlayer());
-
-    MCTSProgress progress{};
-    progress.currentIteration = 0;
-
-    std::vector<GameState> possibleMoves;
-    rootState.GetPossibleGameStates(rootState, possibleMoves);
-    
-    if (possibleMoves.size() == 1)
+    GameState MonteCarloTreeSearch(const GameState& rootState, int iterations, 
+        [[maybe_unused]]const ProgressCallback& progressCallback)
     {
-        //If there is only one possible move, we don't need to run the MCTS, we can just do it
-        return possibleMoves[0];
-    }
+        int numThreads = std::min(static_cast<int>(std::thread::hardware_concurrency()), iterations);
+        if (numThreads == 0) numThreads = 4; // Default to 4 threads if unable to detect
 
-    //int totalDifferentNodesVisited = 0;
-    for (int i = 0; i < iterations; ++i) 
-    {        
-        //std::cout << "\nIteration " << i + 1 << "/" << iterations << ":\n";
-
-        DebugLogger::Log("\nIteration %d/%d:\n", i + 1, iterations);
-        DebugLogger::Log("Selection phase - Finding node to expand...\n");
-        Node* node = TreePolicy(&root);
+        //numThreads = 1;
         
-        DebugLogger::Log("Simulation phase - Running random playout...\n");
-        GameState finalState = SimulateGame(node->state);
+        int iterationsPerThread = iterations / numThreads;
+        int remainingIterations = iterations % numThreads;
 
-        
-        double reward = finalState.GetReward(rootState.GetCurrentPlayer());
-        DebugLogger::Log("Backpropagation phase - Reward: %.2f\n", reward);
-        
-        Backpropagate(node, reward);
+        std::vector<std::thread> threads;
+        std::vector<std::unique_ptr<Node>> rootNodes(numThreads);
 
-        // Update progress
-        progress.currentIteration = i + 1;
-        Node* bestChild = root.BestChild(0.0);
-        if (bestChild)
+        // For progress tracking
+        std::atomic<int> totalIterations{0};
+
+        for (int t = 0; t < numThreads; ++t)
         {
-            // Calculate the cards that would be played
-            auto currentCards = rootState.playerHands[rootState.currentPlayerIndex];
-            auto bestPlay = bestChild->state.playerHands[rootState.currentPlayerIndex];
-            progress.bestMove.clear();
-            
-            for (const auto& card : currentCards)
+            int iterationsForThisThread = iterationsPerThread + (t < remainingIterations ? 1 : 0);
+
+            rootNodes[t] = std::make_unique<Node>(rootState, rootState.GetCurrentPlayer());
+
+            threads.emplace_back([&, t, iterationsForThisThread]()
             {
-                if (std::find(bestPlay.begin(), bestPlay.end(), card) == bestPlay.end())
+                Node* root = rootNodes[t].get();
+                for (int i = 0; i < iterationsForThisThread; ++i)
                 {
-                    progress.bestMove.push_back(card);
+                    Node* node = TreePolicy(root);
+                    GameState finalState = SimulateGame(node->state);
+                    double reward = finalState.GetReward(rootState.GetCurrentPlayer());
+                    Backpropagate(node, reward);
+
+                    ++totalIterations;
                 }
-            }
-            
-            progress.bestMoveScore = bestChild->totalValue / 
-                                   static_cast<double>(bestChild->visitCount);
-            progress.visitCount = bestChild->visitCount;
+            });
         }
 
-        if (progressCallback)
+        // Join threads
+        for (auto& thread : threads)
         {
-            progressCallback(progress);
+            thread.join();
         }
-    }
 
-    Node* bestNode = root.BestChild(0.0);
-    if (!bestNode) {
-        DebugLogger::Log("ERROR: No best child found!\n");
-        return rootState;
-    }
+        // Aggregate results
+        std::unordered_map<GameState, int> childVisitCounts;
+        std::unordered_map<GameState, double> childTotalValues;
 
-    for (const auto& finalNode : root.children)
-    {
-        std::cout << "Child node: " << finalNode->visitCount << " visits, " << std::fixed << std::setprecision(2) << finalNode->totalValue << " value\n";
-    }
-    
-    DebugLogger::Log("=== MCTS Complete ===\n\n");
-    return bestNode->state;
-}
+        for (const auto& rootPtr : rootNodes)
+        {
+            Node* root = rootPtr.get();
+            for (const auto& child : root->children)
+            {
+                childVisitCounts[child->state] += child->visitCount;
+                childTotalValues[child->state] += child->totalValue;
+            }
+        }
 
+        // Select the best move
+        GameState bestState;
+        int maxVisits = -1;
+        for (const auto& [state, visits] : childVisitCounts)
+        {
+            if (visits > maxVisits)
+            {
+                maxVisits = visits;
+                bestState = state;
+            }
+        }
+
+        return bestState;
+    }
 //--------------------------------
 // GameState implementation
 //--------------------------------
@@ -559,14 +569,8 @@ void GeneratePossiblePlays(const std::vector<Card>& hand, const Combination& cur
 
 void GameState::GetPossibleGameStates(const GameState& currentState, std::vector<GameState>& moves) const
 {
-    DebugLogger::Log("\nGenerating possible moves for player %d\n", currentState.currentPlayerIndex);
     
     const std::vector<Card>& hand = currentState.playerHands[currentState.currentPlayerIndex];
-    DebugLogger::Log("Player's hand: ");
-    for (const auto& card : hand) {
-        DebugLogger::Log("%s, ", CardToString(card).c_str());
-    }
-    DebugLogger::Log("\n");
 
     // Check if the player's hand is empty; if so, they cannot play and the game should handle this case appropriately
     if (hand.empty()) {
@@ -583,16 +587,7 @@ void GameState::GetPossibleGameStates(const GameState& currentState, std::vector
     // Generate possible plays based on the current combination
     std::vector<std::vector<Card>> possiblePlays{};
     GeneratePossiblePlays(hand, currentState.currentCombination, possiblePlays);
-    
-    DebugLogger::Log("Generated %zu possible plays:\n", possiblePlays.size());
-    for (size_t i = 0; i < possiblePlays.size(); ++i) {
-        DebugLogger::Log("Play %zu: ", i);
-        for (const auto& card : possiblePlays[i]) {
-            DebugLogger::Log("%s, ", CardToString(card).c_str());
-        }
-        DebugLogger::Log("\n");
-    }
-
+        
     // For each possible play
     for (auto& play : possiblePlays)
     {
@@ -632,7 +627,6 @@ void GameState::GetPossibleGameStates(const GameState& currentState, std::vector
         {
             // Player cannot make a move; in Tichu, this situation shouldn't occur as players should always be able to play something when leading
             // But in case it happens (e.g., due to game logic or special cards), we need to handle it appropriately
-            DebugLogger::Log("Player %d cannot make any valid plays when required to lead.\n", currentState.currentPlayerIndex);
             // Handle according to your game rules; perhaps the player must play their lowest card
             // For this example, we'll assume the player must play their lowest card
             GameState newState = currentState;
@@ -707,8 +701,6 @@ void GameState::GetPossibleGameStates(const GameState& currentState, std::vector
             moves.push_back(passState);
         }
     }
-
-    DebugLogger::Log("Total moves (including pass if allowed): %zu\n", moves.size());
 }
 
 double GameState::GetReward(int playerPerspectiveIndex) const
@@ -753,8 +745,6 @@ double GameState::GetReward(int playerPerspectiveIndex) const
 
 bool GameState::IsTerminal() const 
 {
-    DebugLogger::Log("==================================\n");
-    DebugLogger::Log("Checking if game state is terminal: \n\n");
     // Count how many players are out
     int playersOut = 0;
     int indexOfFirstPlayerOut = -1;
@@ -768,10 +758,6 @@ bool GameState::IsTerminal() const
             if (indexOfFirstPlayerOut == -1)
                 indexOfFirstPlayerOut = i;
 
-            DebugLogger::Log("First player out: %d\n", indexOfFirstPlayerOut);
-            DebugLogger::Log("Player %d is out\n", i);
-            DebugLogger::Log("Players out: %d\n", playersOut);
-
             //Check if it's a 1-2 finish, meaning two players from the same team are out one after the other
             if (playersOut == 2)
             {
@@ -780,26 +766,13 @@ bool GameState::IsTerminal() const
                 if ((indexOfFirstPlayerOut == 1 || indexOfFirstPlayerOut == 3) && (i == 1 || i == 3))
                     is1_2Finish = true;
 
-                if (is1_2Finish)
-                {
-                    DebugLogger::Log("1-2 finish detected\n");
-                    DebugLogger::Log("Game state is terminal: true\n");
-                    DebugLogger::Log("==================================\n");
-                    return true;
-                }
+                if (is1_2Finish) return true;
             }
         }
     }
     
     const bool isTerminal = playersOut >= 3;
-    DebugLogger::Log("Game state is terminal: %s\n", isTerminal ? "true" : "false");
-    DebugLogger::Log("==================================\n");
-
-    if (isTerminal)
-    {
-        DebugLogger::Log("Game state is terminal: true\n");
-        DebugLogger::Log("==================================\n");
-    }
+        
     return isTerminal;
 }
 

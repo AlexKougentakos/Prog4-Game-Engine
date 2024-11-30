@@ -53,10 +53,7 @@ void AIPlayer_MCTS::StartMoveCalculation()
         rootState.currentPlayerIndex = static_cast<int8_t>(m_PlayerID);
         m_pScene->FillGameState(rootState);
         
-        // Enable debug logging
-        MCTS::DebugLogger::Enable(false);
-        
-        auto bestState = MCTS::MonteCarloTreeSearch(rootState, 20000, 
+        auto bestState = MCTS::MonteCarloTreeSearch(rootState, 60000, 
             [this](const MCTS::MCTSProgress& progress) 
             {
                 // Update debug info
