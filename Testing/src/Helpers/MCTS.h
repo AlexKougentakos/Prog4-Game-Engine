@@ -23,6 +23,7 @@ namespace MCTS
         uint8_t passesInARow = 0;                               // Number of passes in a row
         std::vector<Card> cardsOnTable{};                       // Cards currently on the table
         int lastPlayerIndex{-1};                                // Index of the last player who played cards
+        int firstPlayerOutIndex{-1};                            // Index of the last player who played cards
         Tichu* pTichuGame{};                                    // Pointer to the Tichu game instance
         
 
@@ -35,7 +36,10 @@ namespace MCTS
         bool IsTerminal() const;
 
         // The playerPerspectiveIndex is the index of the player that we want to get the reward for.
-        double GetReward(int playerPerspectiveIndex) const;
+        double GetReward(int playerPerspectiveIndex);
+
+        //Used to properly account for the edge cases during the end game when the points get counted
+        void DistributePoints();
 
         void GetPossibleGameStates(const GameState& currentState, std::vector<GameState>& moves) const;
 
@@ -86,7 +90,8 @@ namespace MCTS
     };
 
     // Add this struct to track MCTS progress
-    struct MCTSProgress {
+    struct MCTSProgress
+    {
         int currentIteration{0};
         std::vector<Card> bestMove{};
         double bestMoveScore{0.0};
@@ -123,6 +128,5 @@ namespace MCTS
     using ProgressCallback = std::function<void(const MCTSProgress&)>;
 
     // Modify the MonteCarloTreeSearch declaration
-    GameState MonteCarloTreeSearch(const GameState& rootState, int iterations, 
-        const ProgressCallback& progressCallback = nullptr);
+    GameState MonteCarloTreeSearch(const GameState& rootState, int iterations);
 }

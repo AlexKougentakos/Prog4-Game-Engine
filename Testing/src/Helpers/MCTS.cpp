@@ -2,11 +2,11 @@
 
 #include <algorithm>
 #include <cmath>
+#include <iostream>
 #include <limits>
-#include <cstdlib>
 #include <set>
 #include <unordered_map>
-#include <atomic>
+#include <random>
 #include <thread>
 
 namespace std
@@ -99,6 +99,20 @@ namespace std
 
 namespace MCTS
 {
+    int CountPointsOfCards(const std::vector<Card>& cards)
+    {
+        int points{};
+        for (const auto& card : cards)
+        {
+            if (card.power == 5) points += 5;
+            if (card.power == 10 || card.power == 13) points += 10;
+            if (card.colour == CC_Dragon) points += 25;
+            if (card.colour == CC_Phoenix) points -= 25;
+        }
+
+        return points;
+    }
+    
     std::string CardToString(const Card& card) 
     {
         std::string result = GetCardColourString(card.colour);
@@ -151,6 +165,10 @@ namespace MCTS
 
     GameState SimulateGame(GameState state) 
     {
+        // Initialize a random number generator with a non-deterministic seed
+        std::random_device rd{};
+        std::mt19937 gen(rd());
+
         while (!state.IsTerminal()) 
         {
             std::vector<GameState> moves;
@@ -161,13 +179,16 @@ namespace MCTS
                 break;
             }
 
-            // Select and apply random move
-            int moveIndex = rand() % moves.size();
+            // Create a distribution to select a valid index
+            std::uniform_int_distribution<> dis(0, static_cast<int>(moves.size()) - 1);
+            const int moveIndex = dis(gen); // Generate a random index
+
             state = moves[moveIndex];
         }
+
         return state;
     }
-
+    
     void Backpropagate(Node* node, double reward) 
     {
         while (node) 
@@ -188,7 +209,8 @@ namespace MCTS
                 std::vector<GameState> possibleMoves{};
                 node->state.GetPossibleGameStates(node->state, possibleMoves);
 
-                if (possibleMoves.empty()) {
+                if (possibleMoves.empty())
+                {
                     return node;
                 }
 
@@ -217,45 +239,49 @@ namespace MCTS
             }
             node = nextNode;
         }
+
+        [[maybe_unused]] int i{};
         return node;
     }
 
     
 
-    GameState MonteCarloTreeSearch(const GameState& rootState, int iterations, 
-        [[maybe_unused]]const ProgressCallback& progressCallback)
+    GameState MonteCarloTreeSearch(const GameState& rootState, int iterations)
     {
         int numThreads = std::min(static_cast<int>(std::thread::hardware_concurrency()), iterations);
         if (numThreads == 0) numThreads = 4; // Default to 4 threads if unable to detect
 
-        //numThreads = 1;
+#ifdef _DEBUG
+        numThreads = 1;
+#endif
         
-        int iterationsPerThread = iterations / numThreads;
-        int remainingIterations = iterations % numThreads;
+        const int iterationsPerThread = iterations / numThreads;
+        const int remainingIterations = iterations % numThreads;
 
-        std::vector<std::thread> threads;
+        std::vector<std::thread> threads{};
         std::vector<std::unique_ptr<Node>> rootNodes(numThreads);
 
-        // For progress tracking
-        std::atomic<int> totalIterations{0};
-
-        for (int t = 0; t < numThreads; ++t)
+        for (int threadIdx = 0; threadIdx < numThreads; ++threadIdx)
         {
-            int iterationsForThisThread = iterationsPerThread + (t < remainingIterations ? 1 : 0);
+            //Assign the remaining iterations to the first threads
+            //This works because remainingIterations is the remainder of the division, so it will always be smaller than the
+            //number of threads
+            const int iterationsForThisThread = iterationsPerThread + (threadIdx < remainingIterations ? 1 : 0);
 
-            rootNodes[t] = std::make_unique<Node>(rootState, rootState.GetCurrentPlayer());
+            //Create a new root node for each thread
+            rootNodes[threadIdx] = std::make_unique<Node>(rootState, rootState.GetCurrentPlayer());
 
-            threads.emplace_back([&, t, iterationsForThisThread]()
+            threads.emplace_back([&, threadIdx, iterationsForThisThread]()
             {
-                Node* root = rootNodes[t].get();
+                Node* root = rootNodes[threadIdx].get();
                 for (int i = 0; i < iterationsForThisThread; ++i)
                 {
+                    //Time this iteration
                     Node* node = TreePolicy(root);
                     GameState finalState = SimulateGame(node->state);
-                    double reward = finalState.GetReward(rootState.GetCurrentPlayer());
+                    finalState.DistributePoints();
+                    const double reward = finalState.GetReward(rootState.GetCurrentPlayer());
                     Backpropagate(node, reward);
-
-                    ++totalIterations;
                 }
             });
         }
@@ -267,8 +293,8 @@ namespace MCTS
         }
 
         // Aggregate results
-        std::unordered_map<GameState, int> childVisitCounts;
-        std::unordered_map<GameState, double> childTotalValues;
+        std::unordered_map<GameState, int> childVisitCounts{};
+        std::unordered_map<GameState, double> childTotalValues{};
 
         for (const auto& rootPtr : rootNodes)
         {
@@ -569,15 +595,23 @@ void GeneratePossiblePlays(const std::vector<Card>& hand, const Combination& cur
 
 void GameState::GetPossibleGameStates(const GameState& currentState, std::vector<GameState>& moves) const
 {
-    
     const std::vector<Card>& hand = currentState.playerHands[currentState.currentPlayerIndex];
 
-    // Check if the player's hand is empty; if so, they cannot play and the game should handle this case appropriately
-    if (hand.empty()) {
-        // Player has no cards left; advance to the next player
+    // If the player's hand is empty, they are out.
+    // If firstPlayerOutIndex is not yet set, set it now.
+    // (This might indicate the player went out in a previous turn and we are just now processing it.)
+    if (hand.empty())
+    {
         GameState newState = currentState;
+        if (newState.firstPlayerOutIndex == -1)
+        {
+            newState.firstPlayerOutIndex = newState.currentPlayerIndex;
+        }
+
+        // Player has no cards left; advance to the next player who still has cards
         newState.currentPlayerIndex = (newState.currentPlayerIndex + 1) % 4;
-        while (newState.playerHands[newState.currentPlayerIndex].empty()) {
+        while (newState.playerHands[newState.currentPlayerIndex].empty())
+        {
             newState.currentPlayerIndex = (newState.currentPlayerIndex + 1) % 4;
         }
         moves.push_back(newState);
@@ -587,7 +621,7 @@ void GameState::GetPossibleGameStates(const GameState& currentState, std::vector
     // Generate possible plays based on the current combination
     std::vector<std::vector<Card>> possiblePlays{};
     GeneratePossiblePlays(hand, currentState.currentCombination, possiblePlays);
-        
+
     // For each possible play
     for (auto& play : possiblePlays)
     {
@@ -597,6 +631,12 @@ void GameState::GetPossibleGameStates(const GameState& currentState, std::vector
         // Remove the played cards from the player's hand
         RemoveCardsFromHand(newState.playerHands[newState.currentPlayerIndex], play);
 
+        // If this player just went out (hand is now empty) and no one was out before, mark them as first out
+        if (newState.playerHands[newState.currentPlayerIndex].empty() && newState.firstPlayerOutIndex == -1)
+        {
+            newState.firstPlayerOutIndex = newState.currentPlayerIndex;
+        }
+
         // Update the current combination
         newState.currentCombination = newState.pTichuGame->CreateCombination(play);
 
@@ -605,9 +645,10 @@ void GameState::GetPossibleGameStates(const GameState& currentState, std::vector
         newState.lastPlayerIndex = newState.currentPlayerIndex;
         newState.passesInARow = 0;
 
-        // Move to next player
+        // Move to the next player who still has cards
         newState.currentPlayerIndex = (newState.currentPlayerIndex + 1) % 4;
-        while (newState.playerHands[newState.currentPlayerIndex].empty()) {
+        while (newState.playerHands[newState.currentPlayerIndex].empty())
+        {
             newState.currentPlayerIndex = (newState.currentPlayerIndex + 1) % 4;
         }
 
@@ -622,26 +663,32 @@ void GameState::GetPossibleGameStates(const GameState& currentState, std::vector
         // Table is empty; player cannot pass
         canPass = false;
 
-        // If the player has no valid plays, we need to handle this
+        // If the player has no valid plays
         if (possiblePlays.empty())
         {
-            // Player cannot make a move; in Tichu, this situation shouldn't occur as players should always be able to play something when leading
-            // But in case it happens (e.g., due to game logic or special cards), we need to handle it appropriately
-            // Handle according to your game rules; perhaps the player must play their lowest card
-            // For this example, we'll assume the player must play their lowest card
+            // Handle the scenario where player must play their lowest card
             GameState newState = currentState;
             std::vector<Card> lowestCard = { *std::min_element(hand.begin(), hand.end(), [](const Card& a, const Card& b) {
                 return a.power < b.power;
             }) };
+
             RemoveCardsFromHand(newState.playerHands[newState.currentPlayerIndex], lowestCard);
+
+            // If this player just went out
+            if (newState.playerHands[newState.currentPlayerIndex].empty() && newState.firstPlayerOutIndex == -1)
+            {
+                newState.firstPlayerOutIndex = newState.currentPlayerIndex;
+            }
+
             newState.currentCombination = newState.pTichuGame->CreateCombination(lowestCard);
             newState.cardsOnTable.insert(newState.cardsOnTable.end(), lowestCard.begin(), lowestCard.end());
             newState.lastPlayerIndex = newState.currentPlayerIndex;
             newState.passesInARow = 0;
 
-            // Move to next player
+            // Move to next player who still has cards
             newState.currentPlayerIndex = (newState.currentPlayerIndex + 1) % 4;
-            while (newState.playerHands[newState.currentPlayerIndex].empty()) {
+            while (newState.playerHands[newState.currentPlayerIndex].empty())
+            {
                 newState.currentPlayerIndex = (newState.currentPlayerIndex + 1) % 4;
             }
 
@@ -656,7 +703,8 @@ void GameState::GetPossibleGameStates(const GameState& currentState, std::vector
         GameState passState = currentState;
         passState.passesInARow++;
         passState.currentPlayerIndex = (passState.currentPlayerIndex + 1) % 4;
-        while (passState.playerHands[passState.currentPlayerIndex].empty()) {
+        while (passState.playerHands[passState.currentPlayerIndex].empty())
+        {
             passState.currentPlayerIndex = (passState.currentPlayerIndex + 1) % 4;
         }
 
@@ -668,17 +716,38 @@ void GameState::GetPossibleGameStates(const GameState& currentState, std::vector
             GameState newState = passState;
 
             // Calculate points from cards on the table
-            int points = 0;
-            for (const auto& card : newState.cardsOnTable)
-            {
-                if (card.power == 5) points += 5;
-                if (card.power == 10 || card.power == 13) points += 10;
-                if (card.colour == CC_Dragon) points += 25;
-                if (card.colour == CC_Phoenix) points -= 25; // Adjust if Phoenix has negative points
-            }
+            const int points = CountPointsOfCards(newState.cardsOnTable);
 
-            // Add points to the last player who played
-            newState.scores[newState.lastPlayerIndex] += static_cast<int8_t>(points);
+            // Add points according to the dragon card rule
+            if (cardsOnTable[cardsOnTable.size() - 1].colour == CC_Dragon)
+            {
+                int current = newState.lastPlayerIndex;
+                int opponent1, opponent2;
+                if (current == 0 || current == 2)
+                {
+                    opponent1 = 1;
+                    opponent2 = 3;
+                }
+                else
+                {
+                    opponent1 = 0;
+                    opponent2 = 2;
+                }
+
+                bool opp1InPlay = !newState.playerHands[opponent1].empty();
+                bool opp2InPlay = !newState.playerHands[opponent2].empty();
+
+                int chosenOpponent;
+                if (opp1InPlay) chosenOpponent = opponent1;
+                else if (opp2InPlay) chosenOpponent = opponent2;
+                else chosenOpponent = opponent1; // Fallback
+
+                newState.scores[chosenOpponent] += static_cast<int8_t>(points);
+            }
+            else
+            {
+                newState.scores[newState.lastPlayerIndex] += static_cast<int8_t>(points);
+            }
 
             // Clear the table and reset combination
             newState.cardsOnTable.clear();
@@ -692,7 +761,6 @@ void GameState::GetPossibleGameStates(const GameState& currentState, std::vector
                 newState.currentPlayerIndex = (newState.currentPlayerIndex + 1) % 4;
             }
 
-            // Add the new state to moves
             moves.push_back(newState);
         }
         else
@@ -703,18 +771,23 @@ void GameState::GetPossibleGameStates(const GameState& currentState, std::vector
     }
 }
 
-double GameState::GetReward(int playerPerspectiveIndex) const
+double GameState::GetReward(int playerPerspectiveIndex)
 {
     int playersOut{};
+    int indexOfPlayerNotOut{};
     for (int i = 0; i < 4; i++)
     {
         if (playerHands[i].empty())
         {
             playersOut++;
         }
+        else
+        {
+            indexOfPlayerNotOut = i;
+        }
     }
 
-    //We don't need to check for indecies, since this will always be called when the state is terminal
+    //We don't need to check for indices, since this will always be called when the state is terminal
     //So if it's terminal, and we know there are two players out, we know it's a 1-2 finish
     //We just need to know for which team
     bool ourTeam1_2 = false;
@@ -734,13 +807,47 @@ double GameState::GetReward(int playerPerspectiveIndex) const
             return -2.0;
         }
     }
-
+        
     //If it's not a 1-2 finish, we need to calculate the reward based on the score difference between teams
     const float ourTeamScore = static_cast<float>(scores[playerPerspectiveIndex] + scores[(playerPerspectiveIndex + 2) % 4]);
     const float otherTeamScore = static_cast<float>(scores[(playerPerspectiveIndex + 1) % 4] + scores[(playerPerspectiveIndex + 3) % 4]);
-
+        
     //We divide by 100.0f to normalize the score difference
     return (ourTeamScore - otherTeamScore) / 100.0f;
+}
+
+void GameState::DistributePoints()
+{
+        int playersOut{};
+        int indexOfPlayerNotOut{};
+        for (int i = 0; i < 4; i++)
+        {
+            if (playerHands[i].empty())
+            {
+                playersOut++;
+            }
+            else
+            {
+                indexOfPlayerNotOut = i;
+            }
+        }
+
+        //The points on the hand of the player who didn't go out go to the other team
+        const int scoreInFinalHand = CountPointsOfCards(playerHands[indexOfPlayerNotOut]);
+        scores[(indexOfPlayerNotOut + 1) % 4] += static_cast<int8_t>(scoreInFinalHand);
+
+        //The points on the table go to the player who threw the last card
+        const int pointsOnTable = CountPointsOfCards(cardsOnTable);
+
+        //Exception for the dragon card. This would be given to the player who is not out if it's the last card
+        if (cardsOnTable[cardsOnTable.size() - 1].colour == CC_Dragon)
+            scores[indexOfPlayerNotOut] += static_cast<int8_t>(pointsOnTable);
+        else scores[lastPlayerIndex] += static_cast<int8_t>(pointsOnTable);
+        
+        //The points collected by the player who didn't go out, go to the team of the player who went out first
+        //This has to be done after the points on the table are distributed, in case of the dragon being the last card
+        scores[firstPlayerOutIndex] += scores[indexOfPlayerNotOut];
+        scores[indexOfPlayerNotOut] = 0;
 }
 
 bool GameState::IsTerminal() const 

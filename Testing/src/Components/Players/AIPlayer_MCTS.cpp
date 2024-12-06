@@ -42,9 +42,6 @@ void AIPlayer_MCTS::Update()
 void AIPlayer_MCTS::StartMoveCalculation()
 {
     m_IsCalculatingMove = true;
-    m_DebugInfo = MCTSDebugInfo{}; // Reset debug info
-    m_DebugInfo.isThinking = true;
-    m_DebugInfo.totalIterations = 100000; // Update this based on your parameters
     
     // Launch the move calculation in a separate thread
     m_MoveFuture = std::async(std::launch::async, [this]() 
@@ -52,16 +49,13 @@ void AIPlayer_MCTS::StartMoveCalculation()
         MCTS::GameState rootState{};
         rootState.currentPlayerIndex = static_cast<int8_t>(m_PlayerID);
         m_pScene->FillGameState(rootState);
+
         
-        auto bestState = MCTS::MonteCarloTreeSearch(rootState, 60000, 
-            [this](const MCTS::MCTSProgress& progress) 
-            {
-                // Update debug info
-                m_DebugInfo.currentIteration = progress.currentIteration;
-                m_DebugInfo.bestMove = progress.bestMove;
-                m_DebugInfo.bestMoveScore = progress.bestMoveScore;
-                m_DebugInfo.visitCount = progress.visitCount;
-            });
+#ifdef _DEBUG
+        auto bestState = MCTS::MonteCarloTreeSearch(rootState, 500);
+#else
+        auto bestState = MCTS::MonteCarloTreeSearch(rootState, 60'000);
+#endif
 
         auto currentCards = rootState.playerHands[m_PlayerID];
         auto bestPlay = bestState.playerHands[m_PlayerID];
@@ -75,8 +69,6 @@ void AIPlayer_MCTS::StartMoveCalculation()
                 cardsToPlay.push_back(card);
             }
         }
-
-        m_DebugInfo.isThinking = false;
         return cardsToPlay;
     });
 }
@@ -114,66 +106,5 @@ void AIPlayer_MCTS::AskForDragon()
 
 void AIPlayer_MCTS::OnGuiMCTS()
 {
-    if (ImGui::CollapsingHeader("MCTS AI Debug", ImGuiTreeNodeFlags_DefaultOpen))
-    {
-        // Use smaller text to fit more information
-        ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 2));
-        
-        ImGui::Text("AI Status: %s", m_IsCalculatingMove ? "Thinking..." : "Idle");
-
-        if (m_IsCalculatingMove)
-        {
-            ImGui::Text("Analyzing moves...");
-            
-            if (!m_DebugInfo.bestMove.empty())
-            {
-                ImGui::Text("Best Move:");
-                ImGui::Indent(10);
-                for (const auto& card : m_DebugInfo.bestMove)
-                {
-                    ImGui::Text("%s (%d)", 
-                        MCTS::GetCardColourString(card.colour).c_str(), 
-                        static_cast<int>(card.power));
-                }
-                ImGui::Unindent(10);
-
-                ImGui::Text("Score: %.2f", m_DebugInfo.bestMoveScore);
-                ImGui::Text("Visits: %d", m_DebugInfo.visitCount);
-            }
-
-            if (m_DebugInfo.totalIterations > 0)
-            {
-                float progress = static_cast<float>(m_DebugInfo.currentIteration) / 
-                               static_cast<float>(m_DebugInfo.totalIterations);
-                ImGui::ProgressBar(progress, ImVec2(-1, 2), 
-                    std::to_string(m_DebugInfo.currentIteration).c_str());
-            }
-        }
-
-        if (m_pTichuGame)
-        {
-            ImGui::Separator();
-            ImGui::Text("Game State:");
-            ImGui::Text("Players Left: %d", m_pTichuGame->GetPlayersLeftWhenLastHandPlayed());
-            ImGui::Text("Passes: %d", m_pTichuGame->GetPassesInARow());
-            
-            const auto& combo = m_pTichuGame->GetCurrentStrongestCombination();
-            ImGui::Text("Current Combo: %d (%d)", 
-                static_cast<int>(combo.combinationType), 
-                combo.power);
-        }
-
-        static int iterations = 200000;
-        ImGui::SliderInt("Iterations", &iterations, static_cast<int>(iterations / 10), static_cast<int>(iterations * 10));
-        if (ImGui::Button("Force Calc"))
-        {
-            if (!m_IsCalculatingMove)
-            {
-                m_IsCalculatingMove = true;
-                StartMoveCalculation();
-            }
-        }
-        
-        ImGui::PopStyleVar();
-    }
+   
 }

@@ -611,7 +611,7 @@ void TichuScene::NewRound(bool isOneTwo)
 	m_PlayersAskedForGrandTichu = 0;
 	m_PlayersWhoTradedCards = 0;
 	m_GamePhase = GamePhase::GrandTichu;
-	DealInitialCards();
+	DealInitialCards(14); //todo: put this back to 8
 	UpdateLights();
 
 	m_CardsOnTop.clear();
