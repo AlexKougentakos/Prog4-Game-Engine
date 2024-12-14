@@ -440,7 +440,86 @@ void GenerateFullHousePlays(const std::vector<Card>& hand, const Combination& cu
     }
 }
 
-void GenerateStraightPlays(const std::vector<Card>& hand, const Combination& currentCombination, std::vector<std::vector<Card>>& possiblePlays)
+
+void GenerateFilledStraights(const std::vector<Card>& hand, const Combination& currentCombination, std::vector<std::vector<Card>>& possiblePlays)
+{
+    // 1) Separate the Phoenix card and collect normal cards
+    Card phoenixCard;           
+    bool hasPhoenix = false;
+
+    std::set<uint8_t> uniquePowers;
+    std::unordered_map<uint8_t, std::vector<Card>> cardGroups;
+
+    for (const Card& card : hand)
+    {
+        if (card.colour == CC_Phoenix && card.power == 0)
+        {
+            phoenixCard = card;
+            hasPhoenix = true;
+        }
+        else
+        {
+            uniquePowers.insert(card.power);
+            cardGroups[card.power].push_back(card);
+        }
+    }
+
+    // Convert to sorted vector of unique powers (excluding phoenix = 0)
+    std::vector<uint8_t> sortedPowers(uniquePowers.begin(), uniquePowers.end());
+    // sortedPowers is now in ascending order
+
+    // 2) Find sequences of at least 5 consecutive powers, accounting for Phoenix usage
+    for (size_t i = 0; i < sortedPowers.size(); ++i)
+    {
+        std::vector<Card> straight;
+        straight.push_back(cardGroups[sortedPowers[i]][0]);  // start with the first card for that power
+        uint8_t previousPower = sortedPowers[i];
+
+        bool usedPhoenix = false;
+
+        for (size_t j = i + 1; j < sortedPowers.size(); ++j)
+        {
+            uint8_t currentPower = sortedPowers[j];
+
+            // Case 1: Perfectly consecutive
+            if (currentPower == previousPower + 1)
+            {
+                straight.push_back(cardGroups[currentPower][0]);
+                previousPower = currentPower;
+            }
+            // Case 2: Use Phoenix to bridge exactly a gap of 1 power (e.g., from 5 to 7)
+            else if (hasPhoenix && !usedPhoenix && currentPower == previousPower + 2)
+            {
+                // Insert Phoenix at the front (user requirement)
+                // *No* power modification on the Phoenix card
+                straight.insert(straight.begin(), phoenixCard);
+
+                // Then push the actual card for currentPower
+                straight.push_back(cardGroups[currentPower][0]);
+                previousPower = currentPower;
+                usedPhoenix = true;
+            }
+            else
+            {
+                // If gap > 1 (bigger than a single skip) or Phoenix already used, we can’t continue this sequence
+                break;
+            }
+
+            // Once we have a new card in straight, check if >= 5
+            if (straight.size() >= 5)
+            {
+                const int powerToCompare = usedPhoenix ? straight[1].power : straight.front().power;
+                if (powerToCompare > currentCombination.power)
+                {
+                    possiblePlays.push_back(straight);
+                }
+            }
+        }
+    }
+}
+
+
+void GeneratePureStraights(const std::vector<Card>& hand, const Combination& currentCombination, std::vector<std::vector<Card>>& possiblePlays)
 {
     // Collect unique card powers
     std::set<uint8_t> uniquePowers;
@@ -480,6 +559,47 @@ void GenerateStraightPlays(const std::vector<Card>& hand, const Combination& cur
         }
     }
 }
+
+void GenerateStraightPlays(const std::vector<Card>& hand, const Combination& currentCombination, std::vector<std::vector<Card>>& possiblePlays)
+{
+    // Identify the Phoenix card if it exists
+    bool hasPhoenix = false;
+    Card phoenixCard{};
+    for (const Card& card : hand)
+    {
+        if (card.colour == CC_Phoenix)
+        {
+            hasPhoenix = true;
+            phoenixCard = card; // keep a copy of the phoenix
+            break;
+        }
+    }
+
+    std::vector<std::vector<Card>> pureStraights{};
+    GeneratePureStraights(hand, currentCombination, pureStraights);
+        
+    if (hasPhoenix)
+    {
+        GenerateFilledStraights(hand, currentCombination, possiblePlays);
+
+        //Add the phoenix to the beginning of each straight
+        for (const std::vector<Card>& straight : pureStraights)
+        {
+            //We can't go lower than a Mahjong
+            if (straight[0].power == 1 ) continue;
+            
+            std::vector<Card> moveWithPhoenix = straight;
+            moveWithPhoenix.insert(moveWithPhoenix.begin(), phoenixCard);
+            possiblePlays.push_back(moveWithPhoenix);
+        }
+    }
+    else
+    {
+        possiblePlays.insert(possiblePlays.end(), pureStraights.begin(), pureStraights.end());
+    }
+        
+}
+
 
 void GenerateStepPlays(const std::vector<Card>& hand, const Combination& currentCombination, std::vector<std::vector<Card>>& possiblePlays)
 {
@@ -620,7 +740,9 @@ void GameState::GetPossibleGameStates(const GameState& currentState, std::vector
 
     // Generate possible plays based on the current combination
     std::vector<std::vector<Card>> possiblePlays{};
-    GeneratePossiblePlays(hand, currentState.currentCombination, possiblePlays);
+    //GeneratePossiblePlays(hand, currentState.currentCombination, possiblePlays);
+    GenerateStraightPlays(hand, currentState.currentCombination, possiblePlays);
+    
 
     // For each possible play
     for (auto& play : possiblePlays)

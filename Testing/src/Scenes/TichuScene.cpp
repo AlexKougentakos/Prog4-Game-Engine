@@ -376,6 +376,70 @@ void TichuScene::DealInitialCards(const int numberOfCards)
 	//You can just shuffle the current ones but it's done once per round only
 	CreateDeck();
 
+	//Todo: remove later
+	m_Cards.clear();
+	
+	m_Cards.emplace_back(Card{CardColour::CC_Black, 2});
+	m_Cards.emplace_back(Card{CardColour::CC_Black, 3});
+	m_Cards.emplace_back(Card{CardColour::CC_Blue, 5});
+	m_Cards.emplace_back(Card{CardColour::CC_Black, 6});
+	m_Cards.emplace_back(Card{CardColour::CC_Red, 7});
+	m_Cards.emplace_back(Card{CardColour::CC_Black, 8});
+	m_Cards.emplace_back(Card{CardColour::CC_Green, 13});
+	m_Cards.emplace_back(Card{CardColour::CC_Blue, 13});
+	m_Cards.emplace_back(Card{CardColour::CC_Blue, 12});
+	m_Cards.emplace_back(Card{CardColour::CC_Red, 12});
+	m_Cards.emplace_back(Card{CardColour::CC_Black, 12});
+	m_Cards.emplace_back(Card{CardColour::CC_Black, 14});
+	m_Cards.emplace_back(Card{CardColour::CC_Green, 14});
+	m_Cards.emplace_back(Card{CardColour::CC_Dragon, 25});
+	
+	m_Cards.emplace_back(Card{CardColour::CC_Mahjong, 1});
+	m_Cards.emplace_back(Card{CardColour::CC_Phoenix, 0});
+	m_Cards.emplace_back(Card{CardColour::CC_Red, 2});
+	m_Cards.emplace_back(Card{CardColour::CC_Green, 2});
+	m_Cards.emplace_back(Card{CardColour::CC_Green, 3});
+	m_Cards.emplace_back(Card{CardColour::CC_Green, 5});
+	m_Cards.emplace_back(Card{CardColour::CC_Green, 4});
+	m_Cards.emplace_back(Card{CardColour::CC_Red, 6});
+	m_Cards.emplace_back(Card{CardColour::CC_Blue, 7});
+	m_Cards.emplace_back(Card{CardColour::CC_Black, 13});
+	m_Cards.emplace_back(Card{CardColour::CC_Red, 13});
+	m_Cards.emplace_back(Card{CardColour::CC_Blue, 14});
+	m_Cards.emplace_back(Card{CardColour::CC_Red, 14});
+	m_Cards.emplace_back(Card{CardColour::CC_Blue, 11});
+
+	m_Cards.emplace_back(Card{CardColour::CC_Blue, 2});
+	m_Cards.emplace_back(Card{CardColour::CC_Red, 3});
+	m_Cards.emplace_back(Card{CardColour::CC_Blue, 3});
+	m_Cards.emplace_back(Card{CardColour::CC_Red, 4});
+	m_Cards.emplace_back(Card{CardColour::CC_Blue, 4});
+	m_Cards.emplace_back(Card{CardColour::CC_Black, 5});
+	m_Cards.emplace_back(Card{CardColour::CC_Green, 7});
+	m_Cards.emplace_back(Card{CardColour::CC_Red, 8});
+	m_Cards.emplace_back(Card{CardColour::CC_Green, 8});
+	m_Cards.emplace_back(Card{CardColour::CC_Blue, 8});
+	m_Cards.emplace_back(Card{CardColour::CC_Red, 9});
+	m_Cards.emplace_back(Card{CardColour::CC_Green, 9});
+	m_Cards.emplace_back(Card{CardColour::CC_Blue, 9});
+	m_Cards.emplace_back(Card{CardColour::CC_Red, 10});
+	
+	m_Cards.emplace_back(Card{CardColour::CC_Black, 4});
+	m_Cards.emplace_back(Card{CardColour::CC_Red, 5});
+	m_Cards.emplace_back(Card{CardColour::CC_Green, 6});
+	m_Cards.emplace_back(Card{CardColour::CC_Blue, 6});
+	m_Cards.emplace_back(Card{CardColour::CC_Black, 7});
+	m_Cards.emplace_back(Card{CardColour::CC_Black, 9});
+	m_Cards.emplace_back(Card{CardColour::CC_Green, 10});
+	m_Cards.emplace_back(Card{CardColour::CC_Blue, 10});
+	m_Cards.emplace_back(Card{CardColour::CC_Black, 10});
+	m_Cards.emplace_back(Card{CardColour::CC_Red, 11});
+	m_Cards.emplace_back(Card{CardColour::CC_Black, 11});
+	m_Cards.emplace_back(Card{CardColour::CC_Green, 11});
+	m_Cards.emplace_back(Card{CardColour::CC_Green, 12});
+	m_Cards.emplace_back(Card{CardColour::CC_Dog, 0});
+	
+
 	for (const auto& player : m_pPlayers)
 	{
 		// Calculate the start and end indices for this player's cards

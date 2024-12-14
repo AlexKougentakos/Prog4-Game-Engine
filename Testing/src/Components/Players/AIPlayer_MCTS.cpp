@@ -52,7 +52,7 @@ void AIPlayer_MCTS::StartMoveCalculation()
 
         
 #ifdef _DEBUG
-        auto bestState = MCTS::MonteCarloTreeSearch(rootState, 500);
+        auto bestState = MCTS::MonteCarloTreeSearch(rootState, 50);
 #else
         auto bestState = MCTS::MonteCarloTreeSearch(rootState, 60'000);
 #endif
@@ -69,6 +69,12 @@ void AIPlayer_MCTS::StartMoveCalculation()
                 cardsToPlay.push_back(card);
             }
         }
+
+        if (cardsToPlay.size() == 4)
+        {
+            __debugbreak();
+        }
+        
         return cardsToPlay;
     });
 }

@@ -6,8 +6,8 @@
 
 Combination Tichu::CreateCombination(std::vector<Card>& cards) const
 {
-	const size_t numberOfCards = cards.size();
-
+	const size_t numberOfCards = cards.size(); 
+	
 	//Determine the combination
 	Combination combination{};
 	combination.combinationType = CombinationType::CT_Invalid;
@@ -207,6 +207,11 @@ Combination Tichu::CreateCombination(std::vector<Card>& cards) const
 			combination.power = cards[1].power;
 			return combination;
 		}
+	}
+
+	if (combination.combinationType == CombinationType::CT_Invalid && combination.numberOfCards != 0)
+	{
+		__debugbreak();
 	}
 
 	return combination;
