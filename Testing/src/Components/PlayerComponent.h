@@ -38,8 +38,25 @@ enum CardColour : uint8_t
 
 struct Card
 {
-	CardColour colour;
-	uint8_t power;
+	CardColour colour{};
+	uint8_t power{};
+
+	uint8_t id{};
+	
+	Card(CardColour colour, uint8_t power)
+		: colour(colour), power(power)
+	{
+		if (colour == CC_Mahjong)
+			id = 200;
+		else if (colour == CC_Dragon)
+			id = 201;
+		else if (colour == CC_Phoenix)
+			id = 202;
+		else if (colour == CC_Dog)
+			id = 203;
+		else 
+			id = static_cast<uint8_t>(colour) * 13 + power;
+	}
 
 
 	bool operator<(const Card& other) const

@@ -72,6 +72,8 @@ public:
 
 	int GetPassesInARow() const { return m_PassesInARow; }
 
+	void Reset();
+
 private:
 	Combination m_CurrentStrongestCombination{};
 

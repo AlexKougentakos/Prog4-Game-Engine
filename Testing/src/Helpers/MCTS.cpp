@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <imgui_internal.h>
 #include <iostream>
 #include <limits>
 #include <set>
@@ -262,7 +263,7 @@ namespace MCTS
         std::vector<std::unique_ptr<Node>> rootNodes(numThreads);
 
         for (int threadIdx = 0; threadIdx < numThreads; ++threadIdx)
-        {
+        {            
             //Assign the remaining iterations to the first threads
             //This works because remainingIterations is the remainder of the division, so it will always be smaller than the
             //number of threads
@@ -344,7 +345,27 @@ void GenerateSingleCardPlays(const std::vector<Card>& hand, const Combination& c
 {
     for (const Card& card : hand)
     {
-        if (card.power > currentCombination.power)
+        if (currentCombination.power > 18) //If it's a dragon
+            return; //No single card combination can beat a dragon
+        if (card.colour == CC_Phoenix)
+        {
+            //No need to check for duplicates, only one Phoenix card in the game
+            possiblePlays.emplace_back(std::vector<Card>{card});
+        }
+
+        //Special edge case for the phoenix
+        else if (currentCombination.combinationType == CombinationType::CT_SinglePhoenix)
+        {
+            if (card.power >= currentCombination.power)
+            {
+                if (std::find(possiblePlays.begin(), possiblePlays.end(), std::vector<Card>{card}) == possiblePlays.end())
+                {
+                    possiblePlays.emplace_back(std::vector<Card>{card});
+                }                
+            }
+        }
+
+        else if (card.power > currentCombination.power)
         {
             if (std::find(possiblePlays.begin(), possiblePlays.end(), std::vector<Card>{card}) == possiblePlays.end())
             {
@@ -356,43 +377,126 @@ void GenerateSingleCardPlays(const std::vector<Card>& hand, const Combination& c
 
 void GenerateDoubleCardPlays(const std::vector<Card>& hand, const Combination& currentCombination, std::vector<std::vector<Card>>& possiblePlays)
 {
-    // Group cards by power
     std::unordered_map<uint8_t, std::vector<Card>> cardGroups;
+    bool hasPhoenix = false;
+    Card phoenixCard{CC_Phoenix, 0};
+
     for (const Card& card : hand)
     {
         cardGroups[card.power].push_back(card);
+        if (card.colour == CC_Phoenix)
+        {
+            hasPhoenix = true;
+            phoenixCard = card;
+        }
     }
 
-    // Find pairs
+    // Natural pairs
     for (const auto& group : cardGroups)
     {
-        if (group.second.size() >= 2 && group.first > currentCombination.power)
+        uint8_t p = group.first;
+        if (group.second.size() >= 2 && p > currentCombination.power)
         {
             possiblePlays.push_back({ group.second[0], group.second[1] });
+        }
+    }
+
+    // Phoenix pairs: If we have Phoenix and at least one non-phoenix card
+    // Conditions:
+    // - hasPhoenix
+    // - power > currentCombination.power
+    // - power != phoenixCard.power
+    // - power != 1 (mahjong)
+    // - at least one real card (non-phoenix) of that power
+    if (hasPhoenix)
+    {
+        for (const auto& group : cardGroups)
+        {
+            uint8_t p = group.first;
+            if (p > currentCombination.power && p != phoenixCard.power && p != 1)
+            {
+                // Find a non-Phoenix card
+                Card nonPhoenixCard{CardColour::CC_Red, 0};
+                bool foundNonPhoenix = false;
+                for (auto &c : group.second) {
+                    if (c.colour != CC_Phoenix) {
+                        nonPhoenixCard = c;
+                        foundNonPhoenix = true;
+                        break;
+                    }
+                }
+
+                if (foundNonPhoenix) {
+                    // Form Phoenix pair: Phoenix at front
+                    std::vector<Card> pairPlay;
+                    pairPlay.push_back(phoenixCard);
+                    pairPlay.push_back(nonPhoenixCard);
+                    possiblePlays.push_back(pairPlay);
+                }
+            }
         }
     }
 }
 
 void GenerateTripleCardPlays(const std::vector<Card>& hand, const Combination& currentCombination, std::vector<std::vector<Card>>& possiblePlays)
 {
-    // Group cards by power
     std::unordered_map<uint8_t, std::vector<Card>> cardGroups;
+    bool hasPhoenix = false;
+    Card phoenixCard{CC_Phoenix, 0};
+
     for (const Card& card : hand)
     {
         cardGroups[card.power].push_back(card);
+        if (card.colour == CC_Phoenix)
+        {
+            hasPhoenix = true;
+            phoenixCard = card;
+        }
     }
 
-    // Find triples
+    // Natural triples
     for (const auto& group : cardGroups)
     {
-        if (group.second.size() >= 3 && group.first > currentCombination.power)
+        uint8_t p = group.first;
+        if (group.second.size() >= 3 && p > currentCombination.power)
         {
             possiblePlays.push_back({ group.second[0], group.second[1], group.second[2] });
         }
     }
+
+    // Phoenix triples: 2 identical non-phoenix cards + Phoenix
+    if (hasPhoenix)
+    {
+        for (const auto& group : cardGroups)
+        {
+            uint8_t p = group.first;
+            const auto &cards = group.second;
+            if (p > currentCombination.power && p != phoenixCard.power && p != 1)
+            {
+                // Need at least 2 non-phoenix cards of that power
+                std::vector<Card> nonPhoenixCards;
+                for (auto &c : cards) {
+                    if (c.colour != CC_Phoenix) {
+                        nonPhoenixCards.push_back(c);
+                    }
+                }
+
+                if (nonPhoenixCards.size() >= 2)
+                {
+                    std::vector<Card> triplePlay;
+                    // Phoenix at front
+                    triplePlay.push_back(phoenixCard);
+                    triplePlay.push_back(nonPhoenixCards[0]);
+                    triplePlay.push_back(nonPhoenixCards[1]);
+                    possiblePlays.push_back(triplePlay);
+                }
+            }
+        }
+    }
 }
 
-void GenerateBombPlays(const std::vector<Card>& hand, const Combination& /*currentCombination*/, std::vector<std::vector<Card>>& possiblePlays)
+
+void GenerateBombPlays(const std::vector<Card>& hand, const Combination& currentCombination, std::vector<std::vector<Card>>& possiblePlays)
 {
 
     // Group cards by power
@@ -407,6 +511,9 @@ void GenerateBombPlays(const std::vector<Card>& hand, const Combination& /*curre
     {
         if (group.second.size() >= 4)
         {
+            if (currentCombination.combinationType == CombinationType::CT_StraightBomb) return; // No bomb can beat a straight bomb except for a better straight bomb
+            if (currentCombination.combinationType == CombinationType::CT_FourOfAKindBomb && group.first <= currentCombination.power) return; // Only bombs of higher power can beat a bomb
+            
             possiblePlays.push_back({ group.second[0], group.second[1], group.second[2], group.second[3] });
         }
     }
@@ -414,28 +521,130 @@ void GenerateBombPlays(const std::vector<Card>& hand, const Combination& /*curre
 
 void GenerateFullHousePlays(const std::vector<Card>& hand, const Combination& currentCombination, std::vector<std::vector<Card>>& possiblePlays)
 {
-    // Group cards by power
     std::unordered_map<uint8_t, std::vector<Card>> cardGroups;
+    bool hasPhoenix = false;
+    Card phoenixCard{CC_Phoenix, 0};
+
     for (const Card& card : hand)
     {
         cardGroups[card.power].push_back(card);
+        if (card.colour == CC_Phoenix)
+        {
+            hasPhoenix = true;
+        }
     }
 
-    // Find triples and pairs
-    for (const auto& tripleGroup : cardGroups)
+    // A small struct to hold triple or pair candidates
+    struct Candidate {
+        uint8_t power;
+        std::vector<Card> cards;
+        bool usesPhoenix;
+    };
+
+    std::vector<Candidate> tripleCandidates;
+    std::vector<Candidate> pairCandidates;
+
+    // Build triple candidates
+    for (const auto& group : cardGroups)
     {
-        if (tripleGroup.second.size() >= 3 && tripleGroup.first > currentCombination.power)
+        uint8_t p = group.first;
+        const auto &cards = group.second;
+        size_t count = cards.size();
+
+        // Natural triple
+        if (count >= 3)
         {
-            for (const auto& pairGroup : cardGroups)
+            // Take first 3 cards
+            Candidate c{p, {cards[0], cards[1], cards[2]}, false};
+            tripleCandidates.push_back(c);
+        }
+
+        // Phoenix triple: 2 real cards + phoenix
+        // Conditions:
+        // - hasPhoenix
+        // - at least 2 non-phoenix cards of same power
+        if (hasPhoenix && p != phoenixCard.power && p != 1 && count >= 2)
+        {
+            // Take the first two cards as the "real" part
+            // Add Phoenix
+            Candidate c{p, {cards[0], cards[1], phoenixCard}, true};
+            tripleCandidates.push_back(c);
+        }
+    }
+
+    // Build pair candidates
+    for (const auto& group : cardGroups)
+    {
+        uint8_t p = group.first;
+        const auto &cards = group.second;
+        size_t count = cards.size();
+
+        // Natural pair
+        if (count >= 2)
+        {
+            Candidate c{p, {cards[0], cards[1]}, false};
+            pairCandidates.push_back(c);
+        }
+
+        // Phoenix pair: 1 real card + phoenix
+        // Conditions:
+        // - hasPhoenix
+        // - not the phoenix power itself
+        // - not mahjong (p != 1)
+        // - at least 1 non-phoenix card
+        if (hasPhoenix && p != phoenixCard.power && p != 1 && count >= 1)
+        {
+            // Find a non-phoenix card to pair with phoenix
+            // Usually cards[0] should be non-phoenix, but check just in case:
+            Card singleCard = cards[0];
+            if (singleCard.colour == CC_Phoenix && cards.size() > 1) {
+                singleCard = cards[1]; 
+            }
+
+            // Ensure singleCard is not Phoenix (must have at least one real card)
+            if (singleCard.colour != CC_Phoenix) {
+                Candidate c{p, {singleCard, phoenixCard}, true};
+                pairCandidates.push_back(c);
+            }
+        }
+    }
+
+    // Combine triples and pairs to form full houses
+    for (const auto& triple : tripleCandidates)
+    {
+        // Full house power is determined by the triple's power
+        if (triple.power <= currentCombination.power) 
+            continue;
+
+        for (const auto& pair : pairCandidates)
+        {
+            // The triple and pair must have different powers
+            if (pair.power == triple.power) 
+                continue;
+
+            // Check phoenix usage: only once per combination
+            if (triple.usesPhoenix && pair.usesPhoenix) 
+                continue;
+
+            // Form the full house: triple + pair
+            std::vector<Card> fullHouse;
+            fullHouse.insert(fullHouse.end(), triple.cards.begin(), triple.cards.end());
+            fullHouse.insert(fullHouse.end(), pair.cards.begin(), pair.cards.end());
+
+            // If phoenix is used in either triple or pair, move phoenix to front
+            if (triple.usesPhoenix || pair.usesPhoenix)
             {
-                if (pairGroup.first != tripleGroup.first && pairGroup.second.size() >= 2)
-                {
-                    std::vector<Card> fullHouse;
-                    fullHouse.insert(fullHouse.end(), tripleGroup.second.begin(), tripleGroup.second.begin() + 3);
-                    fullHouse.insert(fullHouse.end(), pairGroup.second.begin(), pairGroup.second.begin() + 2);
-                    possiblePlays.push_back(fullHouse);
+                auto it = std::find_if(fullHouse.begin(), fullHouse.end(), [&](const Card &c){
+                    return c.colour == CC_Phoenix;
+                });
+                if (it != fullHouse.end()) {
+                    Card ph = *it;
+                    fullHouse.erase(it);
+                    fullHouse.insert(fullHouse.begin(), ph);
                 }
             }
+
+            possiblePlays.push_back(fullHouse);
         }
     }
 }
@@ -444,7 +653,7 @@ void GenerateFullHousePlays(const std::vector<Card>& hand, const Combination& cu
 void GenerateFilledStraights(const std::vector<Card>& hand, const Combination& currentCombination, std::vector<std::vector<Card>>& possiblePlays)
 {
     // 1) Separate the Phoenix card and collect normal cards
-    Card phoenixCard;           
+    Card phoenixCard{CardColour::CC_Phoenix, 0};           
     bool hasPhoenix = false;
 
     std::set<uint8_t> uniquePowers;
@@ -564,7 +773,7 @@ void GenerateStraightPlays(const std::vector<Card>& hand, const Combination& cur
 {
     // Identify the Phoenix card if it exists
     bool hasPhoenix = false;
-    Card phoenixCard{};
+    Card phoenixCard{CardColour::CC_Phoenix, 0};
     for (const Card& card : hand)
     {
         if (card.colour == CC_Phoenix)
@@ -601,60 +810,175 @@ void GenerateStraightPlays(const std::vector<Card>& hand, const Combination& cur
 }
 
 
+static std::string CardsToString(const std::vector<Card>& cards)
+{
+    std::vector<int> ids;
+    for (auto &c : cards) ids.push_back(c.id);
+    std::sort(ids.begin(), ids.end());
+    std::string result;
+    for (auto id : ids) {
+        result += std::to_string(id) + "-";
+    }
+    return result;
+}
+
 void GenerateStepPlays(const std::vector<Card>& hand, const Combination& currentCombination, std::vector<std::vector<Card>>& possiblePlays)
 {
-    // Collect powers with at least two cards
-    std::vector<uint8_t> pairPowers;
+    bool hasPhoenix = false;
+    Card phoenixCard{CC_Phoenix, 0};
     std::unordered_map<uint8_t, std::vector<Card>> cardGroups;
+
     for (const Card& card : hand)
     {
         cardGroups[card.power].push_back(card);
-    }
-
-    for (const auto& group : cardGroups)
-    {
-        if (group.second.size() >= 2)
+        if (card.colour == CC_Phoenix)
         {
-            pairPowers.push_back(group.first);
+            hasPhoenix = true;
+            phoenixCard = card;
         }
     }
 
-    // Sort the pair powers
-    std::sort(pairPowers.begin(), pairPowers.end());
+    struct PairOption {
+        uint8_t power;
+        bool naturalPairPossible;
+        bool phoenixPairPossible;
+    };
 
-    // Find sequences of at least two consecutive pairs
-    for (size_t i = 0; i < pairPowers.size(); ++i)
+    std::vector<PairOption> allPairs; 
+
+    // Identify which powers can form which kind of pairs
+    for (const auto& group : cardGroups)
     {
-        std::vector<Card> step;
-        uint8_t previousPower = pairPowers[i];
-        step.push_back(cardGroups[previousPower][0]);
-        step.push_back(cardGroups[previousPower][1]);
+        uint8_t p = group.first;
+        size_t count = group.second.size();
 
-        for (size_t j = i + 1; j < pairPowers.size(); ++j)
-        {
-            if (pairPowers[j] == previousPower + 1)
-            {
-                step.push_back(cardGroups[pairPowers[j]][0]);
-                step.push_back(cardGroups[pairPowers[j]][1]);
-                previousPower = pairPowers[j];
-
-                if (step.size() >= 4 && step.front().power > currentCombination.power)
-                {
-                    possiblePlays.push_back(step);
-                }
+        bool natural = (count >= 2);
+        bool phoenix = false;
+        // Phoenix pair only if:
+        // - we have phoenix
+        // - power != phoenix power
+        // - power != 1 (mahjong can't form phoenix pairs)
+        // - we have at least one non-phoenix card of that power
+        if (hasPhoenix && p != phoenixCard.power && p != 1) { 
+            if ((count >= 1) && !(count == 1 && group.second[0].colour == CC_Phoenix)) {
+                phoenix = true;
             }
-            else
-            {
+        }
+        if (natural || phoenix) {
+            allPairs.push_back({p, natural, phoenix});
+        }
+    }
+
+    std::sort(allPairs.begin(), allPairs.end(), [](const PairOption &a, const PairOption &b) {
+        return a.power < b.power;
+    });
+
+    // Find sequences of at least 2 consecutive powers
+    std::vector<std::vector<PairOption>> sequences;
+    for (size_t i = 0; i < allPairs.size(); ++i) {
+        std::vector<PairOption> seq;
+        seq.push_back(allPairs[i]);
+        uint8_t prev = allPairs[i].power;
+        for (size_t j = i+1; j < allPairs.size(); ++j) {
+            if (allPairs[j].power == prev + 1) {
+                seq.push_back(allPairs[j]);
+                prev = allPairs[j].power;
+            } else {
                 break;
             }
         }
+        if (seq.size() >= 2) {
+            sequences.push_back(seq);
+        }
+    }
+
+    std::set<std::string> uniqueResults;
+
+    auto recordCombination = [&](const std::vector<Card>& combination) {
+        // combination may need phoenix at front if it exists
+        std::vector<Card> finalCombo = combination;
+        auto it = std::find_if(finalCombo.begin(), finalCombo.end(), [&](const Card &c){
+            return c.colour == CC_Phoenix;
+        });
+        bool hasPhoenixInThisCombo = (it != finalCombo.end());
+        if (hasPhoenixInThisCombo) {
+            Card ph = *it;
+            finalCombo.erase(it);
+            finalCombo.insert(finalCombo.begin(), ph);
+        }
+
+        // Check power
+        // The step's power is defined by the lowest pair in the step,
+        // i.e., the first pair's power. That's finalCombo's second card's power if Phoenix at front:
+        // Actually, we know these are pairs. If Phoenix is at front, the second card is the pair's other half.
+        // The lowest pair's power will be the minimum pair's power in sequence, but we built them in order.
+        // The first pair is always the first 2 cards after rearrangement:
+        uint8_t stepPower = finalCombo[ (hasPhoenixInThisCombo ? 1 : 0) ].power;
+        if (stepPower <= currentCombination.power) return;
+
+        std::string sig = CardsToString(finalCombo);
+        if (uniqueResults.find(sig) == uniqueResults.end()) {
+            uniqueResults.insert(sig);
+            possiblePlays.push_back(finalCombo);
+        }
+    };
+
+    // Backtracking to try all combos of natural/phoenix pairs
+    std::function<void(size_t, bool, const std::vector<PairOption>&, std::vector<Card>)> backtrack;
+    backtrack = [&](size_t idx, bool phoenixUsed, const std::vector<PairOption>& seq, std::vector<Card> currentStep) {
+        if (idx == seq.size()) {
+            // End of sequence
+            return; // We record combos as we go, not just at the end
+        }
+
+        const PairOption &po = seq[idx];
+        const auto &cards = cardGroups.at(po.power);
+
+        // Try natural variant if possible
+        if (po.naturalPairPossible) {
+            std::vector<Card> newStep = currentStep;
+            newStep.push_back(cards[0]);
+            newStep.push_back(cards[1]);
+
+            // Record if at least 2 pairs formed
+            if (newStep.size() >= 4) {
+                recordCombination(newStep);
+            }
+
+            // Continue
+            backtrack(idx+1, phoenixUsed, seq, newStep);
+        }
+
+        // Try phoenix variant if possible and not used
+        if (po.phoenixPairPossible && !phoenixUsed) {
+            // Find a non-phoenix card
+            Card singleCard = cards[0];
+            if (singleCard.colour == CC_Phoenix && cards.size() > 1) {
+                singleCard = cards[1];
+            }
+            std::vector<Card> newStep = currentStep;
+            newStep.push_back(singleCard);
+            newStep.push_back(phoenixCard);
+
+            if (newStep.size() >= 4) {
+                recordCombination(newStep);
+            }
+
+            backtrack(idx+1, true, seq, newStep);
+        }
+    };
+
+    for (auto &seq : sequences) {
+        backtrack(0, false, seq, {});
     }
 }
+
 
 void GeneratePossiblePlays(const std::vector<Card>& hand, const Combination& currentCombination, std::vector<std::vector<Card>>& possiblePlays)
 {
     switch (currentCombination.combinationType)
     {
+    case CombinationType::CT_SinglePhoenix:
     case CombinationType::CT_Single:
         GenerateSingleCardPlays(hand, currentCombination, possiblePlays);
         break;
@@ -673,6 +997,7 @@ void GeneratePossiblePlays(const std::vector<Card>& hand, const Combination& cur
     case CombinationType::CT_Steps:
         GenerateStepPlays(hand, currentCombination, possiblePlays);
         break;
+    case CombinationType::CT_Dogs: //When it's dogs it's the same as invalid (aka empty table)
     case CombinationType::CT_Invalid:
         GenerateSingleCardPlays(hand, currentCombination, possiblePlays);
         GenerateDoubleCardPlays(hand, currentCombination, possiblePlays);
@@ -680,25 +1005,11 @@ void GeneratePossiblePlays(const std::vector<Card>& hand, const Combination& cur
         GenerateFullHousePlays(hand, currentCombination, possiblePlays);
         GenerateStraightPlays(hand, currentCombination, possiblePlays);
         GenerateStepPlays(hand, currentCombination, possiblePlays);
-        break;
-    case CombinationType::CT_Dogs:
+
         // Dogs can only be played when no other cards are on the table
-        if (currentCombination.combinationType == CombinationType::CT_Invalid)
-        {
-            for (const auto& card : hand)
-            {
-                if (card.colour == CC_Dog)
-                {
-                    possiblePlays.push_back({card});
-                }
-            }
-        }
-        break;
-    case CombinationType::CT_SinglePhoenix:
-        // Phoenix can be played as any single card
         for (const auto& card : hand)
         {
-            if (card.colour == CC_Phoenix)
+            if (card.colour == CC_Dog)
             {
                 possiblePlays.push_back({card});
             }
@@ -708,7 +1019,7 @@ void GeneratePossiblePlays(const std::vector<Card>& hand, const Combination& cur
         GenerateBombPlays(hand, currentCombination, possiblePlays);
         break;
     case CombinationType::CT_StraightBomb:
-        // Handle straight bombs if needed
+        //todo: later
         break;
     }
 }
@@ -740,9 +1051,8 @@ void GameState::GetPossibleGameStates(const GameState& currentState, std::vector
 
     // Generate possible plays based on the current combination
     std::vector<std::vector<Card>> possiblePlays{};
-    //GeneratePossiblePlays(hand, currentState.currentCombination, possiblePlays);
-    GenerateStraightPlays(hand, currentState.currentCombination, possiblePlays);
-    
+    GeneratePossiblePlays(hand, currentState.currentCombination, possiblePlays);
+        
 
     // For each possible play
     for (auto& play : possiblePlays)
@@ -785,38 +1095,39 @@ void GameState::GetPossibleGameStates(const GameState& currentState, std::vector
         // Table is empty; player cannot pass
         canPass = false;
 
+        //Idk what this is for
         // If the player has no valid plays
-        if (possiblePlays.empty())
-        {
-            // Handle the scenario where player must play their lowest card
-            GameState newState = currentState;
-            std::vector<Card> lowestCard = { *std::min_element(hand.begin(), hand.end(), [](const Card& a, const Card& b) {
-                return a.power < b.power;
-            }) };
-
-            RemoveCardsFromHand(newState.playerHands[newState.currentPlayerIndex], lowestCard);
-
-            // If this player just went out
-            if (newState.playerHands[newState.currentPlayerIndex].empty() && newState.firstPlayerOutIndex == -1)
-            {
-                newState.firstPlayerOutIndex = newState.currentPlayerIndex;
-            }
-
-            newState.currentCombination = newState.pTichuGame->CreateCombination(lowestCard);
-            newState.cardsOnTable.insert(newState.cardsOnTable.end(), lowestCard.begin(), lowestCard.end());
-            newState.lastPlayerIndex = newState.currentPlayerIndex;
-            newState.passesInARow = 0;
-
-            // Move to next player who still has cards
-            newState.currentPlayerIndex = (newState.currentPlayerIndex + 1) % 4;
-            while (newState.playerHands[newState.currentPlayerIndex].empty())
-            {
-                newState.currentPlayerIndex = (newState.currentPlayerIndex + 1) % 4;
-            }
-
-            moves.push_back(newState);
-            return;
-        }
+        // if (possiblePlays.empty())
+        // {
+        //     // Handle the scenario where player must play their lowest card
+        //     GameState newState = currentState;
+        //     std::vector<Card> lowestCard = { *std::min_element(hand.begin(), hand.end(), [](const Card& a, const Card& b) {
+        //         return a.power < b.power;
+        //     }) };
+        //
+        //     RemoveCardsFromHand(newState.playerHands[newState.currentPlayerIndex], lowestCard);
+        //
+        //     // If this player just went out
+        //     if (newState.playerHands[newState.currentPlayerIndex].empty() && newState.firstPlayerOutIndex == -1)
+        //     {
+        //         newState.firstPlayerOutIndex = newState.currentPlayerIndex;
+        //     }
+        //
+        //     newState.currentCombination = newState.pTichuGame->CreateCombination(lowestCard);
+        //     newState.cardsOnTable.insert(newState.cardsOnTable.end(), lowestCard.begin(), lowestCard.end());
+        //     newState.lastPlayerIndex = newState.currentPlayerIndex;
+        //     newState.passesInARow = 0;
+        //
+        //     // Move to next player who still has cards
+        //     newState.currentPlayerIndex = (newState.currentPlayerIndex + 1) % 4;
+        //     while (newState.playerHands[newState.currentPlayerIndex].empty())
+        //     {
+        //         newState.currentPlayerIndex = (newState.currentPlayerIndex + 1) % 4;
+        //     }
+        //
+        //     moves.push_back(newState);
+        //     return;
+        // }
     }
 
     if (canPass)
@@ -841,7 +1152,7 @@ void GameState::GetPossibleGameStates(const GameState& currentState, std::vector
             const int points = CountPointsOfCards(newState.cardsOnTable);
 
             // Add points according to the dragon card rule
-            if (cardsOnTable[cardsOnTable.size() - 1].colour == CC_Dragon)
+            if (cardsOnTable.size() > 1 && cardsOnTable[cardsOnTable.size() - 1].colour == CC_Dragon)
             {
                 int current = newState.lastPlayerIndex;
                 int opponent1, opponent2;

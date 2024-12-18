@@ -193,17 +193,15 @@ void PlayerComponent::PlayedSelectedCards()
 {
     // Create event data with selected cards
     ody::CardEventData eventData(m_SelectedCards);
-
-    if (m_SelectedCards.size() == 4)
-    {
-        __debugbreak();
-    }
+    
     
     // Remove selected cards from m_Cards
-    std::erase_if(m_Cards, [this](const Card& card) 
-                {
-                    return std::find(m_SelectedCards.begin(), m_SelectedCards.end(), card) != m_SelectedCards.end();
-                });
+    std::vector<Card> selectedCardsCopy = m_SelectedCards;
+    std::erase_if(m_Cards, [&selectedCardsCopy](const Card& card) 
+    {
+        return std::find(selectedCardsCopy.begin(), selectedCardsCopy.end(), card) != selectedCardsCopy.end();
+    });
+
 
     // Clear the selected cards
     m_SelectedCards.clear();

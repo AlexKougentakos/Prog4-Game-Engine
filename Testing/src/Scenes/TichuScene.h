@@ -65,6 +65,7 @@ private:
 	//todo: Temporary hotfix for the AI
 public:
 	void Pass();
+	void PrintResultsToFile(int roundTeam0Points, int roundTeam1Points);
 	void CheckSubmittedHand(const std::vector<Card>& hand);
 private:
 	void GameOver() const;

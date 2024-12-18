@@ -5,10 +5,11 @@
 #include <chrono>
 #include <imgui.h>
 
-AIPlayer_MCTS::AIPlayer_MCTS(const int playerID, const CardRenderPackage &renderPackage) :
-	PlayerComponent(playerID, renderPackage)
+AIPlayer_MCTS::AIPlayer_MCTS(const int playerID, const CardRenderPackage &renderPackage, const int iterations) :
+	PlayerComponent(playerID, renderPackage),
+    m_Iterations(iterations)
 {
-
+    
 }
 
 void AIPlayer_MCTS::Initialize()
@@ -54,7 +55,8 @@ void AIPlayer_MCTS::StartMoveCalculation()
 #ifdef _DEBUG
         auto bestState = MCTS::MonteCarloTreeSearch(rootState, 50);
 #else
-        auto bestState = MCTS::MonteCarloTreeSearch(rootState, 60'000);
+        std::cout << "Iterations: " << m_Iterations << std::endl;
+        auto bestState = MCTS::MonteCarloTreeSearch(rootState, m_Iterations);
 #endif
 
         auto currentCards = rootState.playerHands[m_PlayerID];
@@ -68,11 +70,6 @@ void AIPlayer_MCTS::StartMoveCalculation()
             {
                 cardsToPlay.push_back(card);
             }
-        }
-
-        if (cardsToPlay.size() == 4)
-        {
-            __debugbreak();
         }
         
         return cardsToPlay;

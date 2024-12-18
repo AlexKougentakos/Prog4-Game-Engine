@@ -171,7 +171,7 @@ Combination Tichu::CreateCombination(std::vector<Card>& cards) const
 	{
 		bool isSteps = true;
 		usedPhoenix = false;
-		for (size_t i{}; i < cards.size(); i += 2)
+		for (size_t i{}; i < cards.size() - 1; i += 2)
 		{
 			if (hasPhoenix && i == 0)
 			{
@@ -459,6 +459,15 @@ void Tichu::NextPlayer()
 	} while (m_PlayerStates[m_CurrentPlayerIndex].isOut);
 
 	//Keep incrementing until you reach the player's ID who is not out
+}
+
+void Tichu::Reset()
+{
+	m_CurrentStrongestCombination = Combination{};
+	m_CurrentPlayerIndex = 0;
+	m_PassesInARow = 0;
+	m_PlayerStates = std::vector<PlayerState>(4);
+	m_PlayersLeftWhenLastHandPlayed = 4;
 }
 
 void Tichu::CountPlayersLeft()

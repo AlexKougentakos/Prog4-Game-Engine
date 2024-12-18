@@ -1,5 +1,6 @@
 #include "TichuScene.h"
 
+#include <fstream>
 #include <imgui.h>
 #include <random>
 
@@ -281,14 +282,20 @@ void TichuScene::CreatePlayers()
 		const auto player = CreateGameObject();
 
 		PlayerComponent* playerComponent = nullptr;
-		if (i == 0) //First player is human
-		{
-			playerComponent = player->AddComponent<HumanPlayer>(i, m_RenderPackage);
-		}
+		// if (i == 0) //First player is human
+		// {
+		// 	playerComponent = player->AddComponent<HumanPlayer>(i, m_RenderPackage);
+		// }
+		// else
+		// {
+		// 	playerComponent = player->AddComponent<AIPlayer_MCTS>(i, m_RenderPackage);
+		// }
+
+		if (i == 0 || i == 2)
+			playerComponent = player->AddComponent<AIPlayer_MCTS>(i, m_RenderPackage, 100);
 		else
-		{
-			playerComponent = player->AddComponent<AIPlayer_MCTS>(i, m_RenderPackage);
-		}
+			playerComponent = player->AddComponent<AIPlayer_MCTS>(i, m_RenderPackage, 10);
+		
 		
 		// Give the AI players access to game state
 		playerComponent->SetGameReference(m_pTichuGame.get());
@@ -395,30 +402,30 @@ void TichuScene::DealInitialCards(const int numberOfCards)
 	m_Cards.emplace_back(Card{CardColour::CC_Dragon, 25});
 	
 	m_Cards.emplace_back(Card{CardColour::CC_Mahjong, 1});
-	m_Cards.emplace_back(Card{CardColour::CC_Phoenix, 0});
+	m_Cards.emplace_back(Card{CardColour::CC_Blue, 2});
 	m_Cards.emplace_back(Card{CardColour::CC_Red, 2});
-	m_Cards.emplace_back(Card{CardColour::CC_Green, 2});
+	m_Cards.emplace_back(Card{CardColour::CC_Blue, 3});
 	m_Cards.emplace_back(Card{CardColour::CC_Green, 3});
-	m_Cards.emplace_back(Card{CardColour::CC_Green, 5});
 	m_Cards.emplace_back(Card{CardColour::CC_Green, 4});
-	m_Cards.emplace_back(Card{CardColour::CC_Red, 6});
-	m_Cards.emplace_back(Card{CardColour::CC_Blue, 7});
+	m_Cards.emplace_back(Card{CardColour::CC_Phoenix, 0});
+	m_Cards.emplace_back(Card{CardColour::CC_Red, 8});
+	m_Cards.emplace_back(Card{CardColour::CC_Green, 8});
+	m_Cards.emplace_back(Card{CardColour::CC_Blue, 8});
 	m_Cards.emplace_back(Card{CardColour::CC_Black, 13});
 	m_Cards.emplace_back(Card{CardColour::CC_Red, 13});
 	m_Cards.emplace_back(Card{CardColour::CC_Blue, 14});
 	m_Cards.emplace_back(Card{CardColour::CC_Red, 14});
-	m_Cards.emplace_back(Card{CardColour::CC_Blue, 11});
-
-	m_Cards.emplace_back(Card{CardColour::CC_Blue, 2});
+	
+	m_Cards.emplace_back(Card{CardColour::CC_Green, 2});
 	m_Cards.emplace_back(Card{CardColour::CC_Red, 3});
-	m_Cards.emplace_back(Card{CardColour::CC_Blue, 3});
 	m_Cards.emplace_back(Card{CardColour::CC_Red, 4});
 	m_Cards.emplace_back(Card{CardColour::CC_Blue, 4});
+	m_Cards.emplace_back(Card{CardColour::CC_Green, 5});
 	m_Cards.emplace_back(Card{CardColour::CC_Black, 5});
+	m_Cards.emplace_back(Card{CardColour::CC_Red, 6});
+	m_Cards.emplace_back(Card{CardColour::CC_Blue, 7});
 	m_Cards.emplace_back(Card{CardColour::CC_Green, 7});
-	m_Cards.emplace_back(Card{CardColour::CC_Red, 8});
-	m_Cards.emplace_back(Card{CardColour::CC_Green, 8});
-	m_Cards.emplace_back(Card{CardColour::CC_Blue, 8});
+	m_Cards.emplace_back(Card{CardColour::CC_Dog, 0});
 	m_Cards.emplace_back(Card{CardColour::CC_Red, 9});
 	m_Cards.emplace_back(Card{CardColour::CC_Green, 9});
 	m_Cards.emplace_back(Card{CardColour::CC_Blue, 9});
@@ -437,8 +444,7 @@ void TichuScene::DealInitialCards(const int numberOfCards)
 	m_Cards.emplace_back(Card{CardColour::CC_Black, 11});
 	m_Cards.emplace_back(Card{CardColour::CC_Green, 11});
 	m_Cards.emplace_back(Card{CardColour::CC_Green, 12});
-	m_Cards.emplace_back(Card{CardColour::CC_Dog, 0});
-	
+	m_Cards.emplace_back(Card{CardColour::CC_Blue, 11});
 
 	for (const auto& player : m_pPlayers)
 	{
@@ -613,75 +619,155 @@ void TichuScene::Pass()
 	}
 }
 
-void TichuScene::NewRound(bool isOneTwo)
+void TichuScene::PrintResultsToFile(int roundTeam0Points, int roundTeam1Points)
 {
-	m_NumberOfPlayersOut = 0;
-	m_CurrentMahjongWishPower = 0;
+	// Define the file path (you can change this to your desired path)
+	const std::string filePath = "round_results.txt";
 
-	int indexOfPlayerNotOut = 0;
-	for (const auto& player : m_pPlayers)
+	// Open the file in append mode
+	std::ofstream outFile(filePath, std::ios::app);
+	if (outFile.is_open())
 	{
-		//Handle tichu / grand tichu
-		if (player->HasDeclaredTichu() || player->HasDeclaredGrandTichu())
-		{
-			//Get the ID of the player
-			const int playerID = player->GetPlayerID();
-			int pointGain = player->HasDeclaredTichu() ? 100 : 200;
-			if (playerID != m_IndexOfFirstPlayerOut) //Compare it to the ID of the player who went out first
-			{
-				pointGain *= -1; //If they are not the same, the team loses the points
-			}
+		// Create the formatted strings using per-round points
+		std::string team1 = "Team 1 (Players 0 & 2): " + std::to_string(roundTeam0Points);
+		std::string team2 = "Team 2 (Players 1 & 3): " + std::to_string(roundTeam1Points);
 
-			//Apply the points to the correct team
-			if (playerID == 0 || playerID == 2) m_Team0Points += pointGain;
-			else m_Team1Points += pointGain;
-		}
+		// Write to the file
+		outFile << team1 << "\n" << team2 << "\n\n"; // Two newlines for separation
 
-		if (!player->IsOut())
-		{
-			indexOfPlayerNotOut = player->GetPlayerID();
-		}
-		
-		player->SetOut(false);
-		player->SetPlaying(false);
-		player->RemoveDeclarations();
+		// Close the file
+		outFile.close();
 	}
-
-	//Account for the 1-2 rule
-	if (isOneTwo)
+	else
 	{
-		if (m_IndexOfFirstPlayerOut == 0 || m_IndexOfFirstPlayerOut == 2)
-			m_Team0Points += 200;
-		else
-			m_Team1Points += 200;
+		// Handle the error if the file cannot be opened
+		// You might want to log this or notify the user
+		std::cerr << "Unable to open file for writing: " << filePath << std::endl;
 	}
-	else UpdatePlayerPoints(indexOfPlayerNotOut);
-
-	if (m_Team0Points >= m_MaxPoints || m_Team1Points >= m_MaxPoints)
-	{
-		if (m_Team0Points >= m_MaxPoints)
-			++m_Team0GamesWon;
-		else
-			++m_Team1GamesWon;
-
-		GameOver();
-		m_Team0Points = 0;
-		m_Team1Points = 0;
-	}
-
-	m_Team0PointsText->SetText(std::to_string(m_Team0Points));
-	m_Team1PointsText->SetText(std::to_string(m_Team1Points));
-
-	m_PlayersAskedForGrandTichu = 0;
-	m_PlayersWhoTradedCards = 0;
-	m_GamePhase = GamePhase::GrandTichu;
-	DealInitialCards(14); //todo: put this back to 8
-	UpdateLights();
-
-	m_CardsOnTop.clear();
-	m_PlayedCards.clear();
 }
 
+void TichuScene::NewRound(bool isOneTwo)
+{
+    m_NumberOfPlayersOut = 0;
+    m_CurrentMahjongWishPower = 0;
+
+    // ** Step 1: Initialize Per-Round Point Variables **
+    int roundTeam0Points = 0;
+    int roundTeam1Points = 0;
+
+    int indexOfPlayerNotOut = 0;
+    for (const auto& player : m_pPlayers)
+    {
+        // Handle tichu / grand tichu
+        if (player->HasDeclaredTichu() || player->HasDeclaredGrandTichu())
+        {
+            // Get the ID of the player
+            const int playerID = player->GetPlayerID();
+            int pointGain = player->HasDeclaredTichu() ? 100 : 200;
+            if (playerID != m_IndexOfFirstPlayerOut) // Compare it to the ID of the player who went out first
+            {
+                pointGain *= -1; // If they are not the same, the team loses the points
+            }
+
+            // Apply the points to the correct team
+            if (playerID == 0 || playerID == 2)
+            {
+                m_Team0Points += pointGain;
+                roundTeam0Points += pointGain; // ** Update Per-Round Points **
+            }
+            else
+            {
+                m_Team1Points += pointGain;
+                roundTeam1Points += pointGain; // ** Update Per-Round Points **
+            }
+        }
+
+        if (!player->IsOut())
+        {
+            indexOfPlayerNotOut = player->GetPlayerID();
+        }
+
+        player->SetOut(false);
+        player->SetPlaying(false);
+        player->RemoveDeclarations();
+    }
+
+    // Account for the 1-2 rule
+    if (isOneTwo)
+    {
+        if (m_IndexOfFirstPlayerOut == 0 || m_IndexOfFirstPlayerOut == 2)
+        {
+            m_Team0Points += 200;
+            roundTeam0Points += 200; // ** Update Per-Round Points **
+        }
+        else
+        {
+            m_Team1Points += 200;
+            roundTeam1Points += 200; // ** Update Per-Round Points **
+        }
+    }
+    else
+    {
+        // ** Step 4: Update Per-Round Points from UpdatePlayerPoints **
+        // Assuming UpdatePlayerPoints modifies m_Team0Points or m_Team1Points,
+        // you need to capture the delta. One way is to calculate points before and after.
+        // Here's an example approach:
+
+        // Store previous total points
+        int prevTeam0Points = m_Team0Points;
+        int prevTeam1Points = m_Team1Points;
+
+        UpdatePlayerPoints(indexOfPlayerNotOut);
+
+        // Calculate points gained in this method
+        int deltaTeam0 = m_Team0Points - prevTeam0Points;
+        int deltaTeam1 = m_Team1Points - prevTeam1Points;
+
+        // Update per-round points
+        roundTeam0Points += deltaTeam0;
+        roundTeam1Points += deltaTeam1;
+    }
+
+    if (m_Team0Points >= m_MaxPoints || m_Team1Points >= m_MaxPoints)
+    {
+        if (m_Team0Points >= m_MaxPoints)
+            ++m_Team0GamesWon;
+        else
+            ++m_Team1GamesWon;
+
+        GameOver();
+        m_Team0Points = 0;
+        m_Team1Points = 0;
+    }
+
+    m_Team0PointsText->SetText(std::to_string(m_Team0Points));
+    m_Team1PointsText->SetText(std::to_string(m_Team1Points));
+
+    m_PlayersAskedForGrandTichu = 0;
+    m_PlayersWhoTradedCards = 0;
+    // m_GamePhase = GamePhase::GrandTichu;
+    m_GamePhase = GamePhase::Playing;
+    DealInitialCards(14); // TODO: put this back to 8
+
+    // TODO: remove this from here
+    // Temp for checking the AI functionality
+    for (const auto& player : m_pPlayers)
+    {
+        if (std::find(player->GetCards().begin(), player->GetCards().end(), Card{ CardColour::CC_Mahjong, 1 }) != player->GetCards().end())
+        {
+            player->SetPlaying(true);
+            m_pTichuGame->SetStartingPlayer(player->GetPlayerID());
+        }
+    }
+    // Remove until this point
+
+    UpdateLights();
+
+    m_CardsOnTop.clear();
+    m_PlayedCards.clear();
+	
+    PrintResultsToFile(roundTeam0Points, roundTeam1Points);
+}
 void TichuScene::UpdateLights() const
 {
 	for (const auto& player : m_pPlayers)

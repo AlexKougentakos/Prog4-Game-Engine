@@ -9,7 +9,7 @@ class ButtonManagerComponent;
 class AIPlayer_MCTS final : public PlayerComponent
 {
 public:
-	AIPlayer_MCTS(const int playerID, const CardRenderPackage& renderPackage);
+	AIPlayer_MCTS(const int playerID, const CardRenderPackage& renderPackage, const int iterations = 1);
 
     virtual ~AIPlayer_MCTS() override = default;
 
@@ -33,5 +33,7 @@ private:
 
     std::future<std::vector<Card>> m_MoveFuture;
     bool m_IsCalculatingMove{ false };
+
+	const int m_Iterations{};
 	
 };
