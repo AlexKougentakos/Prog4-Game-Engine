@@ -124,8 +124,13 @@ namespace MCTS
         return result;
     }
 
-    Node::Node(const GameState& state, int player, Node* parent)
-        : state(state), player(player), visitCount(0), totalValue(0.0), parent(parent) {}
+    Node::Node(const GameState& state, int seatOfPerspective, Node* parent)
+        : state(state)
+        , player(seatOfPerspective)
+        , visitCount(0)
+        , totalValue(0.0)
+        , parent(parent)
+    {}
 
     bool Node::IsFullyExpanded() 
     {
@@ -158,11 +163,13 @@ namespace MCTS
         return bestNode;
     }
 
-    Node* Node::AddChild(const GameState& childState, int childPlayer) 
+    Node* Node::AddChild(const GameState& childState)
     {
-        children.push_back(std::make_unique<Node>(childState, childPlayer, this));
+        // Always pass 'this->player' so perspective never changes
+        children.push_back(std::make_unique<Node>(childState, this->player, this));
         return children.back().get();
     }
+
 
     GameState SimulateGame(GameState state) 
     {
@@ -196,7 +203,7 @@ namespace MCTS
         {
             node->visitCount++;
             node->totalValue += reward;
-            reward = 1 - reward;
+            //reward = 1 - reward; remove the flipping
             node = node->parent;
         }
     }
@@ -229,7 +236,9 @@ namespace MCTS
                     }
                     if (!alreadyExpanded) 
                     {
-                        return node->AddChild(move, (node->player + 1) % 4); // Use modulo 4 for player rotation
+                        //return node->AddChild(move, (node->player + 1) % 4); // Use modulo 4 for player rotation
+                        return node->AddChild(move);
+
                     }
                 }
             }

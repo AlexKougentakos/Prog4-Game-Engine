@@ -75,12 +75,12 @@ namespace MCTS
         std::vector<std::unique_ptr<Node>> children;
         Node* parent;
 
-        Node(const GameState& state, int player, Node* parent = nullptr);
+        Node(const GameState& state, int seatOfPerspective, Node* parent = nullptr);
 
         bool IsFullyExpanded();
         bool IsLeaf();
         Node* BestChild(double explorationWeight);
-        Node* AddChild(const GameState& childState, int childPlayer);
+        Node* AddChild(const GameState& childState);
 
         // Delete copy and move constructors and assignment operators
         Node(const Node&) = delete;

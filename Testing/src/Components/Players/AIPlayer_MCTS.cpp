@@ -55,7 +55,6 @@ void AIPlayer_MCTS::StartMoveCalculation()
 #ifdef _DEBUG
         auto bestState = MCTS::MonteCarloTreeSearch(rootState, 50);
 #else
-        std::cout << "Iterations: " << m_Iterations << std::endl;
         auto bestState = MCTS::MonteCarloTreeSearch(rootState, m_Iterations);
 #endif
 
