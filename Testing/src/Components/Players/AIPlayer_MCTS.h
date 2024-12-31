@@ -35,5 +35,5 @@ private:
     bool m_IsCalculatingMove{ false };
 
 	const int m_Iterations{};
-	
+
 };

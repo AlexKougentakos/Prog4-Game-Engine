@@ -65,6 +65,17 @@ void TichuScene::Initialize()
 		}
 	}
 	UpdateLights();
+
+	//todo: remove this
+	 std::vector<Card> cards{ Card{CC_Phoenix, 0}, Card{CC_Black, 4},
+	 	Card{CC_Red, 5}, Card{CC_Green, 7}, Card{CC_Red, 8}};
+
+	std::vector<Card> cards2{ Card{CC_Phoenix, 0}, Card{CC_Black, 4},
+		 Card{CC_Red, 5}, Card{CC_Green, 7}, Card{CC_Red, 8}};
+	//
+	// [[maybe_unused]]auto test = m_pTichuGame->CreateCombination(cards);
+	//
+	// __debugbreak();
 }
 
 void TichuScene::PostRender() 
@@ -282,7 +293,7 @@ void TichuScene::CreatePlayers()
 		const auto player = CreateGameObject();
 
 		PlayerComponent* playerComponent = nullptr;
-		// if (i == 0) //First player is human
+		// if (i == 2) //First player is human
 		// {
 		// 	playerComponent = player->AddComponent<HumanPlayer>(i, m_RenderPackage);
 		// }
@@ -294,7 +305,7 @@ void TichuScene::CreatePlayers()
 		if (i == 0 || i == 2)
 			playerComponent = player->AddComponent<AIPlayer_MCTS>(i, m_RenderPackage, 100);
 		else
-			playerComponent = player->AddComponent<AIPlayer_MCTS>(i, m_RenderPackage, 10);
+			playerComponent = player->AddComponent<AIPlayer_MCTS>(i, m_RenderPackage, 1);
 		
 		
 		// Give the AI players access to game state
@@ -401,42 +412,42 @@ void TichuScene::DealInitialCards(const int numberOfCards)
 	// m_Cards.emplace_back(Card{CardColour::CC_Green, 14});
 	// m_Cards.emplace_back(Card{CardColour::CC_Dragon, 25});
 	//
-	// m_Cards.emplace_back(Card{CardColour::CC_Mahjong, 1});
-	// m_Cards.emplace_back(Card{CardColour::CC_Blue, 2});
+	// m_Cards.emplace_back(Card{CardColour::CC_Red, 6});
+	// m_Cards.emplace_back(Card{CardColour::CC_Green, 2});
 	// m_Cards.emplace_back(Card{CardColour::CC_Red, 2});
 	// m_Cards.emplace_back(Card{CardColour::CC_Blue, 3});
 	// m_Cards.emplace_back(Card{CardColour::CC_Green, 3});
+	// m_Cards.emplace_back(Card{CardColour::CC_Dog, 0});
 	// m_Cards.emplace_back(Card{CardColour::CC_Green, 4});
-	// m_Cards.emplace_back(Card{CardColour::CC_Phoenix, 0});
 	// m_Cards.emplace_back(Card{CardColour::CC_Red, 8});
 	// m_Cards.emplace_back(Card{CardColour::CC_Green, 8});
-	// m_Cards.emplace_back(Card{CardColour::CC_Blue, 8});
+	// m_Cards.emplace_back(Card{CardColour::CC_Blue, 9});
 	// m_Cards.emplace_back(Card{CardColour::CC_Black, 13});
 	// m_Cards.emplace_back(Card{CardColour::CC_Red, 13});
-	// m_Cards.emplace_back(Card{CardColour::CC_Blue, 14});
-	// m_Cards.emplace_back(Card{CardColour::CC_Red, 14});
+	// m_Cards.emplace_back(Card{CardColour::CC_Blue, 7});
+	// m_Cards.emplace_back(Card{CardColour::CC_Green, 7});
 	//
-	// m_Cards.emplace_back(Card{CardColour::CC_Green, 2});
+	// m_Cards.emplace_back(Card{CardColour::CC_Mahjong, 1});
+	// m_Cards.emplace_back(Card{CardColour::CC_Blue, 2});
+	// m_Cards.emplace_back(Card{CardColour::CC_Phoenix, 0});
 	// m_Cards.emplace_back(Card{CardColour::CC_Red, 3});
 	// m_Cards.emplace_back(Card{CardColour::CC_Red, 4});
 	// m_Cards.emplace_back(Card{CardColour::CC_Blue, 4});
 	// m_Cards.emplace_back(Card{CardColour::CC_Green, 5});
 	// m_Cards.emplace_back(Card{CardColour::CC_Black, 5});
-	// m_Cards.emplace_back(Card{CardColour::CC_Red, 6});
-	// m_Cards.emplace_back(Card{CardColour::CC_Blue, 7});
-	// m_Cards.emplace_back(Card{CardColour::CC_Green, 7});
-	// m_Cards.emplace_back(Card{CardColour::CC_Dog, 0});
+	// m_Cards.emplace_back(Card{CardColour::CC_Blue, 6});
+	// m_Cards.emplace_back(Card{CardColour::CC_Blue, 8});
 	// m_Cards.emplace_back(Card{CardColour::CC_Red, 9});
-	// m_Cards.emplace_back(Card{CardColour::CC_Green, 9});
-	// m_Cards.emplace_back(Card{CardColour::CC_Blue, 9});
 	// m_Cards.emplace_back(Card{CardColour::CC_Red, 10});
+	// m_Cards.emplace_back(Card{CardColour::CC_Blue, 14});
+	// m_Cards.emplace_back(Card{CardColour::CC_Red, 14});
 	//
 	// m_Cards.emplace_back(Card{CardColour::CC_Black, 4});
 	// m_Cards.emplace_back(Card{CardColour::CC_Red, 5});
 	// m_Cards.emplace_back(Card{CardColour::CC_Green, 6});
-	// m_Cards.emplace_back(Card{CardColour::CC_Blue, 6});
 	// m_Cards.emplace_back(Card{CardColour::CC_Black, 7});
 	// m_Cards.emplace_back(Card{CardColour::CC_Black, 9});
+	// m_Cards.emplace_back(Card{CardColour::CC_Green, 9});
 	// m_Cards.emplace_back(Card{CardColour::CC_Green, 10});
 	// m_Cards.emplace_back(Card{CardColour::CC_Blue, 10});
 	// m_Cards.emplace_back(Card{CardColour::CC_Black, 10});
@@ -490,6 +501,24 @@ void TichuScene::DealRestOfCards() const
 
 void TichuScene::CheckSubmittedHand(const std::vector<Card>& hand)
 {
+	//If the hand has a phoenix card, manually set the value to 0
+	//todo: figure out where the power is set to another value
+	for (Card& card : const_cast<std::vector<Card>&>(hand))
+	{
+		if (card.colour == CC_Phoenix)
+		{
+			card.power = 0;
+		}
+	}
+	
+	//Print out all the cards
+	std::cout << "Player " << m_pTichuGame->GetCurrentPlayerIndex() << " played: ";
+	for (const Card& card : hand)
+	{
+		std::cout << MCTS::GetCardColourString(card.colour) << " " << static_cast<int>(card.power) << " ";
+	}
+	std::cout << "\n\n";
+	
 	const auto& player = m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()];
 	std::vector<Card> submittedHand = hand;
 	std::sort(submittedHand.begin(), submittedHand.end());
@@ -521,6 +550,10 @@ void TichuScene::CheckSubmittedHand(const std::vector<Card>& hand)
 
 	if (m_pTichuGame->PlayHand(combination))
 	{
+		//This should be here, otherwise the point count in the end will be wrong
+		m_CardsOnTop = submittedHand;
+		m_PlayedCards.insert(m_PlayedCards.end(), submittedHand.begin(), submittedHand.end());
+		
 		m_PlayerWhoThrewLastCombinationIndex = player->GetPlayerID();
 		if (combination.numberOfCards == 1 &&
 			std::find(submittedHand.begin(), submittedHand.end(), Card{ CC_Dragon, 20 }) != submittedHand.end())
@@ -542,7 +575,7 @@ void TichuScene::CheckSubmittedHand(const std::vector<Card>& hand)
 		SetAnnouncementText("Player " + std::to_string(previousPlayerIndex) + " played a hand!");
 		
 		//Previous player because the current player index gets incremented inside PlayHand()
-		m_pPlayers[previousPlayerIndex]->PlayedSelectedCards();
+		//m_pPlayers[previousPlayerIndex]->PlayedSelectedCards();
 
 		if (m_pPlayers[previousPlayerIndex]->IsOut())
 		{
@@ -570,11 +603,12 @@ void TichuScene::CheckSubmittedHand(const std::vector<Card>& hand)
 			}
 		}
 
-		m_CardsOnTop = submittedHand;
-		m_PlayedCards.insert(m_PlayedCards.end(), submittedHand.begin(), submittedHand.end());
-
 		UpdateLights();
 		ShowMahjongSelectionTable(false);
+	}
+	else
+	{
+		__debugbreak();
 	}
 }
 
@@ -621,33 +655,97 @@ void TichuScene::Pass()
 
 void TichuScene::PrintResultsToFile(int roundTeam0Points, int roundTeam1Points)
 {
-	// Define the file path (you can change this to your desired path)
+	static int roundNumber = 1;
+	static int team0TotalPoints = 0;
+	static int team1TotalPoints = 0;
+
+	static int team0RoundsWon = 0;
+	static int team1RoundsWon = 0;
+
+	// Give the draw to the random team
+	if (roundTeam0Points > roundTeam1Points)
+		++team0RoundsWon;
+	else
+		++team1RoundsWon;
+
+	team0TotalPoints += roundTeam0Points;
+	team1TotalPoints += roundTeam1Points;
+	++roundNumber;
+
+	if (roundNumber != 100) return;
+
 	const std::string filePath = "round_results.txt";
 
 	// Open the file in append mode
 	std::ofstream outFile(filePath, std::ios::app);
-	if (outFile.is_open())
+	if (!outFile) // Check if file opened successfully
 	{
-		// Create the formatted strings using per-round points
-		std::string team1 = "Team 1 (Players 0 & 2): " + std::to_string(roundTeam0Points);
-		std::string team2 = "Team 2 (Players 1 & 3): " + std::to_string(roundTeam1Points);
-
-		// Write to the file
-		outFile << team1 << "\n" << team2 << "\n\n"; // Two newlines for separation
-
-		// Close the file
-		outFile.close();
+		std::cerr << "Failed to open file: " << filePath << "\n";
+		return;
 	}
-	else
+
+	// Print the final scores
+	std::string finalScores = "Final Scores\n";
+	finalScores += "Team 1 (Players 0 & 2): " + std::to_string(m_Team0GamesWon) + "\n";
+	finalScores += "Team 2 (Players 1 & 3): " + std::to_string(m_Team1GamesWon) + "\n";
+
+	const float team0WinPercentage =
+		static_cast<float>(team0RoundsWon) / static_cast<float>(roundNumber) * 100.f;
+
+	std::string winPercentage = "Round Win Percentage\n";
+	winPercentage += "Team 1 (Players 0 & 2): " + std::to_string(team0WinPercentage) + "\n";
+	winPercentage += "Team 2 (Players 1 & 3): " + std::to_string(100.f - team0WinPercentage) + "\n";
+
+	const float team0AveragePoints = static_cast<float>(team0TotalPoints) / static_cast<float>(roundNumber);
+	const float team1AveragePoints = static_cast<float>(team1TotalPoints) / static_cast<float>(roundNumber);
+
+	std::string averagePoints = "Average Points\n";
+	averagePoints += "Team 1 (Players 0 & 2): " + std::to_string(team0AveragePoints) + "\n";
+	averagePoints += "Team 2 (Players 1 & 3): " + std::to_string(team1AveragePoints) + "\n";
+
+	// Write results to file
+	outFile << finalScores << "\n" << winPercentage << "\n" << averagePoints << "\n";
+
+	for (const auto& player : m_pPlayers)
 	{
-		// Handle the error if the file cannot be opened
-		// You might want to log this or notify the user
-		std::cerr << "Unable to open file for writing: " << filePath << std::endl;
+		// Print the player's timings
+		player->ReportResults(outFile, filePath);
 	}
+
+	// Close the file
+	outFile.close();
+
+	// Exit the application
+	exit(0);
 }
+
 
 void TichuScene::NewRound(bool isOneTwo)
 {
+	std::cout << "++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+
+	//Print the value of the cards on the table and on the hand of the player who's not out
+	std::cout << "Cards on the table: ";
+	for (const Card& card : m_PlayedCards)
+	{
+		std::cout << MCTS::GetCardColourString(card.colour) <<  static_cast<int>(card.power) << " ";
+	}
+
+	std::cout << "\nCards of player who's not out: ";
+	for (const auto& player : m_pPlayers)
+	{
+		if (!player->IsOut())
+		{
+			for (const Card& card : player->GetCards())
+			{
+				std::cout << MCTS::GetCardColourString(card.colour) << static_cast<int>(card.power) << " ";
+			}
+		}
+	}
+
+	std::cout << "\n++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+		
+	
     m_NumberOfPlayersOut = 0;
     m_CurrentMahjongWishPower = 0;
 
@@ -705,9 +803,30 @@ void TichuScene::NewRound(bool isOneTwo)
             m_Team1Points += 200;
             roundTeam1Points += 200; // ** Update Per-Round Points **
         }
+
+    	for (const auto& player : m_pPlayers)
+    	{
+    		player->ResetPoints();
+    	}
     }
     else
     {
+		static int totalScore = 0;
+    	totalScore = 0;
+    	for (const auto& player : m_pPlayers)
+    	{
+			totalScore += player->GetPoints();
+    		if (!player->IsOut())
+    			totalScore += m_pTichuGame->CountPoints(player->GetCards());
+    	}
+    	totalScore += m_pTichuGame->CountPoints(m_PlayedCards);
+
+    	if (totalScore != 100)
+    	{
+    		__debugbreak();
+    	}
+    	
+    	
         // ** Step 4: Update Per-Round Points from UpdatePlayerPoints **
         // Assuming UpdatePlayerPoints modifies m_Team0Points or m_Team1Points,
         // you need to capture the delta. One way is to calculate points before and after.
@@ -726,6 +845,11 @@ void TichuScene::NewRound(bool isOneTwo)
         // Update per-round points
         roundTeam0Points += deltaTeam0;
         roundTeam1Points += deltaTeam1;
+
+    	for (const auto& player : m_pPlayers)
+    	{
+    		player->ResetPoints();
+    	}
     }
 
     if (m_Team0Points >= m_MaxPoints || m_Team1Points >= m_MaxPoints)
@@ -738,6 +862,11 @@ void TichuScene::NewRound(bool isOneTwo)
         GameOver();
         m_Team0Points = 0;
         m_Team1Points = 0;
+
+    	for (const auto& player : m_pPlayers)
+		{
+			player->ResetPoints();
+		}
     }
 
     m_Team0PointsText->SetText(std::to_string(m_Team0Points));
@@ -798,8 +927,20 @@ void TichuScene::UpdatePlayerPoints(int indexOfPlayerNotOut)
 	const int oppositePlayerIndex = indexOfPlayerNotOut + 1 > 3 ? 0 : indexOfPlayerNotOut + 1;
 	m_pPlayers[oppositePlayerIndex]->GivePoints(pointsOnHand);
 
-	m_Team0Points += m_pPlayers[0]->GetPoints() + m_pPlayers[2]->GetPoints();
-	m_Team1Points += m_pPlayers[1]->GetPoints() + m_pPlayers[3]->GetPoints();
+	//The player who threw the last combination gets the trick that is still on the table
+	m_pPlayers[m_PlayerWhoThrewLastCombinationIndex]->GivePoints(m_pTichuGame->CountPoints(m_PlayedCards));
+
+	const int pointsToAdd0 = m_pPlayers[0]->GetPoints() + m_pPlayers[2]->GetPoints();
+	const int pointsToAdd1 = m_pPlayers[1]->GetPoints() + m_pPlayers[3]->GetPoints();
+
+	//something is wrong if the points don't add up to 100 or 200
+	if (pointsToAdd0 + pointsToAdd1 != 100 && pointsToAdd0 + pointsToAdd1 != 200)
+	{
+		__debugbreak();
+	}
+
+	m_Team0Points += pointsToAdd0;
+	m_Team1Points += pointsToAdd1;
 
 	for (const auto& player : m_pPlayers)
 		player->ResetPoints();

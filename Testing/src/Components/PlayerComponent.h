@@ -69,6 +69,9 @@ struct Card
 	}
 	bool operator==(const Card& other) const
 	{
+		if (colour == CC_Phoenix && other.colour == CC_Phoenix)
+			return true;
+		
 		return colour == other.colour && power == other.power;
 	}
 };
@@ -133,6 +136,8 @@ public:
 	bool IsOut() const { return m_IsOut; }
 	bool GetShowMahjongSelectionTable() const { return m_ShowMahjongSelectionTable; }
 
+	void ReportResults(std::ofstream& outFile, std::string filePath) const;
+
 	//ImGui Relative Items
 	void ShowCardHitBoxes(const bool show) { m_ShowCardHitboxes = show; }
 	void ShowCardBacks(const bool show) { m_ShowCardBacks = show; }
@@ -180,6 +185,16 @@ protected:
 
 	//todo: temporary for the AI testing
 	std::vector<Card> m_CardsOnTop; // Reference to cards on top
+
+	// ===============
+	// Info collection
+	// ===============
+
+	//A map that stores how long each move took. This data will be normalized later
+	// First int is the round number, second int is the move number and the float is the time it took to calculate the move
+	std::map<int, std::map<int, double>> m_RoundMoveTimeMap{};
+	int m_RoundCounter{};
+	int m_MoveCounter{};
 private:
 
 	std::shared_ptr<ody::Texture2D> m_pRedLightTexture{};

@@ -1,5 +1,6 @@
 ﻿#include "PlayerComponent.h"
 
+#include <fstream>
 #include <imgui.h>
 #include <iostream>
 #include <string>
@@ -187,13 +188,15 @@ void PlayerComponent::SetCards(const std::vector<Card>& newCards)
     m_Cards = newCards;
 
     CalculateRenderingParameters();
+
+    ++m_RoundCounter;
+    m_MoveCounter = 0;
 }
 
 void PlayerComponent::PlayedSelectedCards()
 {
     // Create event data with selected cards
     ody::CardEventData eventData(m_SelectedCards);
-    
     
     // Remove selected cards from m_Cards
     std::vector<Card> selectedCardsCopy = m_SelectedCards;
@@ -211,6 +214,8 @@ void PlayerComponent::PlayedSelectedCards()
     CalculateRenderingParameters();
 
     m_PlayerSubject.EventTriggered(ody::GameEvent::PlayCards, eventData);
+
+    m_MoveCounter++;
 }
 
 void PlayerComponent::Pass()
@@ -220,6 +225,62 @@ void PlayerComponent::Pass()
     CalculateRenderingParameters();
 
     m_PlayerSubject.EventTriggered(ody::GameEvent::Pass);
+}
+
+void PlayerComponent::ReportResults(std::ofstream& outFile, std::string filePath) const
+{
+    // Define the number of bins, basically the number of intervals we want to divide the normalized move indices into
+    constexpr int numBins = 10;
+    std::vector<std::vector<double>> binnedTimes(numBins);
+
+    // Process each round
+    for (const auto& [roundNumber, timeMap] : m_RoundMoveTimeMap)
+    {
+        const auto& moves = timeMap;
+        int totalMoves = moves.rbegin()->first; // Last move number (highest key)
+
+        // Normalize move indices and add times to the appropriate bin
+        for (const auto& move : moves)
+            {
+            const int moveIndex = move.first;
+            double moveTime = move.second;
+
+            // Normalize move index to [0, 1]
+            const double normalizedIndex = static_cast<double>(moveIndex) / totalMoves;
+
+            // Determine the bin
+            int binIndex = static_cast<int>(normalizedIndex * numBins);
+            if (binIndex >= numBins) binIndex = numBins - 1; // Edge case for normalizedIndex == 1
+
+            // Add the move time to the bin
+            binnedTimes[binIndex].push_back(moveTime);
+        }
+    }
+
+    // Calculate average move time for each bin
+    std::vector<double> averageTimes(numBins, 0.0);
+    for (int i = 0; i < numBins; ++i)
+        {
+        const auto& times = binnedTimes[i];
+        if (!times.empty())
+        {
+            double sum = 0.0;
+            for (const double time : times)
+            {
+                sum += time;
+            }
+            averageTimes[i] = sum / static_cast<double>(times.size());
+        }
+    }
+    
+    outFile << "Bin\tAverage Time (ms)\n";
+    for (int i = 0; i < numBins; ++i)
+    {
+        double binStart = static_cast<double>(i) / numBins;
+        double binEnd = static_cast<double>(i + 1) / numBins;
+        
+        outFile << "[" << binStart << ", " << binEnd << "): " << averageTimes[i] << " ms\n";
+    }
 }
 
 void PlayerComponent::SetSceneReference(TichuScene* scene)

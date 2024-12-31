@@ -5,6 +5,8 @@
 #include <chrono>
 #include <imgui.h>
 
+#include "PerformanceTimer.h"
+
 AIPlayer_MCTS::AIPlayer_MCTS(const int playerID, const CardRenderPackage &renderPackage, const int iterations) :
 	PlayerComponent(playerID, renderPackage),
     m_Iterations(iterations)
@@ -43,26 +45,34 @@ void AIPlayer_MCTS::Update()
 void AIPlayer_MCTS::StartMoveCalculation()
 {
     m_IsCalculatingMove = true;
+
+    ody::PerformanceTimer timer{};
+    timer.Start();
+    bool forcedMove{false};
     
     // Launch the move calculation in a separate thread
-    m_MoveFuture = std::async(std::launch::async, [this]() 
+    m_MoveFuture = std::async(std::launch::async, [this, &forcedMove]() 
     {
         MCTS::GameState rootState{};
         rootState.currentPlayerIndex = static_cast<int8_t>(m_PlayerID);
         m_pScene->FillGameState(rootState);
 
+        std::vector<MCTS::GameState> moves{};
+        rootState.GetPossibleGameStates(rootState, moves);
+        if (moves.size() == 1)
+            forcedMove = true;
         
+
 #ifdef _DEBUG
         auto bestState = MCTS::MonteCarloTreeSearch(rootState, 50);
 #else
         auto bestState = MCTS::MonteCarloTreeSearch(rootState, m_Iterations);
 #endif
-
+        
         auto currentCards = rootState.playerHands[m_PlayerID];
         auto bestPlay = bestState.playerHands[m_PlayerID];
         std::vector<Card> cardsToPlay{};
 
-        // Get the difference between the two vectors
         for (const auto& card : currentCards)
         {
             if (std::find(bestPlay.begin(), bestPlay.end(), card) == bestPlay.end())
@@ -71,8 +81,22 @@ void AIPlayer_MCTS::StartMoveCalculation()
             }
         }
         
+        if (!cardsToPlay.empty())
+        {
+            [[maybe_unused]] auto test = m_pTichuGame->CreateCombination(cardsToPlay);
+            if (test.combinationType == CombinationType::CT_Invalid && test.numberOfCards != 0)
+            {
+                __debugbreak();
+            }
+        }
+        
         return cardsToPlay;
     });
+
+    timer.Stop();
+    
+    if (!forcedMove) // Don't add the time if the move was forced (1 possible move). It will skew the results
+        m_RoundMoveTimeMap[m_RoundCounter][m_MoveCounter] = timer.GetElapsedMicroseconds();
 }
 
 void AIPlayer_MCTS::ExecuteMove(const std::vector<Card>& cardsToPlay)

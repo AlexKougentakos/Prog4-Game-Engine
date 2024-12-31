@@ -10,6 +10,8 @@ namespace ody
 		void Start();
 		void Stop();
 		double GetElapsedSeconds() const;
+		double GetElapsedMilliseconds() const;
+		double GetElapsedMicroseconds() const;
 
 	private:
 		std::chrono::time_point<std::chrono::high_resolution_clock> m_StartTime{};

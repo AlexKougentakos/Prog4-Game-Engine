@@ -4,6 +4,221 @@
 #include <iostream>
 #include <unordered_map>
 
+Combination Tichu::CreateCombination_(std::vector<Card>& cards)
+{
+	const size_t numberOfCards = cards.size(); 
+	
+	//Determine the combination
+	Combination combination{};
+	combination.combinationType = CombinationType::CT_Invalid;
+	combination.numberOfCards = static_cast<uint8_t>(numberOfCards);
+
+	//sort the cards
+	std::sort(cards.begin(), cards.end());
+
+	//Find if the hand contains a phoenix card
+	bool hasPhoenix = false;
+	bool usedPhoenix = false; //For straights & steps
+	for (const Card& card : cards)
+	{
+		if (card.colour == CardColour::CC_Phoenix)
+		{
+			hasPhoenix = true;
+			break;
+		}
+	}
+
+	//A single card would always be valid
+	if (numberOfCards == 1)
+	{
+		if (cards[0].colour == CardColour::CC_Dog)
+			combination.combinationType = CombinationType::CT_Dogs;
+		else
+			combination.combinationType = CombinationType::CT_Single;
+		
+		combination.power = cards[0].power;
+
+		return combination;
+	}
+	//Doubles need to be the same
+	if (numberOfCards == 2)
+	{
+		if (cards[0].power == cards[1].power)
+		{
+			combination.combinationType = CombinationType::CT_Doubles;
+			combination.power = cards[0].power;
+		}
+		
+		if (hasPhoenix)
+		{
+			combination.combinationType = CombinationType::CT_Doubles;
+			combination.power = cards[1].power; //1 because the array is sorted
+		}
+
+		return combination;
+	}
+	//Triples also need to be the same
+	if (numberOfCards == 3)
+	{
+
+		if (cards[0].power == cards[1].power && cards[0].power == cards[2].power)
+		{
+			combination.combinationType = CombinationType::CT_Triples;
+			combination.power = cards[0].power;
+		}
+		
+		if (hasPhoenix && cards[1].power == cards[2].power)
+		{
+			combination.combinationType = CombinationType::CT_Triples;
+			combination.power = cards[1].power;
+		}
+		return combination;
+	}
+
+	//Four of a kind bomb
+	if (numberOfCards == 4 && cards[0].power == cards[1].power && cards[0].power == cards[2].power && cards[0].power == cards[3].power)
+	{
+		combination.combinationType = CombinationType::CT_FourOfAKindBomb;
+		combination.power = cards[0].power;
+		return combination;
+	}
+
+	//Full House
+	if (numberOfCards == 5 )
+	{
+		if (cards[0].power == cards[1].power && cards[0].power == cards[2].power && cards[3].power == cards[4].power) //In the format 2 2 2 + 3 3 
+		{
+			combination.combinationType = CombinationType::CT_FullHouse;
+			combination.power = cards[0].power;
+			return combination;
+		}
+		else if (cards[0].power == cards[1].power && cards[2].power == cards[3].power && cards[3].power == cards[4].power) // In the format 2 2 + 3 3 3
+		{
+			combination.combinationType = CombinationType::CT_FullHouse;
+			combination.power = cards[4].power;
+			return combination;
+		}
+		
+		if (hasPhoenix && cards[1].power == cards[2].power && cards[2].power == cards[3].power) //In the format 2 2 2 + 3 3 
+		{
+			combination.combinationType = CombinationType::CT_FullHouse;
+			combination.power = cards[1].power;
+			return combination;
+		}
+
+		if (hasPhoenix && cards[2].power == cards[3].power && cards[3].power == cards[4].power) // In the format 2 2 + 3 3 3
+		{
+			combination.combinationType = CombinationType::CT_FullHouse;
+			combination.power = cards[2].power;
+			return combination;
+		}
+
+		if (hasPhoenix && cards[1].power == cards[2].power && cards[3].power == cards[4].power) // In the format 2 2 + 3 3 3
+		{
+			//Automatically the phoenix will be the highest card to form a fullhouse with
+			combination.combinationType = CombinationType::CT_FullHouse;
+			combination.power = cards[3].power;
+			return combination;
+		}
+	}
+
+	//Straight
+	if (numberOfCards >= 5)
+	{
+		bool isStraight = true;
+		bool isBomb = true;
+		for (size_t i{}; i < cards.size(); ++i)
+		{
+			if (hasPhoenix && i == 0)
+			{
+				isBomb = false;
+				continue;
+			}
+
+			//We reached the final card of the hand
+			if (i + 1 >= cards.size())
+				break;
+
+			if (cards[i].power + 1 != cards[i + 1].power)
+			{	
+				if (hasPhoenix && !usedPhoenix && cards[i].power + 2 == cards[i + 1].power)
+				{
+					i += 1;
+					usedPhoenix = true;
+					continue;
+				}
+				isStraight = false;
+				break;
+			}
+
+			if (cards[i].colour != cards[i + 1].colour)
+				isBomb = false;
+		}
+
+		if (isStraight)
+		{
+			if (isBomb)
+				combination.combinationType = CombinationType::CT_StraightBomb;
+			else
+				combination.combinationType = CombinationType::CT_Straight;
+
+			combination.power = hasPhoenix ? cards[1].power : cards[0].power;
+			return combination;
+		}
+	}
+
+	//Steps
+	if (numberOfCards % 2 == 0 && numberOfCards >= 4)
+	{
+		bool isSteps = true;
+		usedPhoenix = false;
+
+		//Initialize the index ahead of the phoenix if it exists
+		for (size_t i{hasPhoenix}; i < numberOfCards - 1; ++ i)
+		{
+			if ((i + (1 - hasPhoenix - usedPhoenix)) % 2 == 0)
+			{
+				if (cards[i].power + 1 != cards[i + 1].power)
+				{
+					if (!hasPhoenix || usedPhoenix)
+						isSteps = false;
+					else
+					{
+						usedPhoenix = true;
+					}
+				}
+			}
+			else
+			{
+				if (cards[i].power != cards[i + 1].power)
+				{
+					if (!hasPhoenix || usedPhoenix)
+						isSteps = false;
+					else
+					{
+						usedPhoenix = true;
+					}
+				}
+			}
+		}
+		
+		if (isSteps)
+		{
+			combination.combinationType = CombinationType::CT_Steps;
+			combination.power = cards[1].power;
+			return combination;
+		}
+	}
+
+
+	if (combination.numberOfCards != 0)
+	{
+		__debugbreak();
+	}
+
+	return combination;
+}
+
 Combination Tichu::CreateCombination(std::vector<Card>& cards) const
 {
 	const size_t numberOfCards = cards.size(); 
@@ -12,6 +227,9 @@ Combination Tichu::CreateCombination(std::vector<Card>& cards) const
 	Combination combination{};
 	combination.combinationType = CombinationType::CT_Invalid;
 	combination.numberOfCards = static_cast<uint8_t>(numberOfCards);
+
+	//sort the cards
+	std::sort(cards.begin(), cards.end());
 
 	//Find if the hand contains a phoenix card
 	bool hasPhoenix = false;
@@ -101,20 +319,28 @@ Combination Tichu::CreateCombination(std::vector<Card>& cards) const
 			combination.power = cards[4].power;
 			return combination;
 		}
-
-		if ((hasPhoenix && cards[1].power == cards[2].power && cards[3].power == cards[4].power) ||
-			(hasPhoenix && cards[1].power == cards[2].power && cards[2].power == cards[3].power)) //In the format 2 2 2 + 3 3 
+		
+		if (hasPhoenix && cards[1].power == cards[2].power && cards[2].power == cards[3].power) //In the format 2 2 2 + 3 3 
 		{
 			combination.combinationType = CombinationType::CT_FullHouse;
 			combination.power = cards[1].power;
 			return combination;
 		}
 
-		if ((hasPhoenix && cards[2].power == cards[3].power && cards[3].power == cards[4].power) ||
-			(hasPhoenix && cards[1].power == cards[2].power && cards[2].power != cards[3].power && cards[3].power == cards[4].power)) // In the format 2 2 + 3 3 3
+		if (hasPhoenix && cards[2].power == cards[3].power && cards[3].power == cards[4].power) // In the format 2 2 + 3 3 3
 		{
 			combination.combinationType = CombinationType::CT_FullHouse;
+			combination.power = cards[2].power;
+			cards[0].power = cards[2].power;
+			return combination;
+		}
+
+		if (hasPhoenix && cards[1].power == cards[2].power && cards[3].power == cards[4].power) // In the format 2 2 + 3 3 3
+		{
+			//Automatically the phoenix will be the highest card to form a fullhouse with
+			combination.combinationType = CombinationType::CT_FullHouse;
 			combination.power = cards[3].power;
+			cards[0].power = cards[3].power;
 			return combination;
 		}
 	}
@@ -171,36 +397,36 @@ Combination Tichu::CreateCombination(std::vector<Card>& cards) const
 	{
 		bool isSteps = true;
 		usedPhoenix = false;
-		for (size_t i{}; i < cards.size() - 1; i += 2)
-		{
-			if (hasPhoenix && i == 0)
-			{
-				i = 1;
-			}
 
-			if (cards[i].power != cards[i + 1].power)
+		//Initialize the index ahead of the phoenix if it exists
+		for (size_t i{hasPhoenix}; i < numberOfCards - 1; ++ i)
+		{
+			if ((i + (1 - hasPhoenix - usedPhoenix)) % 2 == 0)
 			{
-				if (!hasPhoenix || usedPhoenix)
-					isSteps = false;
-				else
+				if (cards[i].power + 1 != cards[i + 1].power)
 				{
-					usedPhoenix = true;
-					cards[0].power = cards[i].power;
+					if (!hasPhoenix || usedPhoenix)
+						isSteps = false;
+					else
+					{
+						usedPhoenix = true;
+					}
 				}
 			}
-
-			//We reached the final steps
-			if (i + 2 >= cards.size())
-			{	
-				break;
-			}
-
-			if (cards[i].power + 1 != cards[i + 2].power)
+			else
 			{
-				isSteps = false;
+				if (cards[i].power != cards[i + 1].power)
+				{
+					if (!hasPhoenix || usedPhoenix)
+						isSteps = false;
+					else
+					{
+						usedPhoenix = true;
+					}
+				}
 			}
 		}
-
+		
 		if (isSteps)
 		{
 			combination.combinationType = CombinationType::CT_Steps;
@@ -209,10 +435,19 @@ Combination Tichu::CreateCombination(std::vector<Card>& cards) const
 		}
 	}
 
-	if (combination.combinationType == CombinationType::CT_Invalid && combination.numberOfCards != 0)
-	{
+
+	if (combination.numberOfCards != 0)
+	{	
 		__debugbreak();
+		
+		//We should never reach this state. Print what cards where played
+		std::cout << "Invalid combination: ";
+		for (const Card& card : cards)
+		{
+			std::cout << card.power << " ";
+		}
 	}
+	
 
 	return combination;
 }

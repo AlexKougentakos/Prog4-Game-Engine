@@ -95,7 +95,7 @@ namespace ody
 
 				Mix_PlayChannel(-1, effect->GetSoundEffect(), 0);
 
-				LOG_SOUND("Played Sound: " + fileName);
+				//LOG_SOUND("Played Sound: " + fileName);
 			}
 
 			Mix_CloseAudio();
