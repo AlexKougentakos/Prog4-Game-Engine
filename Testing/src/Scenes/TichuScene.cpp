@@ -16,6 +16,7 @@
 #include "Components/Players/AIPlayer.h"
 #include "Components/Players/HumanPlayer.h"
 #include "Components/Players/AIPlayer_MCTS.h"
+#include "Components/Players/AIPlayer_DMCTS.h"
 #include "Helpers/MCTS.h"
 
 void TichuScene::Initialize()
@@ -67,8 +68,8 @@ void TichuScene::Initialize()
 	UpdateLights();
 
 	//todo: remove this
-	 std::vector<Card> cards{ Card{CC_Phoenix, 0}, Card{CC_Black, 4},
-	 	Card{CC_Red, 5}, Card{CC_Green, 7}, Card{CC_Red, 8}};
+	 std::vector<Card> cards{ Card{CC_Phoenix, 4}, Card{CC_Mahjong, 1},
+	 	Card{CC_Green, 2}, Card{CC_Blue, 3}, Card{CC_Green, 5}};
 
 	std::vector<Card> cards2{ Card{CC_Phoenix, 0}, Card{CC_Black, 4},
 		 Card{CC_Red, 5}, Card{CC_Green, 7}, Card{CC_Red, 8}};
@@ -161,14 +162,14 @@ void TichuScene::SetPhaseToPlaying()
 			const int cardsToDeleteStartIndex = playerID * 3;
 
 			// Remove the cards that are being traded from this player's hand
-			playerCards.erase(std::remove_if(playerCards.begin(), playerCards.end(),
-				[this, cardsToDeleteStartIndex](const Card& card) -> bool
-				{
-					// Check if the current card is one of the cards to be deleted
-					return (card == m_CardsForTrade[cardsToDeleteStartIndex] ||
-						card == m_CardsForTrade[cardsToDeleteStartIndex + 1] ||
-						card == m_CardsForTrade[cardsToDeleteStartIndex + 2]);
-				}), playerCards.end());
+			std::erase_if(playerCards,
+			              [this, cardsToDeleteStartIndex](const Card& card) -> bool
+			              {
+				              // Check if the current card is one of the cards to be deleted
+				              return (card == m_CardsForTrade[cardsToDeleteStartIndex] ||
+					              card == m_CardsForTrade[cardsToDeleteStartIndex + 1] ||
+					              card == m_CardsForTrade[cardsToDeleteStartIndex + 2]);
+			              });
 
 
 			// Go through each card that should belong to this player
@@ -236,6 +237,7 @@ void TichuScene::OnNotify(ody::GameEvent event, const ody::EventData& data)
 		{
 			const int totalPoints = m_pTichuGame->CountPoints(m_PlayedCards);
 			m_pPlayers[dragonData->recipientPlayerID]->GiveDragon(totalPoints);
+			std::cout << "Player " << dragonData->recipientPlayerID << " won the hand with " << totalPoints << " points!" << std::endl;
 
 			m_CardsOnTop.clear();
 			m_PlayedCards.clear();
@@ -284,6 +286,8 @@ void TichuScene::CreateDeck()
 	std::mt19937 g(rd());
 
 	std::shuffle(m_Cards.begin(), m_Cards.end(), g);
+
+	m_RemainingCards = m_Cards;
 }
 
 void TichuScene::CreatePlayers()
@@ -303,7 +307,7 @@ void TichuScene::CreatePlayers()
 		// }
 
 		if (i == 0 || i == 2)
-			playerComponent = player->AddComponent<AIPlayer_MCTS>(i, m_RenderPackage, 100);
+			playerComponent = player->AddComponent<AIPlayer_DMCTS>(i, m_RenderPackage, 5000, 1);
 		else
 			playerComponent = player->AddComponent<AIPlayer_MCTS>(i, m_RenderPackage, 1);
 		
@@ -553,7 +557,19 @@ void TichuScene::CheckSubmittedHand(const std::vector<Card>& hand)
 		//This should be here, otherwise the point count in the end will be wrong
 		m_CardsOnTop = submittedHand;
 		m_PlayedCards.insert(m_PlayedCards.end(), submittedHand.begin(), submittedHand.end());
-		
+
+		//Remove the played cards from the remaining cards
+		std::erase_if(m_RemainingCards,
+	      [&](const Card& card) -> bool
+	      {
+	      		if (std::ranges::find(submittedHand, card) != submittedHand.end())
+	      		{
+	      			std::cout << "Erasing card: " << MCTS::GetCardColourString(card.colour) << " " << static_cast<int>(card.power) << std::endl;
+	      			return true;
+	      		}
+	          return false;
+	      });
+
 		m_PlayerWhoThrewLastCombinationIndex = player->GetPlayerID();
 		if (combination.numberOfCards == 1 &&
 			std::find(submittedHand.begin(), submittedHand.end(), Card{ CC_Dragon, 20 }) != submittedHand.end())
@@ -644,6 +660,8 @@ void TichuScene::Pass()
 
 				m_CardsOnTop.clear();
 				m_PlayedCards.clear();
+				
+				std::cout << "Player " << m_PlayerWhoThrewLastCombinationIndex << " won the hand with " << points << " points!" << std::endl;
 				return;
 			}
 		}
@@ -709,7 +727,8 @@ void TichuScene::PrintResultsToFile(int roundTeam0Points, int roundTeam1Points)
 	for (const auto& player : m_pPlayers)
 	{
 		// Print the player's timings
-		player->ReportResults(outFile, filePath);
+		if (player->GetPlayerID() == 0 || player->GetPlayerID() == 2)
+			player->ReportResults(outFile, filePath);
 	}
 
 	// Close the file
@@ -1267,6 +1286,22 @@ void TichuScene::FillGameState(MCTS::GameState &state) const
 	//todo: fill in the tichu and grand tichu booleans
 }
 
+void TichuScene::FillDeterminizedStates(MCTS::GameState& state, std::vector<Card>& remainingCards) const
+{
+	FillGameState(state);
+	
+	// Remaining cards are equal to the m_RemainingCards - the current player's cards
+	auto cards = m_RemainingCards;
+	auto currentPlayerCards = m_pPlayers[state.currentPlayerIndex]->GetCards();
+
+	std::erase_if(cards,
+		  [&](const Card& card) -> bool
+		  {
+			  return std::ranges::find(currentPlayerCards, card) != currentPlayerCards.end();
+		  });
+
+	remainingCards = cards;
+}
 
 void TichuScene::OnGUI()
 {

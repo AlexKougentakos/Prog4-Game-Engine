@@ -1,25 +1,25 @@
-#include "AIPlayer_MCTS.h"
+﻿#include "AIPlayer_DMCTS.h"
 #include "Tichu.h"
 #include "Scenes/TichuScene.h"
 #include <Helpers/MCTS.h>
 #include <chrono>
-#include <imgui.h>
 
 #include "PerformanceTimer.h"
 
-AIPlayer_MCTS::AIPlayer_MCTS(const int playerID, const CardRenderPackage &renderPackage, const int iterations) :
+AIPlayer_DMCTS::AIPlayer_DMCTS(const int playerID, const CardRenderPackage &renderPackage, const int iterations, const int determinizations) :
 	PlayerComponent(playerID, renderPackage),
-    m_Iterations(iterations)
+    m_Iterations(iterations),
+    m_Determinizations(determinizations)
 {
     
 }
 
-void AIPlayer_MCTS::Initialize()
+void AIPlayer_DMCTS::Initialize()
 {
     PlayerComponent::Initialize();
 }
 
-void AIPlayer_MCTS::Update()
+void AIPlayer_DMCTS::Update()
 {
     PlayerComponent::Update();
 
@@ -42,7 +42,7 @@ void AIPlayer_MCTS::Update()
     }
 }
 
-void AIPlayer_MCTS::StartMoveCalculation()
+void AIPlayer_DMCTS::StartMoveCalculation()
 {
     m_IsCalculatingMove = true;
     
@@ -56,7 +56,9 @@ void AIPlayer_MCTS::StartMoveCalculation()
         
         MCTS::GameState rootState{};
         rootState.currentPlayerIndex = static_cast<int8_t>(m_PlayerID);
-        m_pScene->FillGameState(rootState);
+        std::vector<Card> remainingCards{};
+        std::vector<Card> playerCards{};
+        m_pScene->FillDeterminizedStates(rootState, remainingCards);
 
         std::vector<MCTS::GameState> moves{};
         rootState.GetPossibleGameStates(rootState, moves);
@@ -65,9 +67,9 @@ void AIPlayer_MCTS::StartMoveCalculation()
         
 
 #ifdef _DEBUG
-        auto bestState = MCTS::MonteCarloTreeSearch(rootState, 500);
+        auto bestState = MCTS::DeterminizedTreeSearch(rootState, 500, 10, remainingCards);
 #else
-        auto bestState = MCTS::MonteCarloTreeSearch(rootState, m_Iterations);
+        auto bestState = MCTS::DeterminizedTreeSearch(rootState, m_Iterations, m_Determinizations, remainingCards);
 #endif
         
         auto currentCards = rootState.playerHands[m_PlayerID];
@@ -100,7 +102,7 @@ void AIPlayer_MCTS::StartMoveCalculation()
     });
 }
 
-void AIPlayer_MCTS::ExecuteMove(const std::vector<Card>& cardsToPlay)
+void AIPlayer_DMCTS::ExecuteMove(const std::vector<Card>& cardsToPlay)
 {
     if (cardsToPlay.empty())
     {
@@ -112,7 +114,7 @@ void AIPlayer_MCTS::ExecuteMove(const std::vector<Card>& cardsToPlay)
     PlayedSelectedCards();
 }
 
-void AIPlayer_MCTS::AskForDragon()
+void AIPlayer_DMCTS::AskForDragon()
 {
     // Determine valid opponent IDs based on this AI's player ID
     int targetPlayer;
@@ -131,7 +133,7 @@ void AIPlayer_MCTS::AskForDragon()
     m_PlayerSubject.EventTriggered(ody::GameEvent::AskForDragon, eventData);
 }
 
-void AIPlayer_MCTS::OnGuiMCTS()
+void AIPlayer_DMCTS::OnGuiMCTS()
 {
    
 }

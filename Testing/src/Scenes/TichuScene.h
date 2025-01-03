@@ -39,6 +39,7 @@ public:
 	TichuScene& operator=(TichuScene&& other) noexcept = delete;
 
 	void FillGameState(MCTS::GameState& state) const;
+	void FillDeterminizedStates(MCTS::GameState& state, std::vector<Card>& remainingCards) const;
 
 protected:
 	void Initialize() override;
@@ -92,6 +93,7 @@ private:
 	std::vector<Card> m_Cards{};
 	std::vector<Card> m_CardsOnTop{};
 	std::vector<Card> m_PlayedCards{};
+	std::vector<Card> m_RemainingCards{};
 	CardRenderPackage m_RenderPackage{};
 	std::unique_ptr<Tichu> m_pTichuGame{};
 

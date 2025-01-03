@@ -4,6 +4,8 @@
 #include <iostream>
 #include <unordered_map>
 
+#include "Helpers/MCTS.h"
+
 Combination Tichu::CreateCombination_(std::vector<Card>& cards)
 {
 	const size_t numberOfCards = cards.size(); 
@@ -645,11 +647,16 @@ int Tichu::CountPoints(const std::vector<Card>& cards) const
 {
 	int points = 0;
 	for (const Card& card : cards)
-	{
+	{		
+		if (card.colour == CardColour::CC_Phoenix)
+		{
+			points -= 25;
+			continue;
+		}
+		
 		if (card.power == 5) points += 5;
 		if (card.power == 10) points += 10;
 		if (card.power == 13) points += 10;
-		if (card.colour == CardColour::CC_Phoenix) points -= 25;
 		if (card.colour == CardColour::CC_Dragon) points += 25;
 	}
 

@@ -3,7 +3,6 @@
 #include <array>
 #include <vector>
 #include <memory>
-#include <functional>
 
 #include "Components/PlayerComponent.h" // For the card structs
 #include "Tichu.h"
@@ -123,11 +122,9 @@ namespace MCTS
         //Never reached
         return "Unknown";
     }
-
-    // Add a progress callback type
-    using ProgressCallback = std::function<void(const MCTSProgress&)>;
-
-    // Modify the MonteCarloTreeSearch declaration
+    
     GameState MonteCarloTreeSearch(const GameState& rootState, int iterations);
+    GameState DeterminizedTreeSearch(const GameState& partialRootState, int iterations, int numDeterminized,
+        std::vector<Card>& remainingCards);
 
 }

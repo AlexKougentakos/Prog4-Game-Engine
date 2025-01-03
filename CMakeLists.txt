@@ -373,6 +373,8 @@ add_executable(Game
     Testing/src/Components/Players/AIPlayer.cpp
     Testing/src/Components/Players/AIPlayer_MCTS.h
     Testing/src/Components/Players/AIPlayer_MCTS.cpp
+    Testing/src/Components/Players/AIPlayer_DMCTS.h
+        Testing/src/Components/Players/AIPlayer_DMCTS.cpp
     Testing/src/Components/Players/HumanPlayer.h
     Testing/src/Components/Players/HumanPlayer.cpp
     Testing/src/Commands/ButtonPressed.h
