@@ -416,104 +416,46 @@ namespace MCTS
     GameState DeterminizedTreeSearch(const GameState& partialRootState,int iterations,int numDeterminized,
         std::vector<Card>& remainingCards)
 {
-    // 1. Generate pseudo fully-known states
-    std::vector<GameState> determinizedStates{};
+        // 1. Generate pseudo fully-known states
+        std::vector<GameState> determinizedStates{};
+        GenerateDeterminizedStates(partialRootState, numDeterminized, determinizedStates, remainingCards);
 
-    // You could probably also multi-thread this part but the number of determinizations I will use
-    // Won't be that high
-    GenerateDeterminizedStates(partialRootState, numDeterminized, determinizedStates, remainingCards);
+        // We'll track how often each candidate state is chosen
+        std::unordered_map<GameState, int> bestMoveCounts{};
+        std::vector<GameState> bestStates(numDeterminized);
 
-    // We'll track how often each candidate state is chosen
-    std::unordered_map<GameState, int> bestMoveCounts{};
-
-    // --- MULTI-THREADED SECTION (for determinized states) ---
-    int numThreads = std::min(static_cast<int>(std::thread::hardware_concurrency() - 1), numDeterminized);
-    if (numThreads == 0) 
-        numThreads = 4;
-
-#ifdef _DEBUG
-    numThreads = 1;
-#endif
-
-    // We'll store the best next state for each determinized state
-    std::vector<GameState> bestStates(numDeterminized);
-
-    // Create & launch threads
-    std::vector<std::thread> threads{};
-    threads.reserve(numThreads);
-
-    // Partition the determinizedStates among the threads
-    int statesPerThread = numDeterminized / numThreads;
-    int remainder       = numDeterminized % numThreads;
-
-    int startIndex = 0;
-    for (int t = 0; t < numThreads; ++t)
-    {
-        const int batchSize = statesPerThread + (t < remainder ? 1 : 0);
-        const int thisStart = startIndex;
-        const int thisEnd = thisStart + batchSize;
-        startIndex += batchSize;
-
-        threads.emplace_back([&, thisStart, thisEnd]()
+        // NOTE: We are now iterating over each determinized state on a single thread.
+        // The multi-threaded MCTS is handled by MonteCarloTreeSearch(...).
+        for (int i = 0; i < numDeterminized; ++i)
         {
-            // Each thread processes its own chunk of iterations
-            for (int i = thisStart; i < thisEnd; ++i)
-            {
-                // Create a NEW root node for each determinized state to
-                // avoid using a mutex that would slow down the process
-                auto rootNode = std::make_unique<Node>(determinizedStates[i],
-                                                       determinizedStates[i].GetCurrentPlayer());
+            // ---- Existing multi-threaded MCTS call ----
+            // Instead of manually partitioning states across threads,
+            // we let MonteCarloTreeSearch() do the parallel iteration.
+            GameState bestChild = MonteCarloTreeSearch(determinizedStates[i], iterations);
 
-                // Run a single-threaded loop of MCTS iterations
-                for (int it = 0; it < iterations; ++it)
-                {
-                    MonteCarloTreeSearch_SingleThread(rootNode.get(), determinizedStates[i]);
-                }
-
-                // After the single-thread loop, pick the best child from 'rootNode'
-                GameState bestChildState{};
-                int maxVisits = -1;
-
-                for (auto& child : rootNode->children)
-                {
-                    if (child->visitCount > maxVisits)
-                    {
-                        maxVisits = child->visitCount;
-                        bestChildState = child->state;
-                    }
-                }
-
-                bestStates[i] = bestChildState;
-            }
-        });
-    }
-        
-    for (auto& th : threads)
-    {
-        th.join();
-    }
-
-    // --- END MULTI-THREADED SECTION ---
-
-    // 2. Aggregate results
-    for (int i = 0; i < numDeterminized; ++i)
-    {
-        bestMoveCounts[bestStates[i]]++;
-    }
-
-    // 3. Pick the next state that occurs most often
-    GameState bestOverallState{};
-    int maxCount = -1;
-    for (auto& [candidateState, count] : bestMoveCounts)
-    {
-        if (count > maxCount)
-        {
-            maxCount = count;
-            bestOverallState = candidateState;
+            // bestChild now holds the best next state for this determinization
+            bestStates[i] = bestChild;
         }
-    }
 
-    return bestOverallState;
+        // 2. Aggregate results
+        for (int i = 0; i < numDeterminized; ++i)
+        {
+            bestMoveCounts[bestStates[i]]++;
+        }
+
+        // 3. Pick the next state that occurs most often
+        GameState bestOverallState{};
+        int maxCount = -1;
+        for (auto& [candidateState, count] : bestMoveCounts)
+        {
+            if (count > maxCount)
+            {
+                maxCount = count;
+                bestOverallState = candidateState;
+            }
+        }
+
+        return bestOverallState;
 }
 
 //--------------------------------

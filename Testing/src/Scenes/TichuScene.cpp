@@ -298,7 +298,7 @@ void TichuScene::CreatePlayers()
 
 		PlayerComponent* playerComponent = nullptr;
 		// if (i == 2) //First player is human
-		// {
+		// {q
 		// 	playerComponent = player->AddComponent<HumanPlayer>(i, m_RenderPackage);
 		// }
 		// else
@@ -307,7 +307,7 @@ void TichuScene::CreatePlayers()
 		// }
 
 		if (i == 0 || i == 2)
-			playerComponent = player->AddComponent<AIPlayer_DMCTS>(i, m_RenderPackage, 5000, 1);
+			playerComponent = player->AddComponent<AIPlayer_DMCTS>(i, m_RenderPackage, 10, 10);
 		else
 			playerComponent = player->AddComponent<AIPlayer_MCTS>(i, m_RenderPackage, 1);
 		
