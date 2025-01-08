@@ -297,19 +297,19 @@ void TichuScene::CreatePlayers()
 		const auto player = CreateGameObject();
 
 		PlayerComponent* playerComponent = nullptr;
-		// if (i == 2) //First player is human
-		// {q
-		// 	playerComponent = player->AddComponent<HumanPlayer>(i, m_RenderPackage);
-		// }
-		// else
-		// {
-		// 	playerComponent = player->AddComponent<AIPlayer_MCTS>(i, m_RenderPackage);
-		// }
-
-		if (i == 0 || i == 2)
-			playerComponent = player->AddComponent<AIPlayer_DMCTS>(i, m_RenderPackage, 10, 10);
+		if (i == 0) //First player is human
+		{
+			playerComponent = player->AddComponent<HumanPlayer>(i, m_RenderPackage);
+		}
 		else
-			playerComponent = player->AddComponent<AIPlayer_MCTS>(i, m_RenderPackage, 1);
+		{
+			playerComponent = player->AddComponent<AIPlayer_DMCTS>(i, m_RenderPackage, 15'000, 1);
+		}
+
+		// if (i == 0 || i == 2)
+		// 	playerComponent = player->AddComponent<AIPlayer_DMCTS>(i, m_RenderPackage, 25'000, 3);
+		// else
+		// 	playerComponent = player->AddComponent<AIPlayer_MCTS>(i, m_RenderPackage, 10'000);
 		
 		
 		// Give the AI players access to game state
@@ -522,8 +522,8 @@ void TichuScene::CheckSubmittedHand(const std::vector<Card>& hand)
 		std::cout << MCTS::GetCardColourString(card.colour) << " " << static_cast<int>(card.power) << " ";
 	}
 	std::cout << "\n\n";
-	
-	const auto& player = m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()];
+
+	PlayerComponent* player = m_pPlayers[m_pTichuGame->GetCurrentPlayerIndex()];
 	std::vector<Card> submittedHand = hand;
 	std::sort(submittedHand.begin(), submittedHand.end());
 
@@ -554,6 +554,7 @@ void TichuScene::CheckSubmittedHand(const std::vector<Card>& hand)
 
 	if (m_pTichuGame->PlayHand(combination))
 	{
+		player->RemoveSelectedCards();
 		//This should be here, otherwise the point count in the end will be wrong
 		m_CardsOnTop = submittedHand;
 		m_PlayedCards.insert(m_PlayedCards.end(), submittedHand.begin(), submittedHand.end());
@@ -621,10 +622,6 @@ void TichuScene::CheckSubmittedHand(const std::vector<Card>& hand)
 
 		UpdateLights();
 		ShowMahjongSelectionTable(false);
-	}
-	else
-	{
-		__debugbreak();
 	}
 }
 
@@ -913,9 +910,12 @@ void TichuScene::NewRound(bool isOneTwo)
 
     m_CardsOnTop.clear();
     m_PlayedCards.clear();
+
+	m_pTichuGame->Reset();
 	
     PrintResultsToFile(roundTeam0Points, roundTeam1Points);
 }
+
 void TichuScene::UpdateLights() const
 {
 	for (const auto& player : m_pPlayers)

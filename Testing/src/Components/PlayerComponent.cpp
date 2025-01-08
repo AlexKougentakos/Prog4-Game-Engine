@@ -193,19 +193,15 @@ void PlayerComponent::SetCards(const std::vector<Card>& newCards)
     m_MoveCounter = 0;
 }
 
-void PlayerComponent::PlayedSelectedCards()
+void PlayerComponent::RemoveSelectedCards()
 {
-    // Create event data with selected cards
-    ody::CardEventData eventData(m_SelectedCards);
-    
     // Remove selected cards from m_Cards
     std::vector<Card> selectedCardsCopy = m_SelectedCards;
     std::erase_if(m_Cards, [&selectedCardsCopy](const Card& card) 
     {
         return std::find(selectedCardsCopy.begin(), selectedCardsCopy.end(), card) != selectedCardsCopy.end();
     });
-
-
+    
     // Clear the selected cards
     m_SelectedCards.clear();
     m_HitBoxesDirty = true;
@@ -213,9 +209,15 @@ void PlayerComponent::PlayedSelectedCards()
     if (m_Cards.empty()) m_IsOut = true;
     CalculateRenderingParameters();
 
-    m_PlayerSubject.EventTriggered(ody::GameEvent::PlayCards, eventData);
-
     m_MoveCounter++;
+}
+
+void PlayerComponent::PlayedSelectedCards()
+{
+    // Create event data with selected cards
+    ody::CardEventData eventData(m_SelectedCards);
+
+    m_PlayerSubject.EventTriggered(ody::GameEvent::PlayCards, eventData);
 }
 
 void PlayerComponent::Pass()

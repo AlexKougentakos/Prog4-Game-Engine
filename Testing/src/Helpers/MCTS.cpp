@@ -291,7 +291,7 @@ namespace MCTS
 
     GameState MonteCarloTreeSearch(const GameState& rootState, int iterations)
     {
-        int numThreads = std::min(static_cast<int>(std::thread::hardware_concurrency()), iterations);
+        int numThreads = std::min(static_cast<int>(std::thread::hardware_concurrency() - 1), iterations);
         if (numThreads == 0) numThreads = 4; // Default to 4 threads if unable to detect
 
 #ifdef _DEBUG
@@ -417,6 +417,8 @@ namespace MCTS
         std::vector<Card>& remainingCards)
 {
         // 1. Generate pseudo fully-known states
+        // Could potentially multithread this if the number of determinizations gets too large
+        // This is very easily parallelizable
         std::vector<GameState> determinizedStates{};
         GenerateDeterminizedStates(partialRootState, numDeterminized, determinizedStates, remainingCards);
 
@@ -432,8 +434,7 @@ namespace MCTS
             // Instead of manually partitioning states across threads,
             // we let MonteCarloTreeSearch() do the parallel iteration.
             GameState bestChild = MonteCarloTreeSearch(determinizedStates[i], iterations);
-
-            // bestChild now holds the best next state for this determinization
+            
             bestStates[i] = bestChild;
         }
 
@@ -490,10 +491,6 @@ void GenerateSingleCardPlays(const std::vector<Card>& hand, const Combination& c
         {
             //No need to check for duplicates, only one Phoenix card in the game
             std::vector<Card> temp{card};
-            if (!TestCombinationValidity(temp))
-            {
-                __debugbreak();
-            }
             possiblePlays.emplace_back(temp);
         }
 
@@ -505,10 +502,6 @@ void GenerateSingleCardPlays(const std::vector<Card>& hand, const Combination& c
                 if (std::find(possiblePlays.begin(), possiblePlays.end(), std::vector<Card>{card}) == possiblePlays.end())
                 {
                     std::vector<Card> temp{card};
-                    if (!TestCombinationValidity(temp))
-                    {
-                        __debugbreak();
-                    }
                     possiblePlays.emplace_back(temp);
                 }                
             }
@@ -519,10 +512,6 @@ void GenerateSingleCardPlays(const std::vector<Card>& hand, const Combination& c
             if (std::find(possiblePlays.begin(), possiblePlays.end(), std::vector<Card>{card}) == possiblePlays.end())
             {
                 std::vector<Card> temp{card};
-                if (!TestCombinationValidity(temp))
-                {
-                    __debugbreak();
-                }
                 possiblePlays.emplace_back(temp);
             }
         }
@@ -552,10 +541,6 @@ void GenerateDoubleCardPlays(const std::vector<Card>& hand, const Combination& c
         if (group.second.size() >= 2 && p > currentCombination.power)
         {
             std::vector<Card> temp = { group.second[0], group.second[1] };
-            if (!TestCombinationValidity(temp))
-            {
-                __debugbreak();
-            }
             possiblePlays.push_back({ group.second[0], group.second[1] });
         }
     }
@@ -592,11 +577,6 @@ void GenerateDoubleCardPlays(const std::vector<Card>& hand, const Combination& c
                     pairPlay.push_back(phoenixCard);
                     pairPlay.push_back(nonPhoenixCard);
                     possiblePlays.push_back(pairPlay);
-                    
-                    if (!TestCombinationValidity(pairPlay))
-                    {
-                        __debugbreak();
-                    }
                 }
             }
         }
@@ -626,10 +606,6 @@ void GenerateTripleCardPlays(const std::vector<Card>& hand, const Combination& c
         if (group.second.size() >= 3 && p > currentCombination.power)
         {
             std::vector<Card> temp = { group.second[0], group.second[1], group.second[2] };
-            if (!TestCombinationValidity(temp))
-            {
-                __debugbreak();
-            }
             possiblePlays.push_back({ group.second[0], group.second[1], group.second[2] });
         }
     }
@@ -659,11 +635,6 @@ void GenerateTripleCardPlays(const std::vector<Card>& hand, const Combination& c
                     triplePlay.push_back(nonPhoenixCards[0]);
                     triplePlay.push_back(nonPhoenixCards[1]);
                     possiblePlays.push_back(triplePlay);
-                    
-                    if (!TestCombinationValidity(triplePlay))
-                    {
-                        __debugbreak();
-                    }
                 }
             }
         }
@@ -692,10 +663,6 @@ void GenerateBombPlays(const std::vector<Card>& hand, const Combination& current
             possiblePlays.push_back({ group.second[0], group.second[1], group.second[2], group.second[3] });
 
             std::vector<Card> temp = { group.second[0], group.second[1], group.second[2], group.second[3] };
-            if (!TestCombinationValidity(temp))
-            {
-                __debugbreak();
-            }
         }
     }
 }
@@ -828,11 +795,6 @@ void GenerateFullHousePlays(const std::vector<Card>& hand, const Combination& cu
             }
 
             possiblePlays.push_back(fullHouse);
-            
-            if (!TestCombinationValidity(fullHouse))
-            {
-                __debugbreak();
-            }
         }
     }
 }
@@ -915,11 +877,6 @@ void GenerateFilledStraights(const std::vector<Card>& hand, const Combination& c
                 {
                     possiblePlays.push_back(straight);
                 }
-                
-                if (!TestCombinationValidity(straight))
-                {
-                    __debugbreak();
-                }
             }
         }
     }
@@ -959,11 +916,6 @@ void GeneratePureStraights(const std::vector<Card>& hand, std::vector<std::vecto
                 if (straight.size() >= 5)
                 {
                     possiblePlays.push_back(straight);
-
-                    if (!TestCombinationValidity(straight))
-                    {
-                        __debugbreak();
-                    }
                 }
             }
             else
@@ -1010,11 +962,6 @@ void GenerateStraightPlays(const std::vector<Card>& hand, const Combination& cur
                 moveWithPhoenix.size() == currentCombination.numberOfCards)) //and you need to match the number of cards
             {
                 possiblePlays.push_back(moveWithPhoenix);
-
-                if (!TestCombinationValidity(moveWithPhoenix))
-                {
-                    __debugbreak();
-                }
             }
         }
     }
@@ -1153,11 +1100,6 @@ void GenerateStepPlays(const std::vector<Card>& hand, const Combination& current
         {
             uniqueResults.insert(sig);
             possiblePlays.push_back(finalCombo);
-            
-            if (!TestCombinationValidity(finalCombo))
-            {
-                __debugbreak();
-            }
         }
     };
 
@@ -1219,152 +1161,30 @@ void GeneratePossiblePlays(const std::vector<Card>& hand, const Combination& cur
     case CombinationType::CT_SinglePhoenix:
     case CombinationType::CT_Single:
         GenerateSingleCardPlays(hand, currentCombination, possiblePlays);
-        //Check if you can find a card with colour CC_Dog inside the possible plays
-        for (const auto& play : possiblePlays)
-        {
-            for (const auto& card : play)
-            {
-                if (card.colour == CC_Dog)
-                {
-                    __debugbreak();
-                }
-            }
-        }
         break;
     case CombinationType::CT_Doubles:
         GenerateDoubleCardPlays(hand, currentCombination, possiblePlays);
-        for (const auto& play : possiblePlays)
-        {
-            for (const auto& card : play)
-            {
-                if (card.colour == CC_Dog)
-                {
-                    __debugbreak();
-                }
-            }
-        }
         break;
     case CombinationType::CT_Triples:
         GenerateTripleCardPlays(hand, currentCombination, possiblePlays);
-        for (const auto& play : possiblePlays)
-        {
-            for (const auto& card : play)
-            {
-                if (card.colour == CC_Dog)
-                {
-                    __debugbreak();
-                }
-            }
-        }
         break;
     case CombinationType::CT_FullHouse:
         GenerateFullHousePlays(hand, currentCombination, possiblePlays);
-        for (const auto& play : possiblePlays)
-        {
-            for (const auto& card : play)
-            {
-                if (card.colour == CC_Dog)
-                {
-                    __debugbreak();
-                }
-            }
-        }
         break;
     case CombinationType::CT_Straight:
         GenerateStraightPlays(hand, currentCombination, possiblePlays);
-        for (const auto& play : possiblePlays)
-        {
-            for (const auto& card : play)
-            {
-                if (card.colour == CC_Dog)
-                {
-                    __debugbreak();
-                }
-            }
-        }
         break;
     case CombinationType::CT_Steps:
         GenerateStepPlays(hand, currentCombination, possiblePlays);
-        for (const auto& play : possiblePlays)
-        {
-            for (const auto& card : play)
-            {
-                if (card.colour == CC_Dog)
-                {
-                    __debugbreak();
-                }
-            }
-        }
         break;
     case CombinationType::CT_Dogs: //When it's dogs it's the same as invalid (aka empty table)
     case CombinationType::CT_Invalid:
         GenerateSingleCardPlays(hand, currentCombination, possiblePlays);
-        for (const auto& play : possiblePlays)
-        {
-            for (const auto& card : play)
-            {
-                if (card.colour == CC_Dog)
-                {
-                    __debugbreak();
-                }
-            }
-        }
         GenerateDoubleCardPlays(hand, currentCombination, possiblePlays);
-        for (const auto& play : possiblePlays)
-        {
-            for (const auto& card : play)
-            {
-                if (card.colour == CC_Dog)
-                {
-                    __debugbreak();
-                }
-            }
-        }
         GenerateTripleCardPlays(hand, currentCombination, possiblePlays);
-        for (const auto& play : possiblePlays)
-        {
-            for (const auto& card : play)
-            {
-                if (card.colour == CC_Dog)
-                {
-                    __debugbreak();
-                }
-            }
-        }
         GenerateFullHousePlays(hand, currentCombination, possiblePlays);
-        for (const auto& play : possiblePlays)
-        {
-            for (const auto& card : play)
-            {
-                if (card.colour == CC_Dog)
-                {
-                    __debugbreak();
-                }
-            }
-        }
         GenerateStraightPlays(hand, currentCombination, possiblePlays);
-        for (const auto& play : possiblePlays)
-        {
-            for (const auto& card : play)
-            {
-                if (card.colour == CC_Dog)
-                {
-                    __debugbreak();
-                }
-            }
-        }
         GenerateStepPlays(hand, currentCombination, possiblePlays);
-
-        for (const auto& play : possiblePlays)
-        {
-            for (const auto& card : play)
-            {
-                if (card.colour == CC_Dog)
-                {
-                    __debugbreak();
-                }
-            }
-        }
 
         if (currentCombination.combinationType != CombinationType::CT_Invalid) break;
         
@@ -1414,46 +1234,7 @@ void GameState::GetPossibleGameStates(const GameState& currentState, std::vector
     // Generate possible plays based on the current combination
     std::vector<std::vector<Card>> possiblePlays{};
     GeneratePossiblePlays(hand, currentState.currentCombination, possiblePlays);
-
-    // Safe removal using the remove-erase idiom
-    // Remove any plays that contain a dog card if the current combination is not invalid
-    // if (currentCombination.combinationType != CombinationType::CT_Invalid)
-    // {
-    //     std::erase_if(
-    //         possiblePlays,
-    //         [](const auto& play)
-    //         {
-    //             // If this play contains a CC_Dog card, we remove it
-    //             for (const auto& card : play)
-    //             {
-    //                 if (card.colour == CC_Dog)
-    //                 {
-    //                     return true; // Mark for removal
-    //                 }
-    //             }
-    //             return false; // Keep this play
-    //         }
-    //     );
-    // }
-    //
-    // // Delete any plays that are over 1 card long and contain a dog
-    // // These somehow slipped through the cracks
-    // std::erase_if(possiblePlays, [](const std::vector<Card>& play)
-    // {
-    //     if (play.size() > 1)
-    //     {
-    //         for (const auto& card : play)
-    //         {
-    //             if (card.colour == CC_Dog)
-    //             {
-    //                 return true; // Mark this for removal
-    //             }
-    //         }
-    //     }
-    //
-    //     return false;
-    // });
-
+        
     // For each possible play
     for (auto& play : possiblePlays)
     {

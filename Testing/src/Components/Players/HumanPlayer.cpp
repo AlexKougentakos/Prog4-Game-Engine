@@ -28,7 +28,7 @@ void HumanPlayer::Initialize()
 	ody::InputManager::GetInstance().AddMouseCommand<ButtonPressed>(SDL_BUTTON_LEFT, ody::InputManager::InputType::OnMouseButtonDown, m_pButtonManager);
 	ody::InputManager::GetInstance().AddMouseCommand<CardSelectCommand>(SDL_BUTTON_LEFT, ody::InputManager::InputType::OnMouseButtonDown, this);
 	
-	m_pTichuButton->SetPosition({ m_pTichuButton->GetPosition().x, m_pTichuButton->GetPosition().y + 60 });
+	//m_pTichuButton->SetPosition({ m_pTichuButton->GetPosition().x, m_pTichuButton->GetPosition().y + 60 });
 	m_pPlayButton->SetPosition({ m_pPlayButton->GetPosition().x, m_pPlayButton->GetPosition().y + 60 });
 	m_pPassButton->SetPosition({ m_pPassButton->GetPosition().x, m_pPassButton->GetPosition().y + 60 });
 	
@@ -79,12 +79,12 @@ void HumanPlayer::CreateActionButtons()
 		}, { 637, 570 });
 	m_pPlayButton->SetEnabled(false); //We will first ask everyone for grand tichu, then you can play
 
-	m_pTichuButton = m_pButtonManager->AddButton("TichuButton.png", [&]()
-		{
-			DeclareTichu();
-			ody::ServiceLocator::GetSoundSystem().PlaySound(11);
-		}, { 293, 570 });
-	m_pTichuButton->SetVisible(false);
+	// m_pTichuButton = m_pButtonManager->AddButton("TichuButton.png", [&]()
+	// 	{
+	// 		DeclareTichu();
+	// 		ody::ServiceLocator::GetSoundSystem().PlaySound(11);
+	// 	}, { 293, 570 });
+	// m_pTichuButton->SetVisible(false);
 
     constexpr int screenWidth = ody::constants::g_ScreenWidth;
 	constexpr int screenHeight = ody::constants::g_ScreenHeight;

@@ -113,6 +113,7 @@ public:
 	virtual void AskForDragon() {}
 
 	void PlayedSelectedCards();
+	void RemoveSelectedCards();
 	void Pass();
 
 	void GiveDragon(const int points) { m_HoldingPoints += points; }

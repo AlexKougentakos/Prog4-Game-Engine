@@ -705,7 +705,10 @@ void Tichu::NextPlayer()
 
 void Tichu::Reset()
 {
-	m_CurrentStrongestCombination = Combination{};
+	m_CurrentStrongestCombination.combinationType = CombinationType::CT_Invalid;
+	m_CurrentStrongestCombination.numberOfCards = 0;
+	m_CurrentStrongestCombination.power = 0;
+	
 	m_CurrentPlayerIndex = 0;
 	m_PassesInARow = 0;
 	m_PlayerStates = std::vector<PlayerState>(4);
