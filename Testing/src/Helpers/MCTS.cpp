@@ -1185,6 +1185,7 @@ void GeneratePossiblePlays(const std::vector<Card>& hand, const Combination& cur
         GenerateFullHousePlays(hand, currentCombination, possiblePlays);
         GenerateStraightPlays(hand, currentCombination, possiblePlays);
         GenerateStepPlays(hand, currentCombination, possiblePlays);
+        GenerateBombPlays(hand, currentCombination, possiblePlays);
 
         if (currentCombination.combinationType != CombinationType::CT_Invalid) break;
         

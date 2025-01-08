@@ -125,6 +125,7 @@ void TichuScene::PostRender()
 
 void TichuScene::Update()
 {
+
 	HandleMahjongTable();
 	//todo: add a dirty flag for this
 	std::vector<PlayerState> playerStates{};
@@ -297,19 +298,19 @@ void TichuScene::CreatePlayers()
 		const auto player = CreateGameObject();
 
 		PlayerComponent* playerComponent = nullptr;
-		if (i == 0) //First player is human
-		{
-			playerComponent = player->AddComponent<HumanPlayer>(i, m_RenderPackage);
-		}
-		else
-		{
-			playerComponent = player->AddComponent<AIPlayer_DMCTS>(i, m_RenderPackage, 15'000, 1);
-		}
-
-		// if (i == 0 || i == 2)
-		// 	playerComponent = player->AddComponent<AIPlayer_DMCTS>(i, m_RenderPackage, 25'000, 3);
+		// if (i == 0) //First player is human
+		// {
+		// 	playerComponent = player->AddComponent<HumanPlayer>(i, m_RenderPackage);
+		// }
 		// else
-		// 	playerComponent = player->AddComponent<AIPlayer_MCTS>(i, m_RenderPackage, 10'000);
+		// {
+		// 	playerComponent = player->AddComponent<AIPlayer_DMCTS>(i, m_RenderPackage, 5'000, 1);
+		// }
+
+		if (i == 0 || i == 2)
+			playerComponent = player->AddComponent<AIPlayer_DMCTS>(i, m_RenderPackage, 10'000, 5);
+		else
+			playerComponent = player->AddComponent<AIPlayer_MCTS>(i, m_RenderPackage, 3'000);
 		
 		
 		// Give the AI players access to game state
@@ -896,6 +897,8 @@ void TichuScene::NewRound(bool isOneTwo)
 
     // TODO: remove this from here
     // Temp for checking the AI functionality
+	m_pTichuGame->Reset(); //First this, then set the mahjong player to start
+	
     for (const auto& player : m_pPlayers)
     {
         if (std::find(player->GetCards().begin(), player->GetCards().end(), Card{ CardColour::CC_Mahjong, 1 }) != player->GetCards().end())
@@ -910,8 +913,6 @@ void TichuScene::NewRound(bool isOneTwo)
 
     m_CardsOnTop.clear();
     m_PlayedCards.clear();
-
-	m_pTichuGame->Reset();
 	
     PrintResultsToFile(roundTeam0Points, roundTeam1Points);
 }
